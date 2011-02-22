@@ -8,42 +8,9 @@
 //
 // Author(s): andy_gotz, P.Verdier
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.47  2011/02/11 08:35:33  taurel
-// - add a MySQL reconnection (5 retries) in case it's impossible
-// to connect to it
-//
-// Revision 2.46  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
-// Revision 2.45  2010/09/21 11:37:00  taurel
-// - Do not call mysql_init during DS startup
-//
-// Revision 2.44  2009/04/06 13:11:09  pascal_verdier
-// DbMySqlSelect command added.
-//
 // Revision 2.43  2009/04/06 12:19:45  taurel
 // - Fix compilation problem with Solaris CC
 //
@@ -123,6 +90,11 @@
 // Bug fixed in Timing_Info attribute read.
 // ResetTimingValues command added.
 // Windows compatibility added for timing attributes.
+//
+//
+// copyleft :    European Synchrotron Radiation Facility
+//               BP 220, Grenoble 38043
+//               FRANCE
 //
 //=============================================================================
 //
@@ -1313,7 +1285,6 @@ protected :
 	omni_mutex		sem_wait_mutex;
 				
 	void create_connection_pool(const char *,const char *);
-	void base_connect(int);
 
 	inline void update_timing_stats(TimeVal before, TimeVal after, std::string command)
 	{
@@ -1376,16 +1347,8 @@ public:
 	DbInter() {}
 	~DbInter() {}
 	
-	virtual void create_thread() 
-	{
-		if (Tango::Util::instance()->is_svr_starting() == false)
-			mysql_thread_init();
-	}
-	virtual void delete_thread()
-	{
-		if (Tango::Util::instance()->is_svr_starting() == false)
-			mysql_thread_end();
-	}
+	virtual void create_thread() {mysql_thread_init();}
+	virtual void delete_thread() {mysql_thread_end();}
 };
 
 }	//	namespace

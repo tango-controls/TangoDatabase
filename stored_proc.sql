@@ -33,7 +33,7 @@ DELIMITER |
 CREATE PROCEDURE tango.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.3'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.2'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -673,7 +673,7 @@ BEGIN
 		IF NOT done THEN						
 			SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_name);
 			IF nb_dev = 0 THEN
-				SET d_list = CONCAT_WS("",d_list,tmp_name);
+				SET d_list = tmp_name;
 			ELSE
 				SET d_list = CONCAT_WS(CHAR(0),d_list,tmp_name);
 			END IF;
