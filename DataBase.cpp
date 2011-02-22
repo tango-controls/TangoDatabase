@@ -13,176 +13,9 @@ static const char *RcsId = "$Header$";
 //
 // author(s) :    A.Gotz, JL Pons, P.Verdier
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.90  2011/02/11 08:35:33  taurel
-// - add a MySQL reconnection (5 retries) in case it's impossible
-// to connect to it
-//
-// Revision 2.89  2011/01/06 12:02:28  taurel
-// - Remove timing stat for DbGetDeviceWideList command. The map is not
-// initialised for this command
-//
-// Revision 2.88  2010/09/21 11:43:20  taurel
-// - Add GPL stuff
-//
-// Revision 2.87  2010/04/13 08:21:33  taurel
-// Fix some memory leaks in case of command returning error.
-// The main one was for the DbGetAttributeAlias. Small other for the
-// hotory related commands
-//
-// Revision 2.86  2010/04/12 12:59:53  taurel
-// - Add some delete in the code when the device is deleted. This should not
-// happen but....
-//
-// Revision 2.85  2010/03/26 11:41:16  taurel
-// - Add mutual exclusion for the timing stat. map access in the
-// attribute getting data from this map
-//
-// Revision 2.84  2009/09/16 09:08:23  pascal_verdier
-// Bug on stored procedure status fixed.
-//
-// Revision 2.83  2009/04/06 13:11:04  pascal_verdier
-// DbMySqlSelect command added.
-//
-// Revision 2.82  2009/04/04 18:46:28  taurel
-// Fixed warnings when compiled with gcc 4.3
-//
-// Revision 2.81  2009/04/04 17:57:50  taurel
-// Device now inherits from Device_4Impl
-// Get env. variable from Tango lib to support tangorc file
-//
-// Revision 2.80  2009/01/30 08:17:51  taurel
-// - Added DbGetDeviceWideList command
-//
-// Revision 2.79  2009/01/28 09:25:34  taurel
-// - Fix bug in error message in the DbGetDeviceAlias command
-//
-// Revision 2.78  2008/09/22 07:19:41  taurel
-// - Fix bug in names of table sto be locked in command DbPutDeviceAttributeProperty
-//
-// Revision 2.77  2008/05/23 08:33:28  taurel
-// - MIscellaneous bug fixes due to Windows compilation and tests
-//
-// Revision 2.76  2008/04/10 06:58:43  taurel
-// - Port changes to Solaris CC compiler
-//
-// Revision 2.75  2008/04/07 12:08:28  taurel
-// - Fix bug in the StoredProcedureRelease attribute
-//
-// Revision 2.74  2008/03/26 17:31:00  taurel
-// - Committed after merge with the Release 4 branch
-//
-// Revision 2.73.2.13  2008/03/18 14:34:06  taurel
-// - Fix bug in the DbGetDeviceList command related to wildcard management.
-// The wildcard is now "*" for both arguments...
-//
-// Revision 2.73.2.12  2008/02/28 17:07:36  taurel
-// - Added the StoredProcedureRelease attribute
-//
-// Revision 2.73.2.11  2008/02/06 09:51:13  jlpons
-// Fixed date FORMAT for history
-//
-// Revision 2.73.2.10  2008/02/06 07:13:18  taurel
-// - Fix a bug introduced by the previous bug fix in the DbGetHostServerList
-//
-// Revision 2.73.2.9  2008/01/25 12:29:50  taurel
-// - Add a new command DbDeleteAllDeviceAttributeProperty
-// - The DbImportDevice now also returns the device class
-// - Fix bug in the DbGetHostServerList command
-//
-// Revision 2.73.2.8  2008/01/03 08:44:49  taurel
-// - Add MySQL connection pool size definition as a command line option
-// called "poolSize" with a default value of 20
-//
-// Revision 2.73.2.7  2007/12/19 11:48:29  taurel
-// - Fix several bugs in the connection management in case of error
-// - Use the same connection for the get_id() method
-// - Re-code the call to the stored procedure as decribed in MySQL doc
-//
-// Revision 2.73.2.6  2007/12/10 08:21:56  taurel
-// - Add test in the DbGetDeviceInfo command to protect the code against server
-// or host column being NULL
-//
-// Revision 2.73.2.5  2007/12/07 09:25:58  taurel
-// - Fix a bug in the DbAddServer command
-// - Remove some messages print-out
-//
-// Revision 2.73.2.4  2007/12/06 16:45:03  taurel
-// - Fix some bugs in the locking system
-//
-// Revision 2.73.2.3  2007/12/06 08:34:21  taurel
-// - Add table slock to be pretected against threading within a server and againt several servers using the same DB
-//
-// Revision 2.73.2.2  2007/11/08 10:02:58  taurel
-// Several changes to get a fully multi-threaded Database server
-// - Add interceptors for thread creation and deletion
-// - Use the NO_SYNC Tango serialisation model
-// - Add some mutexes to protect miscellaneous pieces of code
-// - Re-write the get_id() method
-// - Create a MySQL connection pool
-//
-// Revision 2.73.2.1  2007/11/07 09:50:39  taurel
-// - First changes to get a fully-threaded DB server
-//
-// Revision 2.73  2007/11/06 07:24:05  taurel
-// - Added the DbGetDataForServerCache command (with timing stats)
-// - Add timing stats for the DbPutClassProperty command
-//
-// Revision 2.72  2007/06/15 06:24:30  jensmeyer
-// Deleted root user for mysql as default.
-// No default user is specified. The environment variable
-// MYSQL_USER or the mysql configuration file my.cnf has
-// to be used.
-//
-// Revision 2.71  2007/05/23 09:15:23  pascal_verdier
-// Memory leak fixed on db_get_alias_device() method.
-//
-// Revision 2.70  2007/04/25 06:01:02  pascal_verdier
-// IOR NULL checked in DbGetDeviceInfo() and DbImportDevice().
-//
-// Revision 2.69  2007/03/23 14:40:06  pascal_verdier
-// Bug on MySql version compiler flag fixed.
-//
-// Revision 2.68  2007/02/26 13:47:13  jlpons
-// Fixed a bug in db_get_class_attribute_list()
-//
-// Revision 2.67  2007/01/23 10:19:06  pascal_verdier
-// Auto-reconnection to MySql for MySql-5 (Thanks to C. Scafuri).
-//
-// Revision 2.66  2006/11/06 15:31:03  jlpons
-// Fixed bug when history_ids reaches 2^32.
-//
-// Revision 2.65  2006/11/03 16:49:34  jlpons
-// Fixed bug with wildcard in db_delete_xxx_property
-//
-// Revision 2.64  2006/09/28 11:18:20  pascal_verdier
-// DbGetClassForDevice and DbGetClassInheritanceForDevice commands added.
-//
-// Revision 2.63  2006/09/15 12:45:39  jlpons
-// Added mysql_options() call.
-//
 // Revision 2.62  2006/08/29 08:49:19  jlpons
 // Moved database purge to the DB server
 //
@@ -216,6 +49,11 @@ static const char *RcsId = "$Header$";
 // Revision 2.53  2005/09/26 10:40:20  pascal_verdier
 // sql_query.clear() replaced by sql_query.erase(sql_query.size()) for windows compatibility.
 //
+//
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
+//
 //-=============================================================================
 //
 //  This file has been partially generated by POGO
@@ -227,103 +65,96 @@ static const char *RcsId = "$Header$";
 
 //===================================================================
 //
-//	The following table gives the correspondence
-//	between commands and method name.
+//	The folowing table gives the correspondance
+//	between commands and method's name.
 //
-//  Command name                        |  Method name
+//  Command's name                    |  Method's name
 //	----------------------------------------
-//  State                               |  dev_state()
-//  Status                              |  dev_status()
-//  DbAddDevice                         |  db_add_device()
-//  DbAddServer                         |  db_add_server()
-//  DbDeleteAttributeAlias              |  db_delete_attribute_alias()
-//  DbDeleteClassAttribute              |  db_delete_class_attribute()
-//  DbDeleteClassAttributeProperty      |  db_delete_class_attribute_property()
-//  DbDeleteClassProperty               |  db_delete_class_property()
-//  DbDeleteDevice                      |  db_delete_device()
-//  DbDeleteDeviceAlias                 |  db_delete_device_alias()
-//  DbDeleteDeviceAttribute             |  db_delete_device_attribute()
-//  DbDeleteDeviceAttributeProperty     |  db_delete_device_attribute_property()
-//  DbDeleteDeviceProperty              |  db_delete_device_property()
-//  DbDeleteProperty                    |  db_delete_property()
-//  DbDeleteServer                      |  db_delete_server()
-//  DbDeleteServerInfo                  |  db_delete_server_info()
-//  DbExportDevice                      |  db_export_device()
-//  DbExportEvent                       |  db_export_event()
-//  DbGetAliasDevice                    |  db_get_alias_device()
-//  DbGetAttributeAlias                 |  db_get_attribute_alias()
-//  DbGetAttributeAliasList             |  db_get_attribute_alias_list()
-//  DbGetClassAttributeList             |  db_get_class_attribute_list()
-//  DbGetClassAttributeProperty         |  db_get_class_attribute_property()
-//  DbGetClassAttributeProperty2        |  db_get_class_attribute_property2()
-//  DbGetClassAttributePropertyHist     |  db_get_class_attribute_property_hist()
-//  DbGetClassForDevice                 |  db_get_class_for_device()
-//  DbGetClassInheritanceForDevice      |  db_get_class_inheritance_for_device()
-//  DbGetClassList                      |  db_get_class_list()
-//  DbGetClassProperty                  |  db_get_class_property()
-//  DbGetClassPropertyHist              |  db_get_class_property_hist()
-//  DbGetClassPropertyList              |  db_get_class_property_list()
-//  DbGetDeviceAlias                    |  db_get_device_alias()
-//  DbGetDeviceAliasList                |  db_get_device_alias_list()
-//  DbGetDeviceAttributeList            |  db_get_device_attribute_list()
-//  DbGetDeviceAttributeProperty        |  db_get_device_attribute_property()
-//  DbGetDeviceAttributeProperty2       |  db_get_device_attribute_property2()
-//  DbGetDeviceAttributePropertyHist    |  db_get_device_attribute_property_hist()
-//  DbGetDeviceClassList                |  db_get_device_class_list()
-//  DbGetDeviceDomainList               |  db_get_device_domain_list()
-//  DbGetDeviceExportedList             |  db_get_device_exported_list()
-//  DbGetDeviceFamilyList               |  db_get_device_family_list()
-//  DbGetDeviceInfo                     |  db_get_device_info()
-//  DbGetDeviceList                     |  db_get_device_list()
-//  DbGetDeviceWideList                 |  db_get_device_wide_list()
-//  DbGetDeviceMemberList               |  db_get_device_member_list()
-//  DbGetDeviceProperty                 |  db_get_device_property()
-//  DbGetDevicePropertyHist             |  db_get_device_property_hist()
-//  DbGetDevicePropertyList             |  db_get_device_property_list()
-//  DbGetDeviceServerClassList          |  db_get_device_server_class_list()
-//  DbGetExportdDeviceListForClass      |  db_get_exportd_device_list_for_class()
-//  DbGetHostList                       |  db_get_host_list()
-//  DbGetHostServerList                 |  db_get_host_server_list()
-//  DbGetHostServersInfo                |  db_get_host_servers_info()
-//  DbGetInstanceNameList               |  db_get_instance_name_list()
-//  DbGetObjectList                     |  db_get_object_list()
-//  DbGetProperty                       |  db_get_property()
-//  DbGetPropertyHist                   |  db_get_property_hist()
-//  DbGetPropertyList                   |  db_get_property_list()
-//  DbGetServerInfo                     |  db_get_server_info()
-//  DbGetServerList                     |  db_get_server_list()
-//  DbGetServerNameList                 |  db_get_server_name_list()
-//  DbImportDevice                      |  db_import_device()
-//  DbImportEvent                       |  db_import_event()
-//  DbInfo                              |  db_info()
-//  DbPutAttributeAlias                 |  db_put_attribute_alias()
-//  DbPutClassAttributeProperty         |  db_put_class_attribute_property()
-//  DbPutClassAttributeProperty2        |  db_put_class_attribute_property2()
-//  DbPutClassProperty                  |  db_put_class_property()
-//  DbPutDeviceAlias                    |  db_put_device_alias()
-//  DbPutDeviceAttributeProperty        |  db_put_device_attribute_property()
-//  DbPutDeviceAttributeProperty2       |  db_put_device_attribute_property2()
-//  DbPutDeviceProperty                 |  db_put_device_property()
-//  DbPutProperty                       |  db_put_property()
-//  DbPutServerInfo                     |  db_put_server_info()
-//  DbUnExportDevice                    |  db_un_export_device()
-//  DbUnExportEvent                     |  db_un_export_event()
-//  DbUnExportServer                    |  db_un_export_server()
-//  ResetTimingValues                   |  reset_timing_values()
-//  DbGetDataForServerCache             |  db_get_data_for_server_cache()
-//  DbDeleteAllDeviceAttributeProperty  |  db_delete_all_device_attribute_property()
-//  DbMySqlSelect                       |  db_my_sql_select()
+//  State                             |  dev_state()
+//  Status                            |  dev_status()
+//  DbAddDevice                       |  db_add_device()
+//  DbAddServer                       |  db_add_server()
+//  DbDeleteAttributeAlias            |  db_delete_attribute_alias()
+//  DbDeleteClassAttribute            |  db_delete_class_attribute()
+//  DbDeleteClassAttributeProperty    |  db_delete_class_attribute_property()
+//  DbDeleteClassProperty             |  db_delete_class_property()
+//  DbDeleteDevice                    |  db_delete_device()
+//  DbDeleteDeviceAlias               |  db_delete_device_alias()
+//  DbDeleteDeviceAttribute           |  db_delete_device_attribute()
+//  DbDeleteDeviceAttributeProperty   |  db_delete_device_attribute_property()
+//  DbDeleteDeviceProperty            |  db_delete_device_property()
+//  DbDeleteProperty                  |  db_delete_property()
+//  DbDeleteServer                    |  db_delete_server()
+//  DbDeleteServerInfo                |  db_delete_server_info()
+//  DbExportDevice                    |  db_export_device()
+//  DbExportEvent                     |  db_export_event()
+//  DbGetAliasDevice                  |  db_get_alias_device()
+//  DbGetAttributeAlias               |  db_get_attribute_alias()
+//  DbGetAttributeAliasList           |  db_get_attribute_alias_list()
+//  DbGetClassAttributeList           |  db_get_class_attribute_list()
+//  DbGetClassAttributeProperty       |  db_get_class_attribute_property()
+//  DbGetClassAttributeProperty2      |  db_get_class_attribute_property2()
+//  DbGetClassList                    |  db_get_class_list()
+//  DbGetClassProperty                |  db_get_class_property()
+//  DbGetClassPropertyList            |  db_get_class_property_list()
+//  DbGetDeviceAlias                  |  db_get_device_alias()
+//  DbGetDeviceAliasList              |  db_get_device_alias_list()
+//  DbGetDeviceAttributeList          |  db_get_device_attribute_list()
+//  DbGetDeviceAttributeProperty      |  db_get_device_attribute_property()
+//  DbGetDeviceAttributeProperty2     |  db_get_device_attribute_property2()
+//  DbGetDeviceClassList              |  db_get_device_class_list()
+//  DbGetDeviceDomainList             |  db_get_device_domain_list()
+//  DbGetDeviceExportedList           |  db_get_device_exported_list()
+//  DbGetDeviceFamilyList             |  db_get_device_family_list()
+//  DbGetDeviceInfo                   |  db_get_device_info()
+//  DbGetDeviceList                   |  db_get_device_list()
+//  DbGetDeviceMemberList             |  db_get_device_member_list()
+//  DbGetDeviceProperty               |  db_get_device_property()
+//  DbGetDevicePropertyList           |  db_get_device_property_list()
+//  DbGetDeviceServerClassList        |  db_get_device_server_class_list()
+//  DbGetExportdDeviceListForClass    |  db_get_exportd_device_list_for_class()
+//  DbGetHostList                     |  db_get_host_list()
+//  DbGetHostServerList               |  db_get_host_server_list()
+//  DbGetHostServersInfo              |  db_get_host_servers_info()
+//  DbGetInstanceNameList             |  db_get_instance_name_list()
+//  DbGetObjectList                   |  db_get_object_list()
+//  DbGetProperty                     |  db_get_property()
+//  DbGetPropertyList                 |  db_get_property_list()
+//  DbGetServerInfo                   |  db_get_server_info()
+//  DbGetServerList                   |  db_get_server_list()
+//  DbGetServerNameList               |  db_get_server_name_list()
+//  DbImportDevice                    |  db_import_device()
+//  DbImportEvent                     |  db_import_event()
+//  DbInfo                            |  db_info()
+//  DbPutAttributeAlias               |  db_put_attribute_alias()
+//  DbPutClassAttributeProperty       |  db_put_class_attribute_property()
+//  DbPutClassAttributeProperty2      |  db_put_class_attribute_property2()
+//  DbPutClassProperty                |  db_put_class_property()
+//  DbPutDeviceAlias                  |  db_put_device_alias()
+//  DbPutDeviceAttributeProperty      |  db_put_device_attribute_property()
+//  DbPutDeviceAttributeProperty2     |  db_put_device_attribute_property2()
+//  DbPutDeviceProperty               |  db_put_device_property()
+//  DbPutProperty                     |  db_put_property()
+//  DbPutServerInfo                   |  db_put_server_info()
+//  DbUnExportDevice                  |  db_un_export_device()
+//  DbUnExportEvent                   |  db_un_export_event()
+//  DbUnExportServer                  |  db_un_export_server()
+//  ResetTimingValues                 |  reset_timing_values()
+//  DbGetDevicePropertyHist           |  db_get_device_property_hist()
+//  DbGetDeviceAttributePropertyHist  |  db_get_device_attribute_property_hist()
+//  DbGetClassAttributePropertyHist   |  db_get_class_attribute_property_hist()
+//  DbGetClassPropertyHist            |  db_get_class_property_hist()
+//  DbGetPropertyHist                 |  db_get_property_hist()
 //
 //===================================================================
+
 
 
 #include <tango.h>
 #include <DataBase.h>
 #include <DataBaseClass.h>
-
+#include <mysql.h>
 #include <stdio.h>
-
-#include <algorithm>
 
 
 using namespace std;
@@ -342,74 +173,58 @@ string DataBase::db_name("sys/database/1");
 //      - s : Device name 
 //
 //-----------------------------------------------------------------------------
-DataBase::DataBase(Tango::DeviceClass *cl,string &s):Device_4Impl(cl,s.c_str())
+DataBase::DataBase(Tango::DeviceClass *cl,string &s):Device_3Impl(cl,s.c_str())
 {
 	init_device();
 }
 
-DataBase::DataBase(Tango::DeviceClass *cl,const char *s):Device_4Impl(cl,s)
+DataBase::DataBase(Tango::DeviceClass *cl,const char *s):Device_3Impl(cl,s)
 {
 	init_device();
 }
 
 DataBase::DataBase(Tango::DeviceClass *cl,const char *s,const char *d)
-:Device_4Impl(cl,s,d)
+:Device_3Impl(cl,s,d)
 {
 	init_device();
 }
 
 void DataBase::init_device()
 {
-	const char *mysql_user     = NULL;
-	const char *mysql_password = NULL;	
+	char *database = (char *)"tango";
+	char *mysql_user = (char *)"root";
+	char *mysql_password = (char *)"";
 
-	WARN_STREAM << "DataBase::DataBase() create database device " << device_name << endl;
-	
-//
-// Check if we are using the thread safe release of the MySQL library
-//
+        WARN_STREAM << "DataBase::DataBase() create database device " << device_name << endl;
 
-	if (mysql_thread_safe() == 0)
+// Initialise mysql database structure and connect to TANGO database
+
+	mysql_init(&mysql);
+	mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"client");
+
+	if (getenv("MYSQL_USER") != NULL)
 	{
-		ERROR_STREAM << "MySQL library used by this process is not tread safe. Please, use libmysqlclient_r" << endl;
+		mysql_user = getenv("MYSQL_USER");
+	}
+	if (getenv("MYSQL_PASSWORD") != NULL)
+	{
+		mysql_password = getenv("MYSQL_PASSWORD");
+	}
+	WARN_STREAM << "DataBase::DataBase() mysql database user =  " << mysql_user 
+	            << " , password = " << mysql_password << endl;
 
-		Tango::Except::throw_exception((const char *)DB_MySQLLibNotThreadSafe,
-	   				  (const char *)"MySQL library used by this process is not thread safe. Please, use libmysqlclient_r or use DataBase release < 4.x",
-					  (const char *)"DataBase::DataBase()");
+//        if (!mysql_real_connect(&mysql,NULL,"root","",database,0,NULL,0))
+	if (!mysql_real_connect(&mysql, "localhost", mysql_user, mysql_password, database, 0, NULL, 0))
+	{
+		TangoSys_MemStream out_stream;
+		out_stream << "Failed to connect to TANGO database (error = "
+         		   << mysql_error(&mysql) << ")" << ends;
+		Tango::Except::throw_exception(
+					(const char *)"CANNOT_CONNECT_MYSQL",
+					out_stream.str(),
+					(const char *)"DataBase::init_device()");
 	}
 
-//
-// Get user environment variables if defined
-//
-
-
-	DummyDev d;
-	string my_user,my_password;
-	
-	if (d.get_env_var("MYSQL_USER",my_user) != -1)
-	{
-		mysql_user = my_user.c_str();
-	}
-	if (d.get_env_var("MYSQL_PASSWORD",my_password) != -1)
-	{
-		mysql_password = my_password.c_str();
-	}
-	
-//
-// Create the connection pool after some initialisation
-//
-
-	conn_pool = new DbConnection[conn_pool_size];
-	for (int loop = 0;loop < conn_pool_size;loop++)
-		conn_pool[loop].db = NULL;
-	mysql_svr_version = 0;
-	
-	create_connection_pool(mysql_user,mysql_password);
-	
-//
-// Do we need to propagate info to Starter
-//
-	
 	try
 	{
 		//	Check if controlled server list modification must be fired to starter
@@ -477,46 +292,12 @@ void DataBase::init_device()
 	{}
 			
 	// Check history tables
-	check_history_tables();
+        check_history_tables();
 	
 	init_timing_stats();
-	stored_release_ptr = &(stored_release[0]);
-	attr_StoredProcedureRelease_read = &stored_release_ptr;
 	set_state(Tango::ON);
 	set_status("Device is OK");
 		
-}
-
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::delete_device()
-// 
-// description : 	will be called at device destruction or at init command.
-//
-//-----------------------------------------------------------------------------
-void DataBase::delete_device()
-{
-	//	Delete device's allocated object
-
-	delete [] timing_stats_average;
-	delete [] timing_stats_minimum;
-	delete [] timing_stats_maximum;
-	delete [] timing_stats_calls;
-
-	for (int i = 0;i < timing_stats_map.size();i++)
-		delete timing_stats_index[i];
-	delete [] timing_stats_index;
-
-	std::map<std::string,TimingStatsStruct*>::iterator iter;
-	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		delete iter->second;
-	
-	for (int loop = 0;loop < conn_pool_size;loop++)
-	{
-		if (conn_pool[loop].db != NULL)
-			mysql_close(conn_pool[loop].db);
-	}
-	delete [] conn_pool;
 }
 
 //+----------------------------------------------------------------------------
@@ -546,59 +327,6 @@ void DataBase::read_attr_hardware(vector<long> &attr_list)
 }
 //+----------------------------------------------------------------------------
 //
-// method : 		DataBase::read_StoredProcedureRelease
-// 
-// description : 	Extract real attribute values for StoredProcedureRelease acquisition result.
-//
-//-----------------------------------------------------------------------------
-void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "DataBase::read_StoredProcedureRelease(Tango::Attribute &attr) entering... "<< endl;
-
-	TangoSys_MemStream	sql_query_stream;
-	MYSQL_RES *result;
-	MYSQL_ROW row;
-	int n_fields, i;
-
-	sql_query_stream << "SHOW PROCEDURE STATUS LIKE \"ds_start\"";
-
-	DEBUG_STREAM << "DataBase::read_StoredProcedureRelease(): sql_query " << sql_query_stream.str() << endl;
-	
-	result = query(sql_query_stream.str(),"read_StoredProcedureRelease()");
-
-	n_fields = mysql_num_fields(result);
-	DEBUG_STREAM << "DataBase::read_StoreProcedureRelease(): mysql_num_fields() " << n_fields << endl;
-
-	if (n_fields > 7)
-	{
-		unsigned long *lengths;
-		if ((row = mysql_fetch_row(result)) != NULL)
-		{
-			lengths = mysql_fetch_lengths(result);
-			strcpy(stored_release,row[7]);
-			stored_release[lengths[7]] = '\0';
-		}
-		else
-		{
-	   		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
-	   				  (const char *)"Can't fetch row from the returned result",
-					  (const char *)"DataBase::read_StoredProcedureRelease()");
-		}
-	}
-	else
-	{
-	   	Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
-	   				  (const char *)"Wrong fields number in the data returned by the query",
-					  (const char *)"DataBase::read_StoredProcedureRelease()");
-	}
-	
-	mysql_free_result(result);
-	
-	attr.set_value(attr_StoredProcedureRelease_read);
-}
-
-//+----------------------------------------------------------------------------
-//
 // method : 		DataBase::read_Timing_info
 // 
 // description : 	Extract real attribute values for Timing_info acquisition result.
@@ -622,20 +350,15 @@ void DataBase::read_Timing_info(Tango::Attribute &attr)
  
     std::map<std::string,TimingStatsStruct*>::iterator iter;
     int i=0;
-
-	{
-		omni_mutex_lock guard(timing_stats_mutex);
-	    for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-	    {
-	    	sprintf(info_str,"%s\t%6.3f\t%6.3f\t%6.3f\t%.0f",
-					iter->first.c_str(), iter->second->average,
-	    			iter->second->minimum, iter->second->maximum,
-					iter->second->calls);
-	        timing_info[i+4] = CORBA::string_dup(info_str);
-	        i++;
-	    }
-	}
-
+    for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
+    {
+    	sprintf(info_str,"%s\t%6.3f\t%6.3f\t%6.3f\t%.0f",
+				iter->first.c_str(), iter->second->average,
+    			iter->second->minimum, iter->second->maximum,
+				iter->second->calls);
+        timing_info[i+4] = CORBA::string_dup(info_str);
+        i++;
+    }
 	attr.set_value(timing_info,timing_stats_size+4,0,true);
 }
 
@@ -653,13 +376,10 @@ void DataBase::read_Timing_average(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_average[i] = iter->second->average;
-			i++;
-		}
+		timing_stats_average[i] = iter->second->average;
+		i++;
 	}
 
 	attr.set_value(timing_stats_average, timing_stats_size);
@@ -678,13 +398,10 @@ void DataBase::read_Timing_minimum(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_minimum[i] = iter->second->minimum;
-			i++;
-		}
+		timing_stats_minimum[i] = iter->second->minimum;
+		i++;
 	}
 
 	attr.set_value(timing_stats_minimum, timing_stats_size);
@@ -703,13 +420,10 @@ void DataBase::read_Timing_maximum(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_maximum[i] = iter->second->maximum;
-			i++;
-		}
+		timing_stats_maximum[i] = iter->second->maximum;
+		i++;
 	}
 
 	attr.set_value(timing_stats_maximum, timing_stats_size);
@@ -728,13 +442,10 @@ void DataBase::read_Timing_calls(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_calls[i] = iter->second->calls;
-			i++;
-		}
+		timing_stats_calls[i] = iter->second->calls;
+		i++;
 	}
 
 	attr.set_value(timing_stats_calls, timing_stats_size);
@@ -830,7 +541,8 @@ Tango::DevVarStringArray *DataBase::db_get_object_list(Tango::DevString wildcard
 	   {
 	      if ((row = mysql_fetch_row(result)) != NULL)
 	      {
-//	         DEBUG_STREAM << "DataBase::db_get_object_list(): object[ "<< i << "] object " << row[0] << endl;
+	         DEBUG_STREAM << "DataBase::db_get_object_list(): object[ "<< i << "] object " 
+			              << row[0] << endl;
 	         (*object_list)[i]   = CORBA::string_dup(row[0]);
 	      }
 	   }
@@ -940,7 +652,7 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	INFO_STREAM << "DataBase::db_get_property(): get " << property_names->length()-1 << " properties for object " << (*property_names)[0] << endl;
 
 	tmp_object = (*property_names)[0];
-	sprintf(n_properties_str, "%lu", property_names->length()-1);
+	sprintf(n_properties_str, "%d", property_names->length()-1);
 	property_list->length(2);
 	(*property_list)[0] = CORBA::string_dup(tmp_object);
 	(*property_list)[1] = CORBA::string_dup(n_properties_str);
@@ -961,7 +673,7 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	   sprintf(n_rows_str,"%d",n_rows);
 	   n_props = n_props+2;
 	   property_list->length(n_props);
-	   (*property_list)[n_props-2] = CORBA::string_dup((*property_names)[i]);
+	   (*property_list)[n_props-2] = CORBA::string_dup(tmp_name.c_str());
            (*property_list)[n_props-1] = CORBA::string_dup(n_rows_str);
 	   if (n_rows > 0)
 	   {
@@ -970,8 +682,8 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	         if ((row = mysql_fetch_row(result)) != NULL)
 	         {
 	            DEBUG_STREAM << "DataBase::db_get_property(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
-		    	n_props++;
-	   	    	property_list->length(n_props);
+		    n_props++;
+	   	    property_list->length(n_props);
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
@@ -1013,52 +725,48 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *property_list)
 	sscanf((*property_list)[1],"%d", &n_properties);
 	INFO_STREAM << "DataBase::db_put_property(): put " << n_properties << " properties for object " << (*property_list)[0] << endl;
 
+	int	k = 2;
+	for (int i=0; i<n_properties; i++)
 	{
-		AutoLock al("LOCK TABLES property WRITE, property_hist WRITE,object_history_id WRITE",this);
-		
-		int	k = 2;
-		for (int i=0; i<n_properties; i++)
-		{
-			tmp_count = 0;
-			tmp_name = (*property_list)[k];
-			sscanf((*property_list)[k+1], "%d", &n_rows);
+		tmp_count = 0;
+		tmp_name = (*property_list)[k];
+		sscanf((*property_list)[k+1], "%d", &n_rows);
 
-			// first delete the property from the property table
-			sql_query_stream.str("");
-			sql_query_stream << "DELETE FROM property WHERE object=\"" << tmp_object
-											 << "\" AND name=\"" << tmp_name << "\"";
-			DEBUG_STREAM  << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
+		// first delete the property from the property table
+		sql_query_stream.str("");
+		sql_query_stream << "DELETE FROM property WHERE object=\"" << tmp_object
+										 << "\" AND name=\"" << tmp_name << "\"";
+		DEBUG_STREAM  << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
+				
+		simple_query(sql_query_stream.str(),"db_put_property()");
+		unsigned int object_property_hist_id = get_id("object");
+	    for (int j=k+2 ; j<k+n_rows+2 ; j++)
+	    { 
+          string tmp_escaped_string = escape_string((*property_list)[j]);
+	      tmp_count++;
 
-			simple_query(sql_query_stream.str(),"db_put_property()",al.get_con_nb());
-			unsigned int object_property_hist_id = get_id("object",al.get_con_nb());
-	    	for (int j=k+2 ; j<k+n_rows+2 ; j++)
-	    	{ 
-        	  string tmp_escaped_string = escape_string((*property_list)[j]);
-	    	  tmp_count++;
+		  // then insert the new value for this tuple
+		  sql_query_stream.str("");
+		  sql_query_stream << "INSERT INTO property SET object='" << tmp_object
+										 << "',name='" << tmp_name
+										 << "',count='" << tmp_count
+										 << "',value='" << tmp_escaped_string
+										 << "',updated=NULL,accessed=NULL";
+	      DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_property()");
 
-			  // then insert the new value for this tuple
-			  sql_query_stream.str("");
-			  sql_query_stream << "INSERT INTO property SET object='" << tmp_object
-											 << "',name='" << tmp_name
-											 << "',count='" << tmp_count
-											 << "',value='" << tmp_escaped_string
-											 << "',updated=NULL,accessed=NULL";
-	    	  DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_put_property()",al.get_con_nb());
-
-			  // then insert the new value into history table
-			  sql_query_stream.str("");
-			  sql_query_stream << "INSERT INTO property_hist SET object='" << tmp_object
-											 << "',name='" << tmp_name
-											 << "',count='" << tmp_count
-											 << "',id='" << object_property_hist_id
-											 << "',value='" << tmp_escaped_string << "'";
-	    	  DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_put_property()",al.get_con_nb());
-			}
-			purge_property("property_hist","object",tmp_object,tmp_name.c_str(),al.get_con_nb());
-			k = k+n_rows+2;
-		}
+		  // then insert the new value into history table
+		  sql_query_stream.str("");
+		  sql_query_stream << "INSERT INTO property_hist SET object='" << tmp_object
+										 << "',name='" << tmp_name
+										 << "',count='" << tmp_count
+										 << "',id='" << object_property_hist_id
+										 << "',value='" << tmp_escaped_string << "'";
+	      DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_property()");
+	   }
+           purge_property("property_hist","object",tmp_object,tmp_name.c_str());
+	   k = k+n_rows+2;
 	}
 
 	return;
@@ -1077,7 +785,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *property_list)
 void DataBase::db_delete_property(const Tango::DevVarStringArray *property_list)
 {
 	TangoSys_MemStream	sql_query_stream;
-	int n_properties=0, i,j;
+	int n_properties=0, i;
 	const char *tmp_object;
 	string tmp_name;
 	MYSQL_RES *result;
@@ -1086,52 +794,45 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *property_list)
 	n_properties = property_list->length() - 1;
 	INFO_STREAM << "DataBase::db_delete_property(): put " << n_properties << " properties for device " << (*property_list)[0] << endl;
 
+	for (i=0; i<n_properties; i++)
 	{
-		AutoLock al("LOCK TABLES property WRITE, property_hist WRITE,object_history_id WRITE",this);
-		
-		for (i=0; i<n_properties; i++)
-		{
-	    	  tmp_object = (*property_list)[0];
-	    	  tmp_name = replace_wildcard((*property_list)[i+1]);
+	      tmp_object = (*property_list)[0];
+	      tmp_name = (*property_list)[i+1];
 
-			  // Is there something to delete ?
+// Is there something to delete ?
+		  
+          sql_query_stream.str("");
+	      sql_query_stream << "SELECT count(*) FROM property WHERE object=\"" << tmp_object 
+		                   << "\" AND name = \"" << tmp_name << "\"";
+		  result = query(sql_query_stream.str(),"db_delete_property()");
+		  row = mysql_fetch_row(result);
+		  int count = atoi(row[0]);
+  	      mysql_free_result(result);
 
-        	  sql_query_stream.str("");
-	    	  sql_query_stream << "SELECT DISTINCT name FROM property WHERE object=\"" << tmp_object 
-		                	   << "\" AND name LIKE \"" << tmp_name << "\"";
-			  result = query(sql_query_stream.str(),"db_delete_property()",al.get_con_nb());
-			  int count = mysql_num_rows(result);
+		  if(count) {
+		  
+// delete the tuple (object,name,count) from the property table
 
-			  for (j=0;j<count;j++) {
+		    sql_query_stream.str("");
+		    sql_query_stream << "DELETE FROM property WHERE object=\"" << tmp_object 
+		                   << "\" AND name = \"" << tmp_name << "\"";
+	        DEBUG_STREAM << "DataBase::db_delete_property(): sql_query " << sql_query_stream.str() << endl;
+		    simple_query(sql_query_stream.str(),"db_delete_property()");
+		  
+// Mark this property as deleted
 
-				row = mysql_fetch_row(result);
+		    unsigned int object_property_hist_id = get_id("object");
+		    sql_query_stream.str("");
+		    sql_query_stream << "INSERT INTO property_hist SET object='" << tmp_object
+										 << "',name='" << tmp_name
+										 << "',id='" << object_property_hist_id
+										 << "',count='0',value='DELETED'";
+	        DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
+		    simple_query(sql_query_stream.str(),"db_delete_property()");
+	      
+		  }
 
-				// delete the tuple (object,name,count) from the property table
-
-		    	sql_query_stream.str("");
-		    	sql_query_stream << "DELETE FROM property WHERE object=\"" << tmp_object 
-		                	   << "\" AND name = \"" << row[0] << "\"";
-	        	DEBUG_STREAM << "DataBase::db_delete_property(): sql_query " << sql_query_stream.str() << endl;
-		    	simple_query(sql_query_stream.str(),"db_delete_property()",al.get_con_nb());
-
-				// Mark this property as deleted
-
-		    	unsigned int object_property_hist_id = get_id("object",al.get_con_nb());
-		    	sql_query_stream.str("");
-		    	sql_query_stream << "INSERT INTO property_hist SET object='" << tmp_object
-											 << "',name='" << row[0]
-											 << "',id='" << object_property_hist_id
-											 << "',count='0',value='DELETED'";
-	        	DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
-		    	simple_query(sql_query_stream.str(),"db_delete_property()",al.get_con_nb());
-
-            	purge_property("property_hist","object",tmp_object,row[0],al.get_con_nb());
-
-			  }
-
-  	    	  mysql_free_result(result);
-
-		}
+           purge_property("property_hist","object",tmp_object,tmp_name.c_str());
 	}
 
 	return;
@@ -1169,8 +870,8 @@ Tango::DevVarStringArray *DataBase::db_get_host_server_list(Tango::DevString wil
 		tmp_wildcard = replace_wildcard(wildcard);
 		//	For compatibility reason between before and after Tang-5.2
 		//	Will check with and without Fully Qualify Domain Name.
-		sql_query_stream << "SELECT DISTINCT server FROM device WHERE (host LIKE \"" << tmp_wildcard 
-		                 << "\" or host LIKE \"" << tmp_wildcard << ".%%\") AND name LIKE \"dserver/%%\" ORDER BY server";
+		sql_query_stream << "SELECT DISTINCT server FROM device WHERE host LIKE \"" << tmp_wildcard 
+		                 << "\" or host LIKE \"" << tmp_wildcard << ".%%\" ORDER BY server";
 	}
 	DEBUG_STREAM << "DataBase::db_get_host_server_list(): sql_query " << sql_query_stream.str() << endl;
 
@@ -1318,7 +1019,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_list(Tango::DevString wildcard
 	   {
 	      if ((row = mysql_fetch_row(result)) != NULL)
 	      {
-//	         DEBUG_STREAM << "DataBase::db_get_server_list(): server[ "<< i << "] alias " << row[0] << endl;
+	         DEBUG_STREAM << "DataBase::db_get_server_list(): server[ "<< i << "] alias " << row[0] << endl;
 	         (*server_list)[i]   = CORBA::string_dup(row[0]);
 	      }
 	   }
@@ -1757,7 +1458,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_domain_list(Tango::DevString w
 	   {
 	      if ((row = mysql_fetch_row(result)) != NULL)
 	      {
-//	         DEBUG_STREAM << "DataBase::db_get_device_domain_list(): domain[ "<< i << "] " << row[0] << endl;
+	         DEBUG_STREAM << "DataBase::db_get_device_domain_list(): domain[ "<< i << "] " << row[0] << endl;
 	         (*domain_list)[i] = CORBA::string_dup(row[0]);
 	      }
 	   }
@@ -2042,10 +1743,9 @@ Tango::DevVarStringArray *DataBase::db_info()
  *	method:	DataBase::db_get_device_list
  *
  *	description:	method to execute "DbGetDeviceList"
- *	Get a list of devices for specified server and class.
  *
- * @param	argin	argin[0] : server name\nargin[1] : class name
- * @return	The list of devices for specified server and class.
+ * @param	argin	
+ * @return	
  *
  */
 //+------------------------------------------------------------------
@@ -2055,7 +1755,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_list(const Tango::DevVarString
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows, i;
-	string tmp_server;
+	const char *tmp_server;
 	string tmp_class;
 
 	if (server_class->length() != 2)
@@ -2066,7 +1766,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_list(const Tango::DevVarString
 					  (const char *)"DataBase::GetDeviceList()");
 	}
 		
-	tmp_server = replace_wildcard((*server_class)[0]);
+	tmp_server = (*server_class)[0];
 	tmp_class = replace_wildcard((*server_class)[1]);
 
 	INFO_STREAM << "DataBase::GetClassList(): server " << tmp_server << endl;
@@ -2141,7 +1841,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString server)
 	   {
 	      if ((row = mysql_fetch_row(result)) != NULL)
 	      {
-//	         DEBUG_STREAM << "DataBase::db_get_class_list(): row[ "<< i << "] class " << row[0] << endl;
+	         DEBUG_STREAM << "DataBase::db_get_class_list(): row[ "<< i << "] class " << row[0] << endl;
 	         (*class_list)[i]   = CORBA::string_dup(row[0]);
 	      }
 	   }
@@ -2229,6 +1929,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_properties=0, n_rows=0, n_props=0, i, j;
+	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_device;
 	string	tmp_name;
 	string	prop_name;
@@ -2246,10 +1947,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 
 	INFO_STREAM << "DataBase::GetDeviceProperty(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
-	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
-
 	tmp_device = (*property_names)[0];
-	sprintf(n_properties_str, "%lu", property_names->length()-1);
+	sprintf(n_properties_str, "%d", property_names->length()-1);
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[0] = CORBA::string_dup(tmp_device);
@@ -2281,8 +1980,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	         if ((row = mysql_fetch_row(result)) != NULL)
 	         {
 	            DEBUG_STREAM << "DataBase::GetDeviceProperty(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
-		    	n_props++;
-		    	property_list->length(n_props);
+		    n_props++;
+		    property_list->length(n_props);
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
@@ -2319,8 +2018,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *property_l
 	TangoSys_MemStream sql_query_stream;
 	char tmp_count_str[256];
 	int n_properties=0, n_rows=0, i, j, k;
-	const char *tmp_device;
-	int tmp_count;
+	const char *tmp_device, *tmp_count;
 	string tmp_name;
 
 	TimeVal	before, after;
@@ -2329,59 +2027,67 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *property_l
 	sscanf((*property_list)[1],"%d",&n_properties);
 	INFO_STREAM << "DataBase::PutDeviceProperty(): put " << n_properties << " properties for device " << (*property_list)[0] << endl;
 
+	k = 2;
+	for (i=0; i<n_properties; i++)
 	{
-		AutoLock al("LOCK TABLES property_device WRITE, property_device_hist WRITE,device_history_id WRITE",this);
-		
-		k = 2;
-		for (i=0; i<n_properties; i++)
-		{
-		   tmp_count = 0;
-		   tmp_device = (*property_list)[0];
-		   tmp_name = (*property_list)[k];
+	   tmp_count = 0;
+	   tmp_device = (*property_list)[0];
+	   tmp_name = (*property_list)[k];
 
 // first delete all tuples (device,name) from the property table
-    	   sql_query_stream.str("");
-		   sql_query_stream << "DELETE FROM property_device WHERE device LIKE \"" << tmp_device \
-													 << "\" AND name LIKE \"" << tmp_name << "\"";
-		   DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
+       sql_query_stream.str("");
+	   sql_query_stream << "DELETE FROM property_device WHERE device LIKE \"" << tmp_device \
+												 << "\" AND name LIKE \"" << tmp_name << "\"";
+	   DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
 
-		   simple_query(sql_query_stream.str(),"db_put_device_property()",al.get_con_nb());
-		   sscanf((*property_list)[k+1], "%d", &n_rows);
-		   unsigned int device_property_hist_id = get_id("device",al.get_con_nb());
+	   simple_query(sql_query_stream.str(),"db_put_device_property()");
+	   int  nb_affected = mysql_affected_rows(&mysql);
+	   sscanf((*property_list)[k+1], "%d", &n_rows);
+	   unsigned int device_property_hist_id = get_id("device");
 
-		   for (j=k+2; j<k+n_rows+2; j++)
-		   {
-        	  string tmp_escaped_string = escape_string((*property_list)[j]);
-	    	  tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
+	   if(n_rows==0 && nb_affected>0) {
+	     
+	     // Mark this property as deleted
+	     sql_query_stream.str("");
+	     sql_query_stream << "INSERT INTO property_device_hist SET device='" 
+		              << tmp_device << "',id='" << device_property_hist_id << "',name='" 
+		 	      << tmp_name << "',count='0',value='DELETED'";
+             simple_query(sql_query_stream.str(),"db_delete_device_property()");		
+	     
+	   }
+	   
+	   for (j=k+2; j<k+n_rows+2; j++)
+	   {
+          string tmp_escaped_string = escape_string((*property_list)[j]);
+	      tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
-			// then insert the new value for this tuple
-					sql_query_stream.str("");
-					sql_query_stream << "INSERT INTO property_device SET device='" << tmp_device \
-													 << "',name='" << tmp_name \
-													 << "',count='" << tmp_count_str \
-													 << "',value='" << tmp_escaped_string \
-													 << "',updated=NULL,accessed=NULL";
-	    	  DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
+		// then insert the new value for this tuple
+				sql_query_stream.str("");
+				sql_query_stream << "INSERT INTO property_device SET device='" << tmp_device \
+												 << "',name='" << tmp_name \
+												 << "',count='" << tmp_count_str \
+												 << "',value='" << tmp_escaped_string \
+												 << "',updated=NULL,accessed=NULL";
+	      DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
+		  
+		  simple_query(sql_query_stream.str(),"db_put_device_property");
+		  
+		// insert the new value into the history table
+				sql_query_stream.str("");
+				sql_query_stream << "INSERT INTO property_device_hist SET device='" << tmp_device \
+												 << "',id='" << device_property_hist_id \
+												 << "',name='" << tmp_name \
+												 << "',count='" << tmp_count_str \
+												 << "',value='" << tmp_escaped_string \
+												 << "'";
 
-			  simple_query(sql_query_stream.str(),"db_put_device_property",al.get_con_nb());
+	      DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
 
-			// insert the new value into the history table
-					sql_query_stream.str("");
-					sql_query_stream << "INSERT INTO property_device_hist SET device='" << tmp_device \
-													 << "',id='" << device_property_hist_id \
-													 << "',name='" << tmp_name \
-													 << "',count='" << tmp_count_str \
-													 << "',value='" << tmp_escaped_string \
-													 << "'";
-
-	    	  DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
-
-			  simple_query(sql_query_stream.str(),"db_put_device_property",al.get_con_nb());
-
-		   }
-		   purge_property("property_device_hist","device",tmp_device,tmp_name.c_str(),al.get_con_nb());
-		   k = k+n_rows+2;
-		}
+		  simple_query(sql_query_stream.str(),"db_put_device_property");
+												 
+	   }
+	   purge_property("property_device_hist","device",tmp_device,tmp_name.c_str());
+	   k = k+n_rows+2;
 	}
 
 	GetTime(after);
@@ -2402,9 +2108,9 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *property_l
 void DataBase::db_delete_device_property(const Tango::DevVarStringArray *property_list)
 {
 	TangoSys_MemStream	sql_query_stream;
-	int n_properties=0, i,j;
+	int n_properties=0, i;
 	const char *tmp_device;
-	string tmp_name;
+	const char *tmp_name;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -2414,50 +2120,43 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *propert
 	n_properties = property_list->length() - 1;
 	INFO_STREAM << "DataBase::PutDeviceProperty(): put " << n_properties << " properties for device " << (*property_list)[0] << endl;
 
+	for (i=0; i<n_properties; i++)
 	{
-		AutoLock al("LOCK TABLES property_device WRITE, property_device_hist WRITE,device_history_id WRITE",this);
-		
-		for (i=0; i<n_properties; i++)
-		{
-	    	  tmp_device = (*property_list)[0];
-	    	  tmp_name =   replace_wildcard((*property_list)[i+1]);
+	      tmp_device = (*property_list)[0];
+	      tmp_name =   (*property_list)[i+1];
 
-			  // Is there something to delete ?
+// Is there something to delete ?
+		  
+          sql_query_stream.str("");
+	      sql_query_stream << "SELECT count(*) FROM property_device WHERE device=\"" 
+		                   << tmp_device << "\" AND name=\"" << tmp_name << "\"";
+		  result = query(sql_query_stream.str(),"db_delete_device_property()");
+		  row = mysql_fetch_row(result);
+		  int count = atoi(row[0]);
+  	      mysql_free_result(result);
 
-        	  sql_query_stream.str("");
-	    	  sql_query_stream << "SELECT DISTINCT name FROM property_device WHERE device=\"" 
-		                	   << tmp_device << "\" AND name LIKE \"" << tmp_name << "\"";
-			  result = query(sql_query_stream.str(),"db_delete_device_property()",al.get_con_nb());
-			  int count = mysql_num_rows(result);
+		  if(count) {
 
-			  for(j=0;j<count;j++) {
+// delete the tuple (device,name,count) from the property table
 
-  		    	row = mysql_fetch_row(result);
+            sql_query_stream.str("");
+	        sql_query_stream << "DELETE FROM property_device WHERE device=\"" 
+		                     << tmp_device << "\" AND name=\"" << tmp_name << "\"";
+	        DEBUG_STREAM << "DataBase::DeleteDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
+		    simple_query(sql_query_stream.str(),"db_delete_device_property()");
 
-				// delete the tuple (device,name,count) from the property table
+// Mark this property as deleted
 
-            	sql_query_stream.str("");
-	        	sql_query_stream << "DELETE FROM property_device WHERE device=\"" 
-		                    	 << tmp_device << "\" AND name=\"" << row[0] << "\"";
-	        	DEBUG_STREAM << "DataBase::DeleteDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
-		    	simple_query(sql_query_stream.str(),"db_delete_device_property()",al.get_con_nb());
+	        unsigned int device_property_hist_id = get_id("device");
+		    sql_query_stream.str("");
+		    sql_query_stream << "INSERT INTO property_device_hist SET device='" 
+		                   << tmp_device << "',id='" << device_property_hist_id << "',name='" 
+						   << tmp_name << "',count='0',value='DELETED'";
+		    simple_query(sql_query_stream.str(),"db_delete_device_property()");		
+			                       
+          }
+          purge_property("property_device_hist","device",tmp_device,tmp_name);
 
-				// Mark this property as deleted
-
-	        	unsigned int device_property_hist_id = get_id("device",al.get_con_nb());
-		    	sql_query_stream.str("");
-		    	sql_query_stream << "INSERT INTO property_device_hist SET device='" 
-		                	   << tmp_device << "',id='" << device_property_hist_id << "',name='" 
-							   << row[0] << "',count='0',value='DELETED'";
-		    	simple_query(sql_query_stream.str(),"db_delete_device_property()",al.get_con_nb());		
-
-            	purge_property("property_device_hist","device",tmp_device,row[0],al.get_con_nb());
-
-        	  }
-
-  	    	  mysql_free_result(result);
-
-		}
 	}
 
 	GetTime(after);
@@ -2494,7 +2193,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 	INFO_STREAM << "DataBase::GetAttributeProperty(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_device = (*property_names)[0];
-	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+	sprintf(n_attributes_str, "%d", property_names->length()-1);
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_device);
@@ -2525,8 +2224,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 	         if ((row = mysql_fetch_row(result)) != NULL)
 	         {
 	            DEBUG_STREAM << "DataBase::GetAttributeProperty(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
-	   	    	n_props = n_props+2;
-	   	    	property_list->length(n_props);
+	   	    n_props = n_props+2;
+	   	    property_list->length(n_props);
 	            (*property_list)[n_props-2] = CORBA::string_dup(row[0]);
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
@@ -2566,19 +2265,16 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 	sscanf((*property_list)[1],"%d",&n_attributes);
 	INFO_STREAM << "DataBase::PutAttributeProperty(): put " << n_attributes << " attributes for device " << (*property_list)[0] << endl;
 
+	k = 2;
+	for (i=0; i<n_attributes; i++)
 	{
-		AutoLock al("LOCK TABLES property_attribute_device WRITE, property_attribute_device_hist WRITE,device_attribute_history_id WRITE",this);
-		
-		k = 2;
-		for (i=0; i<n_attributes; i++)
-		{
-		   tmp_device = (*property_list)[0];
-		   tmp_attribute = (*property_list)[k];
-		   sscanf((*property_list)[k+1], "%d", &n_properties);
-		   for (j=k+2; j<k+n_properties*2+2; j=j+2)
-		   {
-	    	  tmp_name = (*property_list)[j];
-        	  string tmp_escaped_string = escape_string((*property_list)[j+1]);
+	   tmp_device = (*property_list)[0];
+	   tmp_attribute = (*property_list)[k];
+	   sscanf((*property_list)[k+1], "%d", &n_properties);
+	   for (j=k+2; j<k+n_properties*2+2; j=j+2)
+	   {
+	      tmp_name = (*property_list)[j];
+          string tmp_escaped_string = escape_string((*property_list)[j+1]);
 
 // first delete the tuple (device,name,count) from the property table
 				sql_query_stream.str("");
@@ -2587,7 +2283,7 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 												 << "\" AND name LIKE \"" << tmp_name << "\"";
 				DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
 				
-				simple_query(sql_query_stream.str(),"db_put_device_attribute_property()",al.get_con_nb());
+				simple_query(sql_query_stream.str(),"db_put_device_attribute_property()");
 
 // then insert the new value for this tuple
 				sql_query_stream.str("");
@@ -2596,24 +2292,23 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 												 << "',name='" << tmp_name \
 												 << "',count='1',value='" << tmp_escaped_string \
 												 << "',updated=NULL,accessed=NULL";
-	      		DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-		  		simple_query(sql_query_stream.str(),"db_put_device_attribute_property()",al.get_con_nb());
+	      DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_device_attribute_property()");
 
 // then insert the new value for this tuple into the history table
-          		unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
+          unsigned int device_attribute_property_hist_id = get_id("device_attribute");
 				sql_query_stream.str("");
 				sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device \
 												 << "',attribute='" << tmp_attribute \
 												 << "',name='" << tmp_name \
 												 << "',id='" << device_attribute_property_hist_id \
 												 << "',count='1',value='" << tmp_escaped_string << "'";
-	      		DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-		  		simple_query(sql_query_stream.str(),"db_put_device_attribute_property()",al.get_con_nb());
+	      DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_device_attribute_property()");
 
-	      		purge_att_property("property_attribute_device_hist","device",tmp_device,tmp_attribute,tmp_name,al.get_con_nb());
-		   }
-		   k = k+n_properties*2+2;
-		}
+	      purge_att_property("property_attribute_device_hist","device",tmp_device,tmp_attribute,tmp_name);
+	   }
+	   k = k+n_properties*2+2;
 	}
 
 	GetTime(after);
@@ -2646,7 +2341,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
 	INFO_STREAM << "DataBase::GetAttributeProperty(): get " << property_names->length()-1 << " attributes for class " << (*property_names)[0] << endl;
 
 	tmp_class = (*property_names)[0];
-	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+	sprintf(n_attributes_str, "%d", property_names->length()-1);
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_class);
@@ -2712,54 +2407,52 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *p
 	sscanf((*property_list)[1],"%d",&n_attributes);
 	INFO_STREAM << "DataBase::PutAttributeProperty(): put " << n_attributes << " attributes for device " << (*property_list)[0] << endl;
 
+	k = 2;
+	for (i=0; i<n_attributes; i++)
 	{
-		AutoLock al("LOCK TABLES property_attribute_class WRITE, property_attribute_class_hist WRITE,class_attribute_history_id WRITE",this);
-		
-		k = 2;
-		for (i=0; i<n_attributes; i++)
-		{
-		   tmp_class = (*property_list)[0];
-		   tmp_attribute = (*property_list)[k];
-		   sscanf((*property_list)[k+1], "%d", &n_properties);
-		   for (j=k+2; j<k+n_properties*2+2; j=j+2)
-		   {
-	    	  tmp_name = (*property_list)[j];
-        	  string tmp_escaped_string = escape_string((*property_list)[j+1]);
+	   tmp_class = (*property_list)[0];
+	   tmp_attribute = (*property_list)[k];
+	   sscanf((*property_list)[k+1], "%d", &n_properties);
+	   for (j=k+2; j<k+n_properties*2+2; j=j+2)
+	   {
+	      tmp_name = (*property_list)[j];
+          string tmp_escaped_string = escape_string((*property_list)[j+1]);
 
 // first delete the tuple (device,name,count) from the property table
-			  sql_query_stream.str("");
-			  sql_query_stream << "DELETE FROM property_attribute_class WHERE class LIKE \"" \
-													 << tmp_class << "\" AND attribute LIKE \"" << tmp_attribute \
-													 << "\" AND name LIKE \"" << tmp_name << "\"";
-	    	  DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()",al.get_con_nb());
+		  sql_query_stream.str("");
+		  sql_query_stream << "DELETE FROM property_attribute_class WHERE class LIKE \"" \
+												 << tmp_class << "\" AND attribute LIKE \"" << tmp_attribute \
+												 << "\" AND name LIKE \"" << tmp_name << "\"";
+	      DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()");
 
 // then insert the new value for this tuple
-        	  sql_query_stream.str("");
-			  sql_query_stream << "INSERT INTO property_attribute_class SET class='" << tmp_class \
-													 << "',attribute='" << tmp_attribute \
-													 << "',name='" << tmp_name \
-													 << "',count='1',value='" << tmp_escaped_string \
-													 << "',updated=NULL,accessed=NULL";
-	    	  DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()",al.get_con_nb());
+          sql_query_stream.str("");
+		  sql_query_stream << "INSERT INTO property_attribute_class SET class='" << tmp_class \
+												 << "',attribute='" << tmp_attribute \
+												 << "',name='" << tmp_name \
+												 << "',count='1',value='" << tmp_escaped_string \
+												 << "',updated=NULL,accessed=NULL";
+	      DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()");
 
 // then insert the new value into the history table
 
-			  unsigned int class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
-        	  sql_query_stream.str("");
-			  sql_query_stream << "INSERT INTO property_attribute_class_hist SET class='" << tmp_class \
-													 << "',attribute='" << tmp_attribute \
-													 << "',name='" << tmp_name \
-													 << "',id='" << class_attribute_property_hist_id \
-													 << "',count='1',value='" << tmp_escaped_string << "'";
-	    	  DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()",al.get_con_nb());
+		  unsigned int class_attribute_property_hist_id = get_id("class_attribute");
+          sql_query_stream.str("");
+		  sql_query_stream << "INSERT INTO property_attribute_class_hist SET class='" << tmp_class \
+												 << "',attribute='" << tmp_attribute \
+												 << "',name='" << tmp_name \
+												 << "',id='" << class_attribute_property_hist_id \
+												 << "',count='1',value='" << tmp_escaped_string << "'";
+	      DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()");
+		  
+	      purge_att_property("property_attribute_class_hist","class",tmp_class,tmp_attribute,tmp_name);
 
-	    	  purge_att_property("property_attribute_class_hist","class",tmp_class,tmp_attribute,tmp_name,al.get_con_nb());
-		   }
-		   k = k+n_properties*2+2;
-		}
+		  
+	   }
+	   k = k+n_properties*2+2;
 	}
 
 	return;
@@ -2794,16 +2487,16 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
 	if (wildcard == NULL)
 	{
 #ifdef WIN32
-		sql_query_stream << "SELECT DISTINCT attribute FROM property_attribute_class WHERE class = \"" << class_name << "\"  AND attribute like \"\\%\"";
+		sql_query_stream << "SELECT DISTINCT attribute FROM property_attribute_class WHERE class = \"" << class_name << "\"  AND name like \"\\%\"";
 #else
-		sql_query_stream << "SELECT DISTINCT attribute FROM property_attribute_class WHERE class = \"" << class_name << "\"  AND attribute like \"%%\"";
+		sql_query_stream << "SELECT DISTINCT attribute FROM property_attribute_class WHERE class = \"" << class_name << "\"  AND name like \"%%\"";
 #endif /* WIN32 */
 	}
 	else
 	{
 		tmp_wildcard = replace_wildcard(wildcard);
 		sql_query_stream << "SELECT DISTINCT attribute FROM property_attribute_class WHERE class = \"" 
-		                 << class_name << "\"  AND attribute like \"" << tmp_wildcard << "\"";
+		                 << class_name << "\"  AND name like \"" << tmp_wildcard << "\"";
 	}
 	DEBUG_STREAM << "DataBase::GetClassAttributeList(): sql_query " << sql_query_stream.str() << endl;
 	
@@ -2819,8 +2512,8 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
 	         if ((row = mysql_fetch_row(result)) != NULL)
 	         {
 	            DEBUG_STREAM << "DataBase::GetClassAttributeList(): attribute[ "<< j << "] " << row[0] << endl;
-		    	n_attrs++;
-		    	attribute_list->length(n_attrs);
+		    n_attrs++;
+		    attribute_list->length(n_attrs);
 	            (*attribute_list)[n_attrs-1] = CORBA::string_dup(row[0]);
 	         }
 	      }
@@ -2856,7 +2549,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 	INFO_STREAM << "DataBase::GetClassProperty(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_class = (*property_names)[0];
-	sprintf(n_properties_str, "%lu", property_names->length()-1);
+	sprintf(n_properties_str, "%d", property_names->length()-1);
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[0] = CORBA::string_dup(tmp_class);
@@ -2887,8 +2580,8 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 	         if ((row = mysql_fetch_row(result)) != NULL)
 	         {
 	            DEBUG_STREAM << "DataBase::GetClassProperty(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
-		    	n_props++;
-		    	property_list->length(n_props);
+		    n_props++;
+		    property_list->length(n_props);
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
@@ -2917,66 +2610,55 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *property_li
 	TangoSys_MemStream sql_query_stream;
     char tmp_count_str[256];
 	int n_properties=0, n_rows=0, i, j, k;
-	const char *tmp_class, *tmp_name;
-	int tmp_count;
+	const char *tmp_class, *tmp_name, *tmp_count;
 
-	TimeVal	before, after;
-	GetTime(before);
-	
 	sscanf((*property_list)[1],"%d",&n_properties);
 	INFO_STREAM << "DataBase::PutClassProperty(): put " << n_properties << " properties for device " << (*property_list)[0] << endl;
 
+	k = 2;
+	tmp_class = (*property_list)[0];
+	for (i=0; i<n_properties; i++)
 	{
-		AutoLock al("LOCK TABLES property_class WRITE, property_class_hist WRITE, class_history_id WRITE",this);
-		
-		k = 2;
-		tmp_class = (*property_list)[0];
-		for (i=0; i<n_properties; i++)
-		{
-			tmp_count = 0;
-		   	tmp_name = (*property_list)[k];
+	   tmp_count = 0;
+	   tmp_name = (*property_list)[k];
 
 // first delete all tuples (device,name) from the property table
-			sql_query_stream.str("");
-			sql_query_stream << "DELETE FROM property_class WHERE class LIKE \"" << tmp_class \
-												<< "\" AND name LIKE \"" << tmp_name << "\"";
-												
-			DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
-		   	simple_query(sql_query_stream.str(),"db_put_class_property()",al.get_con_nb());
-		   	sscanf((*property_list)[k+1], "%d", &n_rows);
-		   	unsigned int class_property_hist_id = get_id("class",al.get_con_nb());
-		   	for (j=k+2; j<k+n_rows+2; j++)
-		   	{
-        	  	string tmp_escaped_string = escape_string((*property_list)[j]);
-	    	  	tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
+		 sql_query_stream.str("");
+		 sql_query_stream << "DELETE FROM property_class WHERE class LIKE \"" << tmp_class \
+											<< "\" AND name LIKE \"" << tmp_name << "\"";
+	   DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
+	   simple_query(sql_query_stream.str(),"db_put_class_property()");
+	   sscanf((*property_list)[k+1], "%d", &n_rows);
+	   unsigned int class_property_hist_id = get_id("class");
+	   for (j=k+2; j<k+n_rows+2; j++)
+	   {
+          string tmp_escaped_string = escape_string((*property_list)[j]);
+	      tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
 				sql_query_stream.str("");
 				sql_query_stream << "INSERT INTO property_class SET class='" << tmp_class \
-													 << "',name='" << tmp_name \
-													 << "',count='" << tmp_count_str \
-													 << "',value='" << tmp_escaped_string \
-													 << "',updated=NULL,accessed=NULL";
-	    	  	DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
-  	    	  	simple_query(sql_query_stream.str(),"db_put_class_property()",al.get_con_nb());
+												 << "',name='" << tmp_name \
+												 << "',count='" << tmp_count_str \
+												 << "',value='" << tmp_escaped_string \
+												 << "',updated=NULL,accessed=NULL";
+	      DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
+  	      simple_query(sql_query_stream.str(),"db_put_class_property()");
 
-// then insert the new value into the history table
+// then insert the new value into the hisotry table
 				sql_query_stream.str("");
 				sql_query_stream << "INSERT INTO property_class_hist SET class='" << tmp_class \
-													 << "',name='" << tmp_name \
-													 << "',count='" << tmp_count_str \
-													 << "',id='" << class_property_hist_id \
-													 << "',value='" << tmp_escaped_string << "'";
-	    	  	DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
-  	    	  	simple_query(sql_query_stream.str(),"db_put_class_property()",al.get_con_nb());
-		   	}
-		   	purge_property("property_class_hist","class",tmp_class,tmp_name,al.get_con_nb());
-		   	k = k+n_rows+2;
-		}
+												 << "',name='" << tmp_name \
+												 << "',count='" << tmp_count_str \
+												 << "',id='" << class_property_hist_id \
+												 << "',value='" << tmp_escaped_string << "'";
+	      DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
+  	      simple_query(sql_query_stream.str(),"db_put_class_property()");
+	   }
+	   purge_property("property_class_hist","class",tmp_class,tmp_name);
+	   k = k+n_rows+2;
 	}
 
-	GetTime(after);
-	update_timing_stats(before, after, "DbPutClassProperty");	
 	return;
 }
 
@@ -2993,58 +2675,51 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *property_li
 void DataBase::db_delete_class_property(const Tango::DevVarStringArray *property_list)
 {
 	TangoSys_MemStream sql_query_stream;
-	int n_properties=0, i,j;
+	int n_properties=0, i;
 	const char *tmp_class;
-	string tmp_name;
+	const char *tmp_name;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
 	n_properties = property_list->length() - 1;
 	INFO_STREAM << "DataBase::DeleteClassProperty(): delete " << n_properties << " properties for class " << (*property_list)[0] << endl;
 
+	for (i=0; i<n_properties; i++)
 	{
-		AutoLock al("LOCK TABLES property_class WRITE,property_class_hist WRITE,class_history_id WRITE",this);
+	      tmp_class = (*property_list)[0];
+	      tmp_name =  (*property_list)[i+1];
+
+// Is there something to delete ?
 		  
-		for (i=0; i<n_properties; i++)
-		{
-	    	  tmp_class = (*property_list)[0];
-	    	  tmp_name =  replace_wildcard((*property_list)[i+1]);
+          sql_query_stream.str("");
+	      sql_query_stream << "SELECT count(*) FROM property_class WHERE class=\"" << tmp_class 
+		                   << "\" AND name=\"" << tmp_name << "\"";
+		  result = query(sql_query_stream.str(),"db_delete_class_property()");
+		  row = mysql_fetch_row(result);
+		  int count = atoi(row[0]);
+  	      mysql_free_result(result);
 
-        	  // Is there something to delete ?
+		  if(count) {
 
-        	  sql_query_stream.str("");
-	    	  sql_query_stream << "SELECT DISTINCT name FROM property_class WHERE class=\"" << tmp_class 
-		                	   << "\" AND name LIKE \"" << tmp_name << "\"";
-			  result = query(sql_query_stream.str(),"db_delete_class_property()",al.get_con_nb());
-			  int count = mysql_num_rows(result);
+// delete the tuple (device,name,count) from the property table
+		    sql_query_stream.str("");
+		    sql_query_stream << "DELETE FROM property_class WHERE class=\"" << tmp_class 
+		                   << "\" AND name=\"" << tmp_name << "\"";
+	        DEBUG_STREAM << "DataBase::DeleteClassProperty(): sql_query " << sql_query_stream.str() << endl;
+		    simple_query(sql_query_stream.str(),"db_delete_class_property()");
 
-			  for(j=0;j<count;j++) {
-
-		    	row = mysql_fetch_row(result);
-
-            	// delete the tuple (device,name,count) from the property table
-		    	sql_query_stream.str("");
-		    	sql_query_stream << "DELETE FROM property_class WHERE class=\"" << tmp_class 
-		                	   << "\" AND name=\"" << row[0] << "\"";
-	        	DEBUG_STREAM << "DataBase::DeleteClassProperty(): sql_query " << sql_query_stream.str() << endl;
-		    	simple_query(sql_query_stream.str(),"db_delete_class_property()",al.get_con_nb());
-
-				// Mark this property as deleted
-				unsigned int class_property_hist_id = get_id("class",al.get_con_nb());
-				sql_query_stream.str("");
-				sql_query_stream << "INSERT INTO property_class_hist SET class='" << tmp_class \
-													 << "',name='" << row[0] \
-													 << "',id='" << class_property_hist_id \
-													 << "',count='0',value='DELETED'";
-	        	DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
-  	        	simple_query(sql_query_stream.str(),"db_delete_class_property()",al.get_con_nb());
-
-   	        	purge_property("property_class_hist","class",tmp_class,row[0],al.get_con_nb());
-
-			  }
-  	    	  mysql_free_result(result);
-
-		}
+// Mark this property as deleted
+			unsigned int class_property_hist_id = get_id("class");
+			sql_query_stream.str("");
+			sql_query_stream << "INSERT INTO property_class_hist SET class='" << tmp_class \
+												 << "',name='" << tmp_name \
+												 << "',id='" << class_property_hist_id \
+												 << "',count='0',value='DELETED'";
+	        DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
+  	        simple_query(sql_query_stream.str(),"db_delete_class_property()");
+					  
+		  }
+	   purge_property("property_class_hist","class",tmp_class,tmp_name);
 	}
 
 	return;
@@ -3098,86 +2773,80 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *export_info)
 //
 	bool	do_fire = false;
 	string	previous_host;
+	if (fireToStarter==true)
 	{
-		AutoLock al("LOCK TABLES device WRITE, server WRITE",this);
-	
-		if (fireToStarter==true)
+		if (tmp_device.substr(0,8) == "dserver/")
 		{
-			if (tmp_device.substr(0,8) == "dserver/")
+			//	Get database server name
+			//--------------------------------------
+			Tango::Util *tg = Tango::Util::instance();
+			string	db_serv = tg->get_ds_name();
+			transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
+			string	adm_dev("dserver/");
+			adm_dev += db_serv;
+
+			//	Check if not database or starter servers
+			if (tmp_device !=  adm_dev &&
+				tmp_device.substr(0,16) != "dserver/starter/" )
 			{
-				omni_mutex_lock oml(starter_mutex);
-
-				//	Get database server name
-				//--------------------------------------
-				Tango::Util *tg = Tango::Util::instance();
-				string	db_serv = tg->get_ds_name();
-				transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
-				string	adm_dev("dserver/");
-				adm_dev += db_serv;
-
-				//	Check if not database or starter servers
-				if (tmp_device !=  adm_dev &&
-					tmp_device.substr(0,16) != "dserver/starter/" )
-				{
-					do_fire = true;
-					char *tmp_ptr = db_get_device_host((Tango::DevString)tmp_device.c_str(),al.get_con_nb());
-					previous_host = tmp_ptr;
-					DEBUG_STREAM << tmp_device << " was running on " << previous_host << endl;
-					CORBA::string_free(tmp_ptr);
-				}
+				do_fire = true;
+				char *tmp_ptr = db_get_device_host((Tango::DevString)tmp_device.c_str());
+				previous_host = tmp_ptr;
+				DEBUG_STREAM << tmp_device << " was running on " << previous_host << endl;
+				CORBA::string_free(tmp_ptr);
 			}
 		}
+	}
 //
 // check if device is defined and if so get server name in order to
 // update server table 
 //
-		sql_query_stream << "SELECT server FROM device WHERE name LIKE \"" << tmp_device << "\" ";
-		DEBUG_STREAM << "DataBase::ExportDevice(): sql_query " << sql_query_stream.str() << endl;
+	sql_query_stream << "SELECT server FROM device WHERE name LIKE \"" << tmp_device << "\" ";
+	DEBUG_STREAM << "DataBase::ExportDevice(): sql_query " << sql_query_stream.str() << endl;
 
-		result = query(sql_query_stream.str(),"db_export_device()",al.get_con_nb());
+	result = query(sql_query_stream.str(),"db_export_device()");
 
-		n_rows = mysql_num_rows(result);
-		DEBUG_STREAM << "DataBase::ExportDevice(): mysql_num_rows() " << n_rows << endl;
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::ExportDevice(): mysql_num_rows() " << n_rows << endl;
 
-		if (n_rows > 0)
-		{
-		   if ((row = mysql_fetch_row(result)) != NULL)
-		   {
-	    	  DEBUG_STREAM << "DataBase::ExportDevice(): device "<< tmp_device << " server name " << row[0] << endl;
-	    	  tmp_server = row[0];
-		   }
-		}
-		else
-		{
-	    	 INFO_STREAM << "DataBase::ExportDevice(): device not defined !" << endl;
-  	 		 TangoSys_OMemStream o;
-			 o << "device " << tmp_device << " not defined in the database !";
-	    	 mysql_free_result(result);
-	    	 Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
-	     				                	o.str(),
-					                    	(const char *)"DataBase::ExportDevice()");
-		}
-		mysql_free_result(result);
+	if (n_rows > 0)
+	{
+
+	   if ((row = mysql_fetch_row(result)) != NULL)
+	   {
+	      DEBUG_STREAM << "DataBase::ExportDevice(): device "<< tmp_device << " server name " << row[0] << endl;
+	      tmp_server = row[0];
+	   }
+	}
+	else {
+	     INFO_STREAM << "DataBase::ExportDevice(): device not defined !" << endl;
+  	 	 TangoSys_OMemStream o;
+		 o << "device " << tmp_device << " not defined in the database !";
+	     mysql_free_result(result);
+	     Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
+	     				                o.str(),
+					                    (const char *)"DataBase::ExportDevice()");
+	}
+	mysql_free_result(result);
 
 // update the new value for this tuple
-   		sql_query_stream.str("");
-		sql_query_stream << "UPDATE device set exported=1,ior=\'" << tmp_ior 
+    sql_query_stream.str("");
+	sql_query_stream << "UPDATE device set exported=1,ior=\'" << tmp_ior 
 	                 << "\',host=\'" << tmp_host << "\',pid=\'" << tmp_pid 
 					 << "\',version=\'" << tmp_version 
 					 << "\',started=NOW() where name LIKE \'" << tmp_device << "\'";
-		DEBUG_STREAM << "DataBase::ExportDevice(): sql_query " << sql_query_stream.str() << endl;
-
-		simple_query(sql_query_stream.str(),"db_export_device()",al.get_con_nb());
+	DEBUG_STREAM << "DataBase::ExportDevice(): sql_query " << sql_query_stream.str() << endl;
+	
+	simple_query(sql_query_stream.str(),"db_export_device()");
 
 // update host name in server table
 
-    	sql_query_stream.str("");
-		sql_query_stream << "UPDATE server set host=\'" << tmp_host << "\' where name LIKE \'" 
+    sql_query_stream.str("");
+	sql_query_stream << "UPDATE server set host=\'" << tmp_host << "\' where name LIKE \'" 
 	                 << tmp_server << "\'";
-    	DEBUG_STREAM << "DataBase::ExportDevice(): sql_query " << sql_query_stream.str() << endl;
-
-		simple_query(sql_query_stream.str(),"db_export_device()",al.get_con_nb());
-	}
+    DEBUG_STREAM << "DataBase::ExportDevice(): sql_query " << sql_query_stream.str() << endl;
+ 
+	simple_query(sql_query_stream.str(),"db_export_device()");
 
 	//	Check if a server has been started.
 	if (do_fire)
@@ -3317,35 +2986,31 @@ Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString devnam
 //	sprintf(sql_query,"SELECT exported,ior,version,pid,server,host FROM device WHERE name = '%s' or alias = '%s';",
 //	        tmp_device.c_str(),tmp_device.c_str());
 
-	{
-		AutoLock al("LOCK TABLE device READ",this);
-		
-		sql_query_stream << "SELECT exported,ior,version,pid,server,host,class FROM device WHERE name = '" 
-	                 	<< tmp_device << "';";
-		DEBUG_STREAM << "DataBase::ImportDevice(): sql_query " << sql_query_stream.str() << endl;
+	sql_query_stream << "SELECT exported,ior,version,pid,server,host FROM device WHERE name = '" 
+	                 << tmp_device << "';";
+	DEBUG_STREAM << "DataBase::ImportDevice(): sql_query " << sql_query_stream.str() << endl;
 	
-		result = query(sql_query_stream.str(),"db_import_device()",al.get_con_nb());
+	result = query(sql_query_stream.str(),"db_import_device()");
 
-		n_rows = mysql_num_rows(result);
-		DEBUG_STREAM << "DataBase::ImportDevice(): mysql_num_rows() " << n_rows << endl;
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::ImportDeviceList(): mysql_num_rows() " << n_rows << endl;
 
-		if (n_rows <= 0)
-		{
+	if (n_rows <= 0)
+	{
 //
 // could not find device by name, try to look for by alias
 //
-   			INFO_STREAM << "DataBase::ImportDevice(): could not find device by name, look for alias !" << endl;
-			mysql_free_result(result);
-			sql_query_stream.str("");
-			sql_query_stream << "SELECT exported,ior,version,pid,server,host,class FROM device WHERE alias = '" 
-		                	 << tmp_device << "';";
-			DEBUG_STREAM << "DataBase::ImportDevice(): sql_query " << sql_query_stream.str() << endl;
+   		INFO_STREAM << "DataBase::ImportDevice(): could not find device by name, look for alias !" << endl;
+		mysql_free_result(result);
+		sql_query_stream.str("");
+		sql_query_stream << "SELECT exported,ior,version,pid,server,host FROM device WHERE alias = '" 
+		                 << tmp_device << "';";
+		DEBUG_STREAM << "DataBase::ImportDevice(): sql_query " << sql_query_stream.str() << endl;
 
- 	    	result = query(sql_query_stream.str(),"db_import_device()",al.get_con_nb());
+ 	    result = query(sql_query_stream.str(),"db_import_device()");
 	
-			n_rows = mysql_num_rows(result);
-			DEBUG_STREAM << "DataBase::ImportDevice(): mysql_num_rows() " << n_rows << endl;
-		}
+		n_rows = mysql_num_rows(result);
+		DEBUG_STREAM << "DataBase::ImportDeviceList(): mysql_num_rows() " << n_rows << endl;
 	}
 
 
@@ -3355,19 +3020,14 @@ Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString devnam
 
 	   if ((row = mysql_fetch_row(result)) != NULL)
 	   {
-	      DEBUG_STREAM << "DataBase::ImportDevice(): device exported " << row[0] << " version " << row[2] << " server " << row[4] << " host " << row[5] << endl;
-	      n_svalues = n_svalues+6;
+	      DEBUG_STREAM << "DataBase::ImportDeviceList(): device[ "<< i << "] exported " << row[0] << " version " << row[2] << " server " << row[4] << " host " << row[5] << endl;
+	      n_svalues = n_svalues+5;
 	      (import_info->svalue).length(n_svalues);
-	      (import_info->svalue)[n_svalues-6] = CORBA::string_dup(tmp_device.c_str());
-	      (import_info->svalue)[n_svalues-4] = CORBA::string_dup(row[2]);
-	      (import_info->svalue)[n_svalues-3] = CORBA::string_dup(row[4]);
-	      (import_info->svalue)[n_svalues-2] = CORBA::string_dup(row[5]);
-		  (import_info->svalue)[n_svalues-1] = CORBA::string_dup(row[6]);
-			//	IOR Check
-		  if (row[1]!=NULL)
-	     	(import_info->svalue)[n_svalues-5] = CORBA::string_dup(row[1]);
-		  else
-		  	(import_info->svalue)[n_svalues-5] = CORBA::string_dup("");
+	      (import_info->svalue)[n_svalues-5] = CORBA::string_dup(tmp_device.c_str());
+	      (import_info->svalue)[n_svalues-4] = CORBA::string_dup(row[1]);
+	      (import_info->svalue)[n_svalues-3] = CORBA::string_dup(row[2]);
+	      (import_info->svalue)[n_svalues-2] = CORBA::string_dup(row[4]);
+	      (import_info->svalue)[n_svalues-1] = CORBA::string_dup(row[5]);
 	      exported = -1;
 	      if (row[0] != NULL) sscanf(row[0],"%d",&exported);
 	      n_lvalues++;
@@ -3434,43 +3094,37 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *server_device_list)
 		
 	INFO_STREAM << "DataBase::AddServer(): insert " << (*server_device_list)[0] << " server with device " << (*server_device_list)[1] << endl;
 	tmp_server = (*server_device_list)[0];
-	
+	for (int i=0; i<(server_device_list->length()-1)/2; i++)
 	{
-		AutoLock al("LOCK TABLE device WRITE",this);
-		
-		for (int i=0; i<(server_device_list->length()-1)/2; i++)
+		string tmp_device((*server_device_list)[i*2+1].in());
+		tmp_class = (*server_device_list)[i*2+2];
+		if (!check_device_name(tmp_device))
 		{
-			string tmp_device((*server_device_list)[i*2+1].in());
-			tmp_class = (*server_device_list)[i*2+2];
-			if (!check_device_name(tmp_device))
-			{
-  	 	    	TangoSys_OMemStream o;
-	   			o << "device name (" << tmp_device << ") syntax error (should be [tango:][//instance/]domain/family/member)";
-	   			Tango::Except::throw_exception((const char *)DB_IncorrectDeviceName,
-						                	   o.str(),
-						                	   (const char *)"DataBase::AddServer()");
-			}
-			device_name_to_dfm(tmp_device, domain, family, member);
+  	 	    TangoSys_OMemStream o;
+	   		o << "device name (" << tmp_device << ") syntax error (should be [tango:][//instance/]domain/family/member)";
+	   		Tango::Except::throw_exception((const char *)DB_IncorrectDeviceName,
+						                   o.str(),
+						                   (const char *)"DataBase::AddServer()");
+		}
+		device_name_to_dfm(tmp_device, domain, family, member);
 
 // first delete the tuple (device,name,count) from the property table
-        	sql_query_stream.str("");
-        	sql_query_stream << "DELETE FROM device WHERE server=\"" << tmp_server 
-		                	 << "\" AND name=\"" << tmp_device << "\" ";
-			DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
-			simple_query(sql_query_stream.str(),"db_add_server()",al.get_con_nb());
+        sql_query_stream.str("");
+        sql_query_stream << "DELETE FROM device WHERE server=\"" << tmp_server 
+		                 << "\" AND name=\"" << tmp_device << "\" ";
+		DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+		simple_query(sql_query_stream.str(),"db_add_server()");
 
 // then insert the new value for this tuple
-        	sql_query_stream.str("");
-        	sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device 
-		                	 << "\",domain=\"" << domain << "\",family=\"" << family 
-							 << "\",member=\"" << member 
-							 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" << tmp_server 
-							 << "\",pid=0,class=\"" << tmp_class
-							 << "\",version=0,started=NULL,stopped=NULL";
-			DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
-			simple_query(sql_query_stream.str(),"db_add_server()",al.get_con_nb());
+        sql_query_stream.str("");
+        sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device 
+		                 << "\",domain=\"" << domain << "\",family=\"" << family 
+						 << "\",member=\"" << member 
+						 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" << tmp_server 
+						 << "\",pid=0,class=\"nada\",version=0,started=NULL,stopped=NULL";
+		DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+		simple_query(sql_query_stream.str(),"db_add_server()");
 
-		}
 	}
 
 	return;
@@ -3523,75 +3177,70 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *server_device)
 	}
 	device_name_to_dfm(tmp_device, domain, family, member);
 
-	{
-		AutoLock al("LOCK TABLE device WRITE",this);
-		
 // first delete the tuple (device,name) from the device table
 
-		sql_query_stream << "DELETE FROM device WHERE name LIKE \"" << tmp_device << "\"";
-		DEBUG_STREAM << "DataBase::AddDevice(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_add_device()",al.get_con_nb());
+	sql_query_stream << "DELETE FROM device WHERE name LIKE \"" << tmp_device << "\"";
+	DEBUG_STREAM << "DataBase::AddDevice(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_add_device()");
 
 // then insert the new value for this tuple
 
-    	sql_query_stream.str("");
-		if (server_device->length() < 4)
-		{
-			sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device 
-		                	 << "\",domain=\"" << domain << "\",family=\"" << family 
-							 << "\",member=\"" << member 
-							 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" 
-							 << tmp_server << "\",pid=0,class=\"" << tmp_class 
-							 << "\",version=\"0\",started=NULL,stopped=NULL";
-		}
-		else
-		{
-			sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device 
-		                	 << "\",domain=\"" << domain << "\",family=\"" << family 
-							 << "\",member=\"" << member 
-							 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" 
-							 << tmp_server << "\",pid=0,class=\"" << tmp_class
-							 << "\",alias=\"" << tmp_alias 
-							 << "\",version=\"0\",started=NULL,stopped=NULL";
-		}
-		DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_add_device()",al.get_con_nb());
+    sql_query_stream.str("");
+	if (server_device->length() < 4)
+	{
+		sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device 
+		                 << "\",domain=\"" << domain << "\",family=\"" << family 
+						 << "\",member=\"" << member 
+						 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" 
+						 << tmp_server << "\",pid=0,class=\"" << tmp_class 
+						 << "\",version=\"0\",started=NULL,stopped=NULL";
+	}
+	else
+	{
+		sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device 
+		                 << "\",domain=\"" << domain << "\",family=\"" << family 
+						 << "\",member=\"" << member 
+						 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" 
+						 << tmp_server << "\",pid=0,class=\"" << tmp_class
+						 << "\",alias=\"" << tmp_alias 
+						 << "\",version=\"0\",started=NULL,stopped=NULL";
+	}
+	DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_add_device()");
 
 //
 // Check if a DServer device entry for the process already exists
 //
-    	sql_query_stream.str("");
-		sql_query_stream << "SELECT name FROM device WHERE server LIKE \"" << tmp_server 
-	                	 << "\" AND class LIKE \"DServer\"";
-		DEBUG_STREAM << "DataBase::AddDevice(): sql_query " << sql_query_stream.str() << endl;
-		result = query(sql_query_stream.str(),"db_add_device()",al.get_con_nb());
+    sql_query_stream.str("");
+	sql_query_stream << "SELECT name FROM device WHERE server LIKE \"" << tmp_server 
+	                 << "\" AND class LIKE \"DServer\"";
+	DEBUG_STREAM << "DataBase::AddDevice(): sql_query " << sql_query_stream.str() << endl;
+	result = query(sql_query_stream.str(),"db_add_device()");
 
-		n_rows = mysql_num_rows(result);
-		DEBUG_STREAM << "DataBase::AddDevice(): mysql_num_rows() " << n_rows << endl;
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::AddDevice(): mysql_num_rows() " << n_rows << endl;
 
 //
 // If there is no admin device for the device's server, create one
 //
 	
-		if (n_rows == 0)
-		{		
-			dserver_name = "dserver/";
-			dserver_name = dserver_name + string(tmp_server);
-			device_name_to_dfm(dserver_name, domain, family, member);
-        	sql_query_stream.str("");
-			sql_query_stream << "INSERT INTO device SET name=\"dserver/" << tmp_server
-		                	 << "\",domain=\"" << domain << "\",family=\"" << family 
-							 << "\",member=\"" << member 
-							 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" << tmp_server 
-							 << "\",pid=0,class=\"DServer\",version=\"0\",started=NULL,stopped=NULL";
-			DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
-  	    	simple_query(sql_query_stream.str(),"db_add_device()",al.get_con_nb());
+	if (n_rows == 0)
+	{		
+		dserver_name = "dserver/";
+		dserver_name = dserver_name + string(tmp_server);
+		device_name_to_dfm(dserver_name, domain, family, member);
+        sql_query_stream.str("");
+		sql_query_stream << "INSERT INTO device SET name=\"dserver/" << tmp_server
+		                 << "\",domain=\"" << domain << "\",family=\"" << family 
+						 << "\",member=\"" << member 
+						 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" << tmp_server 
+						 << "\",pid=0,class=\"DServer\",version=\"0\",started=NULL,stopped=NULL";
+		DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+  	    simple_query(sql_query_stream.str(),"db_add_device()");
 
-		}
-
-		mysql_free_result(result);
 	}
-		
+
+	mysql_free_result(result);	
 	return;
 }
 
@@ -3703,8 +3352,6 @@ void DataBase::db_delete_server(Tango::DevString server)
 	string	previous_host("");
 	if (fireToStarter==true)
 	{
-		omni_mutex_lock oml(starter_mutex);
-		
 		string	adm_dev("dserver/");
 		adm_dev += tmp_server;
 		char *tmp_ptr = db_get_device_host((Tango::DevString)adm_dev.c_str());
@@ -3724,8 +3371,6 @@ void DataBase::db_delete_server(Tango::DevString server)
 	//	Update host's starter to update controlled servers list
 	if (fireToStarter==true)
 	{
-		omni_mutex_lock oml(starter_mutex);
-		
 		vector<string>	hosts;
 		if (previous_host!="")
 		{
@@ -3770,29 +3415,25 @@ void DataBase::db_delete_device(Tango::DevString device)
 
 	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
 
-	{
-		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE",this);
-		
 // then delete the device from the device table
 
-    	sql_query_stream << "DELETE FROM device WHERE name LIKE \"" << tmp_wildcard << "\"";
-    	DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
+    sql_query_stream << "DELETE FROM device WHERE name LIKE \"" << tmp_wildcard << "\"";
+    DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_delete_device()");
 
 // then delete device from the property_device table
 
-    	sql_query_stream.str("");
-		sql_query_stream << "DELETE FROM property_device WHERE device LIKE \"" << tmp_wildcard << "\"";
-    	DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
+    sql_query_stream.str("");
+	sql_query_stream << "DELETE FROM property_device WHERE device LIKE \"" << tmp_wildcard << "\"";
+    DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_delete_device()");
 
 // then delete device from the property_attribute_device table
 
-    	sql_query_stream.str("");
-		sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \"" << tmp_wildcard << "\"";
-    	DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
-	}
+    sql_query_stream.str("");
+	sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \"" << tmp_wildcard << "\"";
+    DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_delete_device()");
 
     return;
 }
@@ -3932,52 +3573,49 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
 				       	(const char *)"DataBase::db_delete_device_attribute()");
 	}
 	attribute = (*argin)[1];
-	
+	for (i=0; i<argin->length()-2; i++)
 	{
-		AutoLock al("LOCK TABLES property_attribute_device WRITE, property_attribute_device_hist WRITE,device_attribute_history_id WRITE",this);
-		
-		for (i=0; i<argin->length()-2; i++)
-		{
-			property = (*argin)[i+2];
+		property = (*argin)[i+2];
 
-			INFO_STREAM << "DataBase::db_delete_device_attribute_property(): delete device " << tmp_device ;
-			INFO_STREAM << " attribute " << attribute << " property[" << i <<"] " << property << " from database" << endl;
+		INFO_STREAM << "DataBase::db_delete_device_attribute_property(): delete device " << tmp_device ;
+		INFO_STREAM << " attribute " << attribute << " property[" << i <<"] " << property << " from database" << endl;
 
 // Is there something to delete ?
 
-			sql_query_stream.str("");
-			sql_query_stream << "SELECT count(*) FROM property_attribute_device WHERE device = \"" << tmp_device 
-		                	 <<"\" AND attribute = \"" << attribute << "\" AND name = \"" << property << "\" ";
-			result = query(sql_query_stream.str(),"db_delete_device_attribute_property()",al.get_con_nb());
- 	    	row = mysql_fetch_row(result);
-			int count = atoi(row[0]);
-  	    	mysql_free_result(result);
+		sql_query_stream.str("");
+		sql_query_stream << "SELECT count(*) FROM property_attribute_device WHERE device = \"" << tmp_device 
+		                 <<"\" AND attribute = \"" << attribute << "\" AND name = \"" << property << "\" ";
+		result = query(sql_query_stream.str(),"db_delete_device_attribute_property()");
+ 	    row = mysql_fetch_row(result);
+		int count = atoi(row[0]);
+  	    mysql_free_result(result);
 
-			if(count) {
+		if(count) {
 
 // then delete property from the property_attribute_device table
 
-			  sql_query_stream.str("");
-			  sql_query_stream << "DELETE FROM property_attribute_device WHERE device = \"" << tmp_device 
-		                	   <<"\" AND attribute = \"" << attribute << "\" AND name = \"" << property << "\" ";
-   			  DEBUG_STREAM << "DataBase::db_delete_device_attribute_property(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_delete_device_attribute_property()",al.get_con_nb());		
+		  sql_query_stream.str("");
+		  sql_query_stream << "DELETE FROM property_attribute_device WHERE device = \"" << tmp_device 
+		                   <<"\" AND attribute = \"" << attribute << "\" AND name = \"" << property << "\" ";
+   		  DEBUG_STREAM << "DataBase::db_delete_device_attribute_property(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_delete_device_attribute_property()");		
 		
 // Mark this property as deleted	
 
-        	  unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
-			  sql_query_stream.str("");
-			  sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device
-							   << "',attribute='" << attribute
-							   << "',name='" << property
-							   << "',id='" << device_attribute_property_hist_id
-							   << "',count='0',value='DELETED'";
-	    	  DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_delete_device_attribute_property()",al.get_con_nb());
-
-			}
-			purge_att_property("property_attribute_device_hist","device",tmp_device.c_str(),attribute,property,al.get_con_nb());		
+          unsigned int device_attribute_property_hist_id = get_id("device_attribute");
+		  sql_query_stream.str("");
+		  sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device
+						   << "',attribute='" << attribute
+						   << "',name='" << property
+						   << "',id='" << device_attribute_property_hist_id
+						   << "',count='0',value='DELETED'";
+	      DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_delete_device_attribute_property()");
+		
 		}
+	        purge_att_property("property_attribute_device_hist","device",tmp_device.c_str(),attribute,property);
+
+		
 	}
 
 	return;
@@ -4013,55 +3651,52 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
 
 	tmp_class = (*argin)[0];
 	attribute = (*argin)[1];
-	
+	for (i=0; i<argin->length()-2; i++)
 	{
-		AutoLock al("LOCK TABLES property_attribute_class WRITE,property_attribute_class_hist WRITE,class_attribute_history_id WRITE",this);
-		 
-		for (i=0; i<argin->length()-2; i++)
-		{
-			property = (*argin)[i+2];
+		property = (*argin)[i+2];
 
-			INFO_STREAM << "DataBase::db_delete_class_attribute_property(): delete class " << tmp_class ;
-			INFO_STREAM << " attribute " << attribute << " property[" << i <<"] " << property << " from database" << endl;
+		INFO_STREAM << "DataBase::db_delete_class_attribute_property(): delete class " << tmp_class ;
+		INFO_STREAM << " attribute " << attribute << " property[" << i <<"] " << property << " from database" << endl;
 
 // Is there something to delete ?
 
-        	sql_query_stream.str("");
-			sql_query_stream << "SELECT count(*) FROM property_attribute_class WHERE class = \"" << tmp_class
-		                	 << "\" AND attribute = \"" << attribute << "\" AND name = \"" << property 
-							 << "\" ";
-   			DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
-			result = query(sql_query_stream.str(),"db_delete_class_attribute_property()",al.get_con_nb());
- 	    	row = mysql_fetch_row(result);
-			int count = atoi(row[0]);
-  	    	mysql_free_result(result);
-
-			if(count) {
+        sql_query_stream.str("");
+		sql_query_stream << "SELECT count(*) FROM property_attribute_class WHERE class = \"" << tmp_class
+		                 << "\" AND attribute = \"" << attribute << "\" AND name = \"" << property 
+						 << "\" ";
+   		DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
+		result = query(sql_query_stream.str(),"db_delete_class_attribute_property()");
+ 	    row = mysql_fetch_row(result);
+		int count = atoi(row[0]);
+  	    mysql_free_result(result);
+		
+		if(count) {
 
 // then delete property from the property_attribute_class table
 
-        	  sql_query_stream.str("");
-			  sql_query_stream << "DELETE FROM property_attribute_class WHERE class = \"" << tmp_class
-		                	   << "\" AND attribute = \"" << attribute << "\" AND name = \"" << property 
-							   << "\" ";
-   			  DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_delete_class_attribute_property()",al.get_con_nb());
+          sql_query_stream.str("");
+		  sql_query_stream << "DELETE FROM property_attribute_class WHERE class = \"" << tmp_class
+		                   << "\" AND attribute = \"" << attribute << "\" AND name = \"" << property 
+						   << "\" ";
+   		  DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_delete_class_attribute_property()");
 
 // Mark this property as deleted	
 
-        	  unsigned int class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
-        	  sql_query_stream.str("");
-			  sql_query_stream << "INSERT INTO property_attribute_class_hist SET class='" << tmp_class \
-													 << "',attribute='" << attribute \
-													 << "',name='" << property \
-													 << "',id='" << class_attribute_property_hist_id \
-													 << "',count='0',value='DELETED'";
-	    	  DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
-			  simple_query(sql_query_stream.str(),"db_delete_class_attribute_property()",al.get_con_nb());
-
-			}
-			purge_att_property("property_attribute_class_hist","class",tmp_class.c_str(),attribute,property,al.get_con_nb());
+          unsigned int class_attribute_property_hist_id = get_id("class_attribute");
+          sql_query_stream.str("");
+		  sql_query_stream << "INSERT INTO property_attribute_class_hist SET class='" << tmp_class \
+												 << "',attribute='" << attribute \
+												 << "',name='" << property \
+												 << "',id='" << class_attribute_property_hist_id \
+												 << "',count='0',value='DELETED'";
+	      DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
+		  simple_query(sql_query_stream.str(),"db_delete_class_attribute_property()");
+		          
 		}
+	      purge_att_property("property_attribute_class_hist","class",tmp_class.c_str(),attribute,property);
+
+
 	}
 
   	return;
@@ -4202,51 +3837,42 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *server_info)
 //
 //	If it is an empty host name -> get previous host where running
 //
-
-	string previous_host("");
+	string	previous_host("");
+	if (fireToStarter==true)
 	{
-		AutoLock al("LOCK TABLES device READ, server WRITE",this);
-		
-		if (fireToStarter==true)
+		if (tmp_host == "")
 		{
-			if (tmp_host == "")
-			{
-				omni_mutex_lock oml(starter_mutex);
+			//	Get database server name
+			//--------------------------------------
+			Tango::Util *tg = Tango::Util::instance();
+			string	db_serv = tg->get_ds_name();
+			transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
+			string	adm_dev = "dserver";
+			adm_dev += tmp_server;
 
-				//	Get database server name
-				//--------------------------------------
-				Tango::Util *tg = Tango::Util::instance();
-				string	db_serv = tg->get_ds_name();
-				transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
-				string	adm_dev = "dserver";
-				adm_dev += tmp_server;
-
-				char *tmp_ptr = db_get_device_host((Tango::DevString)adm_dev.c_str(),al.get_con_nb()); 
-				previous_host = tmp_ptr;
-				DEBUG_STREAM << tmp_server << " was running on " << previous_host << endl;
-				CORBA::string_free(tmp_ptr);
-			}
+			char *tmp_ptr = db_get_device_host((Tango::DevString)adm_dev.c_str()); 
+			previous_host = tmp_ptr;
+			DEBUG_STREAM << tmp_server << " was running on " << previous_host << endl;
+			CORBA::string_free(tmp_ptr);
 		}
+	}
 // first delete the server from the server table
 
-		sql_query_stream << "DELETE FROM server WHERE name = \"" << tmp_server << "\"";
-		DEBUG_STREAM << "DataBase::db_put_server_info(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_put_server_info()",al.get_con_nb());
+	sql_query_stream << "DELETE FROM server WHERE name = \"" << tmp_server << "\"";
+	DEBUG_STREAM << "DataBase::db_put_server_info(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_put_server_info()");
 
 // insert the new info for this server
 
-    	sql_query_stream.str("");
-		sql_query_stream << "INSERT INTO server SET name=\'" << tmp_server << "\',host=\'" 
-	                	 << tmp_host << "\',mode=\'" << tmp_mode << "\',level=\'" << tmp_level << "\'";
-		DEBUG_STREAM << "DataBase::db_put_server_info(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_put_server_info()",al.get_con_nb());
-	}
+    sql_query_stream.str("");
+	sql_query_stream << "INSERT INTO server SET name=\'" << tmp_server << "\',host=\'" 
+	                 << tmp_host << "\',mode=\'" << tmp_mode << "\',level=\'" << tmp_level << "\'";
+	DEBUG_STREAM << "DataBase::db_put_server_info(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_put_server_info()");
 
 	//	Update host's starter to update controlled servers list
 	if (fireToStarter==true)
 	{
-		omni_mutex_lock oml(starter_mutex);
-		
 		vector<string>	hosts;
 		if (previous_host=="")
 			hosts.push_back(tmp_host);
@@ -4283,70 +3909,6 @@ void DataBase::db_delete_server_info(Tango::DevString server_name)
     DEBUG_STREAM << "DataBase::db_delete_server_info(): sql_query " << sql_query_stream.str() << endl;
 	simple_query(sql_query_stream.str(),"db_delete_server_info()");
 
-}
-
-//+------------------------------------------------------------------
-/**
- *	method:	DataBase::db_get_device_wide_list
- *
- *	description:	method to execute "DbGetDeviceWideList"
- *	Get a list of devices whose names satisfy the filter.
- *
- * @param	argin	filter
- * @return	list of exported devices
- *
- */
-//+------------------------------------------------------------------
-Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString filter)
-{
-	TangoSys_MemStream sql_query_stream;
-	string tmp_filter;
-	MYSQL_RES *result;
-	MYSQL_ROW row;
-	int n_rows, i;
-
-	TimeVal	before, after;
-	GetTime(before);
-
-	INFO_STREAM << "DataBase::db_get_device_wide_list(): filter " << filter << endl;
-
-	if (filter == NULL)
-	{
-		sql_query_stream << "SELECT DISTINCT name FROM device WHERE name LIKE \"%\" ORDER BY name";
-	}
-	else
-	{
-		tmp_filter = replace_wildcard(filter);
-		sql_query_stream << "SELECT DISTINCT name FROM device WHERE name LIKE \"" 
-		                 << tmp_filter << "\"  ORDER BY name";
-	}
-	DEBUG_STREAM << "DataBase::db_get_device_wide_list(): sql_query " << sql_query_stream.str() << endl;
-	
-	result = query(sql_query_stream.str(),"db_get_device_wide_list()");
-
-	n_rows = mysql_num_rows(result);
-	DEBUG_STREAM << "DataBase::db_get_device_wide_list(): mysql_num_rows() " << n_rows << endl;
-	Tango::DevVarStringArray *device_list = new Tango::DevVarStringArray;
-
-	if (n_rows > 0)
-	{
-	   device_list->length(n_rows);
-
-	   for (i=0; i<n_rows; i++)
-	   {
-	      if ((row = mysql_fetch_row(result)) != NULL)
-	      {
-	         DEBUG_STREAM << "DataBase::db_get_device_wide_list(): device_list[ "<< i << "] alias " << row[0] << endl;
-	         (*device_list)[i]   = CORBA::string_dup(row[0]);
-	      }
-	   }
-	}
-	else
-		device_list->length(0);
-	mysql_free_result(result);
-
-	GetTime(after);
-	return(device_list);
 }
 
 //+------------------------------------------------------------------
@@ -4569,23 +4131,19 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *export_info)
 
 // first delete existing information from database
 
-	{
-		AutoLock al("LOCK TABLE event WRITE",this);
-		
-		sql_query_stream << "DELETE FROM event WHERE name=\"" << tmp_event << "\"";
-   		DEBUG_STREAM << "DataBase::db_export_event(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_export_event()",al.get_con_nb());
+	sql_query_stream << "DELETE FROM event WHERE name=\"" << tmp_event << "\"";
+   	DEBUG_STREAM << "DataBase::db_export_event(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_export_event()");
 
 // update the new value for this tuple
 
-		sql_query_stream.str("");
-		sql_query_stream << "INSERT event set name=\'" << tmp_event
+	sql_query_stream.str("");
+	sql_query_stream << "INSERT event set name=\'" << tmp_event
 	                 << "\',exported=1,ior=\'" << tmp_ior << "\',host=\'" << tmp_host 
 					 << "\',server=\'" << tmp_event << "\',pid=\'" << tmp_pid 
 					 << "\',version=\'" << tmp_version << "\',started=NOW();";
-		DEBUG_STREAM << "DataBase::export_event(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_export_event()",al.get_con_nb());
-	}
+	DEBUG_STREAM << "DataBase::export_event(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_export_event()");
 
 	GetTime(after);
 	update_timing_stats(before, after, "DbExportEvent");
@@ -4707,7 +4265,7 @@ void DataBase::db_un_export_event(Tango::DevString event_name)
 
 //============================================================================
 //============================================================================
-Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
+Tango::DevString DataBase::db_get_device_host(Tango::DevString argin)
 {
 	TangoSys_MemStream sql_query_stream;
 	string tmp_argin;
@@ -4718,7 +4276,7 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 	tmp_argin = replace_wildcard(argin);
 	sql_query_stream << "SELECT host FROM device WHERE name LIKE \"" << tmp_argin << "\"";
 	
-	result = query(sql_query_stream.str(),"db_get_device_host()",con_nb);
+	result = query(sql_query_stream.str(),"db_get_device_host()");
 
 	n_rows = mysql_num_rows(result);
 	DEBUG_STREAM << "DataBase::db_get_device_host(): mysql_num_rows() " << n_rows << endl;
@@ -4792,7 +4350,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_alias_list(Tango::DevString wi
 	   {
 	      if ((row = mysql_fetch_row(result)) != NULL)
 	      {
-//	         DEBUG_STREAM << "DataBase::db_get_device_alias_list(): row[ "<< i << "] alias " << row[0] << endl;
+	         DEBUG_STREAM << "DataBase::db_get_device_alias_list(): row[ "<< i << "] alias " << row[0] << endl;
 	         (*alias_list)[i]   = CORBA::string_dup(row[0]);
 	      }
 	   }
@@ -4830,7 +4388,7 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
          	WARN_STREAM << "DataBase::db_get_device_alias(): device name  " << devname << " incorrect ";
          	WARN_STREAM << endl;
          	Tango::Except::throw_exception((const char *)DB_IncorrectDeviceName,
-					       (const char *)"failed to find alias, device name incorrect",
+					       (const char *)"failed to delete device, device name incorrect",
 					       (const char *)"DataBase::db_get_device_alias()");
 	}
 
@@ -4911,37 +4469,32 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *device_alias)
 	INFO_STREAM << "DataBase::db_put_device_alias(): put " << tmp_alias << " for device " << tmp_device << endl;
 
 // first check to see if this alias exists
+    sql_query_stream << "SELECT alias from device WHERE alias=\'" << tmp_alias 
+	                 << "\' AND name <> \'" << tmp_device << "\'";
+	DEBUG_STREAM << "DataBase::db_put_device_alias(): sql_query " << sql_query_stream.str() << endl;
 
+	result = query(sql_query_stream.str(),"db_put_device_alias()");
+
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::db_put_device_alias(): mysql_num_rows() " << n_rows << endl;
+
+	mysql_free_result(result);
+	if (n_rows > 0)
 	{
-		AutoLock al("LOCK TABLE device WRITE",this);
-		
-    	sql_query_stream << "SELECT alias from device WHERE alias=\'" << tmp_alias 
-	                	 << "\' AND name <> \'" << tmp_device << "\'";
-		DEBUG_STREAM << "DataBase::db_put_device_alias(): sql_query " << sql_query_stream.str() << endl;
-
-		result = query(sql_query_stream.str(),"db_put_device_alias()",al.get_con_nb());
-
-		n_rows = mysql_num_rows(result);
-		DEBUG_STREAM << "DataBase::db_put_device_alias(): mysql_num_rows() " << n_rows << endl;
-
-		mysql_free_result(result);
-		if (n_rows > 0)
-		{
-		   WARN_STREAM << "DataBase::db_put_device_alias(): this alias exists already !" << endl;
-    	   TangoSys_OMemStream o;
-		   o << "alias " << tmp_alias << " already exists !";
-		   Tango::Except::throw_exception((const char *)DB_SQLError,
-	   				                	  o.str(),
-					                	  (const char *)"DataBase::db_put_device_alias()");
-		}
+	   WARN_STREAM << "DataBase::db_put_device_alias(): this alias exists already !" << endl;
+       TangoSys_OMemStream o;
+	   o << "alias " << tmp_alias << " already exists !";
+	   Tango::Except::throw_exception((const char *)DB_SQLError,
+	   				                  o.str(),
+					                  (const char *)"DataBase::db_put_device_alias()");
+	}
 
 // update the new value for this tuple
-    	sql_query_stream.str("");
-		sql_query_stream << "UPDATE device set alias=\'" << tmp_alias 
-	                	 << "\',started=NOW() where name LIKE \'" << tmp_device << "\'";
-		DEBUG_STREAM << "DataBase::db_put_device_alias(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_put_device_alias()",al.get_con_nb());
-	}
+    sql_query_stream.str("");
+	sql_query_stream << "UPDATE device set alias=\'" << tmp_alias 
+	                 << "\',started=NOW() where name LIKE \'" << tmp_device << "\'";
+	DEBUG_STREAM << "DataBase::db_put_device_alias(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_put_device_alias()");
 
 }
 
@@ -4987,11 +4540,9 @@ Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 		{
 			argout = CORBA::string_dup(row[0]);
 		}
-		mysql_free_result(result);
 	}
 	else
 	{
-		mysql_free_result(result);
         TangoSys_OMemStream o;
 	    o << "No device found for alias \'" << argin << "\'";
 		WARN_STREAM << o << endl;
@@ -5061,66 +4612,62 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 
 // first check to see if this alias exists
 
+    sql_query_stream << "SELECT alias from attribute_alias WHERE alias=\'" << tmp_alias 
+	                 << "\' AND name <> \'" << tmp_name << "\'";
+	DEBUG_STREAM << "DataBase::db_put_attribute_alias(): sql_query " << sql_query_stream.str() << endl;
+	
+	result = query(sql_query_stream.str(),"db_put_attribute_alias()");
+
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::db_put_attribute_alias(): mysql_num_rows() " << n_rows << endl;
+
+	mysql_free_result(result);
+	if (n_rows > 0)
 	{
-		AutoLock al("LOCK TABLE attribute_alias WRITE",this);
-		
-    	sql_query_stream << "SELECT alias from attribute_alias WHERE alias=\'" << tmp_alias 
-	                	 << "\' AND name <> \'" << tmp_name << "\'";
-		DEBUG_STREAM << "DataBase::db_put_attribute_alias(): sql_query " << sql_query_stream.str() << endl;
+	   WARN_STREAM << "DataBase::db_put_attribute_alias(): this alias exists already !" << endl;
+       TangoSys_OMemStream o;
+	   o << "alias " << tmp_alias << " already exists !";
+	   Tango::Except::throw_exception((const char *)DB_SQLError,
+	   				                  o.str(),
+					                  (const char *)"DataBase::db_put_attribute_alias()");
+	}
 
-		result = query(sql_query_stream.str(),"db_put_attribute_alias()",al.get_con_nb());
-
-		n_rows = mysql_num_rows(result);
-		DEBUG_STREAM << "DataBase::db_put_attribute_alias(): mysql_num_rows() " << n_rows << endl;
-
-		mysql_free_result(result);
-		if (n_rows > 0)
-		{
-		   WARN_STREAM << "DataBase::db_put_attribute_alias(): this alias exists already !" << endl;
-    	   TangoSys_OMemStream o;
-		   o << "alias " << tmp_alias << " already exists !";
-		   Tango::Except::throw_exception((const char *)DB_SQLError,
-	   				                	  o.str(),
-					                	  (const char *)"DataBase::db_put_attribute_alias()");
-		}
-
-		string::size_type pos=0;
-		int nsep=0;
-		do 
-		{
-			if (pos != 0) pos++;
-			pos = tmp_name.find("/",pos);
-			if (pos != string::npos) nsep++;
-			WARN_STREAM << "DataBase::db_put_attribute_alias(): found " << nsep << " separators , remaining string " << tmp_name.substr(pos+1) << endl;
-		}
-		while (pos != string::npos);
-		if (nsep != 3)
-		{
-		   WARN_STREAM << "DataBase::db_put_attribute_alias(): attribute name has bad syntax, must have 3 / in it" << endl;
-    	   TangoSys_OMemStream o;
-		   o << "attribute name " << tmp_name << " has bad syntax, must have 3 / in it";
-		   Tango::Except::throw_exception((const char *)DB_SQLError,
-	   				                	  o.str(),
-					                	  (const char *)"DataBase::db_put_attribute_alias()");
-		}
-		tmp_device = tmp_name.substr(0,tmp_name.rfind("/"));
-		tmp_attribute = tmp_name.substr(tmp_name.rfind("/")+1);
+	string::size_type pos=0;
+	int nsep=0;
+	do 
+	{
+		if (pos != 0) pos++;
+		pos = tmp_name.find("/",pos);
+		if (pos != string::npos) nsep++;
+		WARN_STREAM << "DataBase::db_put_attribute_alias(): found " << nsep << " separators , remaining string " << tmp_name.substr(pos+1) << endl;
+	}
+	while (pos != string::npos);
+	if (nsep != 3)
+	{
+	   WARN_STREAM << "DataBase::db_put_attribute_alias(): attribute name has bad syntax, must have 3 / in it" << endl;
+       TangoSys_OMemStream o;
+	   o << "attribute name " << tmp_name << " has bad syntax, must have 3 / in it";
+	   Tango::Except::throw_exception((const char *)DB_SQLError,
+	   				                  o.str(),
+					                  (const char *)"DataBase::db_put_attribute_alias()");
+	}
+	tmp_device = tmp_name.substr(0,tmp_name.rfind("/"));
+	tmp_attribute = tmp_name.substr(tmp_name.rfind("/")+1);
 // first delete the current entry (if any)
 
-    	sql_query_stream.str("");
-		sql_query_stream << "DELETE FROM attribute_alias WHERE name=\'" << tmp_name << "\'";
-		DEBUG_STREAM << "DataBase::db_put_attribute_alias(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_put_attribute_alias()",al.get_con_nb());
+    sql_query_stream.str("");
+	sql_query_stream << "DELETE FROM attribute_alias WHERE name=\'" << tmp_name << "\'";
+	DEBUG_STREAM << "DataBase::db_put_attribute_alias(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_put_attribute_alias()");
 
 // update the new value for this tuple
 
-    	sql_query_stream.str("");
-		sql_query_stream << "INSERT attribute_alias SET alias=\'" << tmp_alias 
-	                	 << "\',name=\'" << tmp_name << "\',device=\'" << tmp_device 
-						 << "\',attribute=\'" << tmp_attribute << "\',updated=NOW()";
-		DEBUG_STREAM << "DataBase::db_put_attribute_alias(): sql_query " << sql_query_stream.str() << endl;
-		simple_query(sql_query_stream.str(),"db_put_attribute_alias()",al.get_con_nb());
-	}
+    sql_query_stream.str("");
+	sql_query_stream << "INSERT attribute_alias SET alias=\'" << tmp_alias 
+	                 << "\',name=\'" << tmp_name << "\',device=\'" << tmp_device 
+					 << "\',attribute=\'" << tmp_attribute << "\',updated=NOW()";
+	DEBUG_STREAM << "DataBase::db_put_attribute_alias(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_put_attribute_alias()");
 
 }
 
@@ -5163,14 +4710,19 @@ Tango::DevString DataBase::db_get_attribute_alias(Tango::DevString argin)
             DEBUG_STREAM << "DataBase::db_get_attribute_alias(): attribute name "<< row[0] << endl;
             strcpy(argout,row[0]);
 		}
+		else
+		{
+	   		WARN_STREAM << "DataBase::db_get_attribute_alias(): mysql_fetch_row() failed  (error=" << mysql_error(&mysql) << ")" << endl;
+	   		Tango::Except::throw_exception((const char *)DB_SQLError,
+	   				  		(const char *)"mysql_fetch_row() failed",
+					  		(const char *)"DataBase::db_get_attribute_alias()");
+		}
 	}
 	else
 	{
 		//strcpy(argout,"");
         TangoSys_OMemStream o;
 	   	o << "No attribute found for alias  \'" << argin << "\'";
-		mysql_free_result(result);
-		delete [] argout;
 	   	Tango::Except::throw_exception((const char *)DB_SQLError,
 	   				  	               o.str(),
 					  	               (const char *)"DataBase::db_get_attribute_alias()");
@@ -5294,62 +4846,58 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 	sscanf((*argin)[1],"%d",&n_attributes);
 	INFO_STREAM << "DataBase::PutAttributeProperty2(): put " << n_attributes << " attributes for device " << (*argin)[0] << endl;
 
+	k = 2;
+	for (i=0; i<n_attributes; i++)
 	{
-		AutoLock al("LOCK TABLES property_attribute_device WRITE, property_attribute_device_hist WRITE,device_attribute_history_id WRITE",this);
-	
-		k = 2;
-		for (i=0; i<n_attributes; i++)
-		{
-	   		tmp_device = (*argin)[0];
-	   		tmp_attribute = (*argin)[k];
-	   		sscanf((*argin)[k+1], "%d", &n_properties);
-	   		for (jj=0; jj<n_properties; jj++)
-	   		{
-				j = k + 2;
+	   	tmp_device = (*argin)[0];
+	   	tmp_attribute = (*argin)[k];
+	   	sscanf((*argin)[k+1], "%d", &n_properties);
+	   	for (jj=0; jj<n_properties; jj++)
+	   	{
+			j = k + 2;
 	      		tmp_name = (*argin)[j];
 			
 // first delete the tuple (device,name,count) from the property table
-				sql_query_stream.str("");
+                sql_query_stream.str("");
 	      		sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \"" 
-				                	 << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute 
-									 << "\" AND name LIKE \"" << tmp_name << "\" ";
+				                 << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute 
+								 << "\" AND name LIKE \"" << tmp_name << "\" ";
 	      		DEBUG_STREAM << "DataBase::PutAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
-				simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
+				simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()");
+			
+			sscanf((*argin)[j+1], "%d", &n_rows);
+			tmp_count = 0;
+            unsigned int device_attribute_property_hist_id = get_id("device_attribute");
 
-				sscanf((*argin)[j+1], "%d", &n_rows);
-				tmp_count = 0;
-            	unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
-
-	   			for (l=j+1; l<j+n_rows+1; l++)
-	   			{
+	   		for (l=j+1; l<j+n_rows+1; l++)
+	   		{
           			string tmp_escaped_string = escape_string((*argin)[l+1]);
 	      			tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
-					sql_query_stream.str("");
+                    sql_query_stream.str("");
 					sql_query_stream << "INSERT INTO property_attribute_device SET device=\'" 
-					                	 << tmp_device << "\',attribute=\'" << tmp_attribute 
-										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str 
-										 << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
+					                 << tmp_device << "\',attribute=\'" << tmp_attribute 
+									 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str 
+									 << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
 	      			DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-					simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
+				    simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()");
 
 // then insert the new value into the history table
-					sql_query_stream.str("");
+                    sql_query_stream.str("");
 					sql_query_stream << "INSERT INTO property_attribute_device_hist SET device=\'" 
-					                	 << tmp_device << "\',attribute=\'" << tmp_attribute 
-										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str 
-										 << "\',id=\'" << device_attribute_property_hist_id 
-										 << "\',value=\'" << tmp_escaped_string << "\'";
+					                 << tmp_device << "\',attribute=\'" << tmp_attribute 
+									 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str 
+									 << "\',id=\'" << device_attribute_property_hist_id 
+									 << "\',value=\'" << tmp_escaped_string << "\'";
 	      			DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-					simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
+				    simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()");
 
-				}
-				purge_att_property("property_attribute_device_hist","device",tmp_device,tmp_attribute,tmp_name,al.get_con_nb());
-				k = k + n_rows + 2;
-	   		}
-	   		k = k+2;
-		}
+			}
+		        purge_att_property("property_attribute_device_hist","device",tmp_device,tmp_attribute,tmp_name);
+			k = k + n_rows + 2;
+	   	}
+	   	k = k+2;
 	}
 
 	GetTime(after);
@@ -5394,7 +4942,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 	INFO_STREAM << "DataBase::GetDeviceAttributeProperty2(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_device = (*property_names)[0];
-	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+	sprintf(n_attributes_str, "%d", property_names->length()-1);
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_device);
@@ -5424,10 +4972,10 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			bool new_prop = true;
 			int prop_size_idx;
 			int prop_size = 0;
-	      	for (j=0; j<n_rows; j++)
-	      	{
-	        	if ((row = mysql_fetch_row(result)) != NULL)
-	         	{
+	      		for (j=0; j<n_rows; j++)
+	      		{
+	        		if ((row = mysql_fetch_row(result)) != NULL)
+	         		{
 					name = row[0];
 					if (j == 0)
 						old_name = name;
@@ -5447,8 +4995,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 					{
 						n_props = n_props + 3;
 						property_list->length(n_props);
-	            		(*property_list)[n_props-3] = CORBA::string_dup(row[0]);
-	            		(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
+	            				(*property_list)[n_props-3] = CORBA::string_dup(row[0]);
+	            				(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 						if (prop_size != 0)
 						{
 							sprintf(prop_size_str,"%d",prop_size);
@@ -5465,8 +5013,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 						(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 						prop_size++;
 					}
-	         	}
-	      	}
+	         		}
+	      		}
 			if (prop_size != 0)
 			{
 				sprintf(prop_size_str,"%d",prop_size);
@@ -5511,36 +5059,33 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 	sscanf((*argin)[1],"%d",&n_attributes);
 	INFO_STREAM << "DataBase::PutClassAttributeProperty2(): put " << n_attributes << " attributes for device " << (*argin)[0] << endl;
 
+	k = 2;
+	for (i=0; i<n_attributes; i++)
 	{
-		AutoLock al("LOCK TABLES property_attribute_class WRITE, property_attribute_class_hist WRITE,class_attribute_history_id WRITE",this);
-		
-		k = 2;
-		for (i=0; i<n_attributes; i++)
-		{
-	   		tmp_class = (*argin)[0];
-	   		tmp_attribute = (*argin)[k];
-	   		sscanf((*argin)[k+1], "%d", &n_properties);
-	   		for (jj=0; jj<n_properties; jj++)
-	   		{
-				j = k + 2;
-	      		tmp_name = (*argin)[j];
+	   	tmp_class = (*argin)[0];
+	   	tmp_attribute = (*argin)[k];
+	   	sscanf((*argin)[k+1], "%d", &n_properties);
+	   	for (jj=0; jj<n_properties; jj++)
+	   	{
+			j = k + 2;
+	      	tmp_name = (*argin)[j];
 			
 // first delete the tuple (device,name,count) from the property table
 
-				sql_query_stream.str("");
-				sql_query_stream << "DELETE FROM property_attribute_class WHERE class LIKE \"" 
-			                	 << tmp_class << "\" AND attribute LIKE \"" << tmp_attribute 
-								 << "\" AND name LIKE \"" << tmp_name << "\" ";
-	      		DEBUG_STREAM << "DataBase::PutClassAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
-				simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()",al.get_con_nb());
-
-				sscanf((*argin)[j+1], "%d", &n_rows);
-				tmp_count = 0;
-				unsigned int class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
-	   			for (l=j+1; l<j+n_rows+1; l++)
-	   			{
-          				string tmp_escaped_string = escape_string((*argin)[l+1]);
-	      				tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
+			sql_query_stream.str("");
+			sql_query_stream << "DELETE FROM property_attribute_class WHERE class LIKE \"" 
+			                 << tmp_class << "\" AND attribute LIKE \"" << tmp_attribute 
+							 << "\" AND name LIKE \"" << tmp_name << "\" ";
+	      	DEBUG_STREAM << "DataBase::PutClassAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
+			simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()");
+			
+			sscanf((*argin)[j+1], "%d", &n_rows);
+			tmp_count = 0;
+			unsigned int class_attribute_property_hist_id = get_id("class_attribute");
+	   		for (l=j+1; l<j+n_rows+1; l++)
+	   		{
+          			string tmp_escaped_string = escape_string((*argin)[l+1]);
+	      			tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
 
@@ -5551,7 +5096,7 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 									 << "\',value=\'" << tmp_escaped_string 
 									 << "\',updated=NULL,accessed=NULL";
 	      			DEBUG_STREAM << "DataBase::PutClassAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
-			        simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()",al.get_con_nb());
+			        simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()");
 
 // then insert the new value into the history table
 
@@ -5562,14 +5107,13 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 									 << "\',id=\'" << class_attribute_property_hist_id 
 									 << "\',value=\'" << tmp_escaped_string << "\'"; 
 	      			DEBUG_STREAM << "DataBase::PutClassAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
-			        simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()",al.get_con_nb());
+			        simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()");
 					
-				}
-		        purge_att_property("property_attribute_class_hist","class",tmp_class,tmp_attribute,tmp_name,al.get_con_nb());
-				k = k + n_rows + 2;
-	   		}
-	   		k = k+2;
-		}
+			}
+		        purge_att_property("property_attribute_class_hist","class",tmp_class,tmp_attribute,tmp_name);
+			k = k + n_rows + 2;
+	   	}
+	   	k = k+2;
 	}
 
 	return;
@@ -5613,7 +5157,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 	INFO_STREAM << "DataBase::GetClassAttributeProperty2(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_class = (*property_names)[0];
-	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+	sprintf(n_attributes_str, "%d", property_names->length()-1);
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_class);
@@ -5748,27 +5292,12 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 	   {
 	      DEBUG_STREAM << "DataBase::ImportDeviceList(): device[ "<< i << "] exported " << row[0] << " version " << row[2] << " server " << row[4] << " host " << row[5] << endl;
 	      n_svalues = 7;
-		  if ((row[4] == NULL) || (row[5] == NULL))
-		  {
-	         TangoSys_OMemStream o;
-			 o << "Wrong info in database for device " << tmp_device;
-			 o << "Database entry seems corrupted (server or host column NULL)" << ends;
-	    	 mysql_free_result(result);
-			 delete argout;
-	    	 Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
-								            o.str(),
-								            (const char *)"DataBase::GetDeviceInfo()");
-		  }
 	      (argout->svalue).length(n_svalues);
 	      (argout->svalue)[0] = CORBA::string_dup(tmp_device.c_str());
+	      (argout->svalue)[1] = CORBA::string_dup(row[1]);
 	      (argout->svalue)[2] = CORBA::string_dup(row[2]);
 	      (argout->svalue)[3] = CORBA::string_dup(row[4]);
 	      (argout->svalue)[4] = CORBA::string_dup(row[5]);
-			//	IOR Check
-		  if (row[1]!=NULL)
-	      	(argout->svalue)[1] = CORBA::string_dup(row[1]);
-		  else
-	      	(argout->svalue)[1] = CORBA::string_dup("");
 
 		//	Convert date format
 		char	*format = (char *)"%D %M %Y at %H:%i:%s";
@@ -5784,9 +5313,8 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 				int nb = mysql_num_rows(result2);
 				if (nb > 0)
 				{
-					if ((row2 = mysql_fetch_row(result2)) != NULL && row2[0] != NULL) //add extra check for MySQL 5
+					if ((row2 = mysql_fetch_row(result2)) != NULL)
 						(argout->svalue)[5+x] = CORBA::string_dup(row2[0]);
-					else (argout->svalue)[5+x] = CORBA::string_dup("?"); // empty date-> row2[0]==NULL !!!
 				}
 				else
 					(argout->svalue)[5+x] = CORBA::string_dup("?");
@@ -5817,7 +5345,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 			 delete argout;
 	    	 Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
 								            o.str(),
-								            (const char *)"DataBase::GetDeviceInfo()");
+								            (const char *)"DataBase::ImportDevice()");
 		}
 	}
 	else {
@@ -5828,7 +5356,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 		 delete argout;
 	     Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
 							            o.str(),
-							            (const char *)"DataBase::GetDeviceInfo()");
+							            (const char *)"DataBase::ImportDevice()");
 	}
 	mysql_free_result(result);
 
@@ -5849,8 +5377,6 @@ void DataBase::reset_timing_values()
 {
 	DEBUG_STREAM << "DataBase::reset_timing_values(): entering... !" << endl;
 
-	timing_stats_mutex.lock();
-	
 	//	Loop over map to re-initialise remaining variables
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	for (iter=timing_stats_map.begin(); iter!=timing_stats_map.end(); iter++)
@@ -5861,8 +5387,6 @@ void DataBase::reset_timing_values()
 		iter->second->total_elapsed =
 		iter->second->calls         = 0.0;
 	}
-	
-	timing_stats_mutex.unlock();
 }
 
 //+------------------------------------------------------------------
@@ -5883,6 +5407,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_device;
 	string      tmp_name;
 
@@ -5894,57 +5419,51 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 					  (const char *)"DataBase::GetDevicePropertyHist()");
 	}
 
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
-
 	tmp_device = (*argin)[0];
 	tmp_name   = replace_wildcard((*argin)[1]);
 	
 	// Get id list
 
     sql_query_stream << "SELECT DISTINCT id FROM property_device_hist WHERE device = \"" 
-	                 << tmp_device << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
-
-	{
-		AutoLock al("LOCK TABLE property_device_hist READ",this);
-							 
-		ids = query(sql_query_stream.str(),"db_get_device_property_hist()",al.get_con_nb());
+	                 << tmp_device << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date";
+					 
+	ids = query(sql_query_stream.str(),"db_get_device_property_hist()");
 	
-		// Retreive history
-		int i,j;
-		int nb_item = 0;
-		property_hist->length(0);
+	// Retreive history
+	int i,j;
+	int nb_item = 0;
+	property_hist->length(0);
+	
+	for (i=0; i<mysql_num_rows(ids); i++)
+	{
+	   row = mysql_fetch_row(ids);
+	   unsigned int id = atoi(row[0]);
+	   sql_query_stream.str("");
+	   sql_query_stream << "SELECT date,value,name,count FROM property_device_hist WHERE id = \"" 
+	                    << id << "\" ORDER BY count";
+						
+	   result = query(sql_query_stream.str(),"db_get_device_property_hist()");
 
-		for (i=0; i<mysql_num_rows(ids); i++)
-		{
-		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
-		   sql_query_stream.str("");
-		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,name,count FROM property_device_hist WHERE id = \"" 
-	                    	<< id << "\" AND device = \"" << tmp_device << "\" ORDER BY count ASC";
+	   int count = mysql_num_rows(result);
 
-		   result = query(sql_query_stream.str(),"db_get_device_property_hist()",al.get_con_nb());
+       row = mysql_fetch_row(result);
+  	   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
+  	   if(deleted) count = 0;
+	   char n_rows_str[256];
+	   sprintf(n_rows_str,"%d",count);
 
-		   int count = mysql_num_rows(result);
-
-    	   row = mysql_fetch_row(result);
-  		   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
-  		   if(deleted) count = 0;
-		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%d",count);
-
-    	   property_hist->length(nb_item+3+count);
-		   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
-    	   (*property_hist)[nb_item+1] = CORBA::string_dup(row[0]);
-    	   (*property_hist)[nb_item+2] = CORBA::string_dup(n_rows_str);
-
-		   for(j=0;j<count;j++) {
-        	 (*property_hist)[nb_item+3+j] = CORBA::string_dup(row[1]);
-        	 row = mysql_fetch_row(result);
-		   }
-
-		   nb_item += 3+count;
-		   mysql_free_result(result);
-		}
+       property_hist->length(nb_item+3+count);
+	   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
+       (*property_hist)[nb_item+1] = CORBA::string_dup(row[0]);
+       (*property_hist)[nb_item+2] = CORBA::string_dup(n_rows_str);
+	   
+	   for(j=0;j<count;j++) {
+         (*property_hist)[nb_item+3+j] = CORBA::string_dup(row[1]);
+         row = mysql_fetch_row(result);
+	   }
+	   
+	   nb_item += 3+count;
+	   mysql_free_result(result);
 	}
 	
 	mysql_free_result(ids);
@@ -5970,6 +5489,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_device;
 	string      tmp_attribute;
 	string      tmp_name;
@@ -5982,8 +5502,6 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 					  (const char *)"DataBase::DbGetDeviceAttributePropertyHist()");
 	}
 
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
-
 	tmp_device    = (*argin)[0];
 	tmp_attribute = replace_wildcard((*argin)[1]);
 	tmp_name      = replace_wildcard((*argin)[2]);
@@ -5992,50 +5510,46 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 
     sql_query_stream << "SELECT DISTINCT id FROM property_attribute_device_hist WHERE device = \"" 
 	                 << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute 
- 			         << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
-
+ 			         << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date";
+					 
+	ids = query(sql_query_stream.str(),"db_get_device_attribute_property_hist()");
+	
+	// Retreive history
+	int i,j;
+	int nb_item = 0;
+	property_hist->length(0);
+	
+	for (i=0; i<mysql_num_rows(ids); i++)
 	{
-		AutoLock al("LOCK TABLE property_attribute_device_hist READ",this);
-							 
-		ids = query(sql_query_stream.str(),"db_get_device_attribute_property_hist()",al.get_con_nb());
+	   row = mysql_fetch_row(ids);
+	   unsigned int id = atoi(row[0]);
+	   sql_query_stream.str("");
+	   sql_query_stream << "SELECT date,value,attribute,name,count FROM property_attribute_device_hist WHERE id = \"" 
+	                    << id << "\" ORDER BY count";
+						
+	   result = query(sql_query_stream.str(),"db_get_device_attribute_property_hist()");
 
-		// Retreive history
-		int i,j;
-		int nb_item = 0;
-		property_hist->length(0);
+	   int count = mysql_num_rows(result);
 
-		for (i=0; i<mysql_num_rows(ids); i++)
-		{
-		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
-		   sql_query_stream.str("");
-		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,attribute,name,count FROM property_attribute_device_hist WHERE id = \"" 
-	                    	<< id << "\" AND device = \"" << tmp_device << "\" ORDER BY count ASC";
+       row = mysql_fetch_row(result);
+  	   int deleted = (atoi(row[4]) == 0); // count=0 for deleted property
+  	   if(deleted) count = 0;
+	   char n_rows_str[256];
+	   sprintf(n_rows_str,"%d",count);
 
-		   result = query(sql_query_stream.str(),"db_get_device_attribute_property_hist()",al.get_con_nb());
-
-		   int count = mysql_num_rows(result);
-
-    	   row = mysql_fetch_row(result);
-  		   int deleted = (atoi(row[4]) == 0); // count=0 for deleted property
-  		   if(deleted) count = 0;
-		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%d",count);
-
-    	   property_hist->length(nb_item+4+count);
-		   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
-    	   (*property_hist)[nb_item+1] = CORBA::string_dup(row[3]);
-    	   (*property_hist)[nb_item+2] = CORBA::string_dup(row[0]);
-    	   (*property_hist)[nb_item+3] = CORBA::string_dup(n_rows_str);
-
-		   for(j=0;j<count;j++) {
-        	 (*property_hist)[nb_item+4+j] = CORBA::string_dup(row[1]);
-        	 row = mysql_fetch_row(result);
-		   }
-
-		   nb_item += 4+count;
-		   mysql_free_result(result);
-		}
+       property_hist->length(nb_item+4+count);
+	   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
+       (*property_hist)[nb_item+1] = CORBA::string_dup(row[3]);
+       (*property_hist)[nb_item+2] = CORBA::string_dup(row[0]);
+       (*property_hist)[nb_item+3] = CORBA::string_dup(n_rows_str);
+	   
+	   for(j=0;j<count;j++) {
+         (*property_hist)[nb_item+4+j] = CORBA::string_dup(row[1]);
+         row = mysql_fetch_row(result);
+	   }
+	   
+	   nb_item += 4+count;
+	   mysql_free_result(result);
 	}
 	
 	mysql_free_result(ids);
@@ -6062,6 +5576,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_class;
 	string      tmp_attribute;
 	string      tmp_name;
@@ -6074,8 +5589,6 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 					  (const char *)"DataBase::DbGetClassAttributePropertyHist()");
 	}
 
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
-
 	tmp_class     = (*argin)[0];
 	tmp_attribute = replace_wildcard((*argin)[1]);
 	tmp_name      = replace_wildcard((*argin)[2]);
@@ -6084,50 +5597,46 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 
     sql_query_stream << "SELECT DISTINCT id FROM property_attribute_class_hist WHERE class = \"" 
                      << tmp_class << "\" AND attribute LIKE \"" << tmp_attribute 
-				     << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
-
-	{
-		AutoLock al("LOCK TABLE property_attribute_class_hist READ",this);
-							 
-		ids = query(sql_query_stream.str(),"db_get_class_attribute_property_hist()",al.get_con_nb());
+				     << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date";
+					 
+	ids = query(sql_query_stream.str(),"db_get_class_attribute_property_hist()");
 	
-		// Retreive history
-		int i,j;
-		int nb_item = 0;
-		property_hist->length(0);
+	// Retreive history
+	int i,j;
+	int nb_item = 0;
+	property_hist->length(0);
+	
+	for (i=0; i<mysql_num_rows(ids); i++)
+	{
+	   row = mysql_fetch_row(ids);
+	   unsigned int id = atoi(row[0]);
+	   sql_query_stream.str("");
+	   sql_query_stream << "SELECT date,value,attribute,name,count FROM property_attribute_class_hist WHERE id = \"" 
+	                    << id << "\" ORDER BY count";
+						
+	   result = query(sql_query_stream.str(),"db_get_class_attribute_property_hist()");
 
-		for (i=0; i<mysql_num_rows(ids); i++)
-		{
-		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
-		   sql_query_stream.str("");
-		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,attribute,name,count FROM property_attribute_class_hist WHERE id = \"" 
-	                    	<< id << "\" AND class = \"" << tmp_class << "\" ORDER BY count ASC";
+	   int count = mysql_num_rows(result);
 
-		   result = query(sql_query_stream.str(),"db_get_class_attribute_property_hist()",al.get_con_nb());
+       row = mysql_fetch_row(result);
+  	   int deleted = (atoi(row[4]) == 0); // count=0 for deleted property
+  	   if(deleted) count = 0;
+	   char n_rows_str[256];
+	   sprintf(n_rows_str,"%d",count);
 
-		   int count = mysql_num_rows(result);
-
-    	   row = mysql_fetch_row(result);
-  		   int deleted = (atoi(row[4]) == 0); // count=0 for deleted property
-  		   if(deleted) count = 0;
-		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%d",count);
-
-    	   property_hist->length(nb_item+4+count);
-		   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
-    	   (*property_hist)[nb_item+1] = CORBA::string_dup(row[3]);
-    	   (*property_hist)[nb_item+2] = CORBA::string_dup(row[0]);
-    	   (*property_hist)[nb_item+3] = CORBA::string_dup(n_rows_str);
-
-		   for(j=0;j<count;j++) {
-            	 (*property_hist)[nb_item+4+j] = CORBA::string_dup(row[1]);
-            	 row = mysql_fetch_row(result);
-		   }
-
-		   nb_item += 4+count;
-		   mysql_free_result(result);
-		}
+       property_hist->length(nb_item+4+count);
+	   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
+       (*property_hist)[nb_item+1] = CORBA::string_dup(row[3]);
+       (*property_hist)[nb_item+2] = CORBA::string_dup(row[0]);
+       (*property_hist)[nb_item+3] = CORBA::string_dup(n_rows_str);
+	   
+	   for(j=0;j<count;j++) {
+             (*property_hist)[nb_item+4+j] = CORBA::string_dup(row[1]);
+             row = mysql_fetch_row(result);
+	   }
+	   
+	   nb_item += 4+count;
+	   mysql_free_result(result);
 	}
 	
 	mysql_free_result(ids);
@@ -6154,6 +5663,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_class;
 	string      tmp_name;
 
@@ -6165,57 +5675,51 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 					  (const char *)"DataBase::DbGetClassPropertyHist()");
 	}
 
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
-
 	tmp_class  = (*argin)[0];
 	tmp_name   = replace_wildcard((*argin)[1]);
 	
 	// Get id list
 
     sql_query_stream << "SELECT DISTINCT id FROM property_class_hist WHERE class = \"" 
-	                 << tmp_class << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
-
+	                 << tmp_class << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date";
+					 
+	ids = query(sql_query_stream.str(),"db_get_class_property_hist()");
+	
+	// Retreive history
+	int i,j;
+	int nb_item = 0;
+	property_hist->length(0);
+	
+	for (i=0; i<mysql_num_rows(ids); i++)
 	{
-		AutoLock al("LOCK TABLE property_class_hist READ",this);
-							 
-		ids = query(sql_query_stream.str(),"db_get_class_property_hist()",al.get_con_nb());
+	   row = mysql_fetch_row(ids);
+	   unsigned int id = atoi(row[0]);
+	   sql_query_stream.str("");
+	   sql_query_stream << "SELECT date,value,name,count FROM property_class_hist WHERE id = \"" 
+	                    << id << "\" ORDER BY count";
+						
+	   result = query(sql_query_stream.str(),"db_get_class_property_hist()");
 
-		// Retreive history
-		int i,j;
-		int nb_item = 0;
-		property_hist->length(0);
+	   int count = mysql_num_rows(result);
 
-		for (i=0; i<mysql_num_rows(ids); i++)
-		{
-		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
-		   sql_query_stream.str("");
-		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,name,count FROM property_class_hist WHERE id = \"" 
-	                    	<< id << "\" AND class = \"" << tmp_class << "\" ORDER BY count ASC";
+       row = mysql_fetch_row(result);
+  	   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
+  	   if(deleted) count = 0;
+	   char n_rows_str[256];
+	   sprintf(n_rows_str,"%d",count);
 
-		   result = query(sql_query_stream.str(),"db_get_class_property_hist()",al.get_con_nb());
-
-		   int count = mysql_num_rows(result);
-
-    	   row = mysql_fetch_row(result);
-  		   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
-  		   if(deleted) count = 0;
-		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%d",count);
-
-    	   property_hist->length(nb_item+3+count);
-		   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
-    	   (*property_hist)[nb_item+1] = CORBA::string_dup(row[0]);
-    	   (*property_hist)[nb_item+2] = CORBA::string_dup(n_rows_str);
-
-		   for(j=0;j<count;j++) {
-        	 (*property_hist)[nb_item+3+j] = CORBA::string_dup(row[1]);
-        	 row = mysql_fetch_row(result);
-		   }
-
-		   nb_item += 3+count;
-		   mysql_free_result(result);
-		}
+       property_hist->length(nb_item+3+count);
+	   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
+       (*property_hist)[nb_item+1] = CORBA::string_dup(row[0]);
+       (*property_hist)[nb_item+2] = CORBA::string_dup(n_rows_str);
+	   
+	   for(j=0;j<count;j++) {
+         (*property_hist)[nb_item+3+j] = CORBA::string_dup(row[1]);
+         row = mysql_fetch_row(result);
+	   }
+	   
+	   nb_item += 3+count;
+	   mysql_free_result(result);
 	}
 	
 	mysql_free_result(ids);
@@ -6242,6 +5746,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_object;
 	string      tmp_name;
 
@@ -6253,8 +5758,6 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 					  (const char *)"DataBase::DbGetPropertyHist()");
 	}
 
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
-
 	tmp_object  = (*argin)[0];
 	tmp_name   = replace_wildcard((*argin)[1]);
 	
@@ -6262,48 +5765,44 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 
     sql_query_stream << "SELECT DISTINCT id FROM property_hist WHERE object = \"" 
 	                 << tmp_object << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date";
-
+					 
+	ids = query(sql_query_stream.str(),"db_get_property_hist()");
+	
+	// Retreive history
+	int i,j;
+	int nb_item = 0;
+	property_hist->length(0);
+	
+	for (i=0; i<mysql_num_rows(ids); i++)
 	{
-		AutoLock al("LOCK TABLE property_hist READ",this);
-							 
-		ids = query(sql_query_stream.str(),"db_get_property_hist()",al.get_con_nb());
+	   row = mysql_fetch_row(ids);
+	   unsigned int id = atoi(row[0]);
+	   sql_query_stream.str("");
+	   sql_query_stream << "SELECT date,value,name,count FROM property_hist WHERE id = \"" 
+	                    << id << "\" ORDER BY count";
+						
+	   result = query(sql_query_stream.str(),"db_get_property_hist()");
 
-		// Retreive history
-		int i,j;
-		int nb_item = 0;
-		property_hist->length(0);
+	   int count = mysql_num_rows(result);
 
-		for (i=0; i<mysql_num_rows(ids); i++)
-		{
-		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
-		   sql_query_stream.str("");
-		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,name,count FROM property_hist WHERE id = \"" 
-	                    	<< id << "\" AND object = \"" << tmp_object << "\" ORDER BY count";
+       row = mysql_fetch_row(result);
+  	   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
+  	   if(deleted) count = 0;
+	   char n_rows_str[256];
+	   sprintf(n_rows_str,"%d",count);
 
-		   result = query(sql_query_stream.str(),"db_get_property_hist()",al.get_con_nb());
-
-		   int count = mysql_num_rows(result);
-
-    	   row = mysql_fetch_row(result);
-  		   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
-  		   if(deleted) count = 0;
-		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%d",count);
-
-    	   property_hist->length(nb_item+3+count);
-		   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
-    	   (*property_hist)[nb_item+1] = CORBA::string_dup(row[0]);
-    	   (*property_hist)[nb_item+2] = CORBA::string_dup(n_rows_str);
-
-		   for(j=0;j<count;j++) {
-        	 (*property_hist)[nb_item+3+j] = CORBA::string_dup(row[1]);
-        	 row = mysql_fetch_row(result);
-		   }
-
-		   nb_item += 3+count;
-		   mysql_free_result(result);
-		}
+       property_hist->length(nb_item+3+count);
+	   (*property_hist)[nb_item+0] = CORBA::string_dup(row[2]);
+       (*property_hist)[nb_item+1] = CORBA::string_dup(row[0]);
+       (*property_hist)[nb_item+2] = CORBA::string_dup(n_rows_str);
+	   
+	   for(j=0;j<count;j++) {
+         (*property_hist)[nb_item+3+j] = CORBA::string_dup(row[1]);
+         row = mysql_fetch_row(result);
+	   }
+	   
+	   nb_item += 3+count;
+	   mysql_free_result(result);
 	}
 	
 	mysql_free_result(ids);
@@ -6311,458 +5810,5 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 	return(property_hist);
 
 }
-
-//+------------------------------------------------------------------
-/**
- *	method:	DataBase::db_get_class_for_device
- *
- *	description:	method to execute "DbGetClassForDevice"
- *	Search the class of the specified device.
- *
- * @param	argin	Device name
- * @return	Class off the specified device
- *
- */
-//+------------------------------------------------------------------
-Tango::DevString DataBase::db_get_class_for_device(Tango::DevString argin)
-{
-	DEBUG_STREAM << "DataBase::db_get_class_for_device(): entering... !" << endl;
-	//	Get class for device
-	TangoSys_MemStream	tms;
-	tms << "SELECT DISTINCT class FROM device WHERE name=\""
-				<< argin <<  "\"";
-	DEBUG_STREAM << "DataBase::db_get_class_for_device(): sql_query " << tms.str() << endl;
-	
-	Tango::DevString	argout;
-	MYSQL_RES *result = query(tms.str(), "db_get_class_for_device()");
-	int	n_rows = mysql_num_rows(result);
-	if (n_rows==0)
-	{
-		TangoSys_MemStream	tms;
-		tms << "Class not found for " << argin;
-		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
-	   				  (const char *)tms.str().c_str(),
-					  (const char *)"DataBase::db_get_class_for_device()");	
-	}
-
-	if (n_rows > 0)
-		for (int i=0; i<n_rows; i++)
-		{
-			MYSQL_ROW	row = mysql_fetch_row(result);
-			if (row != NULL)
-			{
-				argout = CORBA::string_dup(row[0]);
-			}
-		}
-	mysql_free_result(result);
-
-	DEBUG_STREAM << "Class " << argout << " found for " << argin << endl;
-
-	return argout;
-}
-
-//+------------------------------------------------------------------
-/**
- *	method:	DataBase::db_get_class_inheritance_for_device
- *
- *	description:	method to execute "DbGetClassInheritanceForDevice"
- *	Search the class inheritance of the specified device.
- *
- * @param	argin	Device name
- * @return	Classes off the specified device.\n[0] - is the class of the device.\n[1] - is the class from the device class is inherited.\n........and so on
- *
- */
-//+------------------------------------------------------------------
-Tango::DevVarStringArray *DataBase::db_get_class_inheritance_for_device(Tango::DevString argin)
-{
-	DEBUG_STREAM << "DataBase::db_get_class_inheritance_for_device(): entering... !" << endl;
-
-	//	Get class for the specified device
-	string	classname = db_get_class_for_device(argin);
-	
-	//	Get its inheritance
-	Tango::DevVarStringArray	*array = new Tango::DevVarStringArray();
-	array->length(2);
-	(*array)[0] = CORBA::string_dup(classname.c_str());
-	(*array)[1] = CORBA::string_dup("InheritedFrom");
-	Tango::DevVarStringArray	*props = db_get_class_property(array);
-
-	//	Put in argout
-	Tango::DevVarStringArray	*argout = new Tango::DevVarStringArray();
-	argout->length(props->length()-3);
-	(*argout)[0] = CORBA::string_dup(classname.c_str());
-	for (int i=4 ; i<props->length() ; i++)
-		(*argout)[i-3] = CORBA::string_dup((*props)[i]);
-
-	delete array;
-	delete props;
-	return argout;
-}
-
-//+------------------------------------------------------------------
-/**
- *	method:	DataBase::db_get_data_for_server_cache
- *
- *	description:	method to execute "DbGetDataForServerCache"
- *	This command returns all the data needed by a device server process during its
- *	startup sequence. The aim of this command is to minimize database access during
- *	device server startup sequence.
- *
- * @param	argin	Elt[0] = DS name (exec_name/inst_name), Elt[1] = Host name
- * @return	All the data needed by the device server during its startup sequence. Precise list depend on the device server
- *
- */
-//+------------------------------------------------------------------
-Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::DevVarStringArray *argin)
-{
-	//	POGO has generated a method core with argout allocation.
-	//	If you would like to use a static reference without copying,
-	//	See "TANGO Device Server Programmer's Manual"
-	//		(chapter : Writing a TANGO DS / Exchanging data)
-	//------------------------------------------------------------
-
-	DEBUG_STREAM << "DataBase::db_get_data_for_server_cache(): entering... !" << endl;
-
-	//	Add your own code to control device here
-	
-	if (argin->length() != 2)
-	{
-	   WARN_STREAM << "DataBase::DbGetDataForServerCache(): incorrect number of input arguments " << endl;
-	   Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
-	   				  (const char *)"Incorrect no. of input arguments, needs 2 (ds_name,host_name)",
-					  (const char *)"DataBase::DbGetDataForServerCache()");
-	}
-
-	if (mysql_svr_version < 50000)
-	{
-		WARN_STREAM << "DataBase::DbGetDataForServerCache(): MySQL server too old for this command" << endl;
-		Tango::Except::throw_exception((const char *)"DB_MySQLServerTooOld",
-						(const char *)"The MySQL server release does not support stored procedure. Update MySQL to release >= 5",
-						(const char *)"DataBase::DbGetDataForServerCache()");
-	} 
-
-	Tango::DevVarStringArray	*argout  = new Tango::DevVarStringArray();
-
-	TimeVal	before, after;
-	GetTime(before);
-		
-	string	sql_query;
-	string svc((*argin)[0]);
-	string host((*argin)[1]);
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	unsigned int i;
-
-	Tango::Util *tg = Tango::Util::instance();
-	string	&db_inst_name = tg->get_ds_inst_name();
-	string tmp_var_name("@param_out");
-	tmp_var_name = tmp_var_name + db_inst_name;
-			
-//
-// Do not use methods query() or simple_query() because we are
-// calling a stored procedure.
-// Calling a stored procedure needs special care to retrieve its OUT
-// parameter(s). We have to code a loop using mysql_next_result
-// function. The first result with data is the one we are 
-// interested in
-//
-
-	sql_query = "CALL tango.ds_start('" + svc + "','" + host + "'," + tmp_var_name + ")";
-	sql_query = sql_query + ";SELECT " + tmp_var_name;
-//	cout << "Query = " << sql_query << endl;
-
-	int con_nb = get_connection();
-	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
-	{
-		delete argout;
-		TangoSys_OMemStream o;
-
-		WARN_STREAM << "DataBase::db_get_data_for_server_cache failed to query TANGO database:" << endl;
-		WARN_STREAM << "  query = " << sql_query << endl;
-		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-
-		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
-		o << "\nThe query was: " << sql_query << ends;
-
-		release_connection(con_nb);
-
-		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),
-									   (const char *)"DataBase::DbGetDataForServerCache()");
-	}
-
-	int status;
-	do
-	{
-		if ((res = mysql_store_result(conn_pool[con_nb].db)) != NULL)
-		{
-			break;
-		}
-		else
-		{
-			if (mysql_field_count(conn_pool[con_nb].db) != 0)
-			{
-				delete argout;
-				TangoSys_OMemStream o;
-
-				WARN_STREAM << "DataBase::db_get_data_for_server_cache: mysql_store_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-
-				o << "mysql_store_result() failed (error=" << mysql_error(conn_pool[con_nb].db) << ")";
-
-				release_connection(con_nb);
-
-				Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),
-											   (const char *)"DataBase::DbGetDataForServerCache()");
-			}
-
-			if ((status = mysql_next_result(conn_pool[con_nb].db)) > 0)
-			{
-				delete argout;
-				TangoSys_OMemStream o;
-
-				WARN_STREAM << "DataBase::db_get_data_for_server_cache: mysql_next_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-
-				o << "mysql_next_result() failed (error=" << mysql_error(conn_pool[con_nb].db) << ")";
-
-				release_connection(con_nb);
-
-				Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),
-											   (const char *)"DataBase::DbGetDataForServerCache()");
-			}
-		}
-	}while (status == 0);
-
-	release_connection(con_nb);
-	
-	row = mysql_fetch_row(res);
-	unsigned long *length_ptr = mysql_fetch_lengths(res);
-	string str(row[0],length_ptr[0]);
-#ifdef __SUNPRO_CC
-	int nb_field;
-	count(str.begin(),str.end(),'\0',nb_field);
-#else
-	int nb_field = count(str.begin(),str.end(),'\0');
-#endif
-	
-	if (nb_field == 0)
-	{
-		if (str.size() == 0)
-		{
-			delete argout;
-			mysql_free_result(res);
-			WARN_STREAM << "DataBase::DbGetDataForServerCache(): Stored procedure does not return any result!!!" << endl;
-			Tango::Except::throw_exception((const char *)"DB_StoredProcedureNoResult",
-						(const char *)"The stored procedure did not return any results!!!",
-						(const char *)"DataBase::DbGetDataForServerCache()");
-		}
-		else
-		{
-			delete argout;
-			mysql_free_result(res);
-			WARN_STREAM << "DataBase::DbGetDataForServerCache(): Stored procedure failed with a MySQL error!!!" << endl;
-			Tango::Except::throw_exception((const char *)"DB_StoredProcedureFailed",
-						(const char *)"The stored procedure failed with a MySQL error!!!",
-						(const char *)"DataBase::DbGetDataForServerCache()");
-		}
-	}
-	
-	argout->length(nb_field + 1);
-	
-	string::size_type pos = 0;
-	string::size_type start = 0;
-	int idx = 0;
-	string tmp_elt;
-	
-	pos = str.find('\0');		
-	while (pos != string::npos)
-	{
-		tmp_elt = str.substr(start,pos - start);
-		(*argout)[idx] = CORBA::string_dup(tmp_elt.c_str());
-		start = pos + 1;
-		idx++;
-		pos = str.find('\0',start);
-	}
-	tmp_elt = str.substr(start);
-	(*argout)[idx] = CORBA::string_dup(tmp_elt.c_str());
-		
-	mysql_free_result(res);
-
-	GetTime(after);
-	update_timing_stats(before, after, "DbGetDataForServerCache");
-	return argout;
-}
-
-//+------------------------------------------------------------------
-/**
- *	method:	DataBase::db_delete_all_device_attribute_property
- *
- *	description:	method to execute "DbDeleteAllDeviceAttributeProperty"
- *	Delete all attribute properties for the specified device attribute(s)
- *
- * @param	argin	str[0] = device name, str[1]...str[n] = attribute name(s)
- *
- */
-//+------------------------------------------------------------------
-void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarStringArray *argin)
-{
-	DEBUG_STREAM << "DataBase::db_delete_all_device_attribute_property(): entering... !" << endl;
-
-	//	Add your own code to control device here
-	
-	TangoSys_MemStream sql_query_stream;
-	const char *attribute, *property;
-	string tmp_device;
-	int i,j;
-	MYSQL_RES *result;
-	MYSQL_ROW row;
-
-	if (argin->length() < 2) {
-   		WARN_STREAM << "DataBase::db_delete_all_device_attribute_property(): insufficient number of arguments ";
-   		WARN_STREAM << endl;
-   		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
-					       (const char *)"insufficient number of arguments to delete all device attribute(s) property",
-					       (const char *)"DataBase::db_delete_all_device_attribute_property()");
-	}
-
-	tmp_device = (*argin)[0];
-	if (!check_device_name(tmp_device))
-	{
-        	WARN_STREAM << "DataBase::db_delete_all_device_attribute(): device name  " << tmp_device << " incorrect ";
-         	WARN_STREAM << endl;
-         	Tango::Except::throw_exception((const char *)DB_IncorrectDeviceName,
-				       	(const char *)"Failed to delete all device attribute(s) property, device name incorrect",
-				       	(const char *)"DataBase::db_delete_all_device_attribute()");
-	}
-	
-	
-	{
-		AutoLock al("LOCK TABLES property_attribute_device WRITE, property_attribute_device_hist WRITE,device_attribute_history_id WRITE",this);
-		
-		for (i=0; i<argin->length()-1; i++)
-		{
-			attribute = (*argin)[i+1];
-
-			INFO_STREAM << "DataBase::db_delete_all_device_attribute_property(): delete device " << tmp_device ;
-			INFO_STREAM << " attribute " << attribute << " property(ies) from database" << endl;
-
-// Is there something to delete ?
-
-			sql_query_stream.str("");
-			sql_query_stream << "SELECT DISTINCT name FROM property_attribute_device WHERE device = \"" << tmp_device 
-		                	 <<"\" AND attribute = \"" << attribute << "\" ";
-			result = query(sql_query_stream.str(),"db_delete_all_device_attribute_property()",al.get_con_nb());
-			my_ulonglong count = mysql_num_rows(result);
-			
-			if (count != 0)
-			{
-				
-// then delete property from the property_attribute_device table
-
-				sql_query_stream.str("");
-				sql_query_stream << "DELETE FROM property_attribute_device WHERE device = \"" << tmp_device 
-		       					<<"\" AND attribute = \"" << attribute << "\" ";
-				DEBUG_STREAM << "DataBase::db_delete_all_device_attribute_property(): sql_query " << sql_query_stream.str() << endl;
-				simple_query(sql_query_stream.str(),"db_delete_all_device_attribute_property()",al.get_con_nb());		
-		
-// Mark this property as deleted	
-
-				for(j=0;j<count;j++)
-				{
-					row = mysql_fetch_row(result);
-					unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
-					sql_query_stream.str("");
-					sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device
-			   					 << "',attribute='" << attribute
-			   					 << "',name='" << row[0]
-			   					 << "',id='" << device_attribute_property_hist_id
-			   					 << "',count='0',value='DELETED'";
-					DEBUG_STREAM << "DataBase::DeletAllDeviceAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-					simple_query(sql_query_stream.str(),"db_delete_all_device_attribute_property()",al.get_con_nb());
-					purge_att_property("property_attribute_device_hist","device",tmp_device.c_str(),attribute,row[0],al.get_con_nb());		
-				}
-			}
-			mysql_free_result(result);
-		}
-	}
-
-	return;
-
-}
-
-
-
-//+------------------------------------------------------------------
-/**
- *	method:	DataBase::db_my_sql_select
- *
- *	description:	method to execute "DbMySqlSelect"
- *	This is a very low level command.
- *	It executes the specified  SELECT command on TANGO database and returns its result without filter.
- *
- * @param	argin	MySql Select command
- * @return	MySql Select command result
- *
- */
-//+------------------------------------------------------------------
-Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
-{
-	TimeVal	before, after;
-	GetTime(before);
-
-	//	Check if SELECT key is alread inside command
-	string	cmd(argin);
-	string	tmp(argin);
-	transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-	int	idx = tmp.find("select");
-	if (idx == string::npos)
-		cmd = "SELECT " + cmd;
-	
-	INFO_STREAM << "DataBase::db_my_sql_select(): \ncmd: " << cmd << endl;
-
-	MYSQL_RES	*result   = query(cmd, "db_my_sql_select()");
-	int			nb_rows   = mysql_num_rows(result);
-	int			nb_fields = mysql_num_fields(result);
-	int			nb_data   = nb_rows*nb_fields;
-
-	DEBUG_STREAM << "DataBase::db_my_sql_select(): mysql_num_rows() " << nb_rows << endl;
-
-
-	Tango::DevVarLongStringArray	*argout = new Tango::DevVarLongStringArray;
-	(argout->svalue).length(nb_data);
-	(argout->lvalue).length(nb_data+2);
-
-	MYSQL_ROW	row;
-	idx = 0;
-	int	i, j;
-	if (nb_rows>0)
-	{
-		for (i=0; i<nb_rows; i++)
-		{
-			row = mysql_fetch_row(result);
-			for (j=0 ; j<nb_fields ; j++)
-			{
-				if (row==NULL)
-				{
-					(argout->svalue)[idx] = CORBA::string_dup("");
-					(argout->lvalue)[idx++] = 0;	//	data is null
-				}
-				else
-				if (row[j]==NULL)
-					(argout->svalue)[idx] = CORBA::string_dup("");	//	data is null
-				else
-					(argout->svalue)[idx] = CORBA::string_dup(row[j]);	//	data is NOT null
-				(argout->lvalue)[idx++] = (row[j]!=NULL);
-			}
-		}
-	}
-	//	Add nb rows and nb fields at end of lvalue.
-	(argout->lvalue)[idx++] = nb_rows;
-	(argout->lvalue)[idx++] = nb_fields;
-	mysql_free_result(result);
-
-	GetTime(after);
-	update_timing_stats(before, after, "DbMySqlSelect");
-	return argout;
-}
-
 
 }	//	namespace

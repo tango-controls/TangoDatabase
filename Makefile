@@ -11,43 +11,6 @@
 # $Revision$
 #
 # $Log$
-# Revision 2.41  2010/01/06 09:26:50  pascal_verdier
-# -lmysqlclient_r added for linux.
-#
-# Revision 2.40  2010/01/05 11:45:32  pascal_verdier
-# mysql lib dir depends on nb bits for linux.
-#
-# Revision 2.39  2008/05/23 08:34:32  taurel
-# - Remove the compiler flag -DGCC_STD for Linux platform
-#
-# Revision 2.38  2008/03/27 07:54:56  taurel
-# - Some changes for Dbserver V4 (threaded mysql lib...)
-#
-# Revision 2.37.2.1  2007/11/07 09:50:41  taurel
-# - First changes to get a fully-threaded DB server
-#
-# Revision 2.37  2007/11/06 07:25:18  taurel
-# - Added the DbGetDataForServerCache command (with timing stats)
-# - Add timing stats for the DbPutClassProperty command
-#
-# Revision 2.36  2007/03/23 14:42:11  pascal_verdier
-# *** empty log message ***
-#
-# Revision 2.35  2007/03/23 14:40:06  pascal_verdier
-# Bug on MySql version compiler flag fixed.
-#
-# Revision 2.34  2006/11/03 16:58:32  jlpons
-# Correction for db_init_history
-#
-# Revision 2.33  2006/10/03 13:25:55  jlpons
-# Added rules for db_init_history
-#
-# Revision 2.32  2006/09/28 11:18:20  pascal_verdier
-# DbGetClassForDevice and DbGetClassInheritanceForDevice commands added.
-#
-# Revision 2.31  2006/06/22 15:25:32  jlpons
-# Added history commands
-#
 # Revision 2.30  2005/10/20 10:47:27  pascal_verdier
 # Add stuff for gcc.
 #
@@ -88,93 +51,46 @@
 #
 #=============================================================================
 
-CLASS      = DataBase
-MAJOR_VERS = 4
-MINOR_VERS = 0
-RELEASE    = Release_$(MAJOR_VERS)_$(MINOR_VERS)
-OS         = $(shell /csadmin/common/scripts/get_os)
-
-#-----------------------------------------
-#	Set default home directories
-#-----------------------------------------
-#TEST_TANGO_HOME   =  /segfs/tango/tmp/pascal/cppapi
 TANGO_HOME = /segfs/tango
+MYSQL_BASE = /usr
 
-ifdef no_debug
-	DEBUG = -O
-else
-	DEBUG = -g
-endif
-
-#------------------- Solaris Definitions --------------------
 ifdef _solaris
+OS_VERS = $(shell /csadmin/common/scripts/get_os)
 ifdef _gcc
-CC = c++
-BIN_DIR = $(OS)_gcc
+CC = gcc -g
+BIN_DIR = $(OS_VERS)_gcc
 endif
 ifdef _CC
-CC = CC
-BIN_DIR = $(OS)_CC
+CC = CC -g
+BIN_DIR = $(OS_VERS)_CC
 endif
-MYSQL_HOME=/usr/local/mysql
-MYSQL_INC_DIR=$(MYSQL_HOME)/include/mysql
-MYSQL_LIB_DIR=$(MYSQL_HOME)/lib/mysql
+TANGO_LIB = $(TANGO_HOME)/lib/$(BIN_DIR)
+#MYSQL_BASE = /segfs/tango/database/$(OS_VERS)
+MYSQL_BASE = /usr/local
 endif
 
-
-
-#------------------- Linux Definitions --------------------
 ifdef linux
 CC = c++ -g
-PROCESSOR  = $(shell uname -p)
-$(PROCESSOR)=1
-ifdef x86_64
-NBITS=64
-endif
-BIN_DIR=$(shell /csadmin/common/scripts/get_os)_$(NBITS)
-
-BIN_DIR   = $(OS)_$(NBITS)
-MYSQL_INC_DIR=/usr/include/mysql
-MYSQL_LIB_DIR=/usr/lib$(NBITS)/mysql
-endif
-
-
-
-INCLUDE_DIRS = -I$(TEST_TANGO_HOME)/$(BIN_DIR)/include \
-				-I$(MYSQL_INC_DIR) \
-               -I$(TANGO_HOME)/release/$(BIN_DIR)/include \
-	    	   -I.
-
-
-OBJS_DIR  = obj/$(BIN_DIR)
+BIN_DIR   = $(shell /csadmin/common/scripts/get_os)
 TANGO_LIB = $(TANGO_HOME)/lib/$(BIN_DIR)
-LIB_DIRS  =	-L $(TEST_TANGO_HOME)/$(BIN_DIR)/lib  \
-			-L $(MYSQL_LIB_DIR) \
-		  	-L$(TANGO_HOME)/release/$(BIN_DIR)/lib	\
+endif
+
+INCLUDE_DIRS = -I$(TANGO_HOME)/include/$(BIN_DIR) \
+               -I$(MYSQL_BASE)/mysql/include \
+	    	   -I.
+#               -I$(MYSQL_BASE)/include/mysql \
+
+
+LIB_DIRS =	-L $(MYSQL_BASE)/mysql/lib \
+		  	-L$(TANGO_HOME)/lib/$(BIN_DIR)	\
 			-L $(TANGO_LIB)
 
 ifdef _solaris
 ifdef _gcc
 STD_LIB=	-lstdc++
-#CXXFLAGS =  $(DEBUG) -D_PTHREADS -DGCC_STD $(INCLUDE_DIRS)
-CXXFLAGS =  $(DEBUG) -D_PTHREADS $(INCLUDE_DIRS)
-else
-CXXFLAGS =  $(DEBUG) -D_PTHREADS $(INCLUDE_DIRS)
 endif
-
+CFLAGS = -O $(INCLUDE_DIRS)
 LFLAGS_SERVER = $(LIB_DIRS)	\
-		-ltango			\
-		-llog4tango		\
-		-lomniORB4		\
-		-lomniDynamic4	\
-		-lomnithread	\
-		-lmysqlclient_r	\
-		-lCOS4			\
-		-lz				\
-		-lposix4		\
-		-lsocket -lnsl -lm -lpthread -ldl $(STD_LIB)
-
-LFLAGS_INIT =   $(LIB_DIRS)	\
 		-ltango			\
 		-llog4tango		\
 		-lomniORB4		\
@@ -182,7 +98,12 @@ LFLAGS_INIT =   $(LIB_DIRS)	\
 		-lomnithread	\
 		-lmysqlclient	\
 		-lCOS4			\
-		-lmysqlclient_r	\
+		-lz				\
+		-lposix4		\
+		-lsocket -lnsl -lm -lpthread $(STD_LIB)
+
+LFLAGS_INIT =   $(LIB_DIRS)	\
+		-lmysqlclient	\
 		-lz				\
 		-lposix4		\
 		-lsocket -lnsl -lm -lpthread $(STD_LIB)
@@ -190,61 +111,75 @@ LFLAGS_INIT =   $(LIB_DIRS)	\
 endif
 
 ifdef linux
-CXXFLAGS =  $(DEBUG) -D_REENTRANT $(INCLUDE_DIRS)
+CFLAGS = -O $(INCLUDE_DIRS) -D_REENTRANT
 LFLAGS_SERVER = $(LIB_DIRS)	\
-		-ltango			\
-		-llog4tango		\
-		-lomniORB4		\
-		-lomniDynamic4	\
-		-lomnithread	\
-		-lCOS4			\
-		-lmysqlclient_r -lpthread -ldl
-
-LFLAGS_INIT =   $(LIB_DIRS)	\
-		-ltango			\
-		-llog4tango		\
-		-lomniORB4		\
-		-lomniDynamic4	\
-		-lomnithread	\
-		-lCOS4			\
-		-lmysqlclient_r	\
-		-lpthread -ldl
+			-ltango			\
+			-llog4tango		\
+			-lomniORB4		\
+			-lomniDynamic4	\
+			-lomnithread	\
+			-lCOS4			\
+			-lmysqlclient -lpthread -ldl
 
 endif
 
-DB_OBJ =	$(OBJS_DIR)/main.o	\
-			$(OBJS_DIR)/$(CLASS)Class.o	\
-			$(OBJS_DIR)/$(CLASS).o	\
-			$(OBJS_DIR)/$(CLASS)StateMachine.o	\
-			$(OBJS_DIR)/DataBaseUtils.o		\
-			$(OBJS_DIR)/update_starter.o	\
-			$(OBJS_DIR)/ClassFactory.o
+CLASS = DataBase
+DB_OBJ =	main.o	\
+			$(CLASS)Class.o	\
+			$(CLASS).o	\
+			$(CLASS)StateMachine.o	\
+			DataBaseUtils.o		\
+			update_starter.o	\
+			ClassFactory.o
 
-DB_INIT_OBJ =	$(OBJS_DIR)/db_init_history.o
 
-all: $(CLASS)ds db_init_history
+all: $(CLASS)ds 
 
 test:
 	tango.test
 
-
-$(CLASS)ds:	make_obj_dir make_bin_dir $(DB_OBJ)
-	$(CC) $(DB_OBJ) -o $(CLASS)ds $(LFLAGS_SERVER)
-	@mv $(CLASS)ds bin/$(BIN_DIR)/$(CLASS)ds
-
-
-$(OBJS_DIR)/%.o: %.cpp 
-	$(CC) $(CXXFLAGS) -c $< -o $(OBJS_DIR)/$*.o
+$(CLASS)ds: $(DB_OBJ)
+	$(CC) $(DB_OBJ) $(LFLAGS_SERVER) -o $(CLASS)ds
+	cp $(CLASS)ds $(BIN_DIR)
 			
-db_init_history: make_obj_dir make_bin_dir $(DB_INIT_OBJ)
-	$(CC) $(DB_INIT_OBJ) -o db_init_history $(LFLAGS_INIT)
-	@mv db_init_history bin/$(BIN_DIR)/db_init_history
+$(CLASS)Class.o: $(CLASS)Class.cpp
+	$(CC) $(CLASS)Class.cpp $(CFLAGS) -c -o $(CLASS)Class.o
+	
+$(CLASS).o: $(CLASS).cpp
+	$(CC) $(CLASS).cpp $(CFLAGS) -c -o $(CLASS).o
+	
+$(CLASS)StateMachine.o: $(CLASS)StateMachine.cpp
+	$(CC) $(CLASS)StateMachine.cpp $(CFLAGS) -c -o $(CLASS)StateMachine.o
+	
+update_starter.o: update_starter.cpp
+	$(CC) update_starter.cpp $(CFLAGS) -c -o update_starter.o
+
+DataBaseUtils.o: DataBaseUtils.cpp
+	$(CC) DataBaseUtils.cpp $(CFLAGS) -c -o DataBaseUtils.o
+	
+db_bench.o: db_bench.cpp
+	$(CC) db_bench.cpp $(CFLAGS) -c -o db_bench.o
+
+db_bench: db_bench.o
+	$(CC) db_bench.o $(LFLAGS_CLIENT) -o db_bench
+
+db_init_history.o: db_init_history.cpp
+	$(CC) db_init_history.cpp $(CFLAGS) -c -o db_init_history.o
+
+db_init_history: db_init_history.o
+	$(CC) db_init_history.o $(LFLAGS_INIT) -o db_init_history
+	cp db_init_history $(BIN_DIR)
+
+main.o: main.cpp
+	$(CC) main.cpp $(CFLAGS) -c -o main.o
+	
+ClassFactory.o: ClassFactory.cpp
+	$(CC) ClassFactory.cpp $(CFLAGS) -c -o ClassFactory.o
+
+
 	
 clean:
-	rm -f $(OBJS_DIR)/*.o  \
-		$(OBJS_DIR)/*.so.o \
-		bin/$(BIN_DIR)/$(CLASS)ds \
-		core
+	rm -f *.o core
 
 clobber: clean
 	rm -f $(CLASS)ds
@@ -252,16 +187,8 @@ clobber: clean
 	rm -f db_ping
 	rm -f taco_tango
 
-make_obj_dir:
-	@mkdir -p obj
-	@mkdir -p obj/$(BIN_DIR)
-
-make_bin_dir:
-	@mkdir -p bin
-	@mkdir -p bin/$(BIN_DIR)
-
 install:
-	cp bin/$(BIN_DIR)/$(CLASS)ds  $(TANGO_HOME)/bin/$(BIN_DIR)
+	cp $(BIN_DIR)/$(CLASS)ds	$(TANGO_HOME)/bin/$(BIN_DIR)
 	ls -l $(TANGO_HOME)/bin/$(BIN_DIR)/$(CLASS)ds
 
 #----------------------------------------------------
@@ -273,5 +200,4 @@ tag:
 	@make show_tag
 
 show_tag:
-	@cvstag -d
-
+	@cvstag -d 
