@@ -1,6 +1,6 @@
                      Tango Database server README
                      ============================
- 
+
 This file contains information on installing/upgrading the Tango database
 server. This guide assumes that a MySQL daemon runs on the machine you
 want to install the database and that the DB server has history capabilities

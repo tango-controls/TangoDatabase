@@ -33,7 +33,7 @@ DELIMITER |
 CREATE PROCEDURE tango.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.3'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.0'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -233,20 +233,16 @@ BEGIN
 	DECLARE tmp_ior TEXT;
 	DECLARE tmp_version VARCHAR(8);
 	DECLARE tmp_host VARCHAR(255);
-	DECLARE tmp_ev_name VARCHAR(255);
 	DECLARE tmp_exp, tmp_pid INT;
 	DECLARE not_found INT DEFAULT 0;
 	
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found = 1;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
-
-	SET tmp_ev_name = ev_name;
-	SET tmp_ev_name = REPLACE(tmp_ev_name,'_','\_');
 		
 	SELECT exported,ior,version,pid,host
 	INTO tmp_exp,tmp_ior,tmp_version,tmp_pid,tmp_host
 	FROM tango.event
-	WHERE name = tmp_ev_name;
+	WHERE name = ev_name;
 	
 	IF not_found = 1 THEN
 		SET res_str = CONCAT_WS(CHAR(0),res_str,ev_name,'Not Found');
@@ -673,7 +669,7 @@ BEGIN
 		IF NOT done THEN						
 			SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_name);
 			IF nb_dev = 0 THEN
-				SET d_list = CONCAT_WS("",d_list,tmp_name);
+				SET d_list = tmp_name;
 			ELSE
 				SET d_list = CONCAT_WS(CHAR(0),d_list,tmp_name);
 			END IF;
