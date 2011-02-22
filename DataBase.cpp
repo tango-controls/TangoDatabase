@@ -13,59 +13,9 @@ static const char *RcsId = "$Header$";
 //
 // author(s) :    A.Gotz, JL Pons, P.Verdier
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.90  2011/02/11 08:35:33  taurel
-// - add a MySQL reconnection (5 retries) in case it's impossible
-// to connect to it
-//
-// Revision 2.89  2011/01/06 12:02:28  taurel
-// - Remove timing stat for DbGetDeviceWideList command. The map is not
-// initialised for this command
-//
-// Revision 2.88  2010/09/21 11:43:20  taurel
-// - Add GPL stuff
-//
-// Revision 2.87  2010/04/13 08:21:33  taurel
-// Fix some memory leaks in case of command returning error.
-// The main one was for the DbGetAttributeAlias. Small other for the
-// hotory related commands
-//
-// Revision 2.86  2010/04/12 12:59:53  taurel
-// - Add some delete in the code when the device is deleted. This should not
-// happen but....
-//
-// Revision 2.85  2010/03/26 11:41:16  taurel
-// - Add mutual exclusion for the timing stat. map access in the
-// attribute getting data from this map
-//
-// Revision 2.84  2009/09/16 09:08:23  pascal_verdier
-// Bug on stored procedure status fixed.
-//
-// Revision 2.83  2009/04/06 13:11:04  pascal_verdier
-// DbMySqlSelect command added.
-//
 // Revision 2.82  2009/04/04 18:46:28  taurel
 // Fixed warnings when compiled with gcc 4.3
 //
@@ -215,6 +165,11 @@ static const char *RcsId = "$Header$";
 //
 // Revision 2.53  2005/09/26 10:40:20  pascal_verdier
 // sql_query.clear() replaced by sql_query.erase(sql_query.size()) for windows compatibility.
+//
+//
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
 //
 //-=============================================================================
 //
@@ -497,19 +452,6 @@ void DataBase::init_device()
 void DataBase::delete_device()
 {
 	//	Delete device's allocated object
-
-	delete [] timing_stats_average;
-	delete [] timing_stats_minimum;
-	delete [] timing_stats_maximum;
-	delete [] timing_stats_calls;
-
-	for (int i = 0;i < timing_stats_map.size();i++)
-		delete timing_stats_index[i];
-	delete [] timing_stats_index;
-
-	std::map<std::string,TimingStatsStruct*>::iterator iter;
-	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		delete iter->second;
 	
 	for (int loop = 0;loop < conn_pool_size;loop++)
 	{
@@ -569,7 +511,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 	n_fields = mysql_num_fields(result);
 	DEBUG_STREAM << "DataBase::read_StoreProcedureRelease(): mysql_num_fields() " << n_fields << endl;
 
-	if (n_fields > 7)
+	if (n_fields == 8)
 	{
 		unsigned long *lengths;
 		if ((row = mysql_fetch_row(result)) != NULL)
@@ -622,20 +564,15 @@ void DataBase::read_Timing_info(Tango::Attribute &attr)
  
     std::map<std::string,TimingStatsStruct*>::iterator iter;
     int i=0;
-
-	{
-		omni_mutex_lock guard(timing_stats_mutex);
-	    for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-	    {
-	    	sprintf(info_str,"%s\t%6.3f\t%6.3f\t%6.3f\t%.0f",
-					iter->first.c_str(), iter->second->average,
-	    			iter->second->minimum, iter->second->maximum,
-					iter->second->calls);
-	        timing_info[i+4] = CORBA::string_dup(info_str);
-	        i++;
-	    }
-	}
-
+    for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
+    {
+    	sprintf(info_str,"%s\t%6.3f\t%6.3f\t%6.3f\t%.0f",
+				iter->first.c_str(), iter->second->average,
+    			iter->second->minimum, iter->second->maximum,
+				iter->second->calls);
+        timing_info[i+4] = CORBA::string_dup(info_str);
+        i++;
+    }
 	attr.set_value(timing_info,timing_stats_size+4,0,true);
 }
 
@@ -653,13 +590,10 @@ void DataBase::read_Timing_average(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_average[i] = iter->second->average;
-			i++;
-		}
+		timing_stats_average[i] = iter->second->average;
+		i++;
 	}
 
 	attr.set_value(timing_stats_average, timing_stats_size);
@@ -678,13 +612,10 @@ void DataBase::read_Timing_minimum(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_minimum[i] = iter->second->minimum;
-			i++;
-		}
+		timing_stats_minimum[i] = iter->second->minimum;
+		i++;
 	}
 
 	attr.set_value(timing_stats_minimum, timing_stats_size);
@@ -703,13 +634,10 @@ void DataBase::read_Timing_maximum(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_maximum[i] = iter->second->maximum;
-			i++;
-		}
+		timing_stats_maximum[i] = iter->second->maximum;
+		i++;
 	}
 
 	attr.set_value(timing_stats_maximum, timing_stats_size);
@@ -728,13 +656,10 @@ void DataBase::read_Timing_calls(Tango::Attribute &attr)
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 	int i=0;
 
+	for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
 	{
-		omni_mutex_lock guard(timing_stats_mutex);
-		for (iter = timing_stats_map.begin(); iter != timing_stats_map.end(); iter++)
-		{
-			timing_stats_calls[i] = iter->second->calls;
-			i++;
-		}
+		timing_stats_calls[i] = iter->second->calls;
+		i++;
 	}
 
 	attr.set_value(timing_stats_calls, timing_stats_size);
@@ -2229,6 +2154,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_properties=0, n_rows=0, n_props=0, i, j;
+	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_device;
 	string	tmp_name;
 	string	prop_name;
@@ -2245,8 +2171,6 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	}
 
 	INFO_STREAM << "DataBase::GetDeviceProperty(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
-
-	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 
 	tmp_device = (*property_names)[0];
 	sprintf(n_properties_str, "%lu", property_names->length()-1);
@@ -4346,6 +4270,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString fil
 	mysql_free_result(result);
 
 	GetTime(after);
+	update_timing_stats(before, after, "DbGetDeviceWideList");
 	return(device_list);
 }
 
@@ -5169,8 +5094,6 @@ Tango::DevString DataBase::db_get_attribute_alias(Tango::DevString argin)
 		//strcpy(argout,"");
         TangoSys_OMemStream o;
 	   	o << "No attribute found for alias  \'" << argin << "\'";
-		mysql_free_result(result);
-		delete [] argout;
 	   	Tango::Except::throw_exception((const char *)DB_SQLError,
 	   				  	               o.str(),
 					  	               (const char *)"DataBase::db_get_attribute_alias()");
@@ -5883,6 +5806,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_device;
 	string      tmp_name;
 
@@ -5893,8 +5817,6 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 	   				  (const char *)"incorrect no. of input arguments, needs 2 (device,property)",
 					  (const char *)"DataBase::GetDevicePropertyHist()");
 	}
-
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 
 	tmp_device = (*argin)[0];
 	tmp_name   = replace_wildcard((*argin)[1]);
@@ -5970,6 +5892,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_device;
 	string      tmp_attribute;
 	string      tmp_name;
@@ -5981,8 +5904,6 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 	   				  (const char *)"incorrect no. of input arguments, needs 3 (device,attribute,property)",
 					  (const char *)"DataBase::DbGetDeviceAttributePropertyHist()");
 	}
-
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 
 	tmp_device    = (*argin)[0];
 	tmp_attribute = replace_wildcard((*argin)[1]);
@@ -6062,6 +5983,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_class;
 	string      tmp_attribute;
 	string      tmp_name;
@@ -6073,8 +5995,6 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 	   				  (const char *)"incorrect no. of input arguments, needs 3 (class,attribute,property)",
 					  (const char *)"DataBase::DbGetClassAttributePropertyHist()");
 	}
-
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 
 	tmp_class     = (*argin)[0];
 	tmp_attribute = replace_wildcard((*argin)[1]);
@@ -6154,6 +6074,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_class;
 	string      tmp_name;
 
@@ -6164,8 +6085,6 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 	   				  (const char *)"incorrect no. of input arguments, needs 2 (class,property)",
 					  (const char *)"DataBase::DbGetClassPropertyHist()");
 	}
-
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 
 	tmp_class  = (*argin)[0];
 	tmp_name   = replace_wildcard((*argin)[1]);
@@ -6242,6 +6161,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 	MYSQL_RES *ids;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
+	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 	const char *tmp_object;
 	string      tmp_name;
 
@@ -6252,8 +6172,6 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 	   				  (const char *)"incorrect no. of input arguments, needs 2 (object,property)",
 					  (const char *)"DataBase::DbGetPropertyHist()");
 	}
-
-	Tango::DevVarStringArray *property_hist = new Tango::DevVarStringArray;
 
 	tmp_object  = (*argin)[0];
 	tmp_name   = replace_wildcard((*argin)[1]);
@@ -6420,7 +6338,7 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	//	See "TANGO Device Server Programmer's Manual"
 	//		(chapter : Writing a TANGO DS / Exchanging data)
 	//------------------------------------------------------------
-
+	Tango::DevVarStringArray	*argout  = new Tango::DevVarStringArray();
 	DEBUG_STREAM << "DataBase::db_get_data_for_server_cache(): entering... !" << endl;
 
 	//	Add your own code to control device here
@@ -6440,8 +6358,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 						(const char *)"The MySQL server release does not support stored procedure. Update MySQL to release >= 5",
 						(const char *)"DataBase::DbGetDataForServerCache()");
 	} 
-
-	Tango::DevVarStringArray	*argout  = new Tango::DevVarStringArray();
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -6474,7 +6390,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	int con_nb = get_connection();
 	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
 	{
-		delete argout;
 		TangoSys_OMemStream o;
 
 		WARN_STREAM << "DataBase::db_get_data_for_server_cache failed to query TANGO database:" << endl;
@@ -6501,7 +6416,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 		{
 			if (mysql_field_count(conn_pool[con_nb].db) != 0)
 			{
-				delete argout;
 				TangoSys_OMemStream o;
 
 				WARN_STREAM << "DataBase::db_get_data_for_server_cache: mysql_store_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
@@ -6516,7 +6430,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 
 			if ((status = mysql_next_result(conn_pool[con_nb].db)) > 0)
 			{
-				delete argout;
 				TangoSys_OMemStream o;
 
 				WARN_STREAM << "DataBase::db_get_data_for_server_cache: mysql_next_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
@@ -6547,7 +6460,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	{
 		if (str.size() == 0)
 		{
-			delete argout;
 			mysql_free_result(res);
 			WARN_STREAM << "DataBase::DbGetDataForServerCache(): Stored procedure does not return any result!!!" << endl;
 			Tango::Except::throw_exception((const char *)"DB_StoredProcedureNoResult",
@@ -6556,7 +6468,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 		}
 		else
 		{
-			delete argout;
 			mysql_free_result(res);
 			WARN_STREAM << "DataBase::DbGetDataForServerCache(): Stored procedure failed with a MySQL error!!!" << endl;
 			Tango::Except::throw_exception((const char *)"DB_StoredProcedureFailed",
@@ -6587,7 +6498,7 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	mysql_free_result(res);
 
 	GetTime(after);
-	update_timing_stats(before, after, "DbGetDataForServerCache");
+	update_timing_stats(before, after, "DbGetDataForServerCache");		
 	return argout;
 }
 
