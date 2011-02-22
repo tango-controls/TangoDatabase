@@ -9,37 +9,16 @@ static const char *RcsId = "$Header$";
 //
 // author(s) :    A.Gotz, P.Verdier, JL Pons
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
 //
-// This file is part of Tango.
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
 //
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
-
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
 
 #include <tango.h>
 #include <DataBase.h>
 #include <DataBaseClass.h>
-
-#include <errmsg.h>
-
+#include <mysql.h>
 #include <stdio.h>
 
 using namespace std;
@@ -357,7 +336,6 @@ void DataBase::init_timing_stats()
 	timing_stats_map["DbImportEvent"] = new TimingStatsStruct;
 	timing_stats_map["DbGetDataForServerCache"] = new TimingStatsStruct;
 	timing_stats_map["DbPutClassProperty"] = new TimingStatsStruct;
-	timing_stats_map["DbMySqlSelect"] = new TimingStatsStruct;
 
 	timing_stats_size = timing_stats_map.size();
 	timing_stats_average = new double[timing_stats_size];
@@ -383,7 +361,7 @@ void DataBase::init_timing_stats()
 
 //+----------------------------------------------------------------------------
 //
-// method : 		DataBase::check_history_tables()
+// method : 		DataBase::get_id()
 // 
 // description : 	Return history id
 //
@@ -738,40 +716,6 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
 
 //+------------------------------------------------------------------
 /**
- *	method:	base_connect()
- *
- *	description:	Basic action to build a Mysql connection
- *
- */
-//+------------------------------------------------------------------
-
-void DataBase::base_connect(int loop)
-{
-
-//
-// Initialise mysql database structure and connect to TANGO database
-//
-
-	conn_pool[loop].db = mysql_init(conn_pool[loop].db);
-	mysql_options(conn_pool[loop].db,MYSQL_READ_DEFAULT_GROUP,"client");
-
-#if   (MYSQL_VERSION_ID > 50000)
-
-	//C. Scafuri: auto reconnection has been off since 5.0.3. From 5.0.13 it is possible to set it as an option
-	// with reconnection enabled DataBase keeps working after timeouts and mysql shutdown/restart
-	if(mysql_get_client_version() >= 50013)
-	{
-		my_bool my_auto_reconnect=1;
-		if (mysql_options(conn_pool[loop].db,MYSQL_OPT_RECONNECT,&my_auto_reconnect) !=0)
-			ERROR_STREAM << "DataBase: error setting mysql auto reconnection: " << mysql_error(conn_pool[loop].db) << endl;
-		else
-			WARN_STREAM << "DataBase: set mysql auto reconnect to true" << endl;
-	}
-#endif
-}
-
-//+------------------------------------------------------------------
-/**
  *	method:	create_connection_pool()
  *
  *	description:	Create the MySQL connections pool
@@ -779,76 +723,45 @@ void DataBase::base_connect(int loop)
  */
 //+------------------------------------------------------------------
 
-void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_password)
+void DataBase::create_connection_pool(char *mysql_user,char *mysql_password)
 {
-#ifndef HAVE_CONFIG_H
 	char *database = (char *)"tango";
-#else
-	char *database = (char *)TANGO_DB_NAME;
-#endif
-
-	if (mysql_user != NULL && mysql_password != NULL)
-	{	
-		WARN_STREAM << "DataBase::create_connection_pool(): mysql database user =  " << mysql_user 
-	           	 << " , password = " << mysql_password << endl;
-	}
+	
+	WARN_STREAM << "DataBase::create_connection_pool(): mysql database user =  " << mysql_user 
+	            << " , password = " << mysql_password << endl;
 					
 	for (int loop = 0;loop < conn_pool_size;loop++)
 	{
 	
-		base_connect(loop);
+// Initialise mysql database structure and connect to TANGO database
 
-//
-// Inmplement a retry. On some OS (Ubuntu 10.10), it may happens that MySQl needs some time to start.
-// This retry should cover this case
-// We also have to support case when this server is started while mysql is not ready yet
-// (this has been experienced on Ubuntu after a reboot when the ureadahead cache being invalidated
-// by a package installing file in /etc/init.d
-// Bloody problem!!!
-//
+		conn_pool[loop].db = mysql_init(conn_pool[loop].db);
+		mysql_options(conn_pool[loop].db,MYSQL_READ_DEFAULT_GROUP,"client");
+
+
+#if   (MYSQL_VERSION_ID > 50000)
+
+	//C. Scafuri: auto reconnection has been off since 5.0.3. From 5.0.13 it is possible to set it as an option
+	// with reconnection enabled DataBase keeps working after timeouts and mysql shutdown/restart
+		if(mysql_get_client_version() >= 50013)
+		{
+			my_bool my_auto_reconnect=1;
+			if (mysql_options(conn_pool[loop].db,MYSQL_OPT_RECONNECT,&my_auto_reconnect) !=0)
+				ERROR_STREAM << "DataBase: error setting mysql auto reconnection: " << mysql_error(conn_pool[loop].db) << endl;
+			else
+				WARN_STREAM << "DataBase: set mysql auto reconnect to true" << endl;
+		}
+#endif
 
 
 		if (!mysql_real_connect(conn_pool[loop].db, NULL, mysql_user, mysql_password, database, 0, NULL, CLIENT_MULTI_STATEMENTS))
 		{
-			if (loop == 0)
-			{
-				int retry = 5;
-				while (retry > 0)
-				{
-					sleep(1);
-					int db_err = mysql_errno(conn_pool[loop].db);
-					if (db_err == CR_CONNECTION_ERROR)
-					{
-						mysql_close(conn_pool[loop].db);
-						conn_pool[loop].db = NULL;
-						base_connect(loop);
-					}
-					if (!mysql_real_connect(conn_pool[loop].db, NULL, mysql_user, mysql_password, database, 0, NULL, CLIENT_MULTI_STATEMENTS))
-					{
-						retry--;
-						if (retry == 0)
-						{
-							TangoSys_MemStream out_stream;
-							out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
-				
-							Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
-												out_stream.str(),
-												(const char *)"DataBase::init_device()");
-						}
-					}
-					else
-						retry = 0;
-				}
-			}
-			else
-			{				
-				TangoSys_MemStream out_stream;
-				out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
-				
-				Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
-												out_stream.str(),
-												(const char *)"DataBase::init_device()");
-			}
+			TangoSys_MemStream out_stream;
+			out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
+			
+			Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
+											out_stream.str(),
+											(const char *)"DataBase::init_device()");
 		}
 	}
 

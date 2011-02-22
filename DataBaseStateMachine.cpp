@@ -10,41 +10,9 @@ static const char *RcsId = "$Header$";
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.12  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
-// Revision 2.11  2009/04/06 13:11:09  pascal_verdier
-// DbMySqlSelect command added.
-//
-// Revision 2.10  2009/01/30 08:17:51  taurel
-// - Added DbGetDeviceWideList command
-//
-// Revision 2.9  2008/03/26 17:31:01  taurel
-// - Committed after merge with the Release 4 branch
-//
 // Revision 2.8.2.2  2008/02/28 17:07:37  taurel
 // - Added the StoredProcedureRelease attribute
 //
@@ -81,6 +49,11 @@ static const char *RcsId = "$Header$";
 //
 // Revision 2.1  2005/01/10 10:35:26  pascal_verdier
 // Updated to Tango 5.
+//
+//
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
 //
 //-=============================================================================
 //
@@ -1287,34 +1260,6 @@ bool DataBase::is_DbGetDataForServerCache_allowed(const CORBA::Any &any)
 //
 //-----------------------------------------------------------------------------
 bool DataBase::is_DbDeleteAllDeviceAttributeProperty_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetDeviceWideList_allowed
-// 
-// description : 	Execution allowed for DbGetDeviceWideList command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetDeviceWideList_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbMySqlSelect_allowed
-// 
-// description : 	Execution allowed for DbMySqlSelect command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbMySqlSelect_allowed(const CORBA::Any &any)
 {
 		//	End of Generated Code
 
