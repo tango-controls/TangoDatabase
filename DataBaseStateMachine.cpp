@@ -10,7 +10,7 @@ static const char *RcsId = "$Header$";
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -33,9 +33,6 @@ static const char *RcsId = "$Header$";
 // $Revision$
 //
 // $Log$
-// Revision 2.12  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
 // Revision 2.11  2009/04/06 13:11:09  pascal_verdier
 // DbMySqlSelect command added.
 //

@@ -12,7 +12,7 @@
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -35,9 +35,6 @@
 // $Revision$
 //
 // $Log$
-// Revision 2.34  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
 // Revision 2.33  2009/04/06 13:11:08  pascal_verdier
 // DbMySqlSelect command added.
 //

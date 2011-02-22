@@ -13,7 +13,7 @@ static const char *RcsId = "$Header$";
 //
 // author(s) :    A.Gotz, JL Pons, P.Verdier
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -36,17 +36,6 @@ static const char *RcsId = "$Header$";
 // $Revision$
 //
 // $Log$
-// Revision 2.90  2011/02/11 08:35:33  taurel
-// - add a MySQL reconnection (5 retries) in case it's impossible
-// to connect to it
-//
-// Revision 2.89  2011/01/06 12:02:28  taurel
-// - Remove timing stat for DbGetDeviceWideList command. The map is not
-// initialised for this command
-//
-// Revision 2.88  2010/09/21 11:43:20  taurel
-// - Add GPL stuff
-//
 // Revision 2.87  2010/04/13 08:21:33  taurel
 // Fix some memory leaks in case of command returning error.
 // The main one was for the DbGetAttributeAlias. Small other for the
@@ -4346,6 +4335,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString fil
 	mysql_free_result(result);
 
 	GetTime(after);
+	update_timing_stats(before, after, "DbGetDeviceWideList");
 	return(device_list);
 }
 
@@ -6587,7 +6577,7 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	mysql_free_result(res);
 
 	GetTime(after);
-	update_timing_stats(before, after, "DbGetDataForServerCache");
+	update_timing_stats(before, after, "DbGetDataForServerCache");		
 	return argout;
 }
 
