@@ -1,10 +1,9 @@
                      Tango Database server README
                      ============================
- 
+
 This file contains information on installing/upgrading the Tango database
 server. This guide assumes that a MySQL daemon runs on the machine you
-want to install the database and that the DB server has history capabilities
-(Release_2_9 or higher).
+want to install the database and that the DB server has history capabilities.
 Note: You need jive 3.3 or higher to be able to access history.
 
 ------------------------------------------------------------------------
@@ -19,13 +18,6 @@ mysql -u[user] -p[password]
 #initialise history tables.
 
 mysql>source tango_create.sql
-
-# Set-up the environment variables MYSQL_USER and MYSQL_PASSWORD
-# or prepare the my.cnf (mysql configuration file) file to specify 
-# the mysql user and its password to be used to connect to the database.
-
-# The user is root without a password
-export MYSQL_USER=root
 
 #Now, you should be able to launch the DB server
 
@@ -94,16 +86,5 @@ Databaseds 2 -ORBendPoint giop:tcp:[hostname]:[port]
 
 export TANGO_HOST=[hostname]:[port]
 jive
-
-
-------------------------------------------------------------------------
-How to change the history depth (Number of value kept in the property history)
-------------------------------------------------------------------------
-
-You can set the property history depth by setting the "historyDepth" device 
-property of the DB server. The default value is 10.
-Note that you have to launch the DB server in order to be able to configure 
-this property with Jive and then to restart the DB server to take change into
-account.
 
 

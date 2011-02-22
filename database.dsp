@@ -73,7 +73,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 libmysql.lib mysqlclient.lib tangod.lib log4tangod.lib COS4d.lib omniDynamic4d.lib omniORB4d.lib omnithreadd.lib mswsock.lib ws2_32.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /out:"database" /pdbtype:sept /libpath:"$(TANGO_HOME)\release\win32_vc6\win32\lib" /libpath:"C:\Program Files\MySQL\MySQL Server 5.0\lib\debug"
+# ADD LINK32 libmysql.lib mysqlclient.lib tangod.lib log4tangod.lib COS4d.lib omniDynamic4d.lib omniORB4d.lib omnithreadd.lib mswsock.lib ws2_32.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /out:"C:\Temp\Debug\DatabaseDs.exe" /pdbtype:sept /libpath:"$(TANGO_HOME)\release\win32_vc6\win32\lib" /libpath:"C:\Program Files\MySQL\MySQL Server 5.0\lib\debug"
 
 !ENDIF 
 
@@ -99,10 +99,6 @@ SOURCE=.\DataBaseClass.cpp
 # Begin Source File
 
 SOURCE=.\DataBaseStateMachine.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\DataBaseUtils.cpp
 # End Source File
 # Begin Source File
 
