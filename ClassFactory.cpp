@@ -12,7 +12,7 @@ static const char *RcsId = "$Header$";
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -35,9 +35,6 @@ static const char *RcsId = "$Header$";
 // $Revision$
 //
 // $Log$
-// Revision 2.20  2010/09/21 11:43:20  taurel
-// - Add GPL stuff
-//
 // Revision 2.19  2007/11/06 07:24:05  taurel
 // - Added the DbGetDataForServerCache command (with timing stats)
 // - Add timing stats for the DbPutClassProperty command

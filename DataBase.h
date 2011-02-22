@@ -8,7 +8,7 @@
 //
 // Author(s): andy_gotz, P.Verdier
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -31,13 +31,6 @@
 // $Revision$
 //
 // $Log$
-// Revision 2.47  2011/02/11 08:35:33  taurel
-// - add a MySQL reconnection (5 retries) in case it's impossible
-// to connect to it
-//
-// Revision 2.46  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
 // Revision 2.45  2010/09/21 11:37:00  taurel
 // - Do not call mysql_init during DS startup
 //
@@ -1313,7 +1306,6 @@ protected :
 	omni_mutex		sem_wait_mutex;
 				
 	void create_connection_pool(const char *,const char *);
-	void base_connect(int);
 
 	inline void update_timing_stats(TimeVal before, TimeVal after, std::string command)
 	{
