@@ -11,15 +11,6 @@
 # $Revision$
 #
 # $Log$
-# Revision 2.41  2010/01/06 09:26:50  pascal_verdier
-# -lmysqlclient_r added for linux.
-#
-# Revision 2.40  2010/01/05 11:45:32  pascal_verdier
-# mysql lib dir depends on nb bits for linux.
-#
-# Revision 2.39  2008/05/23 08:34:32  taurel
-# - Remove the compiler flag -DGCC_STD for Linux platform
-#
 # Revision 2.38  2008/03/27 07:54:56  taurel
 # - Some changes for Dbserver V4 (threaded mysql lib...)
 #
@@ -97,7 +88,6 @@ OS         = $(shell /csadmin/common/scripts/get_os)
 #-----------------------------------------
 #	Set default home directories
 #-----------------------------------------
-#TEST_TANGO_HOME   =  /segfs/tango/tmp/pascal/cppapi
 TANGO_HOME = /segfs/tango
 
 ifdef no_debug
@@ -117,6 +107,7 @@ CC = CC
 BIN_DIR = $(OS)_CC
 endif
 MYSQL_HOME=/usr/local/mysql
+#MYSQL_HOME=/segfs/tango/tmp/mysql-5.0.37-solaris9-sparc
 MYSQL_INC_DIR=$(MYSQL_HOME)/include/mysql
 MYSQL_LIB_DIR=$(MYSQL_HOME)/lib/mysql
 endif
@@ -126,30 +117,23 @@ endif
 #------------------- Linux Definitions --------------------
 ifdef linux
 CC = c++ -g
-PROCESSOR  = $(shell uname -p)
-$(PROCESSOR)=1
-ifdef x86_64
-NBITS=64
-endif
-BIN_DIR=$(shell /csadmin/common/scripts/get_os)_$(NBITS)
-
-BIN_DIR   = $(OS)_$(NBITS)
+BIN_DIR   = $(OS)
 MYSQL_INC_DIR=/usr/include/mysql
-MYSQL_LIB_DIR=/usr/lib$(NBITS)/mysql
+MYSQL_LIB_DIR=/usr/lib/mysql
 endif
 
 
 
-INCLUDE_DIRS = -I$(TEST_TANGO_HOME)/$(BIN_DIR)/include \
-				-I$(MYSQL_INC_DIR) \
+INCLUDE_DIRS = -I$(MYSQL_INC_DIR) \
+			   -I /segfs/tango/tmp/install/solaris9_gcc/include \
                -I$(TANGO_HOME)/release/$(BIN_DIR)/include \
 	    	   -I.
 
 
 OBJS_DIR  = obj/$(BIN_DIR)
 TANGO_LIB = $(TANGO_HOME)/lib/$(BIN_DIR)
-LIB_DIRS  =	-L $(TEST_TANGO_HOME)/$(BIN_DIR)/lib  \
-			-L $(MYSQL_LIB_DIR) \
+LIB_DIRS  =	-L $(MYSQL_LIB_DIR) \
+			-L /segfs/tango/tmp/install/soalris9_gcc/lib \
 		  	-L$(TANGO_HOME)/release/$(BIN_DIR)/lib	\
 			-L $(TANGO_LIB)
 
@@ -182,7 +166,7 @@ LFLAGS_INIT =   $(LIB_DIRS)	\
 		-lomnithread	\
 		-lmysqlclient	\
 		-lCOS4			\
-		-lmysqlclient_r	\
+		-lmysqlclient	\
 		-lz				\
 		-lposix4		\
 		-lsocket -lnsl -lm -lpthread $(STD_LIB)
@@ -198,7 +182,7 @@ LFLAGS_SERVER = $(LIB_DIRS)	\
 		-lomniDynamic4	\
 		-lomnithread	\
 		-lCOS4			\
-		-lmysqlclient_r -lpthread -ldl
+		-lmysqlclient -lpthread -ldl
 
 LFLAGS_INIT =   $(LIB_DIRS)	\
 		-ltango			\
@@ -207,7 +191,7 @@ LFLAGS_INIT =   $(LIB_DIRS)	\
 		-lomniDynamic4	\
 		-lomnithread	\
 		-lCOS4			\
-		-lmysqlclient_r	\
+		-lmysqlclient	\
 		-lpthread -ldl
 
 endif
