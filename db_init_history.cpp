@@ -11,15 +11,6 @@
 // $Revision$
 //
 // $Log$
-// Revision 2.3  2006/09/15 12:45:39  jlpons
-// Added mysql_options() call.
-//
-// Revision 2.2  2006/08/29 08:49:20  jlpons
-// Moved database purge to the DB server
-//
-// Revision 2.1  2006/06/22 15:25:32  jlpons
-// Added history commands
-//
 //
 // copyleft :    European Synchrotron Radiation Facility
 //               BP 220, Grenoble 38043
@@ -30,7 +21,19 @@
 #include <winsock.h>
 #endif
 #include <mysql.h>
-#include <tango.h>
+
+#if ((defined WIN32) || (defined __SUNPRO_CC) || (defined GCC_STD) || (defined __HP_aCC))
+	#include <iostream>
+	#include <sstream>
+	#include <fstream>
+        #define  MemStream      stringstream
+#else
+	#include <iostream.h>
+	#include <strstream.h>
+	#include <fstream.h>
+	#include <sstream>
+        #define  MemStream      strstream
+#endif
 
 using namespace std;
 
@@ -166,8 +169,7 @@ int main(int argc,char *argv[]) {
   }
 
   mysql_init(&mysql);
-  mysql_options(&mysql,MYSQL_READ_DEFAULT_GROUP,"client");
-
+  
   if (!mysql_real_connect(&mysql, "localhost", mysql_user, mysql_password, "tango", 0, NULL, 0))
   {
     cout << "Failed to connect to MySQL: " << mysql_error(&mysql) << endl;
@@ -179,7 +181,7 @@ int main(int argc,char *argv[]) {
   // Create and initialise history tables
   // ---------------------------------------------------------------  
 
-  TangoSys_MemStream sql_query;
+  MemStream sql_query;
   int i,j,nb_prop;
   MYSQL_RES *list;
   MYSQL_ROW row,row2;
@@ -212,9 +214,7 @@ int main(int argc,char *argv[]) {
   sql_query << "  name varchar(255) NOT NULL default '',";
   sql_query << "  count int NOT NULL default '0',";
   sql_query << "  value text default NULL,";
-  sql_query << "  KEY index_id (id),";
-  sql_query << "  KEY index_device (device),";
-  sql_query << "  KEY index_name (name)";
+  sql_query << "  KEY index_resource (id)";
   sql_query << ") TYPE=MyISAM;";
   simple_query(sql_query.str());
   
@@ -277,10 +277,7 @@ int main(int argc,char *argv[]) {
   sql_query << "  name varchar(255) NOT NULL default '',";
   sql_query << "  count int NOT NULL default '0',";
   sql_query << "  value text default NULL,";
-  sql_query << "  KEY index_id (id),";
-  sql_query << "  KEY index_device (device),";
-  sql_query << "  KEY index_attribute (attribute),";
-  sql_query << "  KEY index_name (name)";
+  sql_query << "  KEY index_resource (id)";
   sql_query << ") TYPE=MyISAM;";
   simple_query(sql_query.str());
   
@@ -343,9 +340,7 @@ int main(int argc,char *argv[]) {
   sql_query << "  name varchar(255) NOT NULL default '',";
   sql_query << "  count int NOT NULL default '0',";
   sql_query << "  value text default NULL,";
-  sql_query << "  KEY index_id (id),";
-  sql_query << "  KEY index_class (class),";
-  sql_query << "  KEY index_name (name)";
+  sql_query << "  KEY index_resource (id)";
   sql_query << ") TYPE=MyISAM;";
   simple_query(sql_query.str());
   
@@ -407,10 +402,7 @@ int main(int argc,char *argv[]) {
   sql_query << "  name varchar(255) NOT NULL default '',";
   sql_query << "  count int NOT NULL default '0',";
   sql_query << "  value text default NULL,";
-  sql_query << "  KEY index_id (id),";
-  sql_query << "  KEY index_class (class),";
-  sql_query << "  KEY index_attribute (attribute),";
-  sql_query << "  KEY index_name (name)";
+  sql_query << "  KEY index_resource (id)";
   sql_query << ") TYPE=MyISAM;";
   simple_query(sql_query.str());
   
@@ -473,9 +465,7 @@ int main(int argc,char *argv[]) {
   sql_query << "  name varchar(255) NOT NULL default '',";
   sql_query << "  count int NOT NULL default '0',";
   sql_query << "  value text default NULL,";
-  sql_query << "  KEY index_id (id),";
-  sql_query << "  KEY index_object (object),";
-  sql_query << "  KEY index_name (name)";
+  sql_query << "  KEY index_resource (id)";
   sql_query << ") TYPE=MyISAM;";
   simple_query(sql_query.str());
   

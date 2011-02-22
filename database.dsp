@@ -25,7 +25,7 @@ CFG=database - Win32 Debug
 # PROP AllowPerConfigDependencies 0
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
-CPP=cl.exe
+CPP=xicl6.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "database - Win32 Release"
@@ -47,7 +47,7 @@ RSC=rc.exe
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-LINK32=link.exe
+LINK32=xilink6.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 
@@ -65,15 +65,15 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GR /GX /ZI /Od /I "." /I ".\DatabasePurge" /I "$(TANGO_HOME)\release\win32_vc6\win32\include" /I "C:\Program Files\MySQL\MySQL Server 5.0\include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "_WINSTATIC" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /GX /ZI /Od /I "." /I ".\DatabasePurge" /I "C:\Program Files\tango\win32_vc6\win32\include" /I "C:\Program Files\MySQL\MySQL Server 5.0\include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "_WINSTATIC" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-LINK32=link.exe
+LINK32=xilink6.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 libmysql.lib mysqlclient.lib tangod.lib log4tangod.lib COS4d.lib omniDynamic4d.lib omniORB4d.lib omnithreadd.lib mswsock.lib ws2_32.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /out:"database" /pdbtype:sept /libpath:"$(TANGO_HOME)\release\win32_vc6\win32\lib" /libpath:"C:\Program Files\MySQL\MySQL Server 5.0\lib\debug"
+# ADD LINK32 libmysql.lib mysqlclient.lib tangod.lib log4tangod.lib COS4d.lib omniDynamic4d.lib omniORB4d.lib omnithreadd.lib mswsock.lib ws2_32.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /out:"C:\Temp\Debug\DatabaseDs.exe" /pdbtype:sept /libpath:"C:\Program Files\tango\win32_vc6\win32\lib" /libpath:"C:\Program Files\MySQL\MySQL Server 5.0\lib\debug"
 
 !ENDIF 
 
@@ -123,6 +123,18 @@ SOURCE=.\DataBase.h
 # Begin Source File
 
 SOURCE=.\DataBaseClass.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DataBasePurge\DataBasePurge.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DataBasePurge\DataBasePurgeClass.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DataBasePurge\PurgeThread.h
 # End Source File
 # Begin Source File
 

@@ -3,8 +3,6 @@
 -- Host: localhost    Database: tango
 ---------------------------------------------------------
 -- Server version	3.23.55-log
-CREATE DATABASE tango;
-USE tango;
 
 --
 -- Table structure for table 'attribute_class'
@@ -45,7 +43,7 @@ CREATE TABLE device (
   started datetime default NULL,
   stopped datetime default NULL,
   comment text,
-  KEY index_name (name(64),alias(64))
+  KEY name (name(64))
 ) TYPE=MyISAM;
 
 --
@@ -67,8 +65,7 @@ CREATE TABLE property (
   value text default NULL,
   updated timestamp(14) NOT NULL,
   accessed timestamp(14) NOT NULL,
-  comment text,
-  KEY index_name (object(64),name(64))
+  comment text
 ) TYPE=MyISAM;
 
 --
@@ -90,7 +87,7 @@ CREATE TABLE property_attribute_class (
   updated timestamp(14) NOT NULL,
   accessed timestamp(14) NOT NULL,
   comment text,
-  KEY index_property_attribute_class (class(64),attribute(64),name(64),count)
+  KEY index_property_attribute_class (attribute(64),name(64),count)
 ) TYPE=MyISAM;
 
 --
@@ -222,9 +219,7 @@ CREATE TABLE property_hist (
   name varchar(255) NOT NULL default '',
   count int(11) NOT NULL default '0',
   value text,
-  KEY index_id (id),
-  KEY index_object (object),
-  KEY index_name (name)
+  KEY index_resource (id)
 ) TYPE=MyISAM;
 
 CREATE TABLE property_device_hist (
@@ -234,9 +229,7 @@ CREATE TABLE property_device_hist (
   name varchar(255) NOT NULL default '',
   count int(11) NOT NULL default '0',
   value text,
-  KEY index_id (id),
-  KEY index_device (device),
-  KEY index_name (name)
+  KEY index_resource (id)
 ) TYPE=MyISAM;
 
 CREATE TABLE property_class_hist (
@@ -246,9 +239,7 @@ CREATE TABLE property_class_hist (
   name varchar(255) NOT NULL default '',
   count int(11) NOT NULL default '0',
   value text,
-  KEY index_id (id),
-  KEY index_class (class),
-  KEY index_name (name)
+  KEY index_resource (id)
 ) TYPE=MyISAM;
 
 CREATE TABLE property_attribute_class_hist (
@@ -259,10 +250,7 @@ CREATE TABLE property_attribute_class_hist (
   name varchar(255) NOT NULL default '',
   count int(11) NOT NULL default '0',
   value text,
-  KEY index_id (id),
-  KEY index_class (class),
-  KEY index_attribute (attribute),
-  KEY index_name (name)  
+  KEY index_resource (id)
 ) TYPE=MyISAM;
 
 CREATE TABLE property_attribute_device_hist (
@@ -273,9 +261,6 @@ CREATE TABLE property_attribute_device_hist (
   name varchar(255) NOT NULL default '',
   count int(11) NOT NULL default '0',
   value text,
-  KEY index_id (id),
-  KEY index_device (device),
-  KEY index_attribute (attribute),
-  KEY index_name (name)  
+  KEY index_resource (id)
 ) TYPE=MyISAM;
 
