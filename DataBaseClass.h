@@ -12,64 +12,9 @@
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.34  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
-// Revision 2.33  2009/04/06 13:11:08  pascal_verdier
-// DbMySqlSelect command added.
-//
-// Revision 2.32  2009/01/30 08:17:51  taurel
-// - Added DbGetDeviceWideList command
-//
-// Revision 2.31  2008/03/26 17:31:00  taurel
-// - Committed after merge with the Release 4 branch
-//
-// Revision 2.30.2.2  2008/02/28 17:07:37  taurel
-// - Added the StoredProcedureRelease attribute
-//
-// Revision 2.30.2.1  2008/01/25 12:29:50  taurel
-// - Add a new command DbDeleteAllDeviceAttributeProperty
-// - The DbImportDevice now also returns the device class
-// - Fix bug in the DbGetHostServerList command
-//
-// Revision 2.30  2007/11/06 07:24:07  taurel
-// - Added the DbGetDataForServerCache command (with timing stats)
-// - Add timing stats for the DbPutClassProperty command
-//
-// Revision 2.29  2006/09/28 11:18:20  pascal_verdier
-// DbGetClassForDevice and DbGetClassInheritanceForDevice commands added.
-//
-// Revision 2.28  2006/06/22 15:25:32  jlpons
-// Added history commands
-//
-// Revision 2.27  2005/10/05 07:35:54  pascal_verdier
-// Bug fixed in Timing_Info attribute read.
-// ResetTimingValues command added.
-// Windows compatibility added for timing attributes.
-//
 // Revision 2.26  2005/07/25 08:49:18  andy_gotz
 // replaced the timing attributes for the import device with a spectrum of timing
 // stats for a list of commands.
@@ -142,6 +87,11 @@
 //
 // Revision 2.4  2001/03/06 11:01:56  goetz
 // added DbGetDeviceExportedList command; DbExportDevice updates host in server table
+//
+//
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
 //
 //=============================================================================
 //
@@ -233,93 +183,9 @@ public:
 	{return (static_cast<DataBase *>(dev))->is_Timing_average_allowed(ty);}
 };
 
-class StoredProcedureReleaseAttrib: public Tango::Attr
-{
-public:
-	StoredProcedureReleaseAttrib():Attr("StoredProcedureRelease", Tango::DEV_STRING, Tango::READ) {};
-	~StoredProcedureReleaseAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-	{(static_cast<DataBase *>(dev))->read_StoredProcedureRelease(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-	{return (static_cast<DataBase *>(dev))->is_StoredProcedureRelease_allowed(ty);}
-};
-
 //=========================================
 //	Define classes for commands
 //=========================================
-class DbMySqlSelectCmd : public Tango::Command
-{
-public:
-	DbMySqlSelectCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbMySqlSelectCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbMySqlSelectCmd() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbMySqlSelect_allowed(any);}
-};
-
-
-
-class DbDeleteAllDeviceAttributePropertyClass : public Tango::Command
-{
-public:
-	DbDeleteAllDeviceAttributePropertyClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbDeleteAllDeviceAttributePropertyClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbDeleteAllDeviceAttributePropertyClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbDeleteAllDeviceAttributeProperty_allowed(any);}
-};
-
-
-
-class DbGetDataForServerCacheCmd : public Tango::Command
-{
-public:
-	DbGetDataForServerCacheCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetDataForServerCacheCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetDataForServerCacheCmd() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetDataForServerCache_allowed(any);}
-};
-
-
-
 class ResetTimingValuesClass : public Tango::Command
 {
 public:
@@ -824,30 +690,6 @@ public:
 
 
 
-class DbGetPropertyHistClass : public Tango::Command
-{
-public:
-	DbGetPropertyHistClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetPropertyHistClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetPropertyHistClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetPropertyHist_allowed(any);}
-};
-
-
-
 class DbGetProperty : public Tango::Command
 {
 public:
@@ -1064,30 +906,6 @@ public:
 
 
 
-class DbGetDevicePropertyHistClass : public Tango::Command
-{
-public:
-	DbGetDevicePropertyHistClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetDevicePropertyHistClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetDevicePropertyHistClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetDevicePropertyHist_allowed(any);}
-};
-
-
-
 class DbGetDeviceProperty : public Tango::Command
 {
 public:
@@ -1136,10 +954,10 @@ public:
 
 
 
-class DbGetDeviceWideListCmd : public Tango::Command
+class DbGetDeviceList : public Tango::Command
 {
 public:
-	DbGetDeviceWideListCmd(const char   *name,
+	DbGetDeviceList(const char   *name,
 	               Tango::CmdArgType in,
 				   Tango::CmdArgType out,
 				   const char        *in_desc,
@@ -1147,35 +965,11 @@ public:
 				   Tango::DispLevel  level)
 	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-	DbGetDeviceWideListCmd(const char   *name,
+	DbGetDeviceList(const char   *name,
 	               Tango::CmdArgType in,
 				   Tango::CmdArgType out)
 	:Command(name,in,out)	{};
-	~DbGetDeviceWideListCmd() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetDeviceWideList_allowed(any);}
-};
-
-
-
-class DbGetDeviceListCmd : public Tango::Command
-{
-public:
-	DbGetDeviceListCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetDeviceListCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetDeviceListCmd() {};
+	~DbGetDeviceList() {};
 	
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
@@ -1300,30 +1094,6 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<DataBase *>(dev))->is_DbGetDeviceClassList_allowed(any);}
-};
-
-
-
-class DbGetDeviceAttributePropertyHistCmd : public Tango::Command
-{
-public:
-	DbGetDeviceAttributePropertyHistCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetDeviceAttributePropertyHistCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetDeviceAttributePropertyHistCmd() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetDeviceAttributePropertyHist_allowed(any);}
 };
 
 
@@ -1472,30 +1242,6 @@ public:
 
 
 
-class DbGetClassPropertyHistClass : public Tango::Command
-{
-public:
-	DbGetClassPropertyHistClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetClassPropertyHistClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetClassPropertyHistClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetClassPropertyHist_allowed(any);}
-};
-
-
-
 class DbGetClassProperty : public Tango::Command
 {
 public:
@@ -1540,78 +1286,6 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<DataBase *>(dev))->is_DbGetClassList_allowed(any);}
-};
-
-
-
-class DbGetClassInheritanceForDeviceClass : public Tango::Command
-{
-public:
-	DbGetClassInheritanceForDeviceClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetClassInheritanceForDeviceClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetClassInheritanceForDeviceClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetClassInheritanceForDevice_allowed(any);}
-};
-
-
-
-class DbGetClassForDeviceClass : public Tango::Command
-{
-public:
-	DbGetClassForDeviceClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetClassForDeviceClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetClassForDeviceClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetClassForDevice_allowed(any);}
-};
-
-
-
-class DbGetClassAttributePropertyHistCmd : public Tango::Command
-{
-public:
-	DbGetClassAttributePropertyHistCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DbGetClassAttributePropertyHistCmd(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DbGetClassAttributePropertyHistCmd() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<DataBase *>(dev))->is_DbGetClassAttributePropertyHist_allowed(any);}
 };
 
 
@@ -2148,14 +1822,9 @@ public:
 // The DataBaseClass singleton definition
 //
 
-class
-#ifdef WIN32
-	__declspec(dllexport)
-#endif
-	DataBaseClass : public Tango::DeviceClass
+class DataBaseClass : public Tango::DeviceClass
 {
 public:
-//	properties member data
 
 //	add your own data members here
 //------------------------------------
@@ -2177,12 +1846,9 @@ protected:
 	DataBaseClass(string &);
 	static DataBaseClass *_instance;
 	void command_factory();
-	void get_class_property();
 	void attribute_factory(vector<Tango::Attr *> &);
 	void write_class_property();
 	void set_default_property();
-	string get_cvstag();
-	string get_cvsroot();
 
 private:
 	void device_factory(const Tango::DevVarStringArray *);

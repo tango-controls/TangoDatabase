@@ -10,64 +10,9 @@ static const char *RcsId = "$Header$";
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.12  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
-// Revision 2.11  2009/04/06 13:11:09  pascal_verdier
-// DbMySqlSelect command added.
-//
-// Revision 2.10  2009/01/30 08:17:51  taurel
-// - Added DbGetDeviceWideList command
-//
-// Revision 2.9  2008/03/26 17:31:01  taurel
-// - Committed after merge with the Release 4 branch
-//
-// Revision 2.8.2.2  2008/02/28 17:07:37  taurel
-// - Added the StoredProcedureRelease attribute
-//
-// Revision 2.8.2.1  2008/01/25 12:29:50  taurel
-// - Add a new command DbDeleteAllDeviceAttributeProperty
-// - The DbImportDevice now also returns the device class
-// - Fix bug in the DbGetHostServerList command
-//
-// Revision 2.8  2007/11/06 07:24:07  taurel
-// - Added the DbGetDataForServerCache command (with timing stats)
-// - Add timing stats for the DbPutClassProperty command
-//
-// Revision 2.7  2006/09/28 11:18:20  pascal_verdier
-// DbGetClassForDevice and DbGetClassInheritanceForDevice commands added.
-//
-// Revision 2.6  2006/06/22 15:25:32  jlpons
-// Added history commands
-//
-// Revision 2.5  2005/10/05 07:35:54  pascal_verdier
-// Bug fixed in Timing_Info attribute read.
-// ResetTimingValues command added.
-// Windows compatibility added for timing attributes.
-//
 // Revision 2.4  2005/07/25 08:49:19  andy_gotz
 // replaced the timing attributes for the import device with a spectrum of timing
 // stats for a list of commands.
@@ -81,6 +26,11 @@ static const char *RcsId = "$Header$";
 //
 // Revision 2.1  2005/01/10 10:35:26  pascal_verdier
 // Updated to Tango 5.
+//
+//
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
 //
 //-=============================================================================
 //
@@ -190,20 +140,6 @@ bool DataBase::is_Timing_index_allowed(Tango::AttReqType type)
 //
 //-----------------------------------------------------------------------------
 bool DataBase::is_Timing_info_allowed(Tango::AttReqType type)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_StoredProcedureRelease_allowed
-// 
-// description : 	Read/Write allowed for StoredProcedureRelease attribute.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_StoredProcedureRelease_allowed(Tango::AttReqType type)
 {
 		//	End of Generated Code
 
@@ -1161,160 +1097,6 @@ bool DataBase::is_DbGetDeviceInfo_allowed(const CORBA::Any &any)
 //
 //-----------------------------------------------------------------------------
 bool DataBase::is_ResetTimingValues_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetDevicePropertyHist_allowed
-// 
-// description : 	Execution allowed for DbGetDevicePropertyHist command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetDevicePropertyHist_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetDeviceAttributePropertyHist_allowed
-// 
-// description : 	Execution allowed for DbGetDeviceAttributePropertyHist command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetDeviceAttributePropertyHist_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetClassAttributePropertyHist_allowed
-// 
-// description : 	Execution allowed for DbGetClassAttributePropertyHist command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetClassAttributePropertyHist_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetClassPropertyHist_allowed
-// 
-// description : 	Execution allowed for DbGetClassPropertyHist command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetClassPropertyHist_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetPropertyHist_allowed
-// 
-// description : 	Execution allowed for DbGetPropertyHist command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetPropertyHist_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetClassForDevice_allowed
-// 
-// description : 	Execution allowed for DbGetClassForDevice command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetClassForDevice_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetClassInheritanceForDevice_allowed
-// 
-// description : 	Execution allowed for DbGetClassInheritanceForDevice command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetClassInheritanceForDevice_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetDataForServerCache_allowed
-// 
-// description : 	Execution allowed for DbGetDataForServerCache command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetDataForServerCache_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbDeleteAllDeviceAttributeProperty_allowed
-// 
-// description : 	Execution allowed for DbDeleteAllDeviceAttributeProperty command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbDeleteAllDeviceAttributeProperty_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbGetDeviceWideList_allowed
-// 
-// description : 	Execution allowed for DbGetDeviceWideList command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbGetDeviceWideList_allowed(const CORBA::Any &any)
-{
-		//	End of Generated Code
-
-		//	Re-Start of Generated Code
-	return true;
-}
-//+----------------------------------------------------------------------------
-//
-// method : 		DataBase::is_DbMySqlSelect_allowed
-// 
-// description : 	Execution allowed for DbMySqlSelect command.
-//
-//-----------------------------------------------------------------------------
-bool DataBase::is_DbMySqlSelect_allowed(const CORBA::Any &any)
 {
 		//	End of Generated Code
 
