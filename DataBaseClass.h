@@ -12,35 +12,9 @@
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
 //
 // $Log$
-// Revision 2.34  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
-// Revision 2.33  2009/04/06 13:11:08  pascal_verdier
-// DbMySqlSelect command added.
-//
 // Revision 2.32  2009/01/30 08:17:51  taurel
 // - Added DbGetDeviceWideList command
 //
@@ -142,6 +116,11 @@
 //
 // Revision 2.4  2001/03/06 11:01:56  goetz
 // added DbGetDeviceExportedList command; DbExportDevice updates host in server table
+//
+//
+// copyleft :     European Synchrotron Radiation Facility
+//                BP 220, Grenoble 38043
+//                FRANCE
 //
 //=============================================================================
 //
