@@ -9,34 +9,17 @@
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
-//
 // $Revision$
+//
+// copyleft :    European Synchrotron Radiation Facility
+//               BP 220, Grenoble 38043
+//               FRANCE
 //
 //=============================================================================
 
-
 #include <DataBase.h>
 
-namespace DataBase_ns
+namespace DataBase
 {
 //=============================================================================
 //=============================================================================
@@ -93,12 +76,6 @@ void *UpdateStarter::run_undetached(void *ptr)
 			//	Verify if devname has been set
 			if (devnames[i].find(STARTER_DEVNAME_HEADER)==0)
 			{
-				//	Remove the Fully Qualify Domain Name of host for device name
-				string::size_type	pos = devnames[i].find('.');
-				if (pos != string::npos)
-					 devnames[i] = devnames[i].substr(0, pos);
-				//cout << "Fire info to " << devnames[i] << endl;
-
 				Tango::DeviceProxy	*dev = NULL;
 				try
 				{
@@ -108,7 +85,7 @@ void *UpdateStarter::run_undetached(void *ptr)
 					dev->command_inout("UpdateServersInfo");
 					cout << "dev->command_inout(UpdateServersInfo) sent to " << devnames[i] << endl;
 				}
-				catch(Tango::DevFailed &e)
+				catch(Tango::DevFailed /*&e*/)
 				{
 					//Tango::Except::print_exception(e);
 				}
