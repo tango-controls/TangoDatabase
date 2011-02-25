@@ -1,154 +1,42 @@
+/*----- PROTECTED REGION ID(DataBase.h) ENABLED START -----*/
 //=============================================================================
 //
 // file :        DataBase.h
 //
 // description : Include for the DataBase class.
 //
-// project :	TANGO
+// project :     TANGO.
 //
-// Author(s): andy_gotz, P.Verdier
-//
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011
-//						European Synchrotron Radiation Facility
-//                      BP 220, Grenoble 38043
-//                      FRANCE
-//
-// This file is part of Tango.
-//
-// Tango is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Tango is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Tango.  If not, see <http://www.gnu.org/licenses/>.
+// $Author$
 //
 // $Revision$
+// $Date$
 //
-// $Log$
-// Revision 2.47  2011/02/11 08:35:33  taurel
-// - add a MySQL reconnection (5 retries) in case it's impossible
-// to connect to it
+// SVN only:
+// $HeadURL:  $
 //
-// Revision 2.46  2010/09/21 11:43:21  taurel
-// - Add GPL stuff
-//
-// Revision 2.45  2010/09/21 11:37:00  taurel
-// - Do not call mysql_init during DS startup
-//
-// Revision 2.44  2009/04/06 13:11:09  pascal_verdier
-// DbMySqlSelect command added.
-//
-// Revision 2.43  2009/04/06 12:19:45  taurel
-// - Fix compilation problem with Solaris CC
-//
-// Revision 2.42  2009/04/04 18:46:28  taurel
-// Fixed warnings when compiled with gcc 4.3
-//
-// Revision 2.41  2009/04/04 17:57:50  taurel
-// Device now inherits from Device_4Impl
-// Get env. variable from Tango lib to support tangorc file
-//
-// Revision 2.40  2009/01/30 08:17:51  taurel
-// - Added DbGetDeviceWideList command
-//
-// Revision 2.39  2008/05/23 08:33:28  taurel
-// - MIscellaneous bug fixes due to Windows compilation and tests
-//
-// Revision 2.38  2008/04/10 06:58:43  taurel
-// - Port changes to Solaris CC compiler
-//
-// Revision 2.37  2008/04/07 12:08:32  taurel
-// - Fix bug in the StoredProcedureRelease attribute
-//
-// Revision 2.36  2008/03/26 17:31:00  taurel
-// - Committed after merge with the Release 4 branch
-//
-// Revision 2.35.2.8  2008/02/28 17:07:37  taurel
-// - Added the StoredProcedureRelease attribute
-//
-// Revision 2.35.2.7  2008/01/25 12:29:50  taurel
-// - Add a new command DbDeleteAllDeviceAttributeProperty
-// - The DbImportDevice now also returns the device class
-// - Fix bug in the DbGetHostServerList command
-//
-// Revision 2.35.2.6  2008/01/03 08:44:49  taurel
-// - Add MySQL connection pool size definition as a command line option
-// called "poolSize" with a default value of 20
-//
-// Revision 2.35.2.5  2007/12/19 11:48:29  taurel
-// - Fix several bugs in the connection management in case of error
-// - Use the same connection for the get_id() method
-// - Re-code the call to the stored procedure as decribed in MySQL doc
-//
-// Revision 2.35.2.4  2007/12/06 16:45:03  taurel
-// - Fix some bugs in the locking system
-//
-// Revision 2.35.2.3  2007/12/06 08:34:21  taurel
-// - Add table slock to be pretected against threading within a server and againt several servers using the same DB
-//
-// Revision 2.35.2.2  2007/11/08 10:02:59  taurel
-// Several changes to get a fully multi-threaded Database server
-// - Add interceptors for thread creation and deletion
-// - Use the NO_SYNC Tango serialisation model
-// - Add some mutexes to protect miscellaneous pieces of code
-// - Re-write the get_id() method
-// - Create a MySQL connection pool
-//
-// Revision 2.35.2.1  2007/11/07 09:50:40  taurel
-// - First changes to get a fully-threaded DB server
-//
-// Revision 2.35  2007/11/06 07:24:06  taurel
-// - Added the DbGetDataForServerCache command (with timing stats)
-// - Add timing stats for the DbPutClassProperty command
-//
-// Revision 2.34  2006/09/28 11:18:20  pascal_verdier
-// DbGetClassForDevice and DbGetClassInheritanceForDevice commands added.
-//
-// Revision 2.33  2006/08/29 08:49:20  jlpons
-// Moved database purge to the DB server
-//
-// Revision 2.32  2006/06/22 15:25:32  jlpons
-// Added history commands
-//
-// Revision 2.31  2005/10/19 08:47:01  pascal_verdier
-// Bug on put_property() for multi lines value fixed.
-//
-// Revision 2.30  2005/10/05 07:35:54  pascal_verdier
-// Bug fixed in Timing_Info attribute read.
-// ResetTimingValues command added.
-// Windows compatibility added for timing attributes.
+// CVS only:
+// $Source:  $
+// $Log:  $
 //
 //=============================================================================
-//
-//  		This file is generated by POGO
-//	(Program Obviously used to Generate tango Object)
-//
-//             (c) - Pascal Verdier - ESRF
+//                This file is generated by POGO
+//        (Program Obviously used to Generate tango Object)
 //=============================================================================
-#ifndef _DATABASE_H
-#define _DATABASE_H
+
+
+#ifndef DATABASE_H
+#define DATABASE_H
 
 
 #include <tango.h>
 #ifdef WIN32
 #include <my_global.h>
 #endif
-
 #include <mysql.h>
 #include <update_starter.h>
 
-#ifndef WIN32
-#	include <sys/time.h>
-#endif
 
-//	Add your own constants definitions here.
-//-----------------------------------------------
 #define DB_SQLError 				"DB_SQLError"
 #define DB_IncorrectArguments		"DB_IncorrectArguments"
 #define DB_IncorrectDeviceName		"DB_IncorrectDeviceName"
@@ -184,8 +72,20 @@ static LARGE_INTEGER	cpu_freq;
 
 
 
-namespace DataBase_ns {
 
+/*----- PROTECTED REGION END -----*/
+
+
+/**
+ *	DataBase class Description:
+ *	This class manage the TANGO database.
+ */
+
+namespace DataBase_ns
+{
+	/*----- PROTECTED REGION ID(DataBase::Additional Class Declarations) ENABLED START -----*/
+
+		//		Additional Class Declarations
 class DummyDev: public Tango::Connection
 {
 public:
@@ -201,21 +101,17 @@ public:
 	int get_env_var(const char *cc,string &str_ref) {return Tango::Connection::get_env_var(cc,str_ref);}
 };
 
-/**
- * Class Description:
- * This class manage the TANGO database.
- */
-
-/*
- *	Device States Description:
- */
+	/*----- PROTECTED REGION END -----*/	//	DataBase::Additional Class Declarations
 
 
-class DataBase: public Tango::Device_4Impl
+class DataBase : public Tango::Device_4Impl
 {
-public :
-	//	Add your own data members here
-	//-----------------------------------------
+
+
+	/*----- PROTECTED REGION ID(DataBase::Data Members) ENABLED START -----*/
+
+	//		Add your own data members
+public:
 	/**
 	 *	current incarnation of database
 	 */
@@ -261,1029 +157,663 @@ public :
 	double *timing_stats_calls;
 	char **timing_stats_index;
 
-	//	Here is the Start of the automatic code generation part
-	//-------------------------------------------------------------	
-/**
- *	@name attributes
- *	Tango::Attributs menmber data.
- */
-//@{
-		Tango::DevString	*attr_StoredProcedureRelease_read;
-		Tango::DevDouble	*attr_Timing_average_read;
-		Tango::DevDouble	*attr_Timing_minimum_read;
-		Tango::DevDouble	*attr_Timing_maximum_read;
-		Tango::DevDouble	*attr_Timing_calls_read;
-		Tango::DevString	*attr_Timing_index_read;
-		Tango::DevString	*attr_Timing_info_read;
-//@}
 
-/**
- *	@name Device properties
- *	Device properties member data.
- */
-//@{
-//@}
+	/*----- PROTECTED REGION END -----*/	//	DataBase::Data Members
 
-/**@name Constructors
- * Miscellaneous constructors */
-//@{
-/**
- * Constructs a newly allocated Command object.
- *
- *	@param cl	Class.
- *	@param s 	Device Name
- */
+
+//	Device property data members
+public:	
+
+//	Attribute data members
+public:
+	Tango::DevString	*attr_StoredProcedureRelease_read;
+	Tango::DevDouble	*attr_Timing_average_read;
+	Tango::DevDouble	*attr_Timing_minimum_read;
+	Tango::DevDouble	*attr_Timing_maximum_read;
+	Tango::DevDouble	*attr_Timing_calls_read;
+	Tango::DevString	*attr_Timing_index_read;
+	Tango::DevString	*attr_Timing_info_read;
+
+
+
+//	Constructors and destructors
+public:
+	/**
+	 * Constructs a newly allocated Command object.
+	 *
+	 *	@param cl	Class.
+	 *	@param s 	Device Name
+	 */
 	DataBase(Tango::DeviceClass *cl,string &s);
-/**
- * Constructs a newly allocated Command object.
- *
- *	@param cl	Class.
- *	@param s 	Device Name
- */
+	/**
+	 * Constructs a newly allocated Command object.
+	 *
+	 *	@param cl	Class.
+	 *	@param s 	Device Name
+	 */
 	DataBase(Tango::DeviceClass *cl,const char *s);
-/**
- * Constructs a newly allocated Command object.
- *
- *	@param cl	Class.
- *	@param s 	Device name
- *	@param d	Device description.
- */
+	/**
+	 * Constructs a newly allocated Command object.
+	 *
+	 *	@param cl	Class.
+	 *	@param s 	Device name
+	 *	@param d	Device description.
+	 */
 	DataBase(Tango::DeviceClass *cl,const char *s,const char *d);
-//@}
-
-/**@name Destructor
- * Only one desctructor is defined for this class */
-//@{
-/**
- * The object desctructor.
- */	
+	/**
+	 * The object destructor.
+	 */	
 	~DataBase() {delete_device();};
-/**
- *	will be called at device destruction or at init command.
- */
-	void delete_device();
-//@}
 
-	
-/**@name Miscellaneous methods */
-//@{
-/**
- *	Initialize the device
- */
+
+
+//	Miscellaneous methods
+public:
+	/**
+	 *	will be called at device destruction or at init command.
+	 */
+	void delete_device();
+	/**
+	 *	Initialize the device
+	 */
 	virtual void init_device();
-/**
- *	Read The devive state.
- *	<Br>Command DevState 
- *
- * @return the device state read.
- */
-/**
- *	Read The devive status.
- *	<Br>Command DevStatus
- *
- * @return A String containing the device state read.
- */
-	virtual const char* dev_status();
-/**
- *	Always executed method befor execution command method.
- */
+	/**
+	 *	Read the device properties from database
+	 */
+	 void get_device_property();
+	/**
+	 *	Always executed method before execution command method.
+	 */
 	virtual void always_executed_hook();
 
-//@}
 
-/**
- * @name DataBase methods prototypes
- */
-
-//@{
-/**
- *	Hardware acquisition for attributes.
- */
+//	Attribute methods
+public:
+	/**
+	 *	Method      : DataBase::read_attr_hardware()
+	 *	Description : Hardware acquisition for attributes.
+	 */
 	virtual void read_attr_hardware(vector<long> &attr_list);
-/**
- *	Extract real attribute values for StoredProcedureRelease acquisition result.
- */
+
+
+	/**
+	 *	StoredProcedureRelease attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevString
+	 *	Attr type:	Scalar 
+	 */
 	virtual void read_StoredProcedureRelease(Tango::Attribute &attr);
-/**
- *	Extract real attribute values for Timing_average acquisition result.
- */
-	virtual void read_Timing_average(Tango::Attribute &attr);
-/**
- *	Extract real attribute values for Timing_minimum acquisition result.
- */
-	virtual void read_Timing_minimum(Tango::Attribute &attr);
-/**
- *	Extract real attribute values for Timing_maximum acquisition result.
- */
-	virtual void read_Timing_maximum(Tango::Attribute &attr);
-/**
- *	Extract real attribute values for Timing_calls acquisition result.
- */
-	virtual void read_Timing_calls(Tango::Attribute &attr);
-/**
- *	Extract real attribute values for Timing_index acquisition result.
- */
-	virtual void read_Timing_index(Tango::Attribute &attr);
-/**
- *	Extract real attribute values for Timing_info acquisition result.
- */
-	virtual void read_Timing_info(Tango::Attribute &attr);
-/**
- *	Read/Write allowed for StoredProcedureRelease attribute.
- */
 	virtual bool is_StoredProcedureRelease_allowed(Tango::AttReqType type);
-/**
- *	Read/Write allowed for Timing_average attribute.
- */
+
+
+
+	/**
+	 *	Timing_average attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevDouble
+	 *	Attr type:	Spectrum  max = 64
+	 */
+	virtual void read_Timing_average(Tango::Attribute &attr);
 	virtual bool is_Timing_average_allowed(Tango::AttReqType type);
-/**
- *	Read/Write allowed for Timing_minimum attribute.
- */
+
+
+
+	/**
+	 *	Timing_minimum attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevDouble
+	 *	Attr type:	Spectrum  max = 64
+	 */
+	virtual void read_Timing_minimum(Tango::Attribute &attr);
 	virtual bool is_Timing_minimum_allowed(Tango::AttReqType type);
-/**
- *	Read/Write allowed for Timing_maximum attribute.
- */
+
+
+
+	/**
+	 *	Timing_maximum attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevDouble
+	 *	Attr type:	Spectrum  max = 64
+	 */
+	virtual void read_Timing_maximum(Tango::Attribute &attr);
 	virtual bool is_Timing_maximum_allowed(Tango::AttReqType type);
-/**
- *	Read/Write allowed for Timing_calls attribute.
- */
+
+
+
+	/**
+	 *	Timing_calls attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevDouble
+	 *	Attr type:	Spectrum  max = 64
+	 */
+	virtual void read_Timing_calls(Tango::Attribute &attr);
 	virtual bool is_Timing_calls_allowed(Tango::AttReqType type);
-/**
- *	Read/Write allowed for Timing_index attribute.
- */
+
+
+
+	/**
+	 *	Timing_index attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevString
+	 *	Attr type:	Spectrum  max = 64
+	 */
+	virtual void read_Timing_index(Tango::Attribute &attr);
 	virtual bool is_Timing_index_allowed(Tango::AttReqType type);
-/**
- *	Read/Write allowed for Timing_info attribute.
- */
+
+
+
+	/**
+	 *	Timing_info attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevString
+	 *	Attr type:	Spectrum  max = 64
+	 */
+	virtual void read_Timing_info(Tango::Attribute &attr);
 	virtual bool is_Timing_info_allowed(Tango::AttReqType type);
-/**
- *	Execution allowed for DbAddDevice command.
- */
+
+
+
+	/**
+	 *	Method      : DataBase::add_dynamic_attributes()
+	 *	Description : Add dynamic attributes if any.
+	 */
+		void add_dynamic_attributes();
+
+//	Command related methods
+public: 
+	/**
+	 *	Command State related methods.
+	 */
+	Tango::DevState dev_state();
+
+
+	/**
+	 *	Command DbAddDevice related methods.
+	 */
+	void db_add_device(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbAddDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbAddServer command.
- */
+
+	/**
+	 *	Command DbAddServer related methods.
+	 */
+	void db_add_server(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbAddServer_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteAttributeAlias command.
- */
+
+	/**
+	 *	Command DbDeleteAttributeAlias related methods.
+	 */
+	void db_delete_attribute_alias(Tango::DevString argin);
 	virtual bool is_DbDeleteAttributeAlias_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteClassAttribute command.
- */
+
+	/**
+	 *	Command DbDeleteClassAttribute related methods.
+	 */
+	void db_delete_class_attribute(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteClassAttribute_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteClassAttributeProperty command.
- */
+
+	/**
+	 *	Command DbDeleteClassAttributeProperty related methods.
+	 */
+	void db_delete_class_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteClassAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteClassProperty command.
- */
+
+	/**
+	 *	Command DbDeleteClassProperty related methods.
+	 */
+	void db_delete_class_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteClassProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteDevice command.
- */
+
+	/**
+	 *	Command DbDeleteDevice related methods.
+	 */
+	void db_delete_device(Tango::DevString argin);
 	virtual bool is_DbDeleteDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteDeviceAlias command.
- */
+
+	/**
+	 *	Command DbDeleteDeviceAlias related methods.
+	 */
+	void db_delete_device_alias(Tango::DevString argin);
 	virtual bool is_DbDeleteDeviceAlias_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteDeviceAttribute command.
- */
+
+	/**
+	 *	Command DbDeleteDeviceAttribute related methods.
+	 */
+	void db_delete_device_attribute(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteDeviceAttribute_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteDeviceAttributeProperty command.
- */
+
+	/**
+	 *	Command DbDeleteDeviceAttributeProperty related methods.
+	 */
+	void db_delete_device_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteDeviceAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteDeviceProperty command.
- */
+
+	/**
+	 *	Command DbDeleteDeviceProperty related methods.
+	 */
+	void db_delete_device_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteDeviceProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteProperty command.
- */
+
+	/**
+	 *	Command DbDeleteProperty related methods.
+	 */
+	void db_delete_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteServer command.
- */
+
+	/**
+	 *	Command DbDeleteServer related methods.
+	 */
+	void db_delete_server(Tango::DevString argin);
 	virtual bool is_DbDeleteServer_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteServerInfo command.
- */
+
+	/**
+	 *	Command DbDeleteServerInfo related methods.
+	 */
+	void db_delete_server_info(Tango::DevString argin);
 	virtual bool is_DbDeleteServerInfo_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbExportDevice command.
- */
+
+	/**
+	 *	Command DbExportDevice related methods.
+	 */
+	void db_export_device(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbExportDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbExportEvent command.
- */
+
+	/**
+	 *	Command DbExportEvent related methods.
+	 */
+	void db_export_event(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbExportEvent_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetAliasDevice command.
- */
+
+	/**
+	 *	Command DbGetAliasDevice related methods.
+	 */
+	Tango::DevString db_get_alias_device(Tango::DevString argin);
 	virtual bool is_DbGetAliasDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetAttributeAlias command.
- */
+
+	/**
+	 *	Command DbGetAttributeAlias related methods.
+	 */
+	Tango::DevString db_get_attribute_alias(Tango::DevString argin);
 	virtual bool is_DbGetAttributeAlias_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetAttributeAliasList command.
- */
+
+	/**
+	 *	Command DbGetAttributeAliasList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_attribute_alias_list(Tango::DevString argin);
 	virtual bool is_DbGetAttributeAliasList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassAttributeList command.
- */
+
+	/**
+	 *	Command DbGetClassAttributeList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_attribute_list(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetClassAttributeList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassAttributeProperty command.
- */
+
+	/**
+	 *	Command DbGetClassAttributeProperty related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetClassAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassAttributeProperty2 command.
- */
+
+	/**
+	 *	Command DbGetClassAttributeProperty2 related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_attribute_property2(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetClassAttributeProperty2_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassAttributePropertyHist command.
- */
+
+	/**
+	 *	Command DbGetClassAttributePropertyHist related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_attribute_property_hist(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetClassAttributePropertyHist_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassForDevice command.
- */
+
+	/**
+	 *	Command DbGetClassForDevice related methods.
+	 */
+	Tango::DevString db_get_class_for_device(Tango::DevString argin);
 	virtual bool is_DbGetClassForDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassInheritanceForDevice command.
- */
+
+	/**
+	 *	Command DbGetClassInheritanceForDevice related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_inheritance_for_device(Tango::DevString argin);
 	virtual bool is_DbGetClassInheritanceForDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassList command.
- */
+
+	/**
+	 *	Command DbGetClassList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_list(Tango::DevString argin);
 	virtual bool is_DbGetClassList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassProperty command.
- */
+
+	/**
+	 *	Command DbGetClassProperty related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetClassProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassPropertyHist command.
- */
+
+	/**
+	 *	Command DbGetClassPropertyHist related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_property_hist(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetClassPropertyHist_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetClassPropertyList command.
- */
+
+	/**
+	 *	Command DbGetClassPropertyList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_class_property_list(Tango::DevString argin);
 	virtual bool is_DbGetClassPropertyList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceAlias command.
- */
+
+	/**
+	 *	Command DbGetDeviceAlias related methods.
+	 */
+	Tango::DevString db_get_device_alias(Tango::DevString argin);
 	virtual bool is_DbGetDeviceAlias_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceAliasList command.
- */
+
+	/**
+	 *	Command DbGetDeviceAliasList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_alias_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceAliasList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceAttributeList command.
- */
+
+	/**
+	 *	Command DbGetDeviceAttributeList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_attribute_list(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDeviceAttributeList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceAttributeProperty command.
- */
+
+	/**
+	 *	Command DbGetDeviceAttributeProperty related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDeviceAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceAttributeProperty2 command.
- */
+
+	/**
+	 *	Command DbGetDeviceAttributeProperty2 related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_attribute_property2(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDeviceAttributeProperty2_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceAttributePropertyHist command.
- */
+
+	/**
+	 *	Command DbGetDeviceAttributePropertyHist related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_attribute_property_hist(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDeviceAttributePropertyHist_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceClassList command.
- */
+
+	/**
+	 *	Command DbGetDeviceClassList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_class_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceClassList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceDomainList command.
- */
+
+	/**
+	 *	Command DbGetDeviceDomainList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_domain_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceDomainList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceExportedList command.
- */
+
+	/**
+	 *	Command DbGetDeviceExportedList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_exported_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceExportedList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceFamilyList command.
- */
+
+	/**
+	 *	Command DbGetDeviceFamilyList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_family_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceFamilyList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceInfo command.
- */
+
+	/**
+	 *	Command DbGetDeviceInfo related methods.
+	 */
+	Tango::DevVarLongStringArray *db_get_device_info(Tango::DevString argin);
 	virtual bool is_DbGetDeviceInfo_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceList command.
- */
+
+	/**
+	 *	Command DbGetDeviceList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_list(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDeviceList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceWideList command.
- */
+
+	/**
+	 *	Command DbGetDeviceWideList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_wide_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceWideList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceMemberList command.
- */
+
+	/**
+	 *	Command DbGetDeviceMemberList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_member_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceMemberList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceProperty command.
- */
+
+	/**
+	 *	Command DbGetDeviceProperty related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDeviceProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDevicePropertyHist command.
- */
+
+	/**
+	 *	Command DbGetDevicePropertyHist related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_property_hist(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDevicePropertyHist_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDevicePropertyList command.
- */
+
+	/**
+	 *	Command DbGetDevicePropertyList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_property_list(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDevicePropertyList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDeviceServerClassList command.
- */
+
+	/**
+	 *	Command DbGetDeviceServerClassList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_device_server_class_list(Tango::DevString argin);
 	virtual bool is_DbGetDeviceServerClassList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetExportdDeviceListForClass command.
- */
+
+	/**
+	 *	Command DbGetExportdDeviceListForClass related methods.
+	 */
+	Tango::DevVarStringArray *db_get_exportd_device_list_for_class(Tango::DevString argin);
 	virtual bool is_DbGetExportdDeviceListForClass_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetHostList command.
- */
+
+	/**
+	 *	Command DbGetHostList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_host_list(Tango::DevString argin);
 	virtual bool is_DbGetHostList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetHostServerList command.
- */
+
+	/**
+	 *	Command DbGetHostServerList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_host_server_list(Tango::DevString argin);
 	virtual bool is_DbGetHostServerList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetHostServersInfo command.
- */
+
+	/**
+	 *	Command DbGetHostServersInfo related methods.
+	 */
+	Tango::DevVarStringArray *db_get_host_servers_info(Tango::DevString argin);
 	virtual bool is_DbGetHostServersInfo_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetInstanceNameList command.
- */
+
+	/**
+	 *	Command DbGetInstanceNameList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_instance_name_list(Tango::DevString argin);
 	virtual bool is_DbGetInstanceNameList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetObjectList command.
- */
+
+	/**
+	 *	Command DbGetObjectList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_object_list(Tango::DevString argin);
 	virtual bool is_DbGetObjectList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetProperty command.
- */
+
+	/**
+	 *	Command DbGetProperty related methods.
+	 */
+	Tango::DevVarStringArray *db_get_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetPropertyHist command.
- */
+
+	/**
+	 *	Command DbGetPropertyHist related methods.
+	 */
+	Tango::DevVarStringArray *db_get_property_hist(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetPropertyHist_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetPropertyList command.
- */
+
+	/**
+	 *	Command DbGetPropertyList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_property_list(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetPropertyList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetServerInfo command.
- */
+
+	/**
+	 *	Command DbGetServerInfo related methods.
+	 */
+	Tango::DevVarStringArray *db_get_server_info(Tango::DevString argin);
 	virtual bool is_DbGetServerInfo_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetServerList command.
- */
+
+	/**
+	 *	Command DbGetServerList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_server_list(Tango::DevString argin);
 	virtual bool is_DbGetServerList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetServerNameList command.
- */
+
+	/**
+	 *	Command DbGetServerNameList related methods.
+	 */
+	Tango::DevVarStringArray *db_get_server_name_list(Tango::DevString argin);
 	virtual bool is_DbGetServerNameList_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbImportDevice command.
- */
+
+	/**
+	 *	Command DbImportDevice related methods.
+	 */
+	Tango::DevVarLongStringArray *db_import_device(Tango::DevString argin);
 	virtual bool is_DbImportDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbImportEvent command.
- */
+
+	/**
+	 *	Command DbImportEvent related methods.
+	 */
+	Tango::DevVarLongStringArray *db_import_event(Tango::DevString argin);
 	virtual bool is_DbImportEvent_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbInfo command.
- */
+
+	/**
+	 *	Command DbInfo related methods.
+	 */
+	Tango::DevVarStringArray *db_info();
 	virtual bool is_DbInfo_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutAttributeAlias command.
- */
+
+	/**
+	 *	Command DbPutAttributeAlias related methods.
+	 */
+	void db_put_attribute_alias(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutAttributeAlias_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutClassAttributeProperty command.
- */
+
+	/**
+	 *	Command DbPutClassAttributeProperty related methods.
+	 */
+	void db_put_class_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutClassAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutClassAttributeProperty2 command.
- */
+
+	/**
+	 *	Command DbPutClassAttributeProperty2 related methods.
+	 */
+	void db_put_class_attribute_property2(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutClassAttributeProperty2_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutClassProperty command.
- */
+
+	/**
+	 *	Command DbPutClassProperty related methods.
+	 */
+	void db_put_class_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutClassProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutDeviceAlias command.
- */
+
+	/**
+	 *	Command DbPutDeviceAlias related methods.
+	 */
+	void db_put_device_alias(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutDeviceAlias_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutDeviceAttributeProperty command.
- */
+
+	/**
+	 *	Command DbPutDeviceAttributeProperty related methods.
+	 */
+	void db_put_device_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutDeviceAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutDeviceAttributeProperty2 command.
- */
+
+	/**
+	 *	Command DbPutDeviceAttributeProperty2 related methods.
+	 */
+	void db_put_device_attribute_property2(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutDeviceAttributeProperty2_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutDeviceProperty command.
- */
+
+	/**
+	 *	Command DbPutDeviceProperty related methods.
+	 */
+	void db_put_device_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutDeviceProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutProperty command.
- */
+
+	/**
+	 *	Command DbPutProperty related methods.
+	 */
+	void db_put_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbPutServerInfo command.
- */
+
+	/**
+	 *	Command DbPutServerInfo related methods.
+	 */
+	void db_put_server_info(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbPutServerInfo_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbUnExportDevice command.
- */
+
+	/**
+	 *	Command DbUnExportDevice related methods.
+	 */
+	void db_un_export_device(Tango::DevString argin);
 	virtual bool is_DbUnExportDevice_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbUnExportEvent command.
- */
+
+	/**
+	 *	Command DbUnExportEvent related methods.
+	 */
+	void db_un_export_event(Tango::DevString argin);
 	virtual bool is_DbUnExportEvent_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbUnExportServer command.
- */
+
+	/**
+	 *	Command DbUnExportServer related methods.
+	 */
+	void db_un_export_server(Tango::DevString argin);
 	virtual bool is_DbUnExportServer_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for ResetTimingValues command.
- */
+
+	/**
+	 *	Command ResetTimingValues related methods.
+	 */
+	void reset_timing_values();
 	virtual bool is_ResetTimingValues_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbGetDataForServerCache command.
- */
+
+	/**
+	 *	Command DbGetDataForServerCache related methods.
+	 */
+	Tango::DevVarStringArray *db_get_data_for_server_cache(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbGetDataForServerCache_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbDeleteAllDeviceAttributeProperty command.
- */
+
+	/**
+	 *	Command DbDeleteAllDeviceAttributeProperty related methods.
+	 */
+	void db_delete_all_device_attribute_property(const Tango::DevVarStringArray *argin);
 	virtual bool is_DbDeleteAllDeviceAttributeProperty_allowed(const CORBA::Any &any);
-/**
- *	Execution allowed for DbMySqlSelect command.
- */
+
+	/**
+	 *	Command DbMySqlSelect related methods.
+	 */
+	Tango::DevVarLongStringArray *db_my_sql_select(Tango::DevString argin);
 	virtual bool is_DbMySqlSelect_allowed(const CORBA::Any &any);
-/**
- * This command gets the device state (stored in its <i>device_state</i> data member) and returns it to the caller.
- *	@return	State Code
- *	@exception DevFailed
- */
-	virtual Tango::DevState	dev_state();
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_add_device(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_add_server(const Tango::DevVarStringArray *);
-/**
- * Delete an attribute alias.
- *	@param	argin	alias name.
- *	@exception DevFailed
- */
-	void	db_delete_attribute_alias(Tango::DevString);
-/**
- * delete a class attribute and all its properties from
- *	the database
- *	@param	argin	device
- *	@exception DevFailed
- */
-	void	db_delete_class_attribute(const Tango::DevVarStringArray *);
-/**
- * delete a class attribute property from the database
- *	@param	argin	device
- *	@exception DevFailed
- */
-	void	db_delete_class_attribute_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_delete_class_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	device name
- *	@exception DevFailed
- */
-	void	db_delete_device(Tango::DevString);
-/**
- * Delete a device alias.
- *	@param	argin	alias name
- *	@exception DevFailed
- */
-	void	db_delete_device_alias(Tango::DevString);
-/**
- * delete a device attribute and all its properties from
- *	the database
- *	@param	argin	device
- *	@exception DevFailed
- */
-	void	db_delete_device_attribute(const Tango::DevVarStringArray *);
-/**
- * delete a device attribute property from the database
- *	@param	argin	device
- *	@exception DevFailed
- */
-	void	db_delete_device_attribute_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_delete_device_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_delete_property(const Tango::DevVarStringArray *);
-/**
- * delete server from the database, do not delete device properties
- *	@param	argin	server name
- *	@exception DevFailed
- */
-	void	db_delete_server(Tango::DevString);
-/**
- * delete info related to a server
- *	@param	argin	server name
- *	@exception DevFailed
- */
-	void	db_delete_server_info(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_export_device(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	event channel or factory
- *	@exception DevFailed
- */
-	void	db_export_event(const Tango::DevVarStringArray *);
-/**
- * Return the device name for specified alias.
- *	@param	argin	specified alias.
- *	@return	Device name found.
- *	@exception DevFailed
- */
-	Tango::DevString	db_get_alias_device(Tango::DevString);
-/**
- * Get the device attribute name for the given alias. If no alias corresponds then return an empty string.
- *	@param	argin	alias
- *	@return	attribute name
- *	@exception DevFailed
- */
-	Tango::DevString	db_get_attribute_alias(Tango::DevString);
-/**
- * 
- *	@param	argin	attribute alias
- *	@return	attribute name
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_attribute_alias_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_attribute_list(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_attribute_property(const Tango::DevVarStringArray *);
-/**
- * This command supports array property compared to the old command called
- *	DbGetClassAttributeProperty. The old command has not been deleted from the
- *	server for compatibility reasons.
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_attribute_property2(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_attribute_property_hist(const Tango::DevVarStringArray *);
-/**
- * Search the class of the specified device.
- *	@param	argin	Device name
- *	@return	Class off the specified device
- *	@exception DevFailed
- */
-	Tango::DevString	db_get_class_for_device(Tango::DevString);
-/**
- * Search the class inheritance of the specified device.
- *	@param	argin	Device name
- *	@return	Classes off the specified device.\n[0] - is the class of the device.\n[1] - is the class from the device class is inherited.\n........and so on
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_inheritance_for_device(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_property_hist(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_class_property_list(Tango::DevString);
-/**
- * Return alias for device name if found.
- *	@param	argin	The device name
- *	@return	The alias found
- *	@exception DevFailed
- */
-	Tango::DevString	db_get_device_alias(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_alias_list(Tango::DevString);
-/**
- * return list of attributes for device which match the
- *	wildcard
- *	@param	argin	device name
- *	@return	attribute wildcard
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_attribute_list(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_attribute_property(const Tango::DevVarStringArray *);
-/**
- * Retrieve device attribute properties. This command has the possibility to retrieve
- *	device attribute properties which are arrays. It is not possible with the old
- *	DbGetDeviceAttributeProperty command. Nevertheless, the old command has not been
- *	deleted for compatibility reason
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_attribute_property2(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_attribute_property_hist(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_class_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_domain_list(Tango::DevString);
-/**
- * Get a list of exported devices whose names satisfy the filter (wildcard is
- *	@param	argin	filter
- *	@return	list of exported devices
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_exported_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_family_list(Tango::DevString);
-/**
- * Returns info from DbImportDevice and started/stopped dates.
- *	@param	argin	Device name
- *	@return	Info from DbImportDevice and started/stopped dates.
- *	@exception DevFailed
- */
-	Tango::DevVarLongStringArray	*db_get_device_info(Tango::DevString);
-/**
- * Get a list of devices for specified server and class.
- *	@param	argin	argin[0] : server name\nargin[1] : class name
- *	@return	The list of devices for specified server and class.
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_list(const Tango::DevVarStringArray *);
-/**
- * Get a list of devices whose names satisfy the filter.
- *	@param	argin	filter
- *	@return	list of exported devices
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_wide_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_member_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_property_hist(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_property_list(const Tango::DevVarStringArray *);
-/**
- * return list of device classes for a device server
- *	@param	argin	device server instance name
- *	@return	list of classes for this device server
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_device_server_class_list(Tango::DevString);
-/**
- * Query the database for device exported for the specified class.
- *	@param	argin	Class name
- *	@return	Device exported list
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_exportd_device_list_for_class(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_host_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_host_server_list(Tango::DevString);
-/**
- * return info about all servers running on specified host, name, mode and level
- *	@param	argin	host name
- *	@return	server info for all servers running on specified host
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_host_servers_info(Tango::DevString);
-/**
- * Returns the instance names found for specified server.
- *	@param	argin	server name
- *	@return	The instance names found for specified server.
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_instance_name_list(Tango::DevString);
-/**
- * DataBase methods prototypes
- *	@param	argin	wild card
- *	@return	list of object names
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_object_list(Tango::DevString);
-/**
- * DataBase methods prototypes
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_property_hist(const Tango::DevVarStringArray *);
-/**
- * DataBase methods prototypes
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_property_list(const Tango::DevVarStringArray *);
-/**
- * return info about host, mode and level for specified server
- *	@param	argin	server name
- *	@return	server info
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_server_info(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_server_list(Tango::DevString);
-/**
- * Returns the list of server names found for the wildcard specified.
- *	It returns only the server executable name without instance name as DbGetServerList.
- *	@param	argin	wildcard for server names.
- *	@return	server names found.
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_server_name_list(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarLongStringArray	*db_import_device(Tango::DevString);
-/**
- * 
- *	@param	argin	name of event channel or factory
- *	@return	export information e.g. IOR
- *	@exception DevFailed
- */
-	Tango::DevVarLongStringArray	*db_import_event(Tango::DevString);
-/**
- * 
- *	@return	
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_info();
-/**
- * Define an alias for an attribute
- *	@param	argin	attribute name, alias
- *	@exception DevFailed
- */
-	void	db_put_attribute_alias(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_class_attribute_property(const Tango::DevVarStringArray *);
-/**
- * This command adds support for array properties compared to the previous one
- *	called DbPutClassAttributeProperty. The old comman is still there for compatibility reason
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_class_attribute_property2(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_class_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	device name
- *	@exception DevFailed
- */
-	void	db_put_device_alias(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_device_attribute_property(const Tango::DevVarStringArray *);
-/**
- * Put device attribute property. This command adds the possibility to have attribute property
- *	which are arrays. Not possible with the old DbPutDeviceAttributeProperty command.
- *	This old command is not deleted for compatibility reasons.
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_device_attribute_property2(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_device_property(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_put_property(const Tango::DevVarStringArray *);
-/**
- * update server info including host, mode and level
- *	@param	argin	server info
- *	@exception DevFailed
- */
-	void	db_put_server_info(const Tango::DevVarStringArray *);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_un_export_device(Tango::DevString);
-/**
- * 
- *	@param	argin	name of event channel or factory to unexport
- *	@exception DevFailed
- */
-	void	db_un_export_event(Tango::DevString);
-/**
- * 
- *	@param	argin	
- *	@exception DevFailed
- */
-	void	db_un_export_server(Tango::DevString);
-/**
- * Reset the timing attribute values.
- *	@exception DevFailed
- */
-	void	reset_timing_values();
-/**
- * This command returns all the data needed by a device server process during its
- *	startup sequence. The aim of this command is to minimize database access during
- *	device server startup sequence.
- *	@param	argin	Elt[0] = DS name (exec_name/inst_name), Elt[1] = Host name
- *	@return	All the data needed by the device server during its startup sequence. Precise list depend on the device server
- *	@exception DevFailed
- */
-	Tango::DevVarStringArray	*db_get_data_for_server_cache(const Tango::DevVarStringArray *);
-/**
- * Delete all attribute properties for the specified device attribute(s)
- *	@param	argin	str[0] = device name, str[1]...str[n] = attribute name(s)
- *	@exception DevFailed
- */
-	void	db_delete_all_device_attribute_property(const Tango::DevVarStringArray *);
-/**
- * This is a very low level command.
- *	It executes the specified  SELECT command on TANGO database and returns its result without filter.
- *	@param	argin	MySql Select command
- *	@return	MySql Select command result
- *	@exception DevFailed
- */
-	Tango::DevVarLongStringArray	*db_my_sql_select(Tango::DevString);
-
-//@}
-
-	//	Here is the end of the automatic code generation part
-	//-------------------------------------------------------------	
 
 
 
+	/*----- PROTECTED REGION ID(DataBase::Additional Method prototypes) ENABLED START -----*/
+
+	//	Additional Method prototypes
 protected :	
-	//	Add your own data members here
-	//-----------------------------------------
 	unsigned long	mysql_svr_version;
 	
 	bool check_device_name(string &);
@@ -1355,8 +885,13 @@ public:
 	int get_connection();
 	void release_connection(int con_nb) {conn_pool[con_nb].the_sema.post();}
 
+	/*----- PROTECTED REGION END -----*/	//	DataBase::Additional Method prototypes
+
 };
 
+	/*----- PROTECTED REGION ID(DataBase::Additional Classes Definitions) ENABLED START -----*/
+
+	//	Additional Classes definitions
 class AutoLock
 {
 public:
@@ -1388,6 +923,8 @@ public:
 	}
 };
 
-}	//	namespace
+	/*----- PROTECTED REGION END -----*/	//	DataBase::Additional Classes Definitions
 
-#endif	// _DATABASE_H
+} //	namespace
+
+#endif	//	DATABASE_H
