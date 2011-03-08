@@ -1,12 +1,12 @@
-DROP PROCEDURE IF EXISTS tango.ds_start;
-DROP PROCEDURE IF EXISTS tango.import_event;
-DROP PROCEDURE IF EXISTS tango.import_device;
-DROP PROCEDURE IF EXISTS tango.class_prop;
-DROP PROCEDURE IF EXISTS tango.dev_prop;
-DROP PROCEDURE IF EXISTS tango.class_att_prop;
-DROP PROCEDURE IF EXISTS tango.get_dev_list;
-DROP PROCEDURE IF EXISTS tango.dev_att_prop;
-DROP PROCEDURE IF EXISTS tango.obj_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.ds_start;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.import_event;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.import_device;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.class_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.dev_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.class_att_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.get_dev_list;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.dev_att_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.obj_prop;
 
 
 #########################################################
@@ -30,7 +30,7 @@ DROP PROCEDURE IF EXISTS tango.obj_prop;
 #
 
 DELIMITER |
-CREATE PROCEDURE tango.ds_start 
+CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
  OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.3'
@@ -47,7 +47,7 @@ proc: BEGIN
 
 	DECLARE cur_class_list CURSOR FOR 
 	SELECT DISTINCT class 
-	FROM tango.device 
+	FROM @TANGO_DB_NAME@.device 
 	WHERE server = ds_name;
 		
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;	
@@ -59,7 +59,7 @@ proc: BEGIN
 # import admin device
 #
 
-	CALL tango.import_device(adm_dev_name,res_str);
+	CALL @TANGO_DB_NAME@.import_device(adm_dev_name,res_str);
 
 	IF LOCATE('Not Found',res_str) != 0 OR LOCATE('MySQL Error',res_str) != 0 THEN
 		LEAVE proc;
@@ -70,7 +70,7 @@ proc: BEGIN
 #
 
 	SET notifd_event_name = CONCAT(notifd_event_name,host);
-	CALL tango.import_event(notifd_event_name,res_str);
+	CALL @TANGO_DB_NAME@.import_event(notifd_event_name,res_str);
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR during import_event procedure for event factory';
@@ -81,7 +81,7 @@ proc: BEGIN
 # import event channel for this server
 #
 	
-	CALL tango.import_event(adm_dev_name,res_str);
+	CALL @TANGO_DB_NAME@.import_event(adm_dev_name,res_str);
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR during import_event procedure for DS event channel';
@@ -92,7 +92,7 @@ proc: BEGIN
 # Get all class properties for DServer class
 #
 
-	CALL tango.class_prop('DServer',res_str);
+	CALL @TANGO_DB_NAME@.class_prop('DServer',res_str);
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR while getting DServer class property(ies)';
@@ -103,7 +103,7 @@ proc: BEGIN
 # Get all class properties for Default class
 #
 
-	CALL tango.class_prop('Default',res_str);
+	CALL @TANGO_DB_NAME@.class_prop('Default',res_str);
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR while getting Default class property(ies)';
@@ -114,7 +114,7 @@ proc: BEGIN
 # Get all device properties for admin device
 #
 
-	CALL tango.dev_prop(adm_dev_name,res_str);
+	CALL @TANGO_DB_NAME@.dev_prop(adm_dev_name,res_str);
 #
 #
 #
@@ -133,7 +133,7 @@ proc: BEGIN
 			IF tmp_class != 'dserver' THEN
 				SET class_nb = class_nb + 1;
 						
-				CALL tango.class_prop(tmp_class,res_str);
+				CALL @TANGO_DB_NAME@.class_prop(tmp_class,res_str);
 				
 				IF LOCATE('MySQL Error',res_str) != 0 THEN
 					SET res_str = 'MySQL ERROR while getting DS class(es) property(ies)';
@@ -141,7 +141,7 @@ proc: BEGIN
 					LEAVE proc;
 				END IF;
 				
-				CALL tango.class_att_prop(tmp_class,res_str);
+				CALL @TANGO_DB_NAME@.class_att_prop(tmp_class,res_str);
 				
 				IF LOCATE('MySQL Error',res_str) != 0 THEN
 					SET res_str = 'MySQL ERROR while getting DS class(es) attribute(s) property(ies)';
@@ -149,7 +149,7 @@ proc: BEGIN
 					LEAVE proc;
 				END IF;
 				
-				CALL tango.get_dev_list(tmp_class,ds_name,res_str,dev_list,dev_nb);
+				CALL @TANGO_DB_NAME@.get_dev_list(tmp_class,ds_name,res_str,dev_list,dev_nb);
 				
 				IF LOCATE('MySQL Error',res_str) != 0 THEN
 					SET res_str = 'MySQL ERROR while getting DS class(es) device list';
@@ -171,7 +171,7 @@ proc: BEGIN
 					END IF;
 #					select dev_list,d_name,pos,start;
 										
-					CALL tango.dev_prop(d_name,res_str);
+					CALL @TANGO_DB_NAME@.dev_prop(d_name,res_str);
 					
 					IF LOCATE('MySQL Error',res_str) != 0 THEN
 						SET res_str = 'MySQL ERROR while getting device property(ies)';
@@ -179,7 +179,7 @@ proc: BEGIN
 						LEAVE proc;
 					END IF;
 					
-					CALL tango.dev_att_prop(d_name,res_str);
+					CALL @TANGO_DB_NAME@.dev_att_prop(d_name,res_str);
 					
 					IF LOCATE('MySQL Error',res_str) != 0 THEN
 						SET res_str = 'MySQL ERROR while getting device attribute property(ies)';
@@ -204,7 +204,7 @@ proc: BEGIN
 
 	SET ca_dev_name = 'Empty';
 	
-	CALL tango.obj_prop('CtrlSystem',ca_dev_name,res_str);
+	CALL @TANGO_DB_NAME@.obj_prop('CtrlSystem',ca_dev_name,res_str);
 	
 	IF ca_dev_name != 'Empty' THEN
 
@@ -212,7 +212,7 @@ proc: BEGIN
 # import control access service device
 #
 
-		CALL tango.import_device(ca_dev_name,res_str);
+		CALL @TANGO_DB_NAME@.import_device(ca_dev_name,res_str);
 
 	END IF;
 	
@@ -226,7 +226,7 @@ END proc|
 #########################################################
 
 
-CREATE PROCEDURE tango.import_event 
+CREATE PROCEDURE @TANGO_DB_NAME@.import_event 
 (IN ev_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 BEGIN
@@ -245,7 +245,7 @@ BEGIN
 		
 	SELECT exported,ior,version,pid,host
 	INTO tmp_exp,tmp_ior,tmp_version,tmp_pid,tmp_host
-	FROM tango.event
+	FROM @TANGO_DB_NAME@.event
 	WHERE name = tmp_ev_name;
 	
 	IF not_found = 1 THEN
@@ -263,7 +263,7 @@ END |
 #########################################################
 
 
-CREATE PROCEDURE tango.import_device 
+CREATE PROCEDURE @TANGO_DB_NAME@.import_device 
 (IN dev_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 imp_proc: BEGIN
@@ -278,7 +278,7 @@ imp_proc: BEGIN
 		
 	SELECT exported,ior,version,pid,server,host,class
 	INTO tmp_exp,tmp_ior,tmp_version,tmp_pid,tmp_server,tmp_host,tmp_class
-	FROM tango.device 
+	FROM @TANGO_DB_NAME@.device 
 	WHERE name = dev_name;
 	
 	SET res_str = CONCAT_WS(CHAR(0),res_str,dev_name);
@@ -319,7 +319,7 @@ END imp_proc |
 #########################################################
 
 
-CREATE PROCEDURE tango.class_prop 
+CREATE PROCEDURE @TANGO_DB_NAME@.class_prop 
 (IN class_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 BEGIN
@@ -331,7 +331,7 @@ BEGIN
 	
 	DECLARE cur_class CURSOR FOR 
 	SELECT name,count,value 
-	FROM tango.property_class 
+	FROM @TANGO_DB_NAME@.property_class 
 	WHERE class = class_name ORDER BY name,count;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
@@ -381,7 +381,7 @@ END |
 #########################################################
 
 
-CREATE PROCEDURE tango.dev_prop 
+CREATE PROCEDURE @TANGO_DB_NAME@.dev_prop 
 (IN dev_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 BEGIN
@@ -393,7 +393,7 @@ BEGIN
 	
 	DECLARE cur_dev CURSOR FOR 
 	SELECT name,count,value 
-	FROM tango.property_device 
+	FROM @TANGO_DB_NAME@.property_device 
 	WHERE device = dev_name ORDER BY name,count;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
@@ -444,7 +444,7 @@ END |
 #########################################################
 
 
-CREATE PROCEDURE tango.class_att_prop 
+CREATE PROCEDURE @TANGO_DB_NAME@.class_att_prop 
 (IN class_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 BEGIN
@@ -457,7 +457,7 @@ BEGIN
 	
 	DECLARE cur_class_att_prop CURSOR FOR 
 	SELECT attribute,name,count,value 
-	FROM tango.property_attribute_class 
+	FROM @TANGO_DB_NAME@.property_attribute_class 
 	WHERE class = class_name ORDER BY attribute,name,count;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
@@ -545,7 +545,7 @@ END |
 #########################################################
 
 
-CREATE PROCEDURE tango.dev_att_prop 
+CREATE PROCEDURE @TANGO_DB_NAME@.dev_att_prop 
 (IN dev_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 BEGIN
@@ -558,7 +558,7 @@ BEGIN
 	
 	DECLARE cur_dev_att_prop CURSOR FOR 
 	SELECT attribute,name,count,value 
-	FROM tango.property_attribute_device 
+	FROM @TANGO_DB_NAME@.property_attribute_device 
 	WHERE device = dev_name ORDER BY attribute,name,count;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
@@ -646,7 +646,7 @@ END |
 #########################################################
 
 
-CREATE PROCEDURE tango.get_dev_list 
+CREATE PROCEDURE @TANGO_DB_NAME@.get_dev_list 
 (IN class_name VARCHAR(255), IN serv VARCHAR(255),
  INOUT res_str BLOB, OUT d_list TEXT, OUT d_num INT) READS SQL DATA
 BEGIN
@@ -657,7 +657,7 @@ BEGIN
 		
 	DECLARE cur_dev_list CURSOR FOR 
 	SELECT name 
-	FROM tango.device 
+	FROM @TANGO_DB_NAME@.device 
 	WHERE class = class_name AND server = serv;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
@@ -694,7 +694,7 @@ END |
 #########################################################
 
 
-CREATE PROCEDURE tango.obj_prop 
+CREATE PROCEDURE @TANGO_DB_NAME@.obj_prop 
 (IN obj_name VARCHAR(255),OUT serv_dev_name VARCHAR(255),
  INOUT res_str BLOB) READS SQL DATA
 BEGIN
@@ -707,7 +707,7 @@ BEGIN
 	
 	DECLARE cur_dev CURSOR FOR 
 	SELECT name,count,value 
-	FROM tango.property 
+	FROM @TANGO_DB_NAME@.property 
 	WHERE object = obj_name ORDER BY count;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
