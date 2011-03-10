@@ -33,7 +33,7 @@ DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.3'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.4'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -71,6 +71,7 @@ proc: BEGIN
 
 	SET notifd_event_name = CONCAT(notifd_event_name,host);
 	CALL @TANGO_DB_NAME@.import_event(notifd_event_name,res_str);
+	SET done = 0;
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR during import_event procedure for event factory';
@@ -82,6 +83,7 @@ proc: BEGIN
 #
 	
 	CALL @TANGO_DB_NAME@.import_event(adm_dev_name,res_str);
+	SET done = 0;
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR during import_event procedure for DS event channel';
@@ -93,6 +95,7 @@ proc: BEGIN
 #
 
 	CALL @TANGO_DB_NAME@.class_prop('DServer',res_str);
+	SET done = 0;
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR while getting DServer class property(ies)';
@@ -104,6 +107,7 @@ proc: BEGIN
 #
 
 	CALL @TANGO_DB_NAME@.class_prop('Default',res_str);
+	SET done = 0;
 	
 	IF LOCATE('MySQL Error',res_str) != 0 THEN
 		SET res_str = 'MySQL ERROR while getting Default class property(ies)';
@@ -115,6 +119,8 @@ proc: BEGIN
 #
 
 	CALL @TANGO_DB_NAME@.dev_prop(adm_dev_name,res_str);
+	SET done = 0;
+	
 #
 #
 #
