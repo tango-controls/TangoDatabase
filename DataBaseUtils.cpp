@@ -29,6 +29,12 @@ static const char *RcsId = "$Header$";
 // You should have received a copy of the GNU General Public License
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 //
+// $Revision$
+// $Date$
+//
+// $HeadURL:$
+//
+//=============================================================================
 
 #if HAVE_CONFIG_H
 #include <ac_config.h>

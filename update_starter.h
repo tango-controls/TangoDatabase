@@ -29,6 +29,9 @@
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 //
 // $Revision$
+// $Date$
+//
+// $HeadURL:$
 //
 //=============================================================================
 #ifndef _UPD_STARTER_THREAD_H
