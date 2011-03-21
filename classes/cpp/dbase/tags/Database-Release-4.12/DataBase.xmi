@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
+  <classes name="DataBase">
+    <description description="This class manage the TANGO database." title="TANGO" sourcePath="/mntdirect/_segfs/tango/cppserver/dbase" language="Cpp" filestogenerate="XMI   file,Code files,Makefile" hasAbstractCommand="false" hasAbstractAttribute="false">
+      <inheritances classname="Device_4Impl" sourcePath="/segfs/tango/templates/AbstractClasses"/>
+      <identification contact="at esrf.fr - accelerator-control" author="accelerator-control" emailDomain="esrf.fr" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
+      <comments commandsTable="//================================================================&#xA;//&#xA;//  The following table gives the correspondence&#xA;//  between command and method names.&#xA;//&#xA;//  Command name                        |  Method name&#xA;//----------------------------------------------------------------&#xA;//  State                               |  dev_state&#xA;//  Status                              |  Inherited (no method)&#xA;//  DbAddDevice                         |  db_add_device&#xA;//  DbAddServer                         |  db_add_server&#xA;//  DbDeleteAttributeAlias              |  db_delete_attribute_alias&#xA;//  DbDeleteClassAttribute              |  db_delete_class_attribute&#xA;//  DbDeleteClassAttributeProperty      |  db_delete_class_attribute_property&#xA;//  DbDeleteClassProperty               |  db_delete_class_property&#xA;//  DbDeleteDevice                      |  db_delete_device&#xA;//  DbDeleteDeviceAlias                 |  db_delete_device_alias&#xA;//  DbDeleteDeviceAttribute             |  db_delete_device_attribute&#xA;//  DbDeleteDeviceAttributeProperty     |  db_delete_device_attribute_property&#xA;//  DbDeleteDeviceProperty              |  db_delete_device_property&#xA;//  DbDeleteProperty                    |  db_delete_property&#xA;//  DbDeleteServer                      |  db_delete_server&#xA;//  DbDeleteServerInfo                  |  db_delete_server_info&#xA;//  DbExportDevice                      |  db_export_device&#xA;//  DbExportEvent                       |  db_export_event&#xA;//  DbGetAliasDevice                    |  db_get_alias_device&#xA;//  DbGetAttributeAlias                 |  db_get_attribute_alias&#xA;//  DbGetAttributeAliasList             |  db_get_attribute_alias_list&#xA;//  DbGetClassAttributeList             |  db_get_class_attribute_list&#xA;//  DbGetClassAttributeProperty         |  db_get_class_attribute_property&#xA;//  DbGetClassAttributeProperty2        |  db_get_class_attribute_property2&#xA;//  DbGetClassAttributePropertyHist     |  db_get_class_attribute_property_hist&#xA;//  DbGetClassForDevice                 |  db_get_class_for_device&#xA;//  DbGetClassInheritanceForDevice      |  db_get_class_inheritance_for_device&#xA;//  DbGetClassList                      |  db_get_class_list&#xA;//  DbGetClassProperty                  |  db_get_class_property&#xA;//  DbGetClassPropertyHist              |  db_get_class_property_hist&#xA;//  DbGetClassPropertyList              |  db_get_class_property_list&#xA;//  DbGetDeviceAlias                    |  db_get_device_alias&#xA;//  DbGetDeviceAliasList                |  db_get_device_alias_list&#xA;//  DbGetDeviceAttributeList            |  db_get_device_attribute_list&#xA;//  DbGetDeviceAttributeProperty        |  db_get_device_attribute_property&#xA;//  DbGetDeviceAttributeProperty2       |  db_get_device_attribute_property2&#xA;//  DbGetDeviceAttributePropertyHist    |  db_get_device_attribute_property_hist&#xA;//  DbGetDeviceClassList                |  db_get_device_class_list&#xA;//  DbGetDeviceDomainList               |  db_get_device_domain_list&#xA;//  DbGetDeviceExportedList             |  db_get_device_exported_list&#xA;//  DbGetDeviceFamilyList               |  db_get_device_family_list&#xA;//  DbGetDeviceInfo                     |  db_get_device_info&#xA;//  DbGetDeviceList                     |  db_get_device_list&#xA;//  DbGetDeviceWideList                 |  db_get_device_wide_list&#xA;//  DbGetDeviceMemberList               |  db_get_device_member_list&#xA;//  DbGetDeviceProperty                 |  db_get_device_property&#xA;//  DbGetDevicePropertyHist             |  db_get_device_property_hist&#xA;//  DbGetDevicePropertyList             |  db_get_device_property_list&#xA;//  DbGetDeviceServerClassList          |  db_get_device_server_class_list&#xA;//  DbGetExportdDeviceListForClass      |  db_get_exportd_device_list_for_class&#xA;//  DbGetHostList                       |  db_get_host_list&#xA;//  DbGetHostServerList                 |  db_get_host_server_list&#xA;//  DbGetHostServersInfo                |  db_get_host_servers_info&#xA;//  DbGetInstanceNameList               |  db_get_instance_name_list&#xA;//  DbGetObjectList                     |  db_get_object_list&#xA;//  DbGetProperty                       |  db_get_property&#xA;//  DbGetPropertyHist                   |  db_get_property_hist&#xA;//  DbGetPropertyList                   |  db_get_property_list&#xA;//  DbGetServerInfo                     |  db_get_server_info&#xA;//  DbGetServerList                     |  db_get_server_list&#xA;//  DbGetServerNameList                 |  db_get_server_name_list&#xA;//  DbImportDevice                      |  db_import_device&#xA;//  DbImportEvent                       |  db_import_event&#xA;//  DbInfo                              |  db_info&#xA;//  DbPutAttributeAlias                 |  db_put_attribute_alias&#xA;//  DbPutClassAttributeProperty         |  db_put_class_attribute_property&#xA;//  DbPutClassAttributeProperty2        |  db_put_class_attribute_property2&#xA;//  DbPutClassProperty                  |  db_put_class_property&#xA;//  DbPutDeviceAlias                    |  db_put_device_alias&#xA;//  DbPutDeviceAttributeProperty        |  db_put_device_attribute_property&#xA;//  DbPutDeviceAttributeProperty2       |  db_put_device_attribute_property2&#xA;//  DbPutDeviceProperty                 |  db_put_device_property&#xA;//  DbPutProperty                       |  db_put_property&#xA;//  DbPutServerInfo                     |  db_put_server_info&#xA;//  DbUnExportDevice                    |  db_un_export_device&#xA;//  DbUnExportEvent                     |  db_un_export_event&#xA;//  DbUnExportServer                    |  db_un_export_server&#xA;//  ResetTimingValues                   |  reset_timing_values&#xA;//  DbGetDataForServerCache             |  db_get_data_for_server_cache&#xA;//  DbDeleteAllDeviceAttributeProperty  |  db_delete_all_device_attribute_property&#xA;//  DbMySqlSelect                       |  db_my_sql_select&#xA;//================================================================"/>
+    </description>
+    <commands name="State" description="This command gets the device state (stored in its &lt;i>device_state&lt;/i> data member) and returns it to the caller." execMethod="dev_state" displayLevel="OPERATOR">
+      <argin description="none.">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="State Code">
+        <type xsi:type="pogoDsl:StateType"/>
+      </argout>
+      <status abstract="true" inherited="true" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="Status" description="This command gets the device status (stored in its &lt;i>device_status&lt;/i> data member) and returns it to the caller." execMethod="dev_status" displayLevel="OPERATOR">
+      <argin description="none.">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="Status description">
+        <type xsi:type="pogoDsl:ConstStringType"/>
+      </argout>
+      <status abstract="true" inherited="true" concrete="true" concreteHere="false"/>
+    </commands>
+    <commands name="DbAddDevice" description="" execMethod="db_add_device" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbAddServer" description="" execMethod="db_add_server" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteAttributeAlias" description="Delete an attribute alias." execMethod="db_delete_attribute_alias" displayLevel="OPERATOR">
+      <argin description="alias name.">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteClassAttribute" description="delete a class attribute and all its properties from&#xA;the database" execMethod="db_delete_class_attribute" displayLevel="OPERATOR">
+      <argin description="device">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="attribute">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteClassAttributeProperty" description="delete a class attribute property from the database" execMethod="db_delete_class_attribute_property" displayLevel="OPERATOR">
+      <argin description="device">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="attribute">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteClassProperty" description="" execMethod="db_delete_class_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDevice" description="" execMethod="db_delete_device" displayLevel="OPERATOR">
+      <argin description="device name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDeviceAlias" description="Delete a device alias." execMethod="db_delete_device_alias" displayLevel="OPERATOR">
+      <argin description="alias name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDeviceAttribute" description="delete a device attribute and all its properties from&#xA;the database" execMethod="db_delete_device_attribute" displayLevel="OPERATOR">
+      <argin description="device">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="attribute">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDeviceAttributeProperty" description="delete a device attribute property from the database" execMethod="db_delete_device_attribute_property" displayLevel="OPERATOR">
+      <argin description="device">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="attribute">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDeviceProperty" description="" execMethod="db_delete_device_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteProperty" description="" execMethod="db_delete_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteServer" description="delete server from the database, do not delete device properties" execMethod="db_delete_server" displayLevel="OPERATOR">
+      <argin description="server name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteServerInfo" description="delete info related to a server" execMethod="db_delete_server_info" displayLevel="OPERATOR">
+      <argin description="server name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbExportDevice" description="" execMethod="db_export_device" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbExportEvent" description="" execMethod="db_export_event" displayLevel="OPERATOR">
+      <argin description="event channel or factory">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="IOR">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetAliasDevice" description="Return the device name for specified alias." execMethod="db_get_alias_device" displayLevel="OPERATOR">
+      <argin description="specified alias.">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="Device name found.">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetAttributeAlias" description="Get the device attribute name for the given alias. If no alias corresponds then return an empty string." execMethod="db_get_attribute_alias" displayLevel="OPERATOR">
+      <argin description="alias">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="attribute name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetAttributeAliasList" description="" execMethod="db_get_attribute_alias_list" displayLevel="OPERATOR">
+      <argin description="attribute alias">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="attribute name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassAttributeList" description="" execMethod="db_get_class_attribute_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassAttributeProperty" description="" execMethod="db_get_class_attribute_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassAttributeProperty2" description="This command supports array property compared to the old command called&#xA;DbGetClassAttributeProperty. The old command has not been deleted from the&#xA;server for compatibility reasons." execMethod="db_get_class_attribute_property2" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassAttributePropertyHist" description="" execMethod="db_get_class_attribute_property_hist" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassForDevice" description="Search the class of the specified device." execMethod="db_get_class_for_device" displayLevel="OPERATOR">
+      <argin description="Device name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="Class off the specified device">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassInheritanceForDevice" description="Search the class inheritance of the specified device." execMethod="db_get_class_inheritance_for_device" displayLevel="OPERATOR">
+      <argin description="Device name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="Classes off the specified device.\n[0] - is the class of the device.\n[1] - is the class from the device class is inherited.\n........and so on">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassList" description="" execMethod="db_get_class_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassProperty" description="" execMethod="db_get_class_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassPropertyHist" description="" execMethod="db_get_class_property_hist" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassPropertyList" description="" execMethod="db_get_class_property_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceAlias" description="Return alias for device name if found." execMethod="db_get_device_alias" displayLevel="OPERATOR">
+      <argin description="The device name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="The alias found">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceAliasList" description="" execMethod="db_get_device_alias_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceAttributeList" description="return list of attributes for device which match the&#xA;wildcard" execMethod="db_get_device_attribute_list" displayLevel="OPERATOR">
+      <argin description="device name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="attribute wildcard">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceAttributeProperty" description="" execMethod="db_get_device_attribute_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceAttributeProperty2" description="Retrieve device attribute properties. This command has the possibility to retrieve&#xA;device attribute properties which are arrays. It is not possible with the old&#xA;DbGetDeviceAttributeProperty command. Nevertheless, the old command has not been&#xA;deleted for compatibility reason" execMethod="db_get_device_attribute_property2" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceAttributePropertyHist" description="" execMethod="db_get_device_attribute_property_hist" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceClassList" description="" execMethod="db_get_device_class_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceDomainList" description="" execMethod="db_get_device_domain_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceExportedList" description="Get a list of exported devices whose names satisfy the filter (wildcard is" execMethod="db_get_device_exported_list" displayLevel="OPERATOR">
+      <argin description="filter">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="list of exported devices">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceFamilyList" description="" execMethod="db_get_device_family_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceInfo" description="Returns info from DbImportDevice and started/stopped dates." execMethod="db_get_device_info" displayLevel="OPERATOR">
+      <argin description="Device name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="Info from DbImportDevice and started/stopped dates.">
+        <type xsi:type="pogoDsl:LongStringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceList" description="Get a list of devices for specified server and class." execMethod="db_get_device_list" displayLevel="OPERATOR">
+      <argin description="argin[0] : server name\nargin[1] : class name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="The list of devices for specified server and class.">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceWideList" description="Get a list of devices whose names satisfy the filter." execMethod="db_get_device_wide_list" displayLevel="OPERATOR">
+      <argin description="filter">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="list of exported devices">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceMemberList" description="" execMethod="db_get_device_member_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceProperty" description="" execMethod="db_get_device_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDevicePropertyHist" description="" execMethod="db_get_device_property_hist" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDevicePropertyList" description="" execMethod="db_get_device_property_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDeviceServerClassList" description="return list of device classes for a device server" execMethod="db_get_device_server_class_list" displayLevel="OPERATOR">
+      <argin description="device server instance name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="list of classes for this device server">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetExportdDeviceListForClass" description="Query the database for device exported for the specified class." execMethod="db_get_exportd_device_list_for_class" displayLevel="OPERATOR">
+      <argin description="Class name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="Device exported list">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetHostList" description="" execMethod="db_get_host_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetHostServerList" description="" execMethod="db_get_host_server_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetHostServersInfo" description="return info about all servers running on specified host, name, mode and level" execMethod="db_get_host_servers_info" displayLevel="OPERATOR">
+      <argin description="host name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="server info for all servers running on specified host">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetInstanceNameList" description="Returns the instance names found for specified server." execMethod="db_get_instance_name_list" displayLevel="OPERATOR">
+      <argin description="server name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="The instance names found for specified server.">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetObjectList" description="DataBase methods prototypes" execMethod="db_get_object_list" displayLevel="OPERATOR">
+      <argin description="wild card">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="list of object names">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetProperty" description="DataBase methods prototypes" execMethod="db_get_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetPropertyHist" description="" execMethod="db_get_property_hist" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetPropertyList" description="DataBase methods prototypes" execMethod="db_get_property_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetServerInfo" description="return info about host, mode and level for specified server" execMethod="db_get_server_info" displayLevel="OPERATOR">
+      <argin description="server name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="server info">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetServerList" description="" execMethod="db_get_server_list" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetServerNameList" description="Returns the list of server names found for the wildcard specified.&#xA;It returns only the server executable name without instance name as DbGetServerList." execMethod="db_get_server_name_list" displayLevel="OPERATOR">
+      <argin description="wildcard for server names.">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="server names found.">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbImportDevice" description="" execMethod="db_import_device" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:LongStringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbImportEvent" description="" execMethod="db_import_event" displayLevel="OPERATOR">
+      <argin description="name of event channel or factory">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="export information e.g. IOR">
+        <type xsi:type="pogoDsl:LongStringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbInfo" description="" execMethod="db_info" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutAttributeAlias" description="Define an alias for an attribute" execMethod="db_put_attribute_alias" displayLevel="OPERATOR">
+      <argin description="attribute name, alias">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutClassAttributeProperty" description="" execMethod="db_put_class_attribute_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutClassAttributeProperty2" description="This command adds support for array properties compared to the previous one&#xA;called DbPutClassAttributeProperty. The old comman is still there for compatibility reason" execMethod="db_put_class_attribute_property2" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutClassProperty" description="" execMethod="db_put_class_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutDeviceAlias" description="" execMethod="db_put_device_alias" displayLevel="OPERATOR">
+      <argin description="device name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="alias">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutDeviceAttributeProperty" description="" execMethod="db_put_device_attribute_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutDeviceAttributeProperty2" description="Put device attribute property. This command adds the possibility to have attribute property&#xA;which are arrays. Not possible with the old DbPutDeviceAttributeProperty command.&#xA;This old command is not deleted for compatibility reasons." execMethod="db_put_device_attribute_property2" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutDeviceProperty" description="" execMethod="db_put_device_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutProperty" description="" execMethod="db_put_property" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutServerInfo" description="update server info including host, mode and level" execMethod="db_put_server_info" displayLevel="OPERATOR">
+      <argin description="server info">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbUnExportDevice" description="" execMethod="db_un_export_device" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbUnExportEvent" description="" execMethod="db_un_export_event" displayLevel="OPERATOR">
+      <argin description="name of event channel or factory to unexport">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="none">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbUnExportServer" description="" execMethod="db_un_export_server" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="ResetTimingValues" description="Reset the timing attribute values." execMethod="reset_timing_values" displayLevel="OPERATOR">
+      <argin description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDataForServerCache" description="This command returns all the data needed by a device server process during its&#xA;startup sequence. The aim of this command is to minimize database access during&#xA;device server startup sequence." execMethod="db_get_data_for_server_cache" displayLevel="OPERATOR">
+      <argin description="Elt[0] = DS name (exec_name/inst_name), Elt[1] = Host name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="All the data needed by the device server during its startup sequence. Precise list depend on the device server">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteAllDeviceAttributeProperty" description="Delete all attribute properties for the specified device attribute(s)" execMethod="db_delete_all_device_attribute_property" displayLevel="OPERATOR">
+      <argin description="str[0] = device name, str[1]...str[n] = attribute name(s)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbMySqlSelect" description="This is a very low level command.&#xA;It executes the specified  SELECT command on TANGO database and returns its result without filter." execMethod="db_my_sql_select" displayLevel="OPERATOR">
+      <argin description="MySql Select command">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="MySql Select command result\n - svalues : select results\n - lvalue[n] : =0 if svalue[n] is null else =1\n (last lvalue -1) is number of rows, (last lvalue) is number of fields">
+        <type xsi:type="pogoDsl:LongStringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <attributes name="StoredProcedureRelease" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="0" maxY="0">
+      <dataType xsi:type="pogoDsl:StringType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timing_average" attType="Spectrum" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="64" maxY="0">
+      <dataType xsi:type="pogoDsl:DoubleType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timing_minimum" attType="Spectrum" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="64" maxY="0">
+      <dataType xsi:type="pogoDsl:DoubleType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timing_maximum" attType="Spectrum" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="64" maxY="0">
+      <dataType xsi:type="pogoDsl:DoubleType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timing_calls" attType="Spectrum" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="64" maxY="0">
+      <dataType xsi:type="pogoDsl:DoubleType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timing_index" attType="Spectrum" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="64" maxY="0">
+      <dataType xsi:type="pogoDsl:StringType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timing_info" attType="Spectrum" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="64" maxY="0">
+      <dataType xsi:type="pogoDsl:StringType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <preferences docHome="./doc_html" makefileHome="/segfs/tango/cppserver/env"/>
+    <additionalFiles name="DataBaseUtils" path="/mntdirect/_segfs/tango/cppserver/dbase/DataBaseUtils.cpp"/>
+    <additionalFiles name="update_starter" path="/mntdirect/_segfs/tango/cppserver/dbase/update_starter.cpp"/>
+  </classes>
+</pogoDsl:PogoSystem>
