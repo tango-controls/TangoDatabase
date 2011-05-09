@@ -1943,9 +1943,10 @@ Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 		mysql_free_result(result);
         TangoSys_OMemStream o;
 	    o << "No device found for alias \'" << argin << "\'";
-		WARN_STREAM << o << endl;
+		string msg = o.str();
+		WARN_STREAM << msg << endl;
 		Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
-	   				                   o.str(),
+	   				                   msg,
 					                   (const char *)"DataBase::db_get_alias_device()");
 	}
 
@@ -2914,9 +2915,10 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 				mysql_free_result(result);
   	            TangoSys_OMemStream o;
 				o << "No alias found for device \'" << devname << "\'";
-				WARN_STREAM << o << endl;
+				string msg = o.str();
+				WARN_STREAM << msg << endl;
 				Tango::Except::throw_exception((const char *)DB_AliasNotDefined,
-	   						                   o.str(),
+	   						                   msg,
 							                   (const char *)"DataBase::db_get_device_alias()");
 			}
 			else
@@ -2927,10 +2929,11 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 	{
 		mysql_free_result(result);
         TangoSys_OMemStream o;
-		o << "No alias found for device \'" << devname << "\'";		
-		WARN_STREAM << o << endl;
+		o << "No alias found for device \'" << devname << "\'";
+		string msg = o.str();	
+		WARN_STREAM << msg << endl;
 		Tango::Except::throw_exception((const char *)DB_AliasNotDefined,
-	   				                   o.str(),
+	   				                   msg,
 					                   (const char *)"DataBase::db_get_device_alias()");
 	}
 	mysql_free_result(result);
@@ -7138,9 +7141,10 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 	{
  	    TangoSys_OMemStream o;
 		o << "No device found for host \'" << argin << "\'";
-		WARN_STREAM << o << endl;
+		string msg = o.str();
+		WARN_STREAM << msg << endl;
 		Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
-	   				                   o.str(),
+	   				                   msg,
 					                   (const char *)"DataBase::db_get_device_host()");
 	}
 	mysql_free_result(result); //C.S. 05-10-2004
