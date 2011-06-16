@@ -857,7 +857,7 @@ protected :
 	omni_mutex		starter_mutex;
 	omni_mutex		sem_wait_mutex;
 				
-	void create_connection_pool(const char *,const char *);
+	void create_connection_pool(const char *,const char *,const char *);
 	void base_connect(int);
 
 	inline void update_timing_stats(TimeVal before, TimeVal after, std::string command)
