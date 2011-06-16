@@ -256,7 +256,8 @@ void DataBase::init_device()
 
 	//	Initialize device
 	const char *mysql_user     = NULL;
-	const char *mysql_password = NULL;	
+	const char *mysql_password = NULL;
+	const char *mysql_host = NULL;
 
 	WARN_STREAM << "DataBase::DataBase() create database device " << device_name << endl;
 	
@@ -279,7 +280,7 @@ void DataBase::init_device()
 
 
 	DummyDev d;
-	string my_user,my_password;
+	string my_user,my_password,my_host;
 	
 	if (d.get_env_var("MYSQL_USER",my_user) != -1)
 	{
@@ -288,6 +289,10 @@ void DataBase::init_device()
 	if (d.get_env_var("MYSQL_PASSWORD",my_password) != -1)
 	{
 		mysql_password = my_password.c_str();
+	}
+	if (d.get_env_var("MYSQL_HOST",my_host) != -1)
+	{
+		mysql_host = my_host.c_str();
 	}
 	
 //
@@ -299,7 +304,7 @@ void DataBase::init_device()
 		conn_pool[loop].db = NULL;
 	mysql_svr_version = 0;
 	
-	create_connection_pool(mysql_user,mysql_password);
+	create_connection_pool(mysql_user,mysql_password,mysql_host);
 	
 //
 // Do we need to propagate info to Starter

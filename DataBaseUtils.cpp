@@ -785,7 +785,7 @@ void DataBase::base_connect(int loop)
  */
 //+------------------------------------------------------------------
 
-void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_password)
+void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_password,const char *mysql_host)
 {
 #ifndef HAVE_CONFIG_H
 	char *database = (char *)"tango";
@@ -798,7 +798,34 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 		WARN_STREAM << "DataBase::create_connection_pool(): mysql database user =  " << mysql_user 
 	           	 << " , password = " << mysql_password << endl;
 	}
-					
+
+	const char *host;
+	string my_host(mysql_host);
+	string ho,port;
+	unsigned int port_num = 0;
+
+	if (mysql_host != NULL)
+	{
+		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << mysql_host << endl;
+		string::size_type pos = my_host.find(':');
+		if (pos != string::npos)
+		{
+			ho = my_host.substr(0,pos);
+			pos++;
+			port = my_host.substr(pos);
+			stringstream ss(port);
+			ss >> port_num;
+			if (!ss)
+				port_num = 0;
+			host = ho.c_str();
+		}
+		else
+			host = my_host.c_str();
+		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << host << ", port = " << port_num << endl;
+	}
+	else
+		host = NULL;
+
 	for (int loop = 0;loop < conn_pool_size;loop++)
 	{
 	
@@ -815,7 +842,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 
 
 		WARN_STREAM << "Going to connect to MySQL for conn. " << loop << endl;
-		if (!mysql_real_connect(conn_pool[loop].db, NULL, mysql_user, mysql_password, database, 0, NULL, CLIENT_MULTI_STATEMENTS))
+		if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS))
 		{
 			if (loop == 0)
 			{
@@ -832,7 +859,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 						base_connect(loop);
 					}
 					WARN_STREAM << "Going to retry to connect to MySQL for connection " << loop << endl;
-					if (!mysql_real_connect(conn_pool[loop].db, NULL, mysql_user, mysql_password, database, 0, NULL, CLIENT_MULTI_STATEMENTS))
+					if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS))
 					{
 						WARN_STREAM << "Connection to MySQL (re-try) failed with error " << mysql_errno(conn_pool[loop].db) << endl;
 						retry--;
