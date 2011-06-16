@@ -814,6 +814,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 //
 
 
+		WARN_STREAM << "Going to connect to MySQL for conn. " << loop << endl;
 		if (!mysql_real_connect(conn_pool[loop].db, NULL, mysql_user, mysql_password, database, 0, NULL, CLIENT_MULTI_STATEMENTS))
 		{
 			if (loop == 0)
@@ -823,17 +824,21 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 				{
 					sleep(1);
 					int db_err = mysql_errno(conn_pool[loop].db);
-					if (db_err == CR_CONNECTION_ERROR)
+					WARN_STREAM << "Connection to MySQL failed with error " << db_err << endl;
+					if (db_err == CR_CONNECTION_ERROR || db_err == CR_CONN_HOST_ERROR)
 					{
 						mysql_close(conn_pool[loop].db);
 						conn_pool[loop].db = NULL;
 						base_connect(loop);
 					}
+					WARN_STREAM << "Going to retry to connect to MySQL for connection " << loop << endl;
 					if (!mysql_real_connect(conn_pool[loop].db, NULL, mysql_user, mysql_password, database, 0, NULL, CLIENT_MULTI_STATEMENTS))
 					{
+						WARN_STREAM << "Connection to MySQL (re-try) failed with error " << mysql_errno(conn_pool[loop].db) << endl;
 						retry--;
 						if (retry == 0)
 						{
+							WARN_STREAM << "Throw exception because no MySQL connection possible after 5 re-tries" << endl;
 							TangoSys_MemStream out_stream;
 							out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
 				
@@ -843,11 +848,15 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 						}
 					}
 					else
+					{
+						WARN_STREAM << "MySQL connection succeed after retry" << endl;
 						retry = 0;
+					}
 				}
 			}
 			else
-			{				
+			{
+				WARN_STREAM << "Failed to connect to MySQL for conn. " << loop << ". No re-try in this case" << endl;
 				TangoSys_MemStream out_stream;
 				out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
 				
