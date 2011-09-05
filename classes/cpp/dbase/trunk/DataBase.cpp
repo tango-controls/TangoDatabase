@@ -3216,83 +3216,243 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_device);
 	(*property_list)[n_props-1] = CORBA::string_dup(n_attributes_str);
 
-	for (unsigned int i=1; i<property_names->length(); i++)
+//
+// First, get how many attributes belonging to the device have 
+// properties defined in the db
+//
+
+	bool all_attr = false;
+	sql_query_stream << "SELECT COUNT(DISTINCT attribute) FROM property_attribute_device WHERE device = \"" << tmp_device << "\"";
+	DEBUG_STREAM << "Database::GetDeviceAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
+
+	result = query(sql_query_stream.str(),"db_get_device_attribute_property2()");
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << endl;
+
+	if (n_rows != 0)
 	{
-	   	tmp_attribute = (*property_names)[i];
-		sql_query_stream.str("");
-		sql_query_stream << "SELECT name,value FROM property_attribute_device WHERE device = \""
+		if ((row = mysql_fetch_row(result)) != NULL)
+		{
+			stringstream tmp_str;
+			string nb_attr_str = row[0];
+		 	tmp_str << nb_attr_str;
+			int nb_attr = 0;
+			tmp_str >> nb_attr;
+			if (property_names->length()-1 >= nb_attr)
+				all_attr = true;
+		}
+	}
+
+	if (all_attr == true)
+	{
+		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): Get attribute properties for all attribute(s)" << endl;
+	}
+
+	if (all_attr == false)
+	{
+		for (unsigned int i=1; i<property_names->length(); i++)
+		{
+	   		tmp_attribute = (*property_names)[i];
+			sql_query_stream.str("");
+			sql_query_stream << "SELECT name,value FROM property_attribute_device WHERE device = \""
 		                 << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute 
 						 << "\" ORDER BY name,count";
-	   	DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
+	   		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
 		
-		result = query(sql_query_stream.str(),"db_get_device_attribute_property2()");
+			result = query(sql_query_stream.str(),"db_get_device_attribute_property2()");
 
-	   	n_rows = mysql_num_rows(result);
-	   	DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << endl;
-	   	n_props = n_props+2;
-	   	property_list->length(n_props);
-	   	(*property_list)[n_props-2] = CORBA::string_dup(tmp_attribute);
-		int prop_number_idx = n_props-1;
-		int prop_number = 0;
-	   	if (n_rows > 0)
-	   	{
-			string name, old_name;
-			bool new_prop = true;
-			int prop_size_idx;
-			int prop_size = 0;
-	      	for (int j=0; j<n_rows; j++)
-	      	{
-	        	if ((row = mysql_fetch_row(result)) != NULL)
-	         	{
-					name = row[0];
-					if (j == 0)
-						old_name = name;
-					else
-					{
+	   		n_rows = mysql_num_rows(result);
+	   		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << endl;
+	   		n_props = n_props+2;
+	   		property_list->length(n_props);
+	   		(*property_list)[n_props-2] = CORBA::string_dup(tmp_attribute);
+			int prop_number_idx = n_props-1;
+			int prop_number = 0;
+	   		if (n_rows > 0)
+	   		{
+				string name, old_name;
+				bool new_prop = true;
+				int prop_size_idx;
+				int prop_size = 0;
+	      		for (int j=0; j<n_rows; j++)
+	      		{
+	        		if ((row = mysql_fetch_row(result)) != NULL)
+	         		{
 						name = row[0];
-						if (name != old_name)
-						{
-							new_prop = true;
+						if (j == 0)
 							old_name = name;
+						else
+						{
+							name = row[0];
+							if (name != old_name)
+							{
+								new_prop = true;
+								old_name = name;
+							}
+							else
+								new_prop = false;
+						}
+//	            			DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
+						if (new_prop == true)
+						{
+							n_props = n_props + 3;
+							property_list->length(n_props);
+	            			(*property_list)[n_props-3] = CORBA::string_dup(row[0]);
+	            			(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
+							if (prop_size != 0)
+							{
+								sprintf(prop_size_str,"%d",prop_size);
+								(*property_list)[prop_size_idx] = CORBA::string_dup(prop_size_str);
+								prop_number++;
+							}						
+							prop_size_idx = n_props - 2;
+							prop_size = 1;
 						}
 						else
-							new_prop = false;
-					}
-//	            			DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
-					if (new_prop == true)
-					{
-						n_props = n_props + 3;
-						property_list->length(n_props);
-	            		(*property_list)[n_props-3] = CORBA::string_dup(row[0]);
-	            		(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
-						if (prop_size != 0)
 						{
-							sprintf(prop_size_str,"%d",prop_size);
-							(*property_list)[prop_size_idx] = CORBA::string_dup(prop_size_str);
-							prop_number++;
-						}						
-						prop_size_idx = n_props - 2;
-						prop_size = 1;
+							n_props = n_props + 1;
+							property_list->length(n_props);
+							(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
+							prop_size++;
+						}
+	         		}
+	      		}
+				if (prop_size != 0)
+				{
+					sprintf(prop_size_str,"%d",prop_size);
+					(*property_list)[prop_size_idx] = CORBA::string_dup(prop_size_str);
+					prop_number++;
+				}
+	   		}
+	   		sprintf(n_rows_str,"%d",prop_number);
+			(*property_list)[prop_number_idx] = CORBA::string_dup(n_rows_str);
+	   		mysql_free_result(result);
+		}
+	}
+	else
+	{
+		sql_query_stream.str("");
+		sql_query_stream << "SELECT attribute,name,value FROM property_attribute_device WHERE device = \""
+		                 << tmp_device << "\" ORDER BY attribute,name,count";
+	   	DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
+	
+		result = query(sql_query_stream.str(),"db_get_device_attribute_property2()");
+		n_rows = mysql_num_rows(result);
+		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << endl;
+
+		map<string,vector<PropDef> > db_data;
+
+		string att,prev_att;
+		string p_name,prev_p_name;
+		string value;
+		PropDef prop;
+		vector<PropDef> att_props;
+
+//
+// Create a map with data coming from db
+//
+
+		for (int j = 0;j < n_rows;j++)
+		{
+			if ((row = mysql_fetch_row(result)) != NULL)
+			{
+				att = row[0];
+				if (att != prev_att)
+				{
+					if (j != 0)
+					{
+						att_props.push_back(prop);
+						db_data.insert(make_pair(prev_att,att_props));
+						prop.prop_val.clear();
+						att_props.clear();
+					}
+					p_name = row[1];
+
+					prop.prop_name = p_name;
+					value = row[2];
+					prop.prop_val.push_back(value);
+
+					prev_p_name = p_name;
+					prev_att = att;
+				}
+				else
+				{
+					p_name = row[1];
+					if (p_name != prev_p_name)
+					{
+						att_props.push_back(prop);
+						prop.prop_val.clear();
+
+						prop.prop_name = p_name;
+						value = row[2];
+						prop.prop_val.push_back(value);
+
+						prev_p_name = p_name;
 					}
 					else
 					{
-						n_props = n_props + 1;
-						property_list->length(n_props);
-						(*property_list)[n_props-1] = CORBA::string_dup(row[1]);
-						prop_size++;
+						value = row[2];
+						prop.prop_val.push_back(value);
 					}
-	         	}
-	      	}
-			if (prop_size != 0)
-			{
-				sprintf(prop_size_str,"%d",prop_size);
-				(*property_list)[prop_size_idx] = CORBA::string_dup(prop_size_str);
-				prop_number++;
+				}
 			}
-	   	}
-	   	sprintf(n_rows_str,"%d",prop_number);
-		(*property_list)[prop_number_idx] = CORBA::string_dup(n_rows_str);
-	   	mysql_free_result(result);
+		}
+
+		if (n_rows != 0)
+		{
+			att_props.push_back(prop);
+			db_data.insert(make_pair(att,att_props));
+		}
+
+//
+// Initialized data returned to caller
+//
+
+		for (unsigned int i=1; i<property_names->length(); i++)
+		{
+	   		string tmp_attribute((*property_names)[i]);
+			map<string,vector<PropDef> >::iterator pos = db_data.find(tmp_attribute);
+
+//
+// Data for this attribute in map?
+//
+
+			if (pos == db_data.end())
+			{
+	   			n_props = n_props+2;
+	   			property_list->length(n_props);
+	   			(*property_list)[n_props-2] = CORBA::string_dup(tmp_attribute.c_str());
+				(*property_list)[n_props-1] = CORBA::string_dup("0");
+			}
+			else
+			{
+				int prop_nb = pos->second.size();
+
+	   			n_props = n_props + 2;
+	   			property_list->length(n_props);
+	   			(*property_list)[n_props - 2] = CORBA::string_dup(tmp_attribute.c_str());
+	   			sprintf(n_rows_str,"%d",prop_nb);
+				(*property_list)[n_props - 1] = CORBA::string_dup(n_rows_str);
+
+				for (int i = 0;i < prop_nb;i++)
+				{
+					PropDef &pd = pos->second[i];
+					int prop_size = pd.prop_val.size();
+					int old_n_props = n_props;
+					n_props = n_props + 2 + prop_size;
+
+					property_list->length(n_props);
+					(*property_list)[old_n_props++] = CORBA::string_dup(pd.prop_name.c_str());
+	   				sprintf(n_rows_str,"%d",prop_size);
+					(*property_list)[old_n_props++] = CORBA::string_dup(n_rows_str);
+					
+					for (int j = 0;j < prop_size;j++)
+					{
+						(*property_list)[old_n_props++] = CORBA::string_dup(pd.prop_val[j].c_str());
+					}								
+				}
+			}
+		}
 	}
 
 	DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): property_list->length() "<< property_list->length() << endl;
