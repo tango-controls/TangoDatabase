@@ -800,12 +800,13 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 	}
 
 	const char *host;
-	string my_host(mysql_host);
+	string my_host;
 	string ho,port;
 	unsigned int port_num = 0;
 
 	if (mysql_host != NULL)
 	{
+		my_host = mysql_host;
 		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << mysql_host << endl;
 		string::size_type pos = my_host.find(':');
 		if (pos != string::npos)

@@ -172,6 +172,15 @@ public:
 	double *timing_stats_calls;
 	char **timing_stats_index;
 
+	/*
+	 * For the DbGetDeviceAttributeProperty2 command
+	 */
+
+	typedef struct prop_def
+	{
+		string			prop_name;
+		vector<string>	prop_val;
+	} PropDef;
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::Data Members
 
