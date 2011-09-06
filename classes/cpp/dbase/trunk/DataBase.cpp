@@ -3240,6 +3240,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			tmp_str >> nb_attr;
 			if (property_names->length()-1 >= nb_attr)
 				all_attr = true;
+	   		mysql_free_result(result);
 		}
 	}
 
@@ -3397,6 +3398,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 				}
 			}
 		}
+	   	mysql_free_result(result);
 
 		if (n_rows != 0)
 		{
