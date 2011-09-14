@@ -3358,6 +3358,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			if ((row = mysql_fetch_row(result)) != NULL)
 			{
 				att = row[0];
+				transform(att.begin(),att.end(),att.begin(),::tolower);
+
 				if (att != prev_att)
 				{
 					if (j != 0)
@@ -3368,6 +3370,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 						att_props.clear();
 					}
 					p_name = row[1];
+					transform(p_name.begin(),p_name.end(),p_name.begin(),::tolower);
 
 					prop.prop_name = p_name;
 					value = row[2];
@@ -3379,6 +3382,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 				else
 				{
 					p_name = row[1];
+					transform(p_name.begin(),p_name.end(),p_name.begin(),::tolower);
+
 					if (p_name != prev_p_name)
 					{
 						att_props.push_back(prop);
@@ -3413,7 +3418,10 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 		for (unsigned int i=1; i<property_names->length(); i++)
 		{
 	   		string tmp_attribute((*property_names)[i]);
-			map<string,vector<PropDef> >::iterator pos = db_data.find(tmp_attribute);
+			string tmp_att_lower(tmp_attribute);
+			transform(tmp_att_lower.begin(),tmp_att_lower.end(),tmp_att_lower.begin(),::tolower);
+
+			map<string,vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
 
 //
 // Data for this attribute in map?
@@ -3438,7 +3446,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 
 				for (int i = 0;i < prop_nb;i++)
 				{
-					PropDef &pd = pos->second[i];
+					PropDef &pd = (pos->second)[i];
 					int prop_size = pd.prop_val.size();
 					int old_n_props = n_props;
 					n_props = n_props + 2 + prop_size;
