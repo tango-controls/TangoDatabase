@@ -465,6 +465,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 		}
 		else
 		{
+			mysql_free_result(result);
 	   		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
 	   				  (const char *)"Can't fetch row from the returned result",
 					  (const char *)"DataBase::read_StoredProcedureRelease()");
@@ -472,6 +473,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 	}
 	else
 	{
+		mysql_free_result(result);
 	   	Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
 	   				  (const char *)"Wrong fields number in the data returned by the query",
 					  (const char *)"DataBase::read_StoredProcedureRelease()");
@@ -2500,6 +2502,7 @@ Tango::DevString DataBase::db_get_class_for_device(Tango::DevString argin)
 	int	n_rows = mysql_num_rows(result);
 	if (n_rows==0)
 	{
+		mysql_free_result(result);
 		TangoSys_MemStream	tms;
 		tms << "Class not found for " << argin;
 		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
@@ -7314,6 +7317,7 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 	}
 	else
 	{
+		mysql_free_result(result);
  	    TangoSys_OMemStream o;
 		o << "No device found for host \'" << argin << "\'";
 		string msg = o.str();
