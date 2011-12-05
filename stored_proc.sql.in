@@ -714,7 +714,7 @@ BEGIN
 	DECLARE cur_dev CURSOR FOR 
 	SELECT name,count,value 
 	FROM @TANGO_DB_NAME@.property 
-	WHERE object = obj_name ORDER BY count;
+	WHERE object = obj_name ORDER BY name,count;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
