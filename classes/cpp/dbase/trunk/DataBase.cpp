@@ -7234,9 +7234,24 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 	string::size_type	idx = tmp.find("select");
 	if (idx == string::npos)
 		cmd = "SELECT " + cmd;
-	
+
+	// Check that there is no SQL injection
+
+	idx = tmp.find(';');
+	if ((idx != string::npos) && (tmp.size() > (idx + 1)))
+	{
+ 	    TangoSys_OMemStream o;
+		o << "SQL command not valid: \'" << argin << "\'";
+		string msg = o.str();
+		WARN_STREAM << msg << endl;
+		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
+	   				                   msg,
+					                   (const char *)"DataBase::db_my_sql_select()");
+	}
+
 	INFO_STREAM << "DataBase::db_my_sql_select(): \ncmd: " << cmd << endl;
 
+cout << "cmd = " << cmd << endl;
 	MYSQL_RES	*result   = query(cmd, "db_my_sql_select()");
 	int			nb_rows   = mysql_num_rows(result);
 	int			nb_fields = mysql_num_fields(result);
