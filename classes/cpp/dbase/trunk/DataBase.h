@@ -187,7 +187,6 @@ public:
 
 //	Device property data members
 public:	
-
 //	Attribute data members
 public:
 	Tango::DevString	*attr_StoredProcedureRelease_read;
@@ -344,11 +343,12 @@ public:
 
 
 
+
 	/**
 	 *	Method      : DataBase::add_dynamic_attributes()
 	 *	Description : Add dynamic attributes if any.
 	 */
-		void add_dynamic_attributes();
+	void add_dynamic_attributes();
 
 //	Command related methods
 public: 

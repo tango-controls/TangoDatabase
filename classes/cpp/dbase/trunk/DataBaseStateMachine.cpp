@@ -56,7 +56,6 @@ static const char *RcsId = "$Id$";
 
 namespace DataBase_ns
 {
-
 //=================================================
 //		Attributes Allowed Methods
 //=================================================
@@ -186,6 +185,11 @@ bool DataBase::is_Timing_info_allowed(Tango::AttReqType type)
 
 	return true;
 }
+
+
+//=================================================
+//	Dynamic Attributes Allowed Methods
+//=================================================
 
 
 	/*----- PROTECTED REGION ID(DataBase::are_dynamic_attributes_allowed) ENABLED START -----*/

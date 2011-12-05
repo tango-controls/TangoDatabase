@@ -1996,6 +1996,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	StoredProcedureRelease does not fire change event
 	//	StoredProcedureRelease does not fire archive event
 	//	StoredProcedureRelease does not fire data_ready event
+
 	att_list.push_back(storedprocedurerelease);
 
 	//	Attribute : Timing_average
@@ -2023,6 +2024,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Timing_average does not fire change event
 	//	Timing_average does not fire archive event
 	//	Timing_average does not fire data_ready event
+
 	att_list.push_back(timing_average);
 
 	//	Attribute : Timing_minimum
@@ -2050,6 +2052,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Timing_minimum does not fire change event
 	//	Timing_minimum does not fire archive event
 	//	Timing_minimum does not fire data_ready event
+
 	att_list.push_back(timing_minimum);
 
 	//	Attribute : Timing_maximum
@@ -2077,6 +2080,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Timing_maximum does not fire change event
 	//	Timing_maximum does not fire archive event
 	//	Timing_maximum does not fire data_ready event
+
 	att_list.push_back(timing_maximum);
 
 	//	Attribute : Timing_calls
@@ -2104,6 +2108,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Timing_calls does not fire change event
 	//	Timing_calls does not fire archive event
 	//	Timing_calls does not fire data_ready event
+
 	att_list.push_back(timing_calls);
 
 	//	Attribute : Timing_index
@@ -2131,6 +2136,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Timing_index does not fire change event
 	//	Timing_index does not fire archive event
 	//	Timing_index does not fire data_ready event
+
 	att_list.push_back(timing_index);
 
 	//	Attribute : Timing_info
@@ -2158,6 +2164,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Timing_info does not fire change event
 	//	Timing_info does not fire archive event
 	//	Timing_info does not fire data_ready event
+
 	att_list.push_back(timing_info);
 
 
@@ -2189,42 +2196,42 @@ void DataBaseClass::command_factory()
 	DbAddDeviceClass	*pDbAddDeviceCmd =
 		new DbAddDeviceClass("DbAddDevice",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Full device server process name\nStr[1] = Device name\nStr[2] = Tango class name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbAddDeviceCmd);
 	DbAddServerClass	*pDbAddServerCmd =
 		new DbAddServerClass("DbAddServer",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Full device server name\nStr[1] = Device(s) name\nStr[2] = Tango class name\nStr[n] = Device name\nStr[n + 1] = Tango class name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbAddServerCmd);
 	DbDeleteAttributeAliasClass	*pDbDeleteAttributeAliasCmd =
 		new DbDeleteAttributeAliasClass("DbDeleteAttributeAlias",
 			Tango::DEV_STRING, Tango::DEV_VOID,
-			"alias name.",
+			"Attriibute alias name.",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteAttributeAliasCmd);
 	DbDeleteClassAttributeClass	*pDbDeleteClassAttributeCmd =
 		new DbDeleteClassAttributeClass("DbDeleteClassAttribute",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"device",
-			"attribute",
+			"Str[0] = Tango class name\nStr[1] = Attribute name",
+			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteClassAttributeCmd);
 	DbDeleteClassAttributePropertyClass	*pDbDeleteClassAttributePropertyCmd =
 		new DbDeleteClassAttributePropertyClass("DbDeleteClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"device",
-			"attribute",
+			"Str[0] = Tango class name\nStr[1] = Attribute name\nStr[2] = Property name\nStr[n] = Property name",
+			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteClassAttributePropertyCmd);
 	DbDeleteClassPropertyClass	*pDbDeleteClassPropertyCmd =
 		new DbDeleteClassPropertyClass("DbDeleteClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Tango class name\nStr[1] = Property name\nStr[n] = Property name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteClassPropertyCmd);
@@ -2238,120 +2245,120 @@ void DataBaseClass::command_factory()
 	DbDeleteDeviceAliasClass	*pDbDeleteDeviceAliasCmd =
 		new DbDeleteDeviceAliasClass("DbDeleteDeviceAlias",
 			Tango::DEV_STRING, Tango::DEV_VOID,
-			"alias name",
+			"device alias name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceAliasCmd);
 	DbDeleteDeviceAttributeClass	*pDbDeleteDeviceAttributeCmd =
 		new DbDeleteDeviceAttributeClass("DbDeleteDeviceAttribute",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"device",
-			"attribute",
+			"Str[0] = Device name\nStr[1] = Attribute name",
+			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceAttributeCmd);
 	DbDeleteDeviceAttributePropertyClass	*pDbDeleteDeviceAttributePropertyCmd =
 		new DbDeleteDeviceAttributePropertyClass("DbDeleteDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"device",
-			"attribute",
+			"Str[0] = Device name\nStr[1] = Attribute name\nStr[2] = Property name\nStr[n] = Property name",
+			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceAttributePropertyCmd);
 	DbDeleteDevicePropertyClass	*pDbDeleteDevicePropertyCmd =
 		new DbDeleteDevicePropertyClass("DbDeleteDeviceProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Device name\nStr[1] = Property name\nStr[n] = Property name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDevicePropertyCmd);
 	DbDeletePropertyClass	*pDbDeletePropertyCmd =
 		new DbDeletePropertyClass("DbDeleteProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0]  = Object name\nStr[1] = Property name\nStr[n] = Property name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeletePropertyCmd);
 	DbDeleteServerClass	*pDbDeleteServerCmd =
 		new DbDeleteServerClass("DbDeleteServer",
 			Tango::DEV_STRING, Tango::DEV_VOID,
-			"server name",
+			"Device server name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteServerCmd);
 	DbDeleteServerInfoClass	*pDbDeleteServerInfoCmd =
 		new DbDeleteServerInfoClass("DbDeleteServerInfo",
 			Tango::DEV_STRING, Tango::DEV_VOID,
-			"server name",
+			"Device server name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteServerInfoCmd);
 	DbExportDeviceClass	*pDbExportDeviceCmd =
 		new DbExportDeviceClass("DbExportDevice",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Device name\nStr[1] = CORBA IOR\nStr[2] = Device server process host name\nStr[3] = Device server process PID or string ``null``\nStr[4] = Device server process version",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbExportDeviceCmd);
 	DbExportEventClass	*pDbExportEventCmd =
 		new DbExportEventClass("DbExportEvent",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"event channel or factory",
-			"IOR",
+			"Str[0] = event channel name (or factory name)\nStr[1] = CORBA IOR\nStr[2] = Notifd host name\nStr[3] = Notifd pid\nStr[4] = Notifd version",
+			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbExportEventCmd);
 	DbGetAliasDeviceClass	*pDbGetAliasDeviceCmd =
 		new DbGetAliasDeviceClass("DbGetAliasDevice",
 			Tango::DEV_STRING, Tango::DEV_STRING,
-			"specified alias.",
-			"Device name found.",
+			"Alias name",
+			"Device name",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAliasDeviceCmd);
 	DbGetAttributeAliasClass	*pDbGetAttributeAliasCmd =
 		new DbGetAttributeAliasClass("DbGetAttributeAlias",
 			Tango::DEV_STRING, Tango::DEV_STRING,
-			"alias",
-			"attribute name",
+			"The attribute alias name",
+			"The attribute name (device/attribute)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAttributeAliasCmd);
 	DbGetAttributeAliasListClass	*pDbGetAttributeAliasListCmd =
 		new DbGetAttributeAliasListClass("DbGetAttributeAliasList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"attribute alias",
-			"attribute name",
+			"attribute alias filter string (eg: att*)",
+			"attribute aliases",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAttributeAliasListCmd);
 	DbGetClassAttributeListClass	*pDbGetClassAttributeListCmd =
 		new DbGetClassAttributeListClass("DbGetClassAttributeList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Tango class name\nStr[1] = Attribute name filter (eg: att*)",
+			"Str[0] = Class attribute name\nStr[n] = Class attribute name",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributeListCmd);
 	DbGetClassAttributePropertyClass	*pDbGetClassAttributePropertyCmd =
 		new DbGetClassAttributePropertyClass("DbGetClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Tango class name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Tango class name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributePropertyCmd);
 	DbGetClassAttributeProperty2Class	*pDbGetClassAttributeProperty2Cmd =
 		new DbGetClassAttributeProperty2Class("DbGetClassAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Tango class name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Tango class name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value number (array case)\nStr[4] = Attribute property 1 value\nStr[n] = Attribute property 1 value (array case)\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value number (array case)\nStr[n + 3] = Attribute property 2 value\nStr[n + m] = Attribute property 2 value (array case)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributeProperty2Cmd);
 	DbGetClassAttributePropertyHistClass	*pDbGetClassAttributePropertyHistCmd =
 		new DbGetClassAttributePropertyHistClass("DbGetClassAttributePropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Tango class\nStr[1] = Attribute name\nStr[2] = Property name",
+			"Str[0] = Attribute name\nStr[1] = Property name\nStr[2] = date\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributePropertyHistCmd);
 	DbGetClassForDeviceClass	*pDbGetClassForDeviceCmd =
 		new DbGetClassForDeviceClass("DbGetClassForDevice",
 			Tango::DEV_STRING, Tango::DEV_STRING,
 			"Device name",
-			"Class off the specified device",
+			"Device Tango class",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassForDeviceCmd);
 	DbGetClassInheritanceForDeviceClass	*pDbGetClassInheritanceForDeviceCmd =
@@ -2364,29 +2371,29 @@ void DataBaseClass::command_factory()
 	DbGetClassListClass	*pDbGetClassListCmd =
 		new DbGetClassListClass("DbGetClassList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Filter",
+			"Class list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassListCmd);
 	DbGetClassPropertyClass	*pDbGetClassPropertyCmd =
 		new DbGetClassPropertyClass("DbGetClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Tango class\nStr[1] = Property name\nStr[2] = Property name",
+			"Str[0] = Tango class\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value\nStr[n] = Propery value (array case)\n....",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyCmd);
 	DbGetClassPropertyHistClass	*pDbGetClassPropertyHistCmd =
 		new DbGetClassPropertyHistClass("DbGetClassPropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Tango class\nStr[1] = Property name",
+			"Str[0] = Property name\nStr[1] = date\nStr[2] = Property value number (array case)\nStr[3] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyHistCmd);
 	DbGetClassPropertyListClass	*pDbGetClassPropertyListCmd =
 		new DbGetClassPropertyListClass("DbGetClassPropertyList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The filter",
+			"Property name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyListCmd);
 	DbGetDeviceAliasClass	*pDbGetDeviceAliasCmd =
@@ -2399,50 +2406,50 @@ void DataBaseClass::command_factory()
 	DbGetDeviceAliasListClass	*pDbGetDeviceAliasListCmd =
 		new DbGetDeviceAliasListClass("DbGetDeviceAliasList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The filter",
+			"Device alias list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAliasListCmd);
 	DbGetDeviceAttributeListClass	*pDbGetDeviceAttributeListCmd =
 		new DbGetDeviceAttributeListClass("DbGetDeviceAttributeList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"device name",
-			"attribute wildcard",
+			"Str[0] = Device name\nStr[1] = Wildcard",
+			"attribute name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributeListCmd);
 	DbGetDeviceAttributePropertyClass	*pDbGetDeviceAttributePropertyCmd =
 		new DbGetDeviceAttributePropertyClass("DbGetDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Device name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Device name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributePropertyCmd);
 	DbGetDeviceAttributeProperty2Class	*pDbGetDeviceAttributeProperty2Cmd =
 		new DbGetDeviceAttributeProperty2Class("DbGetDeviceAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Device name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Device name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value number (array case)\nStr[4] = Attribute property 1 value\nStr[n] = Attribute property 1 value (array case)\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value number (array case)\nStr[n + 3] = Attribute property 2 value\nStr[n + m] = Attribute property 2 value (array case)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributeProperty2Cmd);
 	DbGetDeviceAttributePropertyHistClass	*pDbGetDeviceAttributePropertyHistCmd =
 		new DbGetDeviceAttributePropertyHistClass("DbGetDeviceAttributePropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Device name\nStr[1] = Attribute name\nStr[2] = Property name",
+			"Str[0] = Attribute name\nStr[1] = Property name\nStr[2] = date\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributePropertyHistCmd);
 	DbGetDeviceClassListClass	*pDbGetDeviceClassListCmd =
 		new DbGetDeviceClassListClass("DbGetDeviceClassList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Device server process name",
+			"Str[0] = Device name\nStr[1] = Tango class\nStr[n] = Device name\nStr[n + 1] = Tango class",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceClassListCmd);
 	DbGetDeviceDomainListClass	*pDbGetDeviceDomainListCmd =
 		new DbGetDeviceDomainListClass("DbGetDeviceDomainList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The wildcard",
+			"Device name domain list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceDomainListCmd);
 	DbGetDeviceExportedListClass	*pDbGetDeviceExportedListCmd =
@@ -2455,15 +2462,15 @@ void DataBaseClass::command_factory()
 	DbGetDeviceFamilyListClass	*pDbGetDeviceFamilyListCmd =
 		new DbGetDeviceFamilyListClass("DbGetDeviceFamilyList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The wildcard",
+			"Family list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceFamilyListCmd);
 	DbGetDeviceInfoClass	*pDbGetDeviceInfoCmd =
 		new DbGetDeviceInfoClass("DbGetDeviceInfo",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
 			"Device name",
-			"Info from DbImportDevice and started/stopped dates.",
+			"Str[0] = Device name\nStr[1] = CORBA IOR\nStr[2] = Device version\nStr[3] = Device Server name\nStr[4] = Device Server process host name\nStr[5] = Started date (or ? if not set)\nStr[6] = Stopped date (or ? if not set)\n\nLg[0] = Device exported flag\nLg[1] = Device Server process PID (or -1 if not set)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceInfoCmd);
 	DbGetDeviceListClass	*pDbGetDeviceListCmd =
@@ -2483,35 +2490,35 @@ void DataBaseClass::command_factory()
 	DbGetDeviceMemberListClass	*pDbGetDeviceMemberListCmd =
 		new DbGetDeviceMemberListClass("DbGetDeviceMemberList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The filter",
+			"Device names member list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceMemberListCmd);
 	DbGetDevicePropertyClass	*pDbGetDevicePropertyCmd =
 		new DbGetDevicePropertyClass("DbGetDeviceProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Device name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Device name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n (array case)\nStr[n + 1] = Property name\nStr[n + 2] = Property value number (array case)\nStr[n + 3] = Property value 1\nStr[n + m] = Property value m",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePropertyCmd);
 	DbGetDevicePropertyHistClass	*pDbGetDevicePropertyHistCmd =
 		new DbGetDevicePropertyHistClass("DbGetDevicePropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Device name\nStr[2] = Property name",
+			"Str[0] = Property name\nStr[1] = date\nStr[2] = Property value number (array case)\nStr[3] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePropertyHistCmd);
 	DbGetDevicePropertyListClass	*pDbGetDevicePropertyListCmd =
 		new DbGetDevicePropertyListClass("DbGetDevicePropertyList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = device name\nStr[1] = Filter",
+			"Property name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePropertyListCmd);
 	DbGetDeviceServerClassListClass	*pDbGetDeviceServerClassListCmd =
 		new DbGetDeviceServerClassListClass("DbGetDeviceServerClassList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"device server instance name",
+			"device server process name",
 			"list of classes for this device server",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceServerClassListCmd);
@@ -2525,57 +2532,57 @@ void DataBaseClass::command_factory()
 	DbGetHostListClass	*pDbGetHostListCmd =
 		new DbGetHostListClass("DbGetHostList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The filter",
+			"Host name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetHostListCmd);
 	DbGetHostServerListClass	*pDbGetHostServerListCmd =
 		new DbGetHostServerListClass("DbGetHostServerList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The filter",
+			"Device server process name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetHostServerListCmd);
 	DbGetHostServersInfoClass	*pDbGetHostServersInfoCmd =
 		new DbGetHostServersInfoClass("DbGetHostServersInfo",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"host name",
-			"server info for all servers running on specified host",
+			"Host name",
+			"Server info for all servers running on specified host",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetHostServersInfoCmd);
 	DbGetInstanceNameListClass	*pDbGetInstanceNameListCmd =
 		new DbGetInstanceNameListClass("DbGetInstanceNameList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"server name",
+			"Server name",
 			"The instance names found for specified server.",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetInstanceNameListCmd);
 	DbGetObjectListClass	*pDbGetObjectListCmd =
 		new DbGetObjectListClass("DbGetObjectList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"wild card",
-			"list of object names",
+			"The filter",
+			"Object name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetObjectListCmd);
 	DbGetPropertyClass	*pDbGetPropertyCmd =
 		new DbGetPropertyClass("DbGetProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Object name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Object name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n (array case)\nStr[n + 1] = Property name\nStr[n + 2] = Property value number (array case)\nStr[n + 3] = Property value 1\nStr[n + m] = Property value m",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetPropertyCmd);
 	DbGetPropertyHistClass	*pDbGetPropertyHistCmd =
 		new DbGetPropertyHistClass("DbGetPropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Object name\nStr[2] = Property name",
+			"Str[0] = Property name\nStr[1] = date\nStr[2] = Property value number (array case)\nStr[3] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetPropertyHistCmd);
 	DbGetPropertyListClass	*pDbGetPropertyListCmd =
 		new DbGetPropertyListClass("DbGetPropertyList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"Str[0] = Object name\nStr[1] = filter",
+			"Property name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetPropertyListCmd);
 	DbGetServerInfoClass	*pDbGetServerInfoCmd =
@@ -2588,8 +2595,8 @@ void DataBaseClass::command_factory()
 	DbGetServerListClass	*pDbGetServerListCmd =
 		new DbGetServerListClass("DbGetServerList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
-			"",
-			"",
+			"The filter",
+			"Device server process name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetServerListCmd);
 	DbGetServerNameListClass	*pDbGetServerNameListCmd =
@@ -2602,8 +2609,8 @@ void DataBaseClass::command_factory()
 	DbImportDeviceClass	*pDbImportDeviceCmd =
 		new DbImportDeviceClass("DbImportDevice",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
-			"",
-			"",
+			"Device name (or alias)",
+			"Str[0] = device name\nStr[1] = CORBA IOR\nStr[2] = device version\nStr[3] = device server process name\nStr[4] = host name\nStr[5] = Tango class name\n\nLg[0] = Exported flag\nLg[1] = Device server process PID",
 			Tango::OPERATOR);
 	command_list.push_back(pDbImportDeviceCmd);
 	DbImportEventClass	*pDbImportEventCmd =
@@ -2617,69 +2624,69 @@ void DataBaseClass::command_factory()
 		new DbInfoClass("DbInfo",
 			Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY,
 			"",
-			"",
+			"Miscellaneous info like:\n- Device defined in database\n- Device marked as exported in database\n- Device server process defined in database\n- Device server process marked as exported in database\n- Device properties defined in database\n- Class properties defined in database\n- Device attribute properties defined in database\n- Class attribute properties defined in database\n- Object properties defined in database",
 			Tango::OPERATOR);
 	command_list.push_back(pDbInfoCmd);
 	DbPutAttributeAliasClass	*pDbPutAttributeAliasCmd =
 		new DbPutAttributeAliasClass("DbPutAttributeAlias",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"attribute name, alias",
+			"Str[0] = attribute name\nStr[1] = attribute alias",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutAttributeAliasCmd);
 	DbPutClassAttributePropertyClass	*pDbPutClassAttributePropertyCmd =
 		new DbPutClassAttributePropertyClass("DbPutClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Tango class name\nStr[1] = Attribute number\nStr[2] = Attribute name\nStr[3] = Property number\nStr[4] = Property name\nStr[5] = Property value\n.....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutClassAttributePropertyCmd);
 	DbPutClassAttributeProperty2Class	*pDbPutClassAttributeProperty2Cmd =
 		new DbPutClassAttributeProperty2Class("DbPutClassAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Tango class name\nStr[1] = Attribute number\nStr[2] = Attribute name\nStr[3] = Property number\nStr[4] = Property name\nStr[5] = Property value number (array case)\nStr[5] = Property value 1\nStr[n] = Property value n (array case)\n.....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutClassAttributeProperty2Cmd);
 	DbPutClassPropertyClass	*pDbPutClassPropertyCmd =
 		new DbPutClassPropertyClass("DbPutClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Tango class name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number\nStr[4] = Property value 1\nStr[n] = Property value n\n....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutClassPropertyCmd);
 	DbPutDeviceAliasClass	*pDbPutDeviceAliasCmd =
 		new DbPutDeviceAliasClass("DbPutDeviceAlias",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"device name",
-			"alias",
+			"Str[0] = device name\nStr[1] = alias name",
+			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDeviceAliasCmd);
 	DbPutDeviceAttributePropertyClass	*pDbPutDeviceAttributePropertyCmd =
 		new DbPutDeviceAttributePropertyClass("DbPutDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Device name\nStr[1] = Attribute number\nStr[2] = Attribute name\nStr[3] = Property number\nStr[4] = Property name\nStr[5] = Property value\n.....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDeviceAttributePropertyCmd);
 	DbPutDeviceAttributeProperty2Class	*pDbPutDeviceAttributeProperty2Cmd =
 		new DbPutDeviceAttributeProperty2Class("DbPutDeviceAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Device name\nStr[1] = Attribute number\nStr[2] = Attribute name\nStr[3] = Property number\nStr[4] = Property name\nStr[5] = Property value number (array case)\nStr[5] = Property value 1\nStr[n] = Property value n (array case)\n.....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDeviceAttributeProperty2Cmd);
 	DbPutDevicePropertyClass	*pDbPutDevicePropertyCmd =
 		new DbPutDevicePropertyClass("DbPutDeviceProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Tango device name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number\nStr[4] = Property value 1\nStr[n] = Property value n\n....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDevicePropertyCmd);
 	DbPutPropertyClass	*pDbPutPropertyCmd =
 		new DbPutPropertyClass("DbPutProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"",
+			"Str[0] = Object name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number\nStr[4] = Property value 1\nStr[n] = Property value n\n....",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutPropertyCmd);
@@ -2693,7 +2700,7 @@ void DataBaseClass::command_factory()
 	DbUnExportDeviceClass	*pDbUnExportDeviceCmd =
 		new DbUnExportDeviceClass("DbUnExportDevice",
 			Tango::DEV_STRING, Tango::DEV_VOID,
-			"",
+			"Device name",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbUnExportDeviceCmd);
@@ -2707,7 +2714,7 @@ void DataBaseClass::command_factory()
 	DbUnExportServerClass	*pDbUnExportServerCmd =
 		new DbUnExportServerClass("DbUnExportServer",
 			Tango::DEV_STRING, Tango::DEV_VOID,
-			"",
+			"Device server name (executable/instance)",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbUnExportServerCmd);
@@ -2728,7 +2735,7 @@ void DataBaseClass::command_factory()
 	DbDeleteAllDeviceAttributePropertyClass	*pDbDeleteAllDeviceAttributePropertyCmd =
 		new DbDeleteAllDeviceAttributePropertyClass("DbDeleteAllDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"str[0] = device name, str[1]...str[n] = attribute name(s)",
+			"str[0] = device name\nStr[1]...str[n] = attribute name(s)",
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteAllDeviceAttributePropertyCmd);
