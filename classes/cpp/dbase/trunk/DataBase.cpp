@@ -264,7 +264,16 @@ void DataBase::init_device()
 	
 	/*----- PROTECTED REGION ID(DataBase::init_device) ENABLED START -----*/
 
-	//	Initialize device
+//
+// Just to keep the rcsId string (Some compilers optimize it away)
+//
+
+	string str_rcs(RcsId);
+
+//
+//	Initialize device
+//
+
 	const char *mysql_user     = NULL;
 	const char *mysql_password = NULL;
 	const char *mysql_host = NULL;

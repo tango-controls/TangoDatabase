@@ -98,7 +98,7 @@ DataBaseClass::DataBaseClass(string &s):DeviceClass(s)
 	write_class_property();
 
 	/*----- PROTECTED REGION ID(DataBase::Class::constructor) ENABLED START -----*/
-
+	string str_rcs(RcsId);
 	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::constructor
 
 	cout2 << "Leaving DataBaseClass constructor" << endl;
