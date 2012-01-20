@@ -33,7 +33,7 @@ DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.4'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.5'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
