@@ -23,6 +23,7 @@
 # MAKE_ENV is the path to find common environment to buil project
 #
 MAKE_ENV = /segfs/tango/cppserver/env
+#MAKE_ENV = /opt/tango_726/share/pogo/preferences
 
 #=============================================================================
 # PACKAGE_NAME is the name of the library/device/exe you want to build
@@ -98,7 +99,7 @@ LIB_DIR_USER= -L $(MYSQL_LIB_DIR) -lmysqlclient_r
 # you must use '-lA -lB' in this order as link flags, otherwise you will get
 # 'undefined reference' errors
 #
-#LFLAGS_USR+=
+LFLAGS_USR+= -Wl,-z,now -pie
 
 
 #=============================================================================
@@ -107,7 +108,7 @@ LIB_DIR_USER= -L $(MYSQL_LIB_DIR) -lmysqlclient_r
 #
 # -DACE_HAS_EXCEPTIONS -D__ACE_INLINE__ for ACE
 #
-#CXXFLAGS_USR+= -Wall
+CXXFLAGS_USR+= -Wall -Wextra -D_FORTIFY_SOURCE=2 -O1 -fpie
 
 
 #=============================================================================
