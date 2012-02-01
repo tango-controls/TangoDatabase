@@ -58,7 +58,7 @@ namespace DataBase_ns {
 // 
 // description : 	utility method to replace all occurrences of
 //			wildcards (*) with SQL wildcards % and to escape
-//			all occurrences	of % and _ with \
+//			all occurrences	of '%' and '_' with '\'
 //
 // in :			string **wildcard_c_str - wildcard C string
 //
@@ -125,7 +125,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 // method : 		DataBase::escape_string(char *string_c_str)
 // 
 // description : 	utility method to escape all occurrences	
-//			of ' and " with \
+//			of ' and " with '\'
 //
 // in :			const char *string_c_str -  C string to be modified.
 //
@@ -769,9 +769,13 @@ void DataBase::base_connect(int loop)
 	{
 		my_bool my_auto_reconnect=1;
 		if (mysql_options(conn_pool[loop].db,MYSQL_OPT_RECONNECT,&my_auto_reconnect) !=0)
+		{
 			ERROR_STREAM << "DataBase: error setting mysql auto reconnection: " << mysql_error(conn_pool[loop].db) << endl;
+		}
 		else
+		{
 			WARN_STREAM << "DataBase: set mysql auto reconnect to true" << endl;
+		}
 	}
 #endif
 }

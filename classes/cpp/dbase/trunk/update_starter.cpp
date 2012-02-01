@@ -65,7 +65,7 @@ void UpdStarterData::send_starter_cmd(vector<string> hostname)
 
 	//	Build starter devices to update
 	starter_devnames.clear();
-	for (int i=0 ; i<hostname.size() ; i++)
+	for (unsigned int i=0 ; i<hostname.size() ; i++)
 	{
 		string	devname(STARTER_DEVNAME_HEADER);
 		devname += hostname[i];
@@ -91,7 +91,7 @@ void *UpdateStarter::run_undetached(void *ptr)
 	{
 		//	Get the starter device name
 		vector<string>	devnames = shared->get_starter_devname();
-		for (int i=0 ; i<devnames.size() ; i++)
+		for (unsigned int i=0 ; i<devnames.size() ; i++)
 		{
 			//	Verify if devname has been set
 			if (devnames[i].find(STARTER_DEVNAME_HEADER)==0)
@@ -115,8 +115,7 @@ void *UpdateStarter::run_undetached(void *ptr)
 				{
 					//Tango::Except::print_exception(e);
 				}
-				if (dev!=NULL)
-					delete dev;
+				delete dev;
 			}
 		}
 		//	Wait until next command.

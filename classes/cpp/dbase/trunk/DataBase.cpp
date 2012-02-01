@@ -465,7 +465,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 	TangoSys_MemStream	sql_query_stream;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_fields, i;
+	int n_fields;
 
 	sql_query_stream << "SHOW PROCEDURE STATUS LIKE \"ds_start\"";
 
@@ -765,7 +765,7 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 	TangoSys_MemStream sql_query_stream;
  	char domain[256], family[256], member[256];
 	int n_rows=0;
-	const char *tmp_server, *tmp_class, *tmp_alias;
+	const char *tmp_server, *tmp_class, *tmp_alias = NULL;
 	string tmp_device;
 	string dserver_name;
 	MYSQL_RES *result;
@@ -894,7 +894,6 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 	const Tango::DevVarStringArray  *server_device_list = argin;
 	TangoSys_MemStream sql_query_stream;
 	char domain[256], family[256], member[256];
-	int n_rows=0;
 	const char *tmp_server, *tmp_class;
 
 	if (server_device_list->length() < 3)
@@ -1905,7 +1904,6 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	const Tango::DevVarStringArray  *export_info = argin;
 	TangoSys_MemStream sql_query_stream;
-	long n_rows=0;
 	const char *tmp_ior, *tmp_host, *tmp_pid, *tmp_version;
 	string tmp_event, tmp_server;
 
@@ -1969,7 +1967,7 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 {
-	Tango::DevString argout;
+	Tango::DevString argout = NULL;
 	DEBUG_STREAM << "DataBase::DbGetAliasDevice()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_alias_device) ENABLED START -----*/
 
@@ -2172,7 +2170,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_attributes=0, n_rows=0, n_attrs=0, j;
+	int n_rows=0, n_attrs=0, j;
 	Tango::DevVarStringArray *attribute_list = new Tango::DevVarStringArray;
 	const char *class_name, *wildcard;
 	string tmp_wildcard;
@@ -2255,7 +2253,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
 	char n_rows_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_attributes=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_class, *tmp_attribute;
 
@@ -2299,7 +2297,6 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
-	      n_attributes += n_rows;
 	   }
 	   mysql_free_result(result);
 	}
@@ -2358,7 +2355,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 	char prop_size_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_attributes=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_class, *tmp_attribute;
 
@@ -2393,7 +2390,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 	   	{
 			string name, old_name;
 			bool new_prop = true;
-			int prop_size_idx;
+			int prop_size_idx = 0;
 			int prop_size = 0;
 	      	for (int j=0; j<n_rows; j++)
 	      	{
@@ -2573,7 +2570,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 //--------------------------------------------------------
 Tango::DevString DataBase::db_get_class_for_device(Tango::DevString argin)
 {
-	Tango::DevString argout;
+	Tango::DevString argout = NULL;
 	DEBUG_STREAM << "DataBase::DbGetClassForDevice()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_for_device) ENABLED START -----*/
 
@@ -2748,7 +2745,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 	char n_rows_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_properties=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_class, *tmp_name;
 
@@ -2791,7 +2788,6 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
-	      n_properties += n_rows;
 	   }
 	   mysql_free_result(result);
 	}
@@ -2984,7 +2980,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_list(Tango::DevString 
 //--------------------------------------------------------
 Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 {
-	Tango::DevString argout;
+	Tango::DevString argout = NULL;
 	DEBUG_STREAM << "DataBase::DbGetDeviceAlias()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_alias) ENABLED START -----*/
 
@@ -3223,7 +3219,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 	char n_rows_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_attributes=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_device, *tmp_attribute;
 
@@ -3271,7 +3267,6 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
-	      n_attributes += n_rows;
 	   }
 	   mysql_free_result(result);
 	}
@@ -3324,7 +3319,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 	char prop_size_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_attributes=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_device, *tmp_attribute;
 
@@ -3360,7 +3355,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			stringstream tmp_str;
 			string nb_attr_str = row[0];
 		 	tmp_str << nb_attr_str;
-			int nb_attr = 0;
+			unsigned int nb_attr = 0;
 			tmp_str >> nb_attr;
 			if (property_names->length()-1 >= nb_attr)
 				all_attr = true;
@@ -3397,7 +3392,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 	   		{
 				string name, old_name;
 				bool new_prop = true;
-				int prop_size_idx;
+				int prop_size_idx = 0;
 				int prop_size = 0;
 	      		for (int j=0; j<n_rows; j++)
 	      		{
@@ -4018,7 +4013,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_devices=0, n_rows=0, n_svalues=0, n_lvalues=0; 
+	int n_rows=0, n_svalues=0, n_lvalues=0; 
 	int exported, pid;
 	string tmp_device;
 
@@ -4385,7 +4380,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	char n_rows_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_properties=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	const char *tmp_device;
 	string	tmp_name;
 	string	prop_name;
@@ -4443,7 +4438,6 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
-	      n_properties += n_rows;
 	   }
 	   else
 	   {
@@ -5005,7 +4999,7 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 		string	name(instance_names[i]);
 		(*argout)[i] = CORBA::string_dup(name.c_str());
 	}
-	delete wildcard;
+	delete [] wildcard;
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_instance_name_list
 
@@ -5107,7 +5101,7 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	char n_rows_str[256];
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_properties=0, n_rows=0, n_props=0;
+	int n_rows=0, n_props=0;
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 	const char *tmp_object;
 	string tmp_name;
@@ -5150,7 +5144,6 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	            (*property_list)[n_props-1] = CORBA::string_dup(row[1]);
 	         }
 	      }
-	      n_properties += n_rows;
 	   }
 	   else
 	   {
@@ -5580,7 +5573,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString argin)
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_devices=0, n_rows=0, n_svalues=0, n_lvalues=0; 
+	int n_rows=0, n_svalues=0, n_lvalues=0; 
 	int exported, pid;
 	string tmp_device;
 
@@ -5715,7 +5708,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_event(Tango::DevString argin)
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
-	int n_devices=0, n_rows=0, n_svalues=0, n_lvalues=0; 
+	int n_rows=0, n_svalues=0, n_lvalues=0; 
 	int exported, pid;
 	string tmp_event;
 
@@ -6195,7 +6188,7 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream sql_query_stream;
-	int n_attributes, n_properties=0, n_rows=0, i, j, k;
+	int n_attributes, n_properties=0, i, j, k;
 	const char *tmp_class, *tmp_attribute, *tmp_name;
 
 	sscanf((*property_list)[1],"%d",&n_attributes);
@@ -6545,7 +6538,7 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream sql_query_stream;
-	int n_attributes, n_properties=0, n_rows=0, i, j, k;
+	int n_attributes, n_properties=0, i, j, k;
 	const char *tmp_device, *tmp_attribute, *tmp_name;
 
 	TimeVal	before, after;
@@ -6917,7 +6910,6 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	const Tango::DevVarStringArray  *server_info = argin;
 	TangoSys_MemStream sql_query_stream;
-	long n_rows=0;
 	const char *tmp_host, *tmp_mode, *tmp_level;
 	string tmp_server;
 
@@ -6952,7 +6944,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 		
 		if (fireToStarter==true)
 		{
-			if (tmp_host == "")
+			if (tmp_host[0] == '\0')
 			{
 				omni_mutex_lock oml(starter_mutex);
 
@@ -7019,7 +7011,6 @@ void DataBase::db_un_export_device(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  devname = argin;
 	TangoSys_MemStream sql_query_stream;
-	long n_rows=0;
 	char *tmp_device;
 
 	INFO_STREAM << "DataBase::UnExportDevice(): un-export " << devname << " device " << endl;
@@ -7061,7 +7052,6 @@ void DataBase::db_un_export_event(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  event_name = argin;
 	TangoSys_MemStream sql_query_stream;
-	long n_rows=0;
 	string tmp_event;
 
 	INFO_STREAM << "DataBase::un_export_event(): un-export " << event_name << " device " << endl;
@@ -7100,7 +7090,6 @@ void DataBase::db_un_export_server(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  server_name = argin;
 	TangoSys_MemStream sql_query_stream;
-	long n_rows=0;
 	char *tmp_server;
 
 	TimeVal	before, after;
@@ -7217,7 +7206,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	string host((*argin)[1]);
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	unsigned int i;
 
 	Tango::Util *tg = Tango::Util::instance();
 	string	&db_inst_name = tg->get_ds_inst_name();
@@ -7377,7 +7365,7 @@ void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarString
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
-	const char *attribute, *property;
+	const char *attribute;
 	string tmp_device;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
@@ -7575,7 +7563,7 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 
 	n_rows = mysql_num_rows(result);
 	DEBUG_STREAM << "DataBase::db_get_device_host(): mysql_num_rows() " << n_rows << endl;
-	Tango::DevString	argout;
+	Tango::DevString	argout = NULL;
 	if (n_rows > 0)
 	{
 		if ((row = mysql_fetch_row(result)) != NULL)
