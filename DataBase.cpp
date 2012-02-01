@@ -2260,7 +2260,11 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
 	INFO_STREAM << "DataBase::GetAttributeProperty(): get " << property_names->length()-1 << " attributes for class " << (*property_names)[0] << endl;
 
 	tmp_class = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_attributes_str, "%u", property_names->length()-1);
+#endif
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_class);
@@ -2362,7 +2366,11 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 	INFO_STREAM << "DataBase::GetClassAttributeProperty2(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_class = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_attributes_str, "%u", property_names->length()-1);
+#endif
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_class);
@@ -2752,7 +2760,11 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 	INFO_STREAM << "DataBase::GetClassProperty(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_class = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_properties_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_properties_str, "%u", property_names->length()-1);
+#endif
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[0] = CORBA::string_dup(tmp_class);
@@ -3230,7 +3242,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 	INFO_STREAM << "DataBase::GetAttributeProperty(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_device = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_attributes_str, "%u", property_names->length()-1);
+#endif
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_device);
@@ -3329,7 +3345,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 	INFO_STREAM << "DataBase::GetDeviceAttributeProperty2(): get " << property_names->length()-1 << " properties for device " << (*property_names)[0] << endl;
 
 	tmp_device = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_attributes_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_attributes_str, "%u", property_names->length()-1);
+#endif
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[n_props-2] = CORBA::string_dup(tmp_device);
@@ -4401,7 +4421,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	Tango::DevVarStringArray *property_list = new Tango::DevVarStringArray;
 
 	tmp_device = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_properties_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_properties_str, "%u", property_names->length()-1);
+#endif
 	n_props = 2;
 	property_list->length(n_props);
 	(*property_list)[0] = CORBA::string_dup(tmp_device);
@@ -5109,7 +5133,11 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	INFO_STREAM << "DataBase::db_get_property(): get " << property_names->length()-1 << " properties for object " << (*property_names)[0] << endl;
 
 	tmp_object = (*property_names)[0];
+#ifdef TANGO_LONG32
 	sprintf(n_properties_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_properties_str, "%u", property_names->length()-1);
+#endif
 	property_list->length(2);
 	(*property_list)[0] = CORBA::string_dup(tmp_object);
 	(*property_list)[1] = CORBA::string_dup(n_properties_str);
