@@ -30,7 +30,7 @@ MAKE_ENV = /segfs/tango/cppserver/env
 #
 PACKAGE_NAME = DataBase
 MAJOR_VERS   = 4
-MINOR_VERS   = 12
+MINOR_VERS   = 13
 RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 
 # #=============================================================================
