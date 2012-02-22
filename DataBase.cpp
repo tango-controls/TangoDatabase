@@ -212,7 +212,6 @@ DataBase::DataBase(Tango::DeviceClass *cl, const char *s, const char *d)
 	/*----- PROTECTED REGION END -----*/	//	DataBase::constructor_3
 }
 
-
 //--------------------------------------------------------
 /**
  *	Method      : DataBase::delete_device()()
@@ -691,8 +690,6 @@ void DataBase::read_Timing_info(Tango::Attribute &attr)
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::read_Timing_info
 }
-
-
 
 //--------------------------------------------------------
 /**
@@ -7614,7 +7611,6 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 
 	return argout;
 }
-
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::namespace_ending
 } //	namespace
