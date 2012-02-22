@@ -33,7 +33,7 @@ DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.5'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.6'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -240,7 +240,8 @@ BEGIN
 	DECLARE tmp_version VARCHAR(8);
 	DECLARE tmp_host VARCHAR(255);
 	DECLARE tmp_ev_name VARCHAR(255);
-	DECLARE tmp_exp, tmp_pid INT;
+	DECLARE tmp_ev_name_canon VARCHAR(255);
+	DECLARE tmp_exp, tmp_pid, dot INT;
 	DECLARE not_found INT DEFAULT 0;
 	
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found = 1;
@@ -255,7 +256,24 @@ BEGIN
 	WHERE name = tmp_ev_name;
 	
 	IF not_found = 1 THEN
-		SET res_str = CONCAT_WS(CHAR(0),res_str,ev_name,'Not Found');
+		SET dot = LOCATE('.',tmp_ev_name);
+		IF dot != 0 THEN
+			SET tmp_ev_name_canon = SUBSTRING(tmp_ev_name,1,dot - 1);
+			SET not_found = 0;
+
+			SELECT exported,ior,version,pid,host
+			INTO tmp_exp,tmp_ior,tmp_version,tmp_pid,tmp_host
+			FROM tango.event
+			WHERE name = tmp_ev_name_canon;
+	
+			IF not_found = 1 THEN
+				SET res_str = CONCAT_WS(CHAR(0),res_str,ev_name,'Not Found');
+			ELSE
+				SET res_str = CONCAT_WS(CHAR(0),res_str,ev_name,tmp_ior,tmp_version,tmp_host,CONCAT(tmp_exp),CONCAT(tmp_pid));
+			END IF;
+		ELSE
+			SET res_str = CONCAT_WS(CHAR(0),res_str,ev_name,'Not Found');
+		END IF;
 	ELSE
 		SET res_str = CONCAT_WS(CHAR(0),res_str,ev_name,tmp_ior,tmp_version,tmp_host,CONCAT(tmp_exp),CONCAT(tmp_pid));
 	END IF;
