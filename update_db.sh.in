@@ -26,3 +26,4 @@ fi
 
 
 $mysql $user_switch $passwd_switch $host_switch < ./stored_proc.sql > /dev/null
+$mysql $user_switch $passwd_switch $host_switch < ./update_db.sql > /dev/null
