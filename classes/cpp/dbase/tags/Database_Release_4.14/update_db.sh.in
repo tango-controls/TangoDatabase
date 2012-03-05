@@ -1,0 +1,29 @@
+mysql=@MYSQL@
+mysql_admin=@MYSQL_ADMIN@
+mysql_admin_passwd=@MYSQL_ADMIN_PASSWD@
+mysql_host=@MYSQL_HOST@
+db_name=@TANGO_DB_NAME@
+srcdir=@srcdir@
+
+
+if test "x$mysql_admin" = "x"; then
+	user_switch="";
+else
+	user_switch="-u$x$mysql_admin";
+fi
+
+if test "x$mysql_admin_passwd" = "x"; then
+   passwd_switch="";
+else
+   passwd_switch="-p$mysql_admin_passwd"
+fi
+
+if test "x$mysql_host" = "x"; then
+  host_switch="";
+else
+  host_switch="-h$mysql_host";
+fi
+
+
+$mysql $user_switch $passwd_switch $host_switch < ./stored_proc.sql > /dev/null
+$mysql $user_switch $passwd_switch $host_switch < ./update_db.sql > /dev/null
