@@ -41,7 +41,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/create_db.sh.in $(srcdir)/create_db.sql.in \
 	$(srcdir)/create_db_tables.sql.in $(srcdir)/my.cnf.in \
 	$(srcdir)/stored_proc.sql.in $(srcdir)/update_db.sh.in \
-	$(srcdir)/update_db5.sql.in $(srcdir)/update_db6.sql.in
+	$(srcdir)/update_db.sql.in $(srcdir)/update_db6.sql.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/RSSH_CHECK_OMNIORB.m4 \
 	$(top_srcdir)/m4/RSSH_CHECK_PTHREADS.m4 \
@@ -62,8 +62,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/ac_config.h.tmp
 CONFIG_CLEAN_FILES = create_db.sql create_db.sh my.cnf stored_proc.sql \
-	create_db_tables.sql update_db.sh update_db5.sql \
-	update_db6.sql
+	create_db_tables.sql update_db.sh update_db.sql update_db6.sql
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(dbdir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -308,14 +307,15 @@ INCLUDES = $(ORB_INCLUDE_PREFIX)  $(LIBZMQ_CFLAGS) \
 	   -I$(top_builddir)/lib/cpp/log4tango/include \
 	   -I$(top_srcdir)/lib/cpp/client \
 	   -I$(top_srcdir)/lib/cpp/server \
-            $(MYSQLCLIENT_CFLAGS) \
-            $(ZLIB_CPPFLAGS)
+      	$(MYSQLCLIENT_CFLAGS) \
+      	$(ZLIB_CPPFLAGS)
 
-AM_CXXFLAGS = @CPP_ELEVEN@
+AM_CXXFLAGS = @CPP_ELEVEN@ -Wall -D_FORTIFY_SOURCE=2 -O1 -fpie
 LDADD = -L$(top_builddir)/lib/cpp/server -ltango -L$(top_builddir)/lib/cpp/log4tango/src \
-	-llog4tango $(MYSQLCLIENT_LDFLAGS) \
+		-llog4tango $(MYSQLCLIENT_LDFLAGS) \
          $(MYSQLCLIENT_LIBS) $(ZLIB_LDFLAGS) $(ZLIB_LIBS)  $(LIBZMQ_LIBS)
 
+AM_LDFLAGS = -Wl,-z,now -pie 
 DataBaseds_SOURCES = ClassFactory.cpp  		\
                    DataBaseClass.cpp 		\
                    DataBase.cpp      		\
@@ -378,7 +378,7 @@ create_db_tables.sql: $(top_builddir)/config.status $(srcdir)/create_db_tables.s
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 update_db.sh: $(top_builddir)/config.status $(srcdir)/update_db.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-update_db5.sql: $(top_builddir)/config.status $(srcdir)/update_db5.sql.in
+update_db.sql: $(top_builddir)/config.status $(srcdir)/update_db.sql.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 update_db6.sql: $(top_builddir)/config.status $(srcdir)/update_db6.sql.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

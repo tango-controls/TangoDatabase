@@ -3,14 +3,16 @@ INCLUDES = $(ORB_INCLUDE_PREFIX)  $(LIBZMQ_CFLAGS) \
 	   -I$(top_builddir)/lib/cpp/log4tango/include \
 	   -I$(top_srcdir)/lib/cpp/client \
 	   -I$(top_srcdir)/lib/cpp/server \
-            $(MYSQLCLIENT_CFLAGS) \
-            $(ZLIB_CPPFLAGS)
+      	$(MYSQLCLIENT_CFLAGS) \
+      	$(ZLIB_CPPFLAGS)
 
-AM_CXXFLAGS= @CPP_ELEVEN@
+AM_CXXFLAGS= @CPP_ELEVEN@ -Wall -D_FORTIFY_SOURCE=2 -O1 -fpie
 
 LDADD = -L$(top_builddir)/lib/cpp/server -ltango -L$(top_builddir)/lib/cpp/log4tango/src \
-	-llog4tango $(MYSQLCLIENT_LDFLAGS) \
+		-llog4tango $(MYSQLCLIENT_LDFLAGS) \
          $(MYSQLCLIENT_LIBS) $(ZLIB_LDFLAGS) $(ZLIB_LIBS)  $(LIBZMQ_LIBS)
+
+AM_LDFLAGS = -Wl,-z,now -pie 
 
 bin_PROGRAMS=DataBaseds
 
