@@ -67,7 +67,7 @@ namespace DataBase_ns
  */
 //--------------------------------------------------------
 
-bool DataBase::is_StoredProcedureRelease_allowed(Tango::AttReqType type)
+bool DataBase::is_StoredProcedureRelease_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for StoredProcedureRelease attribute in READ access.
 	
@@ -85,7 +85,7 @@ bool DataBase::is_StoredProcedureRelease_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_Timing_average_allowed(Tango::AttReqType type)
+bool DataBase::is_Timing_average_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for Timing_average attribute in READ access.
 	
@@ -103,7 +103,7 @@ bool DataBase::is_Timing_average_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_Timing_minimum_allowed(Tango::AttReqType type)
+bool DataBase::is_Timing_minimum_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for Timing_minimum attribute in READ access.
 	
@@ -121,7 +121,7 @@ bool DataBase::is_Timing_minimum_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_Timing_maximum_allowed(Tango::AttReqType type)
+bool DataBase::is_Timing_maximum_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for Timing_maximum attribute in READ access.
 	
@@ -139,7 +139,7 @@ bool DataBase::is_Timing_maximum_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_Timing_calls_allowed(Tango::AttReqType type)
+bool DataBase::is_Timing_calls_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for Timing_calls attribute in READ access.
 	
@@ -157,7 +157,7 @@ bool DataBase::is_Timing_calls_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_Timing_index_allowed(Tango::AttReqType type)
+bool DataBase::is_Timing_index_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for Timing_index attribute in READ access.
 	
@@ -175,7 +175,7 @@ bool DataBase::is_Timing_index_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_Timing_info_allowed(Tango::AttReqType type)
+bool DataBase::is_Timing_info_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 		//	Not any excluded states for Timing_info attribute in READ access.
 	
@@ -211,7 +211,7 @@ bool DataBase::is_Timing_info_allowed(Tango::AttReqType type)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbAddDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbAddDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbAddDevice command.
 
@@ -229,7 +229,7 @@ bool DataBase::is_DbAddDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbAddServer_allowed(const CORBA::Any &any)
+bool DataBase::is_DbAddServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbAddServer command.
 
@@ -247,7 +247,7 @@ bool DataBase::is_DbAddServer_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteAttributeAlias_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteAttributeAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteAttributeAlias command.
 
@@ -265,7 +265,7 @@ bool DataBase::is_DbDeleteAttributeAlias_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteClassAttribute_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteClassAttribute_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteClassAttribute command.
 
@@ -283,7 +283,7 @@ bool DataBase::is_DbDeleteClassAttribute_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteClassAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteClassAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteClassAttributeProperty command.
 
@@ -301,7 +301,7 @@ bool DataBase::is_DbDeleteClassAttributeProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteClassProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteClassProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteClassProperty command.
 
@@ -319,7 +319,7 @@ bool DataBase::is_DbDeleteClassProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteDevice command.
 
@@ -337,7 +337,7 @@ bool DataBase::is_DbDeleteDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteDeviceAlias_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteDeviceAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteDeviceAlias command.
 
@@ -355,7 +355,7 @@ bool DataBase::is_DbDeleteDeviceAlias_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteDeviceAttribute_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteDeviceAttribute_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteDeviceAttribute command.
 
@@ -373,7 +373,7 @@ bool DataBase::is_DbDeleteDeviceAttribute_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteDeviceAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteDeviceAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteDeviceAttributeProperty command.
 
@@ -391,7 +391,7 @@ bool DataBase::is_DbDeleteDeviceAttributeProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteDeviceProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteDeviceProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteDeviceProperty command.
 
@@ -409,7 +409,7 @@ bool DataBase::is_DbDeleteDeviceProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteProperty command.
 
@@ -427,7 +427,7 @@ bool DataBase::is_DbDeleteProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteServer_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteServer command.
 
@@ -445,7 +445,7 @@ bool DataBase::is_DbDeleteServer_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteServerInfo_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteServerInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteServerInfo command.
 
@@ -463,7 +463,7 @@ bool DataBase::is_DbDeleteServerInfo_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbExportDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbExportDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbExportDevice command.
 
@@ -481,7 +481,7 @@ bool DataBase::is_DbExportDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbExportEvent_allowed(const CORBA::Any &any)
+bool DataBase::is_DbExportEvent_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbExportEvent command.
 
@@ -499,7 +499,7 @@ bool DataBase::is_DbExportEvent_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetAliasDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetAliasDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetAliasDevice command.
 
@@ -517,7 +517,7 @@ bool DataBase::is_DbGetAliasDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetAttributeAlias_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetAttributeAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetAttributeAlias command.
 
@@ -535,7 +535,7 @@ bool DataBase::is_DbGetAttributeAlias_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetAttributeAliasList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetAttributeAliasList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetAttributeAliasList command.
 
@@ -553,7 +553,7 @@ bool DataBase::is_DbGetAttributeAliasList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassAttributeList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassAttributeList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassAttributeList command.
 
@@ -571,7 +571,7 @@ bool DataBase::is_DbGetClassAttributeList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassAttributeProperty command.
 
@@ -589,7 +589,7 @@ bool DataBase::is_DbGetClassAttributeProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassAttributeProperty2_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassAttributeProperty2_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassAttributeProperty2 command.
 
@@ -607,7 +607,7 @@ bool DataBase::is_DbGetClassAttributeProperty2_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassAttributePropertyHist_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassAttributePropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassAttributePropertyHist command.
 
@@ -625,7 +625,7 @@ bool DataBase::is_DbGetClassAttributePropertyHist_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassForDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassForDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassForDevice command.
 
@@ -643,7 +643,7 @@ bool DataBase::is_DbGetClassForDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassInheritanceForDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassInheritanceForDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassInheritanceForDevice command.
 
@@ -661,7 +661,7 @@ bool DataBase::is_DbGetClassInheritanceForDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassList command.
 
@@ -679,7 +679,7 @@ bool DataBase::is_DbGetClassList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassProperty command.
 
@@ -697,7 +697,7 @@ bool DataBase::is_DbGetClassProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassPropertyHist_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassPropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassPropertyHist command.
 
@@ -715,7 +715,7 @@ bool DataBase::is_DbGetClassPropertyHist_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetClassPropertyList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetClassPropertyList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetClassPropertyList command.
 
@@ -733,7 +733,7 @@ bool DataBase::is_DbGetClassPropertyList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceAlias_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceAlias command.
 
@@ -751,7 +751,7 @@ bool DataBase::is_DbGetDeviceAlias_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceAliasList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceAliasList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceAliasList command.
 
@@ -769,7 +769,7 @@ bool DataBase::is_DbGetDeviceAliasList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceAttributeList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceAttributeList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceAttributeList command.
 
@@ -787,7 +787,7 @@ bool DataBase::is_DbGetDeviceAttributeList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceAttributeProperty command.
 
@@ -805,7 +805,7 @@ bool DataBase::is_DbGetDeviceAttributeProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceAttributeProperty2_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceAttributeProperty2_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceAttributeProperty2 command.
 
@@ -823,7 +823,7 @@ bool DataBase::is_DbGetDeviceAttributeProperty2_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceAttributePropertyHist_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceAttributePropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceAttributePropertyHist command.
 
@@ -841,7 +841,7 @@ bool DataBase::is_DbGetDeviceAttributePropertyHist_allowed(const CORBA::Any &any
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceClassList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceClassList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceClassList command.
 
@@ -859,7 +859,7 @@ bool DataBase::is_DbGetDeviceClassList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceDomainList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceDomainList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceDomainList command.
 
@@ -877,7 +877,7 @@ bool DataBase::is_DbGetDeviceDomainList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceExportedList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceExportedList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceExportedList command.
 
@@ -895,7 +895,7 @@ bool DataBase::is_DbGetDeviceExportedList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceFamilyList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceFamilyList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceFamilyList command.
 
@@ -913,7 +913,7 @@ bool DataBase::is_DbGetDeviceFamilyList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceInfo_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceInfo command.
 
@@ -931,7 +931,7 @@ bool DataBase::is_DbGetDeviceInfo_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceList command.
 
@@ -949,7 +949,7 @@ bool DataBase::is_DbGetDeviceList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceWideList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceWideList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceWideList command.
 
@@ -967,7 +967,7 @@ bool DataBase::is_DbGetDeviceWideList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceMemberList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceMemberList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceMemberList command.
 
@@ -985,7 +985,7 @@ bool DataBase::is_DbGetDeviceMemberList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceProperty command.
 
@@ -1003,7 +1003,7 @@ bool DataBase::is_DbGetDeviceProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDevicePropertyHist_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDevicePropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDevicePropertyHist command.
 
@@ -1021,7 +1021,7 @@ bool DataBase::is_DbGetDevicePropertyHist_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDevicePropertyList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDevicePropertyList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDevicePropertyList command.
 
@@ -1039,7 +1039,7 @@ bool DataBase::is_DbGetDevicePropertyList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDeviceServerClassList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDeviceServerClassList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDeviceServerClassList command.
 
@@ -1057,7 +1057,7 @@ bool DataBase::is_DbGetDeviceServerClassList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetExportdDeviceListForClass_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetExportdDeviceListForClass_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetExportdDeviceListForClass command.
 
@@ -1075,7 +1075,7 @@ bool DataBase::is_DbGetExportdDeviceListForClass_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetHostList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetHostList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetHostList command.
 
@@ -1093,7 +1093,7 @@ bool DataBase::is_DbGetHostList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetHostServerList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetHostServerList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetHostServerList command.
 
@@ -1111,7 +1111,7 @@ bool DataBase::is_DbGetHostServerList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetHostServersInfo_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetHostServersInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetHostServersInfo command.
 
@@ -1129,7 +1129,7 @@ bool DataBase::is_DbGetHostServersInfo_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetInstanceNameList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetInstanceNameList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetInstanceNameList command.
 
@@ -1147,7 +1147,7 @@ bool DataBase::is_DbGetInstanceNameList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetObjectList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetObjectList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetObjectList command.
 
@@ -1165,7 +1165,7 @@ bool DataBase::is_DbGetObjectList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetProperty command.
 
@@ -1183,7 +1183,7 @@ bool DataBase::is_DbGetProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetPropertyHist_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetPropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetPropertyHist command.
 
@@ -1201,7 +1201,7 @@ bool DataBase::is_DbGetPropertyHist_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetPropertyList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetPropertyList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetPropertyList command.
 
@@ -1219,7 +1219,7 @@ bool DataBase::is_DbGetPropertyList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetServerInfo_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetServerInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetServerInfo command.
 
@@ -1237,7 +1237,7 @@ bool DataBase::is_DbGetServerInfo_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetServerList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetServerList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetServerList command.
 
@@ -1255,7 +1255,7 @@ bool DataBase::is_DbGetServerList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetServerNameList_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetServerNameList_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetServerNameList command.
 
@@ -1273,7 +1273,7 @@ bool DataBase::is_DbGetServerNameList_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbImportDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbImportDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbImportDevice command.
 
@@ -1291,7 +1291,7 @@ bool DataBase::is_DbImportDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbImportEvent_allowed(const CORBA::Any &any)
+bool DataBase::is_DbImportEvent_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbImportEvent command.
 
@@ -1309,7 +1309,7 @@ bool DataBase::is_DbImportEvent_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbInfo_allowed(const CORBA::Any &any)
+bool DataBase::is_DbInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbInfo command.
 
@@ -1327,7 +1327,7 @@ bool DataBase::is_DbInfo_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutAttributeAlias_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutAttributeAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutAttributeAlias command.
 
@@ -1345,7 +1345,7 @@ bool DataBase::is_DbPutAttributeAlias_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutClassAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutClassAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutClassAttributeProperty command.
 
@@ -1363,7 +1363,7 @@ bool DataBase::is_DbPutClassAttributeProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutClassAttributeProperty2_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutClassAttributeProperty2_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutClassAttributeProperty2 command.
 
@@ -1381,7 +1381,7 @@ bool DataBase::is_DbPutClassAttributeProperty2_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutClassProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutClassProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutClassProperty command.
 
@@ -1399,7 +1399,7 @@ bool DataBase::is_DbPutClassProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutDeviceAlias_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutDeviceAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutDeviceAlias command.
 
@@ -1417,7 +1417,7 @@ bool DataBase::is_DbPutDeviceAlias_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutDeviceAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutDeviceAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutDeviceAttributeProperty command.
 
@@ -1435,7 +1435,7 @@ bool DataBase::is_DbPutDeviceAttributeProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutDeviceAttributeProperty2_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutDeviceAttributeProperty2_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutDeviceAttributeProperty2 command.
 
@@ -1453,7 +1453,7 @@ bool DataBase::is_DbPutDeviceAttributeProperty2_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutDeviceProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutDeviceProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutDeviceProperty command.
 
@@ -1471,7 +1471,7 @@ bool DataBase::is_DbPutDeviceProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutProperty command.
 
@@ -1489,7 +1489,7 @@ bool DataBase::is_DbPutProperty_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbPutServerInfo_allowed(const CORBA::Any &any)
+bool DataBase::is_DbPutServerInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbPutServerInfo command.
 
@@ -1507,7 +1507,7 @@ bool DataBase::is_DbPutServerInfo_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbUnExportDevice_allowed(const CORBA::Any &any)
+bool DataBase::is_DbUnExportDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbUnExportDevice command.
 
@@ -1525,7 +1525,7 @@ bool DataBase::is_DbUnExportDevice_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbUnExportEvent_allowed(const CORBA::Any &any)
+bool DataBase::is_DbUnExportEvent_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbUnExportEvent command.
 
@@ -1543,7 +1543,7 @@ bool DataBase::is_DbUnExportEvent_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbUnExportServer_allowed(const CORBA::Any &any)
+bool DataBase::is_DbUnExportServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbUnExportServer command.
 
@@ -1561,7 +1561,7 @@ bool DataBase::is_DbUnExportServer_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_ResetTimingValues_allowed(const CORBA::Any &any)
+bool DataBase::is_ResetTimingValues_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for ResetTimingValues command.
 
@@ -1579,7 +1579,7 @@ bool DataBase::is_ResetTimingValues_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbGetDataForServerCache_allowed(const CORBA::Any &any)
+bool DataBase::is_DbGetDataForServerCache_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbGetDataForServerCache command.
 
@@ -1597,7 +1597,7 @@ bool DataBase::is_DbGetDataForServerCache_allowed(const CORBA::Any &any)
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbDeleteAllDeviceAttributeProperty_allowed(const CORBA::Any &any)
+bool DataBase::is_DbDeleteAllDeviceAttributeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbDeleteAllDeviceAttributeProperty command.
 
@@ -1615,7 +1615,7 @@ bool DataBase::is_DbDeleteAllDeviceAttributeProperty_allowed(const CORBA::Any &a
  */
 //--------------------------------------------------------
 
-bool DataBase::is_DbMySqlSelect_allowed(const CORBA::Any &any)
+bool DataBase::is_DbMySqlSelect_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
 	//	Not any excluded states for DbMySqlSelect command.
 

@@ -23,14 +23,13 @@
 # MAKE_ENV is the path to find common environment to buil project
 #
 MAKE_ENV = /segfs/tango/cppserver/env
-#MAKE_ENV = /opt/tango_726/share/pogo/preferences
 
 #=============================================================================
 # PACKAGE_NAME is the name of the library/device/exe you want to build
 #
 PACKAGE_NAME = DataBase
 MAJOR_VERS   = 4
-MINOR_VERS   = 13
+MINOR_VERS   = 15
 RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 
 # #=============================================================================
