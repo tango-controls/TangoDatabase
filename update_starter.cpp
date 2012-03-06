@@ -85,7 +85,7 @@ UpdateStarter::UpdateStarter(UpdStarterData *sd)
 }
 //=============================================================================
 //=============================================================================
-void *UpdateStarter::run_undetached(void *ptr)
+void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 {
 	while(true)
 	{

@@ -1356,7 +1356,7 @@ CORBA::Any *DbImportEventClass::execute(Tango::DeviceImpl *device, const CORBA::
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbInfoClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+CORBA::Any *DbInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 	cout2 << "DbInfoClass::execute(): arrived" << endl;
 
@@ -1634,7 +1634,7 @@ CORBA::Any *DbUnExportServerClass::execute(Tango::DeviceImpl *device, const CORB
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *ResetTimingValuesClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+CORBA::Any *ResetTimingValuesClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 	cout2 << "ResetTimingValuesClass::execute(): arrived" << endl;
 
@@ -1946,7 +1946,7 @@ void DataBaseClass::write_class_property()
  * @param	*devlist_ptr	The device name list
  */
 //--------------------------------------------------------
-void DataBaseClass::device_factory(const Tango::DevVarStringArray *devlist_ptr)
+void DataBaseClass::device_factory(TANGO_UNUSED(const Tango::DevVarStringArray *devlist_ptr))
 {
 
 	device_list.push_back(new DataBase(this, DataBase::db_name.c_str(),
