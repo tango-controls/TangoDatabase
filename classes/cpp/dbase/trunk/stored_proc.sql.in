@@ -764,6 +764,9 @@ BEGIN
 			IF serv_defined = 1 THEN
 				IF LOCATE('AccessControl/tango:',tmp_value) != 0 THEN
 					SET serv_dev_name = SUBSTRING(tmp_value,21);
+						IF LOCATE('tango://',serv_dev_name) != 0 THEN
+							SET serv_dev_name = SUBSTRING_INDEX(serv_dev_name,'/',-3);
+						END IF;
 				END IF;
 			END IF;
 								
