@@ -6949,9 +6949,8 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 	INFO_STREAM << "DataBase::db_put_server_info(): put " << server_info->length()-1 << " export info for device " << (*server_info)[0] << endl;
 
 	tmp_server = (*server_info)[0];
-// replace database wildcards (% and _)
-//	string tmp_wildcard = replace_wildcard(tmp_server.c_str());
-// replace uppercase by lowercase
+
+	// replace uppercase by lowercase
 	for (unsigned int i=0; i<tmp_server.length(); i++) { 
 		tmp_server[i] = tolower(tmp_server[i]);
 	}
@@ -6978,7 +6977,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 				Tango::Util *tg = Tango::Util::instance();
 				string	db_serv = tg->get_ds_name();
 				transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
-				string	adm_dev = "dserver";
+				string	adm_dev = "dserver/";
 				adm_dev += tmp_server;
 
 				char *tmp_ptr = db_get_device_host((Tango::DevString)adm_dev.c_str(),al.get_con_nb()); 
@@ -7600,7 +7599,7 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 	{
 		mysql_free_result(result);
  	    TangoSys_OMemStream o;
-		o << "No device found for host \'" << argin << "\'";
+		o << "No host found for device \'" << argin << "\'";
 		string msg = o.str();
 		WARN_STREAM << msg << endl;
 		Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
