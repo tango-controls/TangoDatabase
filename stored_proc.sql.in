@@ -33,7 +33,7 @@ DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.7'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.8'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -680,9 +680,9 @@ BEGIN
 	DECLARE class_name_pos INT;
 		
 	DECLARE cur_dev_list CURSOR FOR 
-	SELECT name 
+	SELECT DISTINCT name 
 	FROM @TANGO_DB_NAME@.device 
-	WHERE class = class_name AND server = serv;
+	WHERE class = class_name AND server = serv ORDER BY name;
 	
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
