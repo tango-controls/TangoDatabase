@@ -24,12 +24,13 @@
 #
 MAKE_ENV = /segfs/tango/cppserver/env
 
+
 #=============================================================================
 # PACKAGE_NAME is the name of the library/device/exe you want to build
 #
 PACKAGE_NAME = DataBase
 MAJOR_VERS   = 4
-MINOR_VERS   = 15
+MINOR_VERS   = 14
 RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 
 # #=============================================================================
