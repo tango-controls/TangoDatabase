@@ -48,6 +48,10 @@ static const char *RcsId = "$Header$";
 
 #include <stdio.h>
 
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netdb.h>
+
 using namespace std;
 
 namespace DataBase_ns {
@@ -654,9 +658,6 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
   MYSQL_ROW row2;
   int j;
   
-  TimeVal before, after;
-  GetTime(before);
-	
   sql_query.str("");
   sql_query << "SELECT DISTINCT id FROM " << table
             << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name 
@@ -664,12 +665,6 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
 	    
   result = query(sql_query.str(),"purge_property()",con_nb);
   int nb_item = mysql_num_rows(result);
-
-  GetTime(after);
-  double time_elapsed = Elapsed(before, after);
-  //cout << "purge_property(select DISTINCT) : " << time_elapsed << endl;
-
-  GetTime(before);
 
   if(nb_item>historyDepth) {
     // Purge 
@@ -683,11 +678,6 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
   }
   
   mysql_free_result(result);
-  
-  GetTime(after);
-  time_elapsed = Elapsed(before, after);
-  //cout << "purge_property(DELETE) : " << time_elapsed << endl;
-
 }
 
 //+------------------------------------------------------------------
@@ -706,9 +696,6 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
   int j;
   
   //cout << "purge_att_property(" << object << "," << attribute << "," << name << ")" << endl;
-
-  TimeVal before, after;
-  GetTime(before);
 		
   sql_query.str("");
   sql_query << "SELECT DISTINCT id FROM " << table
@@ -717,12 +704,6 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
 
   result = query(sql_query.str(),"purge_att_property()",con_nb);
   int nb_item = mysql_num_rows(result);
-
-  GetTime(after);
-  double time_elapsed = Elapsed(before, after);
-  //cout << "  select DISTINCT : " << time_elapsed << endl;
-
-  GetTime(before);
   
   if(nb_item>historyDepth) {
     // Purge 
@@ -735,11 +716,6 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
     }
   }
   mysql_free_result(result);
-
-  GetTime(after);
-  time_elapsed = Elapsed(before, after);
-  //cout << "  DELETE : " << time_elapsed << endl;
-      
 }
 
 //+------------------------------------------------------------------
@@ -903,6 +879,166 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 	last_sem_wait = 0;
 	
 }
+
+//+------------------------------------------------------------------
+/**
+ *	method:	host_port_from_ior()
+ *
+ *	description:	Get host and port from a device IOR
+ *
+ */
+//+------------------------------------------------------------------
+
+bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
+{
+	size_t s = (iorstr ? strlen(iorstr) : 0);
+
+  	if (s < 4)
+    	return false;
+
+  	const char *p = iorstr;
+  	if (p[0] != 'I' || p[1] != 'O' || p[2] != 'R' || p[3] != ':')
+    	return false;
+
+  	s = (s - 4) / 2;  // how many octets are there in the string
+  	p += 4;
+
+  	cdrMemoryStream buf((CORBA::ULong)s,0);
+
+  	for (int i=0; i<(int)s; i++)
+	{
+    	int j = i*2;
+    	CORBA::Octet v;
+    
+    	if (p[j] >= '0' && p[j] <= '9')
+		{
+      		v = ((p[j] - '0') << 4);
+    	}
+    	else if (p[j] >= 'a' && p[j] <= 'f')
+		{
+      		v = ((p[j] - 'a' + 10) << 4);
+    	}
+    	else if (p[j] >= 'A' && p[j] <= 'F')
+		{
+      		v = ((p[j] - 'A' + 10) << 4);
+    	}
+    	else
+      		return false;
+
+    	if (p[j+1] >= '0' && p[j+1] <= '9')
+		{
+      		v += (p[j+1] - '0');
+    	}
+    	else if (p[j+1] >= 'a' && p[j+1] <= 'f')
+		{
+      		v += (p[j+1] - 'a' + 10);
+    	}
+    	else if (p[j+1] >= 'A' && p[j+1] <= 'F')
+		{
+      		v += (p[j+1] - 'A' + 10);
+    	}
+    	else
+      		return false;
+
+    	buf.marshalOctet(v);
+  	}
+
+  	buf.rewindInputPtr();
+  	CORBA::Boolean b = buf.unmarshalBoolean();
+  	buf.setByteSwapFlag(b);
+
+  	IOP::IOR ior;
+
+  	ior.type_id = IOP::IOR::unmarshaltype_id(buf);
+  	ior.profiles <<= buf;
+
+
+    if (ior.profiles.length() == 0 && strlen(ior.type_id) == 0)
+	{
+      	return false;
+    }
+    else
+	{
+      	for (unsigned long count=0; count < ior.profiles.length(); count++)
+		{
+			if (ior.profiles[count].tag == IOP::TAG_INTERNET_IOP)
+			{
+	  			IIOP::ProfileBody pBody;
+	  			IIOP::unmarshalProfile(ior.profiles[count],pBody);
+
+//
+// Three possible cases for host name:
+// 1 - The host is stored in IOR as IP numbers
+// 2 - The host name is stored in IOR as the caconical host name
+// 3 - The FQDN is stored in IOR
+// We allways try to get the host name as the FQDN
+//
+
+				ho = pBody.address.host.in();
+				bool host_is_name = false;
+
+				string::size_type pos = ho.find('.');
+				if (pos == string::npos)
+					host_is_name = true;
+				else
+				{
+					for (unsigned int loop =0;loop < pos;++loop)
+					{
+						if (isdigit((int)ho[loop]) == 0)
+						{
+							host_is_name = true;
+							break;
+						}
+					}
+				}
+
+				if (host_is_name == false)
+				{
+					struct sockaddr_in s;
+					char service[20];
+
+					s.sin_family = AF_INET;
+					int res = inet_pton(AF_INET,ho.c_str(),&s.sin_addr);
+					if (res == 1)
+					{
+						res = getnameinfo((const struct sockaddr *)&s,sizeof(s),ho_name,sizeof(ho_name),service,sizeof(service),0);
+						if (res == 0)
+						{
+							h_p = ho_name;
+							h_p = h_p + ':';
+						}
+						else
+							h_p = ho + ':';
+					}
+					else
+						h_p = ho + ':';
+				}
+				else
+				{
+					if (pos == string::npos)
+					{
+						Tango::DeviceProxy::get_fqdn(ho);
+					}
+
+					h_p = ho + ':';
+				}
+
+//
+// Add port number
+//
+
+				stringstream ss;
+				ss << pBody.address.port;
+				h_p = h_p + ss.str();
+
+				break;
+			}
+		}
+	}
+
+	return true;
+}
+
 
 //+------------------------------------------------------------------
 /**

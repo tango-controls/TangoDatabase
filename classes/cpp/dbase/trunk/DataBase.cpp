@@ -147,6 +147,7 @@ static const char *RcsId = "$Id$";
 //  DbGetDataForServerCache             |  db_get_data_for_server_cache
 //  DbDeleteAllDeviceAttributeProperty  |  db_delete_all_device_attribute_property
 //  DbMySqlSelect                       |  db_my_sql_select
+//  DbGetCSDbServerList                 |  db_get_csdb_server_list
 //================================================================
 //	Attributes managed are:
 //	StoredProcedureRelease:	
@@ -212,6 +213,7 @@ DataBase::DataBase(Tango::DeviceClass *cl, const char *s, const char *d)
 	/*----- PROTECTED REGION END -----*/	//	DataBase::constructor_3
 }
 
+
 //--------------------------------------------------------
 /**
  *	Method      : DataBase::delete_device()()
@@ -220,6 +222,7 @@ DataBase::DataBase(Tango::DeviceClass *cl, const char *s, const char *d)
 //--------------------------------------------------------
 void DataBase::delete_device()
 {
+	DEBUG_STREAM << "DataBase::delete_device() " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::delete_device) ENABLED START -----*/
 
 	//	Delete device allocated objects
@@ -231,7 +234,7 @@ void DataBase::delete_device()
 	delete [] timing_stats_calls;
 
 	for (unsigned int i = 0;i < timing_stats_map.size();i++)
-		delete timing_stats_index[i];
+		free(timing_stats_index[i]);
 	delete [] timing_stats_index;
 
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
@@ -247,6 +250,7 @@ void DataBase::delete_device()
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::delete_device
 	
+	
 }
 
 
@@ -259,6 +263,7 @@ void DataBase::delete_device()
 void DataBase::init_device()
 {
 	DEBUG_STREAM << "DataBase::init_device() create device " << device_name << endl;
+	
 
 	
 	/*----- PROTECTED REGION ID(DataBase::init_device) ENABLED START -----*/
@@ -690,6 +695,8 @@ void DataBase::read_Timing_info(Tango::Attribute &attr)
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::read_Timing_info
 }
+
+
 
 //--------------------------------------------------------
 /**
@@ -7516,7 +7523,6 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 
 	INFO_STREAM << "DataBase::db_my_sql_select(): \ncmd: " << cmd << endl;
 
-cout << "cmd = " << cmd << endl;
 	MYSQL_RES	*result   = query(cmd, "db_my_sql_select()");
 	int			nb_rows   = mysql_num_rows(result);
 	int			nb_fields = mysql_num_fields(result);
@@ -7562,6 +7568,73 @@ cout << "cmd = " << cmd << endl;
 	update_timing_stats(before, after, "DbMySqlSelect");
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_my_sql_select
+
+	return argout;
+}
+
+//--------------------------------------------------------
+/**
+ *	Execute the DbGetCSDbServerList command:
+ *	Description: Get a list of host:port for all database server defined in the control system
+ *
+ *	@param argin 
+ *	@returns List of host:port with one element for each database server
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_csdb_server_list) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream	sql_query_stream;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	int n_rows, i;
+
+	sql_query_stream << "SELECT DISTINCT ior FROM device WHERE domain=\'sys\' and family=\'database\'";
+
+	DEBUG_STREAM << "DataBase::db_get_csdb_server_list(): sql_query " << sql_query_stream.str() << endl;
+	
+	result = query(sql_query_stream.str(),"db_get_csdb_server_list()");
+
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::db_get_csdb_server_list(): mysql_num_rows() " << n_rows << endl;
+	argout = new Tango::DevVarStringArray;
+
+	if (n_rows > 0)
+	{
+	   argout->length(n_rows);
+	   for (i=0; i<n_rows; i++)
+	   {
+	      if ((row = mysql_fetch_row(result)) != NULL)
+	      {
+	         DEBUG_STREAM << "DataBase::db_get_csdb_server_list(): ior[ "<< i << "] " << row[0] << endl;
+			 string h_p;
+			 bool ret = host_port_from_ior(row[0],h_p);
+			 if (ret == true)
+	         	(*argout)[i] = CORBA::string_dup(h_p.c_str());
+			 else
+			 {
+				mysql_free_result(result);
+				delete argout;
+ 	    		TangoSys_OMemStream o;
+				o << "Wrong IOR in database for at least one of the database server(s)";
+				string msg = o.str();
+				WARN_STREAM << msg << endl;
+				Tango::Except::throw_exception((const char *)"DB_WrongIORForDbServer",
+	   				                   msg,
+					                   (const char *)"DataBase::db_get_csdb_server_list()");
+			 }
+	      }
+	   }
+	}
+	else
+		argout->length(0);
+	mysql_free_result(result);
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_csdb_server_list
 
 	return argout;
 }
