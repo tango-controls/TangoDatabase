@@ -48,9 +48,13 @@ static const char *RcsId = "$Header$";
 
 #include <stdio.h>
 
+#ifdef _TG_WINDOWS_
+#include <ws2tcpip.h>
+#else
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#endif
 
 using namespace std;
 
@@ -998,8 +1002,14 @@ bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
 					char service[20];
 
 					s.sin_family = AF_INET;
-					int res = inet_pton(AF_INET,ho.c_str(),&s.sin_addr);
+					int res;
+#ifdef _TG_WINDOWS_
+					s.sin_addr.s_addr = inet_addr(ho.c_str());
+					if (s.sin_addr.s_addr != INADDR_NONE)
+#else
+					res = inet_pton(AF_INET,ho.c_str(),&(s.sin_addr.s_addr));
 					if (res == 1)
+#endif
 					{
 						res = getnameinfo((const struct sockaddr *)&s,sizeof(s),ho_name,sizeof(ho_name),service,sizeof(service),0);
 						if (res == 0)
