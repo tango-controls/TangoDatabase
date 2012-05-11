@@ -1986,6 +1986,29 @@ public:
 	{return (static_cast<DataBase *>(dev))->is_DbMySqlSelect_allowed(any);}
 };
 
+//	Command DbGetCSDbServerList class definition
+class DbGetCSDbServerListClass : public Tango::Command
+{
+public:
+	DbGetCSDbServerListClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetCSDbServerListClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetCSDbServerListClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetCSDbServerList_allowed(any);}
+};
+
 
 
 
@@ -2038,6 +2061,7 @@ private:
 	void create_static_attribute_list(vector<Tango::Attr *> &);
 	void erase_dynamic_attributes(const Tango::DevVarStringArray *,vector<Tango::Attr *> &);
 	vector<string>	defaultAttList;
+	Tango::Attr *get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname);
 
 
 };

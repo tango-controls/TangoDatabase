@@ -1626,6 +1626,24 @@ bool DataBase::is_DbMySqlSelect_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetCSDbServerListState_allowed()
+ *	Description : Execution allowed for DbGetCSDbServerList command.
+ */
+//--------------------------------------------------------
+
+bool DataBase::is_DbGetCSDbServerList_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetCSDbServerList command.
+
+	/*----- PROTECTED REGION ID(DataBase::DbGetCSDbServerListStateAllowed) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetCSDbServerListStateAllowed
+
+	return true;
+}
+
 
 	/*----- PROTECTED REGION ID(DataBase::are_dynamic_commands_allowed) ENABLED START -----*/
 

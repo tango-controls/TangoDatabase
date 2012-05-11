@@ -193,7 +193,7 @@ int main(int argc,char *argv[])
 		(*export_parms)[0] = CORBA::string_dup(dserver->get_name().c_str());
 		const char *dserver_str_ior = Tango::Util::instance()->get_orb()->object_to_string(d);
 		(*export_parms)[1] = CORBA::string_dup(dserver_str_ior);
-		delete dserver_str_ior;
+		delete [] dserver_str_ior;
 		(*export_parms)[2] = CORBA::string_dup(tango_util->get_host_name().c_str());
 		(*export_parms)[3] = CORBA::string_dup(tango_util->get_pid_str().c_str());
 		(*export_parms)[4] = CORBA::string_dup(tango_util->get_version_str().c_str());
@@ -205,7 +205,7 @@ int main(int argc,char *argv[])
 		(*export_parms)[0] = CORBA::string_dup(dbase->get_name().c_str());
 		const char *str_ior = Tango::Util::instance()->get_orb()->object_to_string(dbase->get_d_var());
 		(*export_parms)[1] = CORBA::string_dup(str_ior);
-		delete str_ior;
+		delete [] str_ior;
 		((DataBase_ns::DataBase*)dbase)->db_export_device(export_parms);
 
 		delete export_parms;
