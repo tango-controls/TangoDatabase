@@ -336,9 +336,9 @@ DataBaseds_SOURCES = ClassFactory.cpp  		\
 		  		   update_starter.h
 
 @TANGO_DB_CREATE_ENABLED_TRUE@dbdir = ${pkgdatadir}/db
-@TANGO_DB_CREATE_ENABLED_TRUE@db_DATA = create_db.sh create_db.sql my.cnf create_db_tables.sql stored_proc.sql update_db.sh update_db6.sql
+@TANGO_DB_CREATE_ENABLED_TRUE@db_DATA = create_db.sh create_db.sql my.cnf create_db_tables.sql stored_proc.sql update_db.sh update_db.sql update_db6.sql
 EXTRA_DIST = create_db.sh.in create_db.sql.in my.cnf.in create_db_tables.sql.in stored_proc.sql.in \
-				update_db.sh.in update_db6.sql.in	
+				update_db.sh.in update_db6.sql.in update_db.sql.in	
 
 all: all-am
 
