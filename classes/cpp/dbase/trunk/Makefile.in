@@ -37,7 +37,7 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = DataBaseds$(EXEEXT)
 subdir = cppserver/database
-DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/create_db.sh.in $(srcdir)/create_db.sql.in \
 	$(srcdir)/create_db_tables.sql.in $(srcdir)/my.cnf.in \
 	$(srcdir)/stored_proc.sql.in $(srcdir)/update_db.sh.in \
@@ -336,9 +336,9 @@ DataBaseds_SOURCES = ClassFactory.cpp  		\
 		  		   update_starter.h
 
 @TANGO_DB_CREATE_ENABLED_TRUE@dbdir = ${pkgdatadir}/db
-@TANGO_DB_CREATE_ENABLED_TRUE@db_DATA = create_db.sh create_db.sql my.cnf create_db_tables.sql stored_proc.sql update_db.sh update_db5.sql update_db6.sql
+@TANGO_DB_CREATE_ENABLED_TRUE@db_DATA = create_db.sh create_db.sql my.cnf create_db_tables.sql stored_proc.sql update_db.sh update_db6.sql
 EXTRA_DIST = create_db.sh.in create_db.sql.in my.cnf.in create_db_tables.sql.in stored_proc.sql.in \
-				update_db.sh.in update_db5.sql.in update_db6.sql.in	
+				update_db.sh.in update_db6.sql.in	
 
 all: all-am
 
