@@ -225,6 +225,16 @@ void DataBase::delete_device()
 	DEBUG_STREAM << "DataBase::delete_device() " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::delete_device) ENABLED START -----*/
 
+	// Mark the server as non-exported in db
+
+	if (get_state() == Tango::ON)
+	{
+		Tango::Util *tg = Tango::Util::instance();
+		string &ds_name = tg->get_ds_name();
+		char *tmp_ds_name = const_cast<char *>(ds_name.c_str());
+		db_un_export_server(tmp_ds_name);
+	}
+
 	//	Delete device allocated objects
 	//	Delete device's allocated object
 
@@ -361,6 +371,7 @@ void DataBase::init_device()
 	{
 		fireToStarter = true;
 	}
+
 	WARN_STREAM << "fireToStarter = " << fireToStarter << endl;
 
 	//	If fire to starter is true
@@ -7584,7 +7595,7 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << endl;
+	WARN_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_csdb_server_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -7593,7 +7604,7 @@ Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 	MYSQL_ROW row;
 	int n_rows, i;
 
-	sql_query_stream << "SELECT DISTINCT ior FROM device WHERE domain=\'sys\' and family=\'database\'";
+	sql_query_stream << "SELECT DISTINCT ior FROM device WHERE exported=1 AND domain=\'sys\' AND family=\'database\'";
 
 	DEBUG_STREAM << "DataBase::db_get_csdb_server_list(): sql_query " << sql_query_stream.str() << endl;
 	

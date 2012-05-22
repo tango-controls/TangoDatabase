@@ -973,7 +973,7 @@ bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
 //
 // Three possible cases for host name:
 // 1 - The host is stored in IOR as IP numbers
-// 2 - The host name is stored in IOR as the caconical host name
+// 2 - The host name is stored in IOR as the canonical host name
 // 3 - The FQDN is stored in IOR
 // We allways try to get the host name as the FQDN
 //
