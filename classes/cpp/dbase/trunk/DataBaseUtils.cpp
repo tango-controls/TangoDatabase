@@ -660,7 +660,6 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
   TangoSys_MemStream sql_query;
   MYSQL_RES *result;
   MYSQL_ROW row2;
-  int j;
   
   sql_query.str("");
   sql_query << "SELECT DISTINCT id FROM " << table
@@ -673,7 +672,7 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
   if(nb_item>historyDepth) {
     // Purge 
     int toDelete = nb_item-historyDepth;
-    for(j=0;j<toDelete;j++) {
+    for(int j=0;j<toDelete;j++) {
         row2 = mysql_fetch_row(result);
         sql_query.str("");
         sql_query << "DELETE FROM " << table << " WHERE id='" << row2[0] << "'";
@@ -697,7 +696,6 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
   TangoSys_MemStream sql_query;
   MYSQL_RES *result;
   MYSQL_ROW row2;
-  int j;
   
   //cout << "purge_att_property(" << object << "," << attribute << "," << name << ")" << endl;
 		
@@ -712,7 +710,7 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
   if(nb_item>historyDepth) {
     // Purge 
     int toDelete = nb_item-historyDepth;
-    for(j=0;j<toDelete;j++) {
+    for(int j=0;j<toDelete;j++) {
 		row2 = mysql_fetch_row(result);
         sql_query.str("");
         sql_query << "DELETE FROM " << table << " WHERE id='" << row2[0] << "'";
