@@ -125,8 +125,7 @@ TANGO_REQUIRED = TRUE
 #=============================================================================
 #	include Standard TANGO compilation options
 #
-#include $(MAKE_ENV)/tango.opt
-include ../tmp/tango.opt
+include $(MAKE_ENV)/tango.opt
 
 #=============================================================================
 #	POST_PROCESSING: action to be done after normal make.
