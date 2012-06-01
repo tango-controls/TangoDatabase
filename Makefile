@@ -30,7 +30,7 @@ MAKE_ENV = /segfs/tango/cppserver/env
 #
 PACKAGE_NAME = DataBase
 MAJOR_VERS   = 4
-MINOR_VERS   = 14
+MINOR_VERS   = 17
 RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 
 # #=============================================================================
@@ -125,7 +125,8 @@ TANGO_REQUIRED = TRUE
 #=============================================================================
 #	include Standard TANGO compilation options
 #
-include $(MAKE_ENV)/tango.opt
+#include $(MAKE_ENV)/tango.opt
+include ../tmp/tango.opt
 
 #=============================================================================
 #	POST_PROCESSING: action to be done after normal make.

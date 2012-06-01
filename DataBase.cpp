@@ -4434,7 +4434,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 
 	   n_rows = mysql_num_rows(result);
 	   DEBUG_STREAM << "DataBase::GetDeviceProperty(): mysql_num_rows() " << n_rows << endl;
-	   sprintf(n_rows_str,"%6d",n_rows);
+	   sprintf(n_rows_str,"%d",n_rows);
 	   n_props = n_props+2;
 	   argout->length(n_props);
 	   (*argout)[n_props-2] = CORBA::string_dup(prop_name.c_str());
@@ -4543,7 +4543,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
   		   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
   		   if(deleted) count = 0;
 		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%6d",count);
+		   sprintf(n_rows_str,"%d",count);
 
     	   argout->length(nb_item+3+count);
 		   (*argout)[nb_item+0] = CORBA::string_dup(row[2]);
@@ -5133,7 +5133,7 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 
 	   n_rows = mysql_num_rows(result);
 	   DEBUG_STREAM << "DataBase::db_get_property(): mysql_num_rows() " << n_rows << endl;
-	   sprintf(n_rows_str,"%6d",n_rows);
+	   sprintf(n_rows_str,"%d",n_rows);
 	   n_props = n_props+2;
 	   argout->length(n_props);
 	   (*argout)[n_props-2] = CORBA::string_dup((*property_names)[i]);
@@ -5238,7 +5238,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
   		   int deleted = (atoi(row[3]) == 0); // count=0 for deleted property
   		   if(deleted) count = 0;
 		   char n_rows_str[256];
-		   sprintf(n_rows_str,"%6d",count);
+		   sprintf(n_rows_str,"%d",count);
 
     	   argout->length(nb_item+3+count);
 		   (*argout)[nb_item+0] = CORBA::string_dup(row[2]);
@@ -6309,7 +6309,7 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
           				string tmp_escaped_string = escape_string((*argin)[l+1]);
-	      				tmp_count++; sprintf(tmp_count_str, "%6d", tmp_count);
+	      				tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
 
@@ -6405,7 +6405,7 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 		   	for (j=k+2; j<k+n_rows+2; j++)
 		   	{
         	  	string tmp_escaped_string = escape_string((*property_list)[j]);
-	    	  	tmp_count++; sprintf(tmp_count_str, "%6d", tmp_count);
+	    	  	tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
 				sql_query_stream.str("");
@@ -6674,7 +6674,7 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
           			string tmp_escaped_string = escape_string((*argin)[l+1]);
-	      			tmp_count++; sprintf(tmp_count_str, "%6d", tmp_count);
+	      			tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
 					sql_query_stream.str("");
@@ -6771,7 +6771,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 		   for (j=k+2; j<k+n_rows+2; j++)
 		   {
         	  string tmp_escaped_string = escape_string((*property_list)[j]);
-	    	  tmp_count++; sprintf(tmp_count_str, "%6d", tmp_count);
+	    	  tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 			// then insert the new value for this tuple
 					sql_query_stream.str("");
