@@ -379,7 +379,7 @@
       <argin description="Device name">
         <type xsi:type="pogoDsl:StringType"/>
       </argin>
-      <argout description="Str[0] = Device name&#xA;Str[1] = CORBA IOR&#xA;Str[2] = Device version&#xA;Str[3] = Device Server name&#xA;Str[4] = Device Server process host name&#xA;Str[5] = Started date (or ? if not set)&#xA;Str[6] = Stopped date (or ? if not set)&#xA;&#xA;Lg[0] = Device exported flag&#xA;Lg[1] = Device Server process PID (or -1 if not set)">
+      <argout description="Str[0] = Device name&#xA;Str[1] = CORBA IOR&#xA;Str[2] = Device version&#xA;Str[3] = Device Server name&#xA;Str[4] = Device Server process host name&#xA;Str[5] = Started date (or ? if not set)&#xA;Str[6] = Stopped date (or ? if not set)&#xA;Str[7] = Device class&#xA;&#xA;Lg[0] = Device exported flag&#xA;Lg[1] = Device Server process PID (or -1 if not set)">
         <type xsi:type="pogoDsl:LongStringArrayType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
