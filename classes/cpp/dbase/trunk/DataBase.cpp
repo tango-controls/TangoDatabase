@@ -4011,6 +4011,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_family_list(Tango::DevString a
  *	         Str[4] = Device Server process host name
  *	         Str[5] = Started date (or ? if not set)
  *	         Str[6] = Stopped date (or ? if not set)
+ *	         Str[7] = Device class
  *	         
  *	         Lg[0] = Device exported flag
  *	         Lg[1] = Device Server process PID (or -1 if not set)
@@ -4037,7 +4038,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 		tmp_device[i] = tolower(tmp_device[i]);
 	}
 
-	sql_query_stream << "SELECT exported,ior,version,pid,server,host,started,stopped FROM device WHERE name = '" 
+	sql_query_stream << "SELECT exported,ior,version,pid,server,host,started,stopped,class FROM device WHERE name = '" 
 	                 << tmp_device << "' or alias = '" << tmp_device << "';";
 	DEBUG_STREAM << "DataBase::ImportDevice(): sql_query " << sql_query_stream.str() << endl;
 	
@@ -4054,7 +4055,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 	   {
 	      DEBUG_STREAM << "DataBase::ImportDeviceList():  exported " << row[0] << " version " << row[2] << " server " << row[4] << " host " << row[5] << endl;
 	   	  int n_svalues=0, n_lvalues=0; 
-	      n_svalues = 7;
+	      n_svalues = 8;
 		  if ((row[4] == NULL) || (row[5] == NULL))
 		  {
 	         TangoSys_OMemStream o;
@@ -4071,6 +4072,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 	      (argout->svalue)[2] = CORBA::string_dup(row[2]);
 	      (argout->svalue)[3] = CORBA::string_dup(row[4]);
 	      (argout->svalue)[4] = CORBA::string_dup(row[5]);
+		  (argout->svalue)[7] = CORBA::string_dup(row[8]);
 			//	IOR Check
 		  if (row[1]!=NULL)
 	      	(argout->svalue)[1] = CORBA::string_dup(row[1]);
@@ -7557,7 +7559,7 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 {
 	Tango::DevVarStringArray *argout;
-	WARN_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_csdb_server_list) ENABLED START -----*/
 
 	//	Add your own code

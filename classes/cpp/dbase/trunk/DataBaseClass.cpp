@@ -2654,7 +2654,7 @@ void DataBaseClass::command_factory()
 		new DbGetDeviceInfoClass("DbGetDeviceInfo",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
 			"Device name",
-			"Str[0] = Device name\nStr[1] = CORBA IOR\nStr[2] = Device version\nStr[3] = Device Server name\nStr[4] = Device Server process host name\nStr[5] = Started date (or ? if not set)\nStr[6] = Stopped date (or ? if not set)\n\nLg[0] = Device exported flag\nLg[1] = Device Server process PID (or -1 if not set)",
+			"Str[0] = Device name\nStr[1] = CORBA IOR\nStr[2] = Device version\nStr[3] = Device Server name\nStr[4] = Device Server process host name\nStr[5] = Started date (or ? if not set)\nStr[6] = Stopped date (or ? if not set)\nStr[7] = Device class\n\nLg[0] = Device exported flag\nLg[1] = Device Server process PID (or -1 if not set)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceInfoCmd);
 
