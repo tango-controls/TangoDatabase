@@ -205,7 +205,7 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
     <commands name="DbGetClassAttributeProperty" description="Get Tango class property(ies) value" execMethod="db_get_class_attribute_property" displayLevel="OPERATOR" polledPeriod="0">
-      <argin description="Str[0] = Tango class name&#xA;Str[1] = Property name&#xA;Str[n] = Property name">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Attribute name&#xA;Str[n] = Attribute name">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
       <argout description="Str[0] = Tango class name&#xA;Str[1] = Attribute property  number&#xA;Str[2] = Attribute property 1 name&#xA;Str[3] = Attribute property 1 value&#xA;Str[n + 1] = Attribute property 2 name&#xA;Str[n + 2] = Attribute property 2 value">
@@ -214,7 +214,7 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
     <commands name="DbGetClassAttributeProperty2" description="This command supports array property compared to the old command called&#xA;DbGetClassAttributeProperty. The old command has not been deleted from the&#xA;server for compatibility reasons." execMethod="db_get_class_attribute_property2" displayLevel="OPERATOR" polledPeriod="0">
-      <argin description="Str[0] = Tango class name&#xA;Str[1] = Property name&#xA;Str[n] = Property name">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Attribute name&#xA;Str[n] = Attribute name">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
       <argout description="Str[0] = Tango class name&#xA;Str[1] = Attribute property  number&#xA;Str[2] = Attribute property 1 name&#xA;Str[3] = Attribute property 1 value number (array case)&#xA;Str[4] = Attribute property 1 value&#xA;Str[n] = Attribute property 1 value (array case)&#xA;Str[n + 1] = Attribute property 2 name&#xA;Str[n + 2] = Attribute property 2 value number (array case)&#xA;Str[n + 3] = Attribute property 2 value&#xA;Str[n + m] = Attribute property 2 value (array case)">
@@ -313,7 +313,7 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
     <commands name="DbGetDeviceAttributeProperty" description="Get device attribute property(ies) value" execMethod="db_get_device_attribute_property" displayLevel="OPERATOR" polledPeriod="0">
-      <argin description="Str[0] = Device name&#xA;Str[1] = Property name&#xA;Str[n] = Property name">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Attribute name&#xA;Str[n] = Attribute name">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
       <argout description="Str[0] = Device name&#xA;Str[1] = Attribute property  number&#xA;Str[2] = Attribute property 1 name&#xA;Str[3] = Attribute property 1 value&#xA;Str[n + 1] = Attribute property 2 name&#xA;Str[n + 2] = Attribute property 2 value">
@@ -322,7 +322,7 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
     <commands name="DbGetDeviceAttributeProperty2" description="Retrieve device attribute properties. This command has the possibility to retrieve&#xA;device attribute properties which are arrays. It is not possible with the old&#xA;DbGetDeviceAttributeProperty command. Nevertheless, the old command has not been&#xA;deleted for compatibility reason" execMethod="db_get_device_attribute_property2" displayLevel="OPERATOR" polledPeriod="0">
-      <argin description="Str[0] = Device name&#xA;Str[1] = Property name&#xA;Str[n] = Property name">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Attribute name&#xA;Str[n] = Attribute name">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
       <argout description="Str[0] = Device name&#xA;Str[1] = Attribute property  number&#xA;Str[2] = Attribute property 1 name&#xA;Str[3] = Attribute property 1 value number (array case)&#xA;Str[4] = Attribute property 1 value&#xA;Str[n] = Attribute property 1 value (array case)&#xA;Str[n + 1] = Attribute property 2 name&#xA;Str[n + 2] = Attribute property 2 value number (array case)&#xA;Str[n + 3] = Attribute property 2 value&#xA;Str[n + m] = Attribute property 2 value (array case)">

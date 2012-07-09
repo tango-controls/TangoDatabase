@@ -2444,7 +2444,7 @@ void DataBaseClass::command_factory()
 	DbGetClassAttributePropertyClass	*pDbGetClassAttributePropertyCmd =
 		new DbGetClassAttributePropertyClass("DbGetClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"Str[0] = Tango class name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Tango class name\nStr[1] = Attribute name\nStr[n] = Attribute name",
 			"Str[0] = Tango class name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributePropertyCmd);
@@ -2455,7 +2455,7 @@ void DataBaseClass::command_factory()
 	DbGetClassAttributeProperty2Class	*pDbGetClassAttributeProperty2Cmd =
 		new DbGetClassAttributeProperty2Class("DbGetClassAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"Str[0] = Tango class name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Tango class name\nStr[1] = Attribute name\nStr[n] = Attribute name",
 			"Str[0] = Tango class name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value number (array case)\nStr[4] = Attribute property 1 value\nStr[n] = Attribute property 1 value (array case)\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value number (array case)\nStr[n + 3] = Attribute property 2 value\nStr[n + m] = Attribute property 2 value (array case)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributeProperty2Cmd);
@@ -2576,7 +2576,7 @@ void DataBaseClass::command_factory()
 	DbGetDeviceAttributePropertyClass	*pDbGetDeviceAttributePropertyCmd =
 		new DbGetDeviceAttributePropertyClass("DbGetDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"Str[0] = Device name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Device name\nStr[1] = Attribute name\nStr[n] = Attribute name",
 			"Str[0] = Device name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributePropertyCmd);
@@ -2587,7 +2587,7 @@ void DataBaseClass::command_factory()
 	DbGetDeviceAttributeProperty2Class	*pDbGetDeviceAttributeProperty2Cmd =
 		new DbGetDeviceAttributeProperty2Class("DbGetDeviceAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
-			"Str[0] = Device name\nStr[1] = Property name\nStr[n] = Property name",
+			"Str[0] = Device name\nStr[1] = Attribute name\nStr[n] = Attribute name",
 			"Str[0] = Device name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value number (array case)\nStr[4] = Attribute property 1 value\nStr[n] = Attribute property 1 value (array case)\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value number (array case)\nStr[n + 3] = Attribute property 2 value\nStr[n + m] = Attribute property 2 value (array case)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributeProperty2Cmd);

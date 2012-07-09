@@ -179,6 +179,7 @@ public:
 	typedef struct prop_def
 	{
 		string			prop_name;
+		string 			prop_name_cd;
 		vector<string>	prop_val;
 	} PropDef;
 

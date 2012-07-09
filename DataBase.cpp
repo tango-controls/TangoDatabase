@@ -2248,8 +2248,8 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
  *	Description: Get Tango class property(ies) value
  *
  *	@param argin Str[0] = Tango class name
- *	             Str[1] = Property name
- *	             Str[n] = Property name
+ *	             Str[1] = Attribute name
+ *	             Str[n] = Attribute name
  *	@returns Str[0] = Tango class name
  *	         Str[1] = Attribute property  number
  *	         Str[2] = Attribute property 1 name
@@ -2338,8 +2338,8 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
  *	             server for compatibility reasons.
  *
  *	@param argin Str[0] = Tango class name
- *	             Str[1] = Property name
- *	             Str[n] = Property name
+ *	             Str[1] = Attribute name
+ *	             Str[n] = Attribute name
  *	@returns Str[0] = Tango class name
  *	         Str[1] = Attribute property  number
  *	         Str[2] = Attribute property 1 name
@@ -3209,8 +3209,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_list(const Tango::De
  *	Description: Get device attribute property(ies) value
  *
  *	@param argin Str[0] = Device name
- *	             Str[1] = Property name
- *	             Str[n] = Property name
+ *	             Str[1] = Attribute name
+ *	             Str[n] = Attribute name
  *	@returns Str[0] = Device name
  *	         Str[1] = Attribute property  number
  *	         Str[2] = Attribute property 1 name
@@ -3307,8 +3307,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
  *	             deleted for compatibility reason
  *
  *	@param argin Str[0] = Device name
- *	             Str[1] = Property name
- *	             Str[n] = Property name
+ *	             Str[1] = Attribute name
+ *	             Str[n] = Attribute name
  *	@returns Str[0] = Device name
  *	         Str[1] = Attribute property  number
  *	         Str[2] = Attribute property 1 name
@@ -3509,6 +3509,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 						att_props.clear();
 					}
 					p_name = row[1];
+					prop.prop_name_cd = p_name;
 					transform(p_name.begin(),p_name.end(),p_name.begin(),::tolower);
 
 					prop.prop_name = p_name;
@@ -3529,6 +3530,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 						prop.prop_val.clear();
 
 						prop.prop_name = p_name;
+						prop.prop_name_cd = row[1];
 						value = row[2];
 						prop.prop_val.push_back(value);
 
@@ -3591,7 +3593,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 					n_props = n_props + 2 + prop_size;
 
 					argout->length(n_props);
-					(*argout)[old_n_props++] = CORBA::string_dup(pd.prop_name.c_str());
+					(*argout)[old_n_props++] = CORBA::string_dup(pd.prop_name_cd.c_str());
 	   				sprintf(n_rows_str,"%d",prop_size);
 					(*argout)[old_n_props++] = CORBA::string_dup(n_rows_str);
 					
