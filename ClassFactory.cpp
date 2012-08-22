@@ -121,4 +121,4 @@ void Tango::DServer::class_factory()
 	add_class(DataBase_ns::DataBaseClass::init("DataBase"));
 
 }
-/*----- PROTECTED REGION END -----*/
+/*----- PROTECTED REGION END -----*/	//	DataBase::ClassFactory.cpp

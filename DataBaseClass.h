@@ -50,15 +50,14 @@
 #include <tango.h>
 #include <DataBase.h>
 
-/*----- PROTECTED REGION END -----*/
+/*----- PROTECTED REGION END -----*/	//	DataBaseClass.h
+
 
 namespace DataBase_ns
 {
-	/*----- PROTECTED REGION ID(DataBase::classes for dynamic creation) ENABLED START -----*/
+/*----- PROTECTED REGION ID(DataBaseClass::classes for dynamic creation) ENABLED START -----*/
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::classes for dynamic creation
-
-
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::classes for dynamic creation
 
 //=========================================
 //	Define classes for attributes
@@ -68,9 +67,8 @@ class StoredProcedureReleaseAttrib: public Tango::Attr
 {
 public:
 	StoredProcedureReleaseAttrib():Attr("StoredProcedureRelease",
-	                   Tango::DEV_STRING, Tango::READ) {};
+			Tango::DEV_STRING, Tango::READ) {};
 	~StoredProcedureReleaseAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_StoredProcedureRelease(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
@@ -82,9 +80,8 @@ class Timing_averageAttrib: public Tango::SpectrumAttr
 {
 public:
 	Timing_averageAttrib():SpectrumAttr("Timing_average",
-	                   Tango::DEV_DOUBLE, Tango::READ, 64) {};
+			Tango::DEV_DOUBLE, Tango::READ, 64) {};
 	~Timing_averageAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_Timing_average(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
@@ -96,9 +93,8 @@ class Timing_minimumAttrib: public Tango::SpectrumAttr
 {
 public:
 	Timing_minimumAttrib():SpectrumAttr("Timing_minimum",
-	                   Tango::DEV_DOUBLE, Tango::READ, 64) {};
+			Tango::DEV_DOUBLE, Tango::READ, 64) {};
 	~Timing_minimumAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_Timing_minimum(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
@@ -110,9 +106,8 @@ class Timing_maximumAttrib: public Tango::SpectrumAttr
 {
 public:
 	Timing_maximumAttrib():SpectrumAttr("Timing_maximum",
-	                   Tango::DEV_DOUBLE, Tango::READ, 64) {};
+			Tango::DEV_DOUBLE, Tango::READ, 64) {};
 	~Timing_maximumAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_Timing_maximum(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
@@ -124,9 +119,8 @@ class Timing_callsAttrib: public Tango::SpectrumAttr
 {
 public:
 	Timing_callsAttrib():SpectrumAttr("Timing_calls",
-	                   Tango::DEV_DOUBLE, Tango::READ, 64) {};
+			Tango::DEV_DOUBLE, Tango::READ, 64) {};
 	~Timing_callsAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_Timing_calls(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
@@ -138,9 +132,8 @@ class Timing_indexAttrib: public Tango::SpectrumAttr
 {
 public:
 	Timing_indexAttrib():SpectrumAttr("Timing_index",
-	                   Tango::DEV_STRING, Tango::READ, 64) {};
+			Tango::DEV_STRING, Tango::READ, 64) {};
 	~Timing_indexAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_Timing_index(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
@@ -152,18 +145,13 @@ class Timing_infoAttrib: public Tango::SpectrumAttr
 {
 public:
 	Timing_infoAttrib():SpectrumAttr("Timing_info",
-	                   Tango::DEV_STRING, Tango::READ, 64) {};
+			Tango::DEV_STRING, Tango::READ, 64) {};
 	~Timing_infoAttrib() {};
-	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<DataBase *>(dev))->read_Timing_info(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
 		{return (static_cast<DataBase *>(dev))->is_Timing_info_allowed(ty);}
 };
-
-
-
-
 
 
 //=========================================
@@ -2009,64 +1997,102 @@ public:
 	{return (static_cast<DataBase *>(dev))->is_DbGetCSDbServerList_allowed(any);}
 };
 
+//	Command DbGetAttributeAlias2 class definition
+class DbGetAttributeAlias2Class : public Tango::Command
+{
+public:
+	DbGetAttributeAlias2Class(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
 
+	DbGetAttributeAlias2Class(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetAttributeAlias2Class() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetAttributeAlias2_allowed(any);}
+};
 
+//	Command DbGetAliasAttribute class definition
+class DbGetAliasAttributeClass : public Tango::Command
+{
+public:
+	DbGetAliasAttributeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetAliasAttributeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetAliasAttributeClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetAliasAttribute_allowed(any);}
+};
 
 
 /**
- *	The TemplateDevServClass singleton definition
+ *	The DataBaseClass singleton definition
  */
 
-class
 #ifdef _TG_WINDOWS_
-	__declspec(dllexport)
+class __declspec(dllexport)  DataBaseClass : public Tango::DeviceClass
+#else
+class DataBaseClass : public Tango::DeviceClass
 #endif
-	DataBaseClass : public Tango::DeviceClass
 {
-	/*----- PROTECTED REGION ID(DataBase::Additionnal DServer data members) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::Additionnal DServer data members) ENABLED START -----*/
 public:
 	
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Additionnal DServer data members
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::Additionnal DServer data members
 
-
-
-public:
-//	write class properties data members
-	Tango::DbData	cl_prop;
-	Tango::DbData	cl_def_prop;
-	Tango::DbData	dev_def_prop;
-
-//	Method prototypes
-	static DataBaseClass *init(const char *);
-	static DataBaseClass *instance();
-	~DataBaseClass();
-	Tango::DbDatum	get_class_property(string &);
-	Tango::DbDatum	get_default_device_property(string &);
-	Tango::DbDatum	get_default_class_property(string &);
+	public:
+		//	write class properties data members
+		Tango::DbData	cl_prop;
+		Tango::DbData	cl_def_prop;
+		Tango::DbData	dev_def_prop;
 	
-protected:
-	DataBaseClass(string &);
-	static DataBaseClass *_instance;
-	void command_factory();
-	void attribute_factory(vector<Tango::Attr *> &);
-	void write_class_property();
-	void set_default_property();
-	void get_class_property();
-	string get_cvstag();
-	string get_cvsroot();
-
-private:
-	void device_factory(const Tango::DevVarStringArray *);
-	void create_static_attribute_list(vector<Tango::Attr *> &);
-	void erase_dynamic_attributes(const Tango::DevVarStringArray *,vector<Tango::Attr *> &);
-	vector<string>	defaultAttList;
-	Tango::Attr *get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname);
-
-
+		//	Method prototypes
+		static DataBaseClass *init(const char *);
+		static DataBaseClass *instance();
+		~DataBaseClass();
+		Tango::DbDatum	get_class_property(string &);
+		Tango::DbDatum	get_default_device_property(string &);
+		Tango::DbDatum	get_default_class_property(string &);
+	
+	protected:
+		DataBaseClass(string &);
+		static DataBaseClass *_instance;
+		void command_factory();
+		void attribute_factory(vector<Tango::Attr *> &);
+		void write_class_property();
+		void set_default_property();
+		void get_class_property();
+		string get_cvstag();
+		string get_cvsroot();
+	
+	private:
+		void device_factory(const Tango::DevVarStringArray *);
+		void create_static_attribute_list(vector<Tango::Attr *> &);
+		void erase_dynamic_attributes(const Tango::DevVarStringArray *,vector<Tango::Attr *> &);
+		vector<string>	defaultAttList;
+		Tango::Attr *get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname);
 };
 
-}	//	namespace
+}	//	End of namespace
 
-#endif	//	DATABASECLASS_H
-
+#endif   //	DataBase_H

@@ -52,7 +52,7 @@ static const char *HttpServer = "http://www.esrf.eu/computing/cs/tango/tango_doc
 #include <DataBase.h>
 #include <DataBaseClass.h>
 
-/*----- PROTECTED REGION END -----*/
+/*----- PROTECTED REGION END -----*/	//	DataBaseClass.cpp
 
 //-------------------------------------------------------------------
 /**
@@ -72,11 +72,8 @@ __declspec(dllexport)
 	}
 }
 
-
 namespace DataBase_ns
 {
-
-
 //===================================================================
 //	Initialize pointer for singleton pattern
 //===================================================================
@@ -90,20 +87,18 @@ DataBaseClass *DataBaseClass::_instance = NULL;
  * @param s	The class name
  */
 //--------------------------------------------------------
-DataBaseClass::DataBaseClass(string &s):DeviceClass(s)
+DataBaseClass::DataBaseClass(string &s):Tango::DeviceClass(s)
 {
 	cout2 << "Entering DataBaseClass constructor" << endl;
 	set_default_property();
-	get_class_property();
 	write_class_property();
 
-	/*----- PROTECTED REGION ID(DataBase::Class::constructor) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::constructor) ENABLED START -----*/
 	string str_rcs(RcsId);
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::constructor
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::constructor
 
 	cout2 << "Leaving DataBaseClass constructor" << endl;
 }
-
 
 //--------------------------------------------------------
 /**
@@ -113,9 +108,9 @@ DataBaseClass::DataBaseClass(string &s):DeviceClass(s)
 //--------------------------------------------------------
 DataBaseClass::~DataBaseClass()
 {
-	/*----- PROTECTED REGION ID(DataBase::Class::destructor) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::destructor) ENABLED START -----*/
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::destructor
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::destructor
 
 	_instance = NULL;
 }
@@ -166,7 +161,6 @@ DataBaseClass *DataBaseClass::instance()
 
 
 
-
 //===================================================================
 //	Command execution method calls
 //===================================================================
@@ -181,15 +175,15 @@ DataBaseClass *DataBaseClass::instance()
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbAddDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbAddDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbAddDeviceClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_add_device(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbAddServerClass::execute()
@@ -201,15 +195,15 @@ CORBA::Any *DbAddDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(co
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbAddServerClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbAddServerClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbAddServerClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_add_server(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteAttributeAliasClass::execute()
@@ -221,15 +215,15 @@ CORBA::Any *DbAddServerClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(co
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteAttributeAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteAttributeAliasClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteAttributeAliasClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_attribute_alias(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteClassAttributeClass::execute()
@@ -241,15 +235,15 @@ CORBA::Any *DbDeleteAttributeAliasClass::execute(Tango::DeviceImpl *device, TANG
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteClassAttributeClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteClassAttributeClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteClassAttributeClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_class_attribute(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteClassAttributePropertyClass::execute()
@@ -261,15 +255,15 @@ CORBA::Any *DbDeleteClassAttributeClass::execute(Tango::DeviceImpl *device, TANG
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteClassAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteClassAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteClassAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_class_attribute_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteClassPropertyClass::execute()
@@ -281,15 +275,15 @@ CORBA::Any *DbDeleteClassAttributePropertyClass::execute(Tango::DeviceImpl *devi
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteClassPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteClassPropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteClassPropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_class_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteDeviceClass::execute()
@@ -301,15 +295,15 @@ CORBA::Any *DbDeleteClassPropertyClass::execute(Tango::DeviceImpl *device, TANGO
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteDeviceClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_device(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteDeviceAliasClass::execute()
@@ -321,15 +315,15 @@ CORBA::Any *DbDeleteDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteDeviceAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteDeviceAliasClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteDeviceAliasClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_device_alias(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteDeviceAttributeClass::execute()
@@ -341,15 +335,15 @@ CORBA::Any *DbDeleteDeviceAliasClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteDeviceAttributeClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteDeviceAttributeClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteDeviceAttributeClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_device_attribute(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteDeviceAttributePropertyClass::execute()
@@ -361,15 +355,15 @@ CORBA::Any *DbDeleteDeviceAttributeClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteDeviceAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_device_attribute_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteDevicePropertyClass::execute()
@@ -381,15 +375,15 @@ CORBA::Any *DbDeleteDeviceAttributePropertyClass::execute(Tango::DeviceImpl *dev
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteDevicePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteDevicePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteDevicePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_device_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeletePropertyClass::execute()
@@ -401,15 +395,15 @@ CORBA::Any *DbDeleteDevicePropertyClass::execute(Tango::DeviceImpl *device, TANG
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeletePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeletePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeletePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteServerClass::execute()
@@ -421,15 +415,15 @@ CORBA::Any *DbDeletePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUS
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteServerClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteServerClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteServerClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_server(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteServerInfoClass::execute()
@@ -441,15 +435,15 @@ CORBA::Any *DbDeleteServerClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteServerInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteServerInfoClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteServerInfoClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_server_info(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbExportDeviceClass::execute()
@@ -461,15 +455,15 @@ CORBA::Any *DbDeleteServerInfoClass::execute(Tango::DeviceImpl *device, TANGO_UN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbExportDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbExportDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbExportDeviceClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_export_device(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbExportEventClass::execute()
@@ -481,15 +475,15 @@ CORBA::Any *DbExportDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbExportEventClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbExportEventClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbExportEventClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_export_event(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetAliasDeviceClass::execute()
@@ -501,14 +495,14 @@ CORBA::Any *DbExportEventClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetAliasDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetAliasDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetAliasDeviceClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_alias_device(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetAttributeAliasClass::execute()
@@ -520,14 +514,14 @@ CORBA::Any *DbGetAliasDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUS
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetAttributeAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetAttributeAliasClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetAttributeAliasClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_attribute_alias(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetAttributeAliasListClass::execute()
@@ -539,14 +533,14 @@ CORBA::Any *DbGetAttributeAliasClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetAttributeAliasListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetAttributeAliasListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetAttributeAliasListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_attribute_alias_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassAttributeListClass::execute()
@@ -558,14 +552,14 @@ CORBA::Any *DbGetAttributeAliasListClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassAttributeListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassAttributeListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassAttributeListClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_attribute_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassAttributePropertyClass::execute()
@@ -577,14 +571,14 @@ CORBA::Any *DbGetClassAttributeListClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_attribute_property(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassAttributeProperty2Class::execute()
@@ -596,14 +590,14 @@ CORBA::Any *DbGetClassAttributePropertyClass::execute(Tango::DeviceImpl *device,
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassAttributeProperty2Class::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassAttributeProperty2Class::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassAttributeProperty2Class::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_attribute_property2(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassAttributePropertyHistClass::execute()
@@ -615,14 +609,14 @@ CORBA::Any *DbGetClassAttributeProperty2Class::execute(Tango::DeviceImpl *device
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassAttributePropertyHistClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassAttributePropertyHistClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassAttributePropertyHistClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_attribute_property_hist(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassForDeviceClass::execute()
@@ -634,14 +628,14 @@ CORBA::Any *DbGetClassAttributePropertyHistClass::execute(Tango::DeviceImpl *dev
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassForDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassForDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassForDeviceClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_for_device(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassInheritanceForDeviceClass::execute()
@@ -653,14 +647,14 @@ CORBA::Any *DbGetClassForDeviceClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassInheritanceForDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassInheritanceForDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassInheritanceForDeviceClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_inheritance_for_device(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassListClass::execute()
@@ -672,14 +666,14 @@ CORBA::Any *DbGetClassInheritanceForDeviceClass::execute(Tango::DeviceImpl *devi
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassPropertyClass::execute()
@@ -691,14 +685,14 @@ CORBA::Any *DbGetClassListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassPropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassPropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_property(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassPropertyHistClass::execute()
@@ -710,14 +704,14 @@ CORBA::Any *DbGetClassPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassPropertyHistClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassPropertyHistClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassPropertyHistClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_property_hist(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetClassPropertyListClass::execute()
@@ -729,14 +723,14 @@ CORBA::Any *DbGetClassPropertyHistClass::execute(Tango::DeviceImpl *device, TANG
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetClassPropertyListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetClassPropertyListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetClassPropertyListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_class_property_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceAliasClass::execute()
@@ -748,14 +742,14 @@ CORBA::Any *DbGetClassPropertyListClass::execute(Tango::DeviceImpl *device, TANG
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceAliasClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceAliasClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_alias(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceAliasListClass::execute()
@@ -767,14 +761,14 @@ CORBA::Any *DbGetDeviceAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUS
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceAliasListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceAliasListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceAliasListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_alias_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceAttributeListClass::execute()
@@ -786,14 +780,14 @@ CORBA::Any *DbGetDeviceAliasListClass::execute(Tango::DeviceImpl *device, TANGO_
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceAttributeListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceAttributeListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceAttributeListClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_attribute_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceAttributePropertyClass::execute()
@@ -805,14 +799,14 @@ CORBA::Any *DbGetDeviceAttributeListClass::execute(Tango::DeviceImpl *device, TA
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_attribute_property(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceAttributeProperty2Class::execute()
@@ -824,14 +818,14 @@ CORBA::Any *DbGetDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceAttributeProperty2Class::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceAttributeProperty2Class::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceAttributeProperty2Class::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_attribute_property2(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceAttributePropertyHistClass::execute()
@@ -843,14 +837,14 @@ CORBA::Any *DbGetDeviceAttributeProperty2Class::execute(Tango::DeviceImpl *devic
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceAttributePropertyHistClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceAttributePropertyHistClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceAttributePropertyHistClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_attribute_property_hist(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceClassListClass::execute()
@@ -862,14 +856,14 @@ CORBA::Any *DbGetDeviceAttributePropertyHistClass::execute(Tango::DeviceImpl *de
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceClassListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceClassListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceClassListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_class_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceDomainListClass::execute()
@@ -881,14 +875,14 @@ CORBA::Any *DbGetDeviceClassListClass::execute(Tango::DeviceImpl *device, TANGO_
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceDomainListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceDomainListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceDomainListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_domain_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceExportedListClass::execute()
@@ -900,14 +894,14 @@ CORBA::Any *DbGetDeviceDomainListClass::execute(Tango::DeviceImpl *device, TANGO
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceExportedListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceExportedListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceExportedListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_exported_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceFamilyListClass::execute()
@@ -919,14 +913,14 @@ CORBA::Any *DbGetDeviceExportedListClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceFamilyListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceFamilyListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceFamilyListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_family_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceInfoClass::execute()
@@ -938,14 +932,14 @@ CORBA::Any *DbGetDeviceFamilyListClass::execute(Tango::DeviceImpl *device, TANGO
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceInfoClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceInfoClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_info(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceListClass::execute()
@@ -957,14 +951,14 @@ CORBA::Any *DbGetDeviceInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceListClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceWideListClass::execute()
@@ -976,14 +970,14 @@ CORBA::Any *DbGetDeviceListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceWideListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceWideListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceWideListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_wide_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceMemberListClass::execute()
@@ -995,14 +989,14 @@ CORBA::Any *DbGetDeviceWideListClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceMemberListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceMemberListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceMemberListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_member_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDevicePropertyClass::execute()
@@ -1014,14 +1008,14 @@ CORBA::Any *DbGetDeviceMemberListClass::execute(Tango::DeviceImpl *device, TANGO
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDevicePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDevicePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDevicePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_property(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDevicePropertyHistClass::execute()
@@ -1033,14 +1027,14 @@ CORBA::Any *DbGetDevicePropertyClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDevicePropertyHistClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDevicePropertyHistClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDevicePropertyHistClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_property_hist(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDevicePropertyListClass::execute()
@@ -1052,14 +1046,14 @@ CORBA::Any *DbGetDevicePropertyHistClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDevicePropertyListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDevicePropertyListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDevicePropertyListClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_property_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDeviceServerClassListClass::execute()
@@ -1071,14 +1065,14 @@ CORBA::Any *DbGetDevicePropertyListClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDeviceServerClassListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDeviceServerClassListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDeviceServerClassListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_device_server_class_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetExportdDeviceListForClassClass::execute()
@@ -1090,14 +1084,14 @@ CORBA::Any *DbGetDeviceServerClassListClass::execute(Tango::DeviceImpl *device, 
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetExportdDeviceListForClassClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetExportdDeviceListForClassClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetExportdDeviceListForClassClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_exportd_device_list_for_class(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetHostListClass::execute()
@@ -1109,14 +1103,14 @@ CORBA::Any *DbGetExportdDeviceListForClassClass::execute(Tango::DeviceImpl *devi
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetHostListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetHostListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetHostListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_host_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetHostServerListClass::execute()
@@ -1128,14 +1122,14 @@ CORBA::Any *DbGetHostListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetHostServerListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetHostServerListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetHostServerListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_host_server_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetHostServersInfoClass::execute()
@@ -1147,14 +1141,14 @@ CORBA::Any *DbGetHostServerListClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetHostServersInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetHostServersInfoClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetHostServersInfoClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_host_servers_info(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetInstanceNameListClass::execute()
@@ -1166,14 +1160,14 @@ CORBA::Any *DbGetHostServersInfoClass::execute(Tango::DeviceImpl *device, TANGO_
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetInstanceNameListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetInstanceNameListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetInstanceNameListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_instance_name_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetObjectListClass::execute()
@@ -1185,14 +1179,14 @@ CORBA::Any *DbGetInstanceNameListClass::execute(Tango::DeviceImpl *device, TANGO
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetObjectListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetObjectListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetObjectListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_object_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetPropertyClass::execute()
@@ -1204,14 +1198,14 @@ CORBA::Any *DbGetObjectListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetPropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetPropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_property(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetPropertyHistClass::execute()
@@ -1223,14 +1217,14 @@ CORBA::Any *DbGetPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetPropertyHistClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetPropertyHistClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetPropertyHistClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_property_hist(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetPropertyListClass::execute()
@@ -1242,14 +1236,14 @@ CORBA::Any *DbGetPropertyHistClass::execute(Tango::DeviceImpl *device, TANGO_UNU
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetPropertyListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetPropertyListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetPropertyListClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_property_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetServerInfoClass::execute()
@@ -1261,14 +1255,14 @@ CORBA::Any *DbGetPropertyListClass::execute(Tango::DeviceImpl *device, TANGO_UNU
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetServerInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetServerInfoClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetServerInfoClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_server_info(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetServerListClass::execute()
@@ -1280,14 +1274,14 @@ CORBA::Any *DbGetServerInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetServerListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetServerListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetServerListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_server_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetServerNameListClass::execute()
@@ -1299,14 +1293,14 @@ CORBA::Any *DbGetServerListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetServerNameListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetServerNameListClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetServerNameListClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_server_name_list(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbImportDeviceClass::execute()
@@ -1318,14 +1312,14 @@ CORBA::Any *DbGetServerNameListClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbImportDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbImportDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbImportDeviceClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_import_device(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbImportEventClass::execute()
@@ -1337,14 +1331,14 @@ CORBA::Any *DbImportDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbImportEventClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbImportEventClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbImportEventClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_import_event(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbInfoClass::execute()
@@ -1359,10 +1353,9 @@ CORBA::Any *DbImportEventClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
 CORBA::Any *DbInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 	cout2 << "DbInfoClass::execute(): arrived" << endl;
-
-	
 	return insert((static_cast<DataBase *>(device))->db_info());
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutAttributeAliasClass::execute()
@@ -1374,15 +1367,15 @@ CORBA::Any *DbInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const C
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutAttributeAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutAttributeAliasClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutAttributeAliasClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_attribute_alias(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutClassAttributePropertyClass::execute()
@@ -1394,15 +1387,15 @@ CORBA::Any *DbPutAttributeAliasClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutClassAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutClassAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutClassAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_class_attribute_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutClassAttributeProperty2Class::execute()
@@ -1414,15 +1407,15 @@ CORBA::Any *DbPutClassAttributePropertyClass::execute(Tango::DeviceImpl *device,
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutClassAttributeProperty2Class::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutClassAttributeProperty2Class::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutClassAttributeProperty2Class::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_class_attribute_property2(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutClassPropertyClass::execute()
@@ -1434,15 +1427,15 @@ CORBA::Any *DbPutClassAttributeProperty2Class::execute(Tango::DeviceImpl *device
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutClassPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutClassPropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutClassPropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_class_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutDeviceAliasClass::execute()
@@ -1454,15 +1447,15 @@ CORBA::Any *DbPutClassPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutDeviceAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutDeviceAliasClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutDeviceAliasClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_device_alias(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutDeviceAttributePropertyClass::execute()
@@ -1474,15 +1467,15 @@ CORBA::Any *DbPutDeviceAliasClass::execute(Tango::DeviceImpl *device, TANGO_UNUS
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutDeviceAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_device_attribute_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutDeviceAttributeProperty2Class::execute()
@@ -1494,15 +1487,15 @@ CORBA::Any *DbPutDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutDeviceAttributeProperty2Class::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutDeviceAttributeProperty2Class::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutDeviceAttributeProperty2Class::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_device_attribute_property2(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutDevicePropertyClass::execute()
@@ -1514,15 +1507,15 @@ CORBA::Any *DbPutDeviceAttributeProperty2Class::execute(Tango::DeviceImpl *devic
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutDevicePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutDevicePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutDevicePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_device_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutPropertyClass::execute()
@@ -1534,15 +1527,15 @@ CORBA::Any *DbPutDevicePropertyClass::execute(Tango::DeviceImpl *device, TANGO_U
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutPropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutPropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbPutServerInfoClass::execute()
@@ -1554,15 +1547,15 @@ CORBA::Any *DbPutPropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbPutServerInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbPutServerInfoClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbPutServerInfoClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_put_server_info(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbUnExportDeviceClass::execute()
@@ -1574,15 +1567,15 @@ CORBA::Any *DbPutServerInfoClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbUnExportDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbUnExportDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbUnExportDeviceClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_un_export_device(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbUnExportEventClass::execute()
@@ -1594,15 +1587,15 @@ CORBA::Any *DbUnExportDeviceClass::execute(Tango::DeviceImpl *device, TANGO_UNUS
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbUnExportEventClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbUnExportEventClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbUnExportEventClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_un_export_event(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbUnExportServerClass::execute()
@@ -1614,15 +1607,15 @@ CORBA::Any *DbUnExportEventClass::execute(Tango::DeviceImpl *device, TANGO_UNUSE
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbUnExportServerClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbUnExportServerClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbUnExportServerClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_un_export_server(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		ResetTimingValuesClass::execute()
@@ -1637,11 +1630,10 @@ CORBA::Any *DbUnExportServerClass::execute(Tango::DeviceImpl *device, TANGO_UNUS
 CORBA::Any *ResetTimingValuesClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 	cout2 << "ResetTimingValuesClass::execute(): arrived" << endl;
-
-	
 	((static_cast<DataBase *>(device))->reset_timing_values());
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetDataForServerCacheClass::execute()
@@ -1653,14 +1645,14 @@ CORBA::Any *ResetTimingValuesClass::execute(Tango::DeviceImpl *device, TANGO_UNU
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbGetDataForServerCacheClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbGetDataForServerCacheClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbGetDataForServerCacheClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_get_data_for_server_cache(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbDeleteAllDeviceAttributePropertyClass::execute()
@@ -1672,15 +1664,15 @@ CORBA::Any *DbGetDataForServerCacheClass::execute(Tango::DeviceImpl *device, TAN
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbDeleteAllDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbDeleteAllDeviceAttributePropertyClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbDeleteAllDeviceAttributePropertyClass::execute(): arrived" << endl;
-
-	const Tango::DevVarStringArray	*argin;
+	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
 	((static_cast<DataBase *>(device))->db_delete_all_device_attribute_property(argin));
 	return new CORBA::Any();
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbMySqlSelectClass::execute()
@@ -1692,14 +1684,14 @@ CORBA::Any *DbDeleteAllDeviceAttributePropertyClass::execute(Tango::DeviceImpl *
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *DbMySqlSelectClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DbMySqlSelectClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "DbMySqlSelectClass::execute(): arrived" << endl;
-
-	Tango::DevString	argin;
+	Tango::DevString argin;
 	extract(in_any, argin);
 	return insert((static_cast<DataBase *>(device))->db_my_sql_select(argin));
 }
+
 //--------------------------------------------------------
 /**
  * method : 		DbGetCSDbServerListClass::execute()
@@ -1714,24 +1706,55 @@ CORBA::Any *DbMySqlSelectClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(
 CORBA::Any *DbGetCSDbServerListClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 	cout2 << "DbGetCSDbServerListClass::execute(): arrived" << endl;
-
-	
 	return insert((static_cast<DataBase *>(device))->db_get_csdb_server_list());
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		DbGetAttributeAlias2Class::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *DbGetAttributeAlias2Class::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "DbGetAttributeAlias2Class::execute(): arrived" << endl;
+	Tango::DevString argin;
+	extract(in_any, argin);
+	return insert((static_cast<DataBase *>(device))->db_get_attribute_alias2(argin));
+}
 
+//--------------------------------------------------------
+/**
+ * method : 		DbGetAliasAttributeClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *DbGetAliasAttributeClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "DbGetAliasAttributeClass::execute(): arrived" << endl;
+	Tango::DevString argin;
+	extract(in_any, argin);
+	return insert((static_cast<DataBase *>(device))->db_get_alias_attribute(argin));
+}
 
 
 //===================================================================
 //	Properties management
 //===================================================================
-
 //--------------------------------------------------------
 /**
- * method : 		DataBaseClass::get_class_property
- * description : 	Get the class property for specified name.
- *
- * @param	name  The property name
+ *	Method      : DataBaseClass::get_class_property()
+ *	Description : Get the class property for specified name.
  */
 //--------------------------------------------------------
 Tango::DbDatum DataBaseClass::get_class_property(string &prop_name)
@@ -1743,10 +1766,9 @@ Tango::DbDatum DataBaseClass::get_class_property(string &prop_name)
 	return Tango::DbDatum(prop_name);
 }
 
-
 //--------------------------------------------------------
 /**
- *	Method      : DataBase::DataBaseClass::get_default_device_property()()
+ *	Method      : DataBaseClass::get_default_device_property()
  *	Description : Return the default value for device property.
  */
 //--------------------------------------------------------
@@ -1759,10 +1781,9 @@ Tango::DbDatum DataBaseClass::get_default_device_property(string &prop_name)
 	return Tango::DbDatum(prop_name);
 }
 
-
 //--------------------------------------------------------
 /**
- *	Method      : DataBase::DataBaseClass::get_default_class_property()()
+ *	Method      : DataBaseClass::get_default_class_property()
  *	Description : Return the default value for class property.
  */
 //--------------------------------------------------------
@@ -1778,22 +1799,11 @@ Tango::DbDatum DataBaseClass::get_default_class_property(string &prop_name)
 
 //--------------------------------------------------------
 /**
- *	Method      : DataBase::DataBaseClass::get_class_property()
- *	Description : //	Add your own code to initialize
- */
-//--------------------------------------------------------
-void DataBaseClass::get_class_property()
-{
-}
-
-
-//--------------------------------------------------------
-/**
- *	Method      : DataBase::DataBaseClass::set_default_property()
+ *	Method      : DataBaseClass::set_default_property()
  *	Description : Set default property (class and device) for wizard.
- *	              For each property, add to wizard property name and description.
- *	              If default value has been set, add it to wizard property and.
- *	              store it in a DbDatum.
+ *                For each property, add to wizard property name and description.
+ *                If default value has been set, add it to wizard property and
+ *                store it in a DbDatum.
  */
 //--------------------------------------------------------
 void DataBaseClass::set_default_property()
@@ -1802,16 +1812,15 @@ void DataBaseClass::set_default_property()
 	string	prop_desc;
 	string	prop_def;
 	vector<string>	vect_data;
-	
+
 	//	Set Default Class Properties
 
-	//	Set Default Device Properties
+	//	Set Default device Properties
 }
-
 
 //--------------------------------------------------------
 /**
- *	Method      : DataBase::DataBaseClass::write_class_property()
+ *	Method      : DataBaseClass::write_class_property()
  *	Description : Set class description fields as property in database
  */
 //--------------------------------------------------------
@@ -1838,11 +1847,11 @@ void DataBaseClass::write_class_property()
 	str_desc.push_back("This class manage the TANGO database.");
 	description << str_desc;
 	data.push_back(description);
-		
+
 	//	put cvs or svn location
 	string	filename("DataBase");
 	filename += "Class.cpp";
-	
+
 	// check for cvs information
 	string	src_path(CvsPath);
 	start = src_path.find("/");
@@ -1865,6 +1874,7 @@ void DataBaseClass::write_class_property()
 			data.push_back(cvs_loc);
 		}
 	}
+
 	// check for svn information
 	else
 	{
@@ -1939,7 +1949,7 @@ void DataBaseClass::write_class_property()
 	//  Put inheritance
 	Tango::DbDatum	inher_datum("InheritedFrom");
 	vector<string> inheritance;
-	inheritance.push_back("Device_4Impl");
+	inheritance.push_back("Tango::Device_4Impl");
 	inher_datum << inheritance;
 	data.push_back(inher_datum);
 
@@ -1947,280 +1957,232 @@ void DataBaseClass::write_class_property()
 	get_db_class()->put_property(data);
 }
 
-
-
-
 //===================================================================
 //	Factory methods
 //===================================================================
 
-
 //--------------------------------------------------------
 /**
- * method : 		DataBaseClass::device_factory
- * description : 	Create the device object(s)
- *                  and store them in the device list
- *
- * @param	*devlist_ptr	The device name list
+ *	Method      : DataBaseClass::device_factory()
+ *	Description : Create the device object(s)
+ *                and store them in the device list
  */
 //--------------------------------------------------------
 void DataBaseClass::device_factory(const Tango::DevVarStringArray *devlist_ptr)
 {
-
-	device_list.push_back(new DataBase(this, DataBase::db_name.c_str(),
-                                    	"TANGO database device server"));
-	export_device(device_list[0],"database");
+device_list.push_back(new DataBase(this, DataBase::db_name.c_str(),
+									"TANGO database device server"));
+export_device(device_list[0],"database");
 }
-
-
 //--------------------------------------------------------
 /**
- *	Method      : DataBase::DataBaseClass::attribute_factory()
+ *	Method      : DataBaseClass::attribute_factory()
  *	Description : Create the attribute object(s)
- *	              and store them in the attribute list
+ *                and store them in the attribute list
  */
 //--------------------------------------------------------
 void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 {
-	/*----- PROTECTED REGION ID(DataBase::Class::attribute_factory_before) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::attribute_factory_before) ENABLED START -----*/
 
 	//	Add your own code
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::attribute_factory_before
-
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::attribute_factory_before
 	//	Attribute : StoredProcedureRelease
 	StoredProcedureReleaseAttrib	*storedprocedurerelease = new StoredProcedureReleaseAttrib();
 	Tango::UserDefaultAttrProp	storedprocedurerelease_prop;
-	//	description	not set for	StoredProcedureRelease
-	//	label	not set for	StoredProcedureRelease
-	//	unit	not set for	StoredProcedureRelease
-	//	standard_unit	not set for	StoredProcedureRelease
-	//	display_unit	not set for	StoredProcedureRelease
-	//	format	not set for	StoredProcedureRelease
-	//	max_value	not set for	StoredProcedureRelease
-	//	min_value	not set for	StoredProcedureRelease
-	//	max_alarm	not set for	StoredProcedureRelease
-	//	min_alarm	not set for	StoredProcedureRelease
-	//	max_warning	not set for	StoredProcedureRelease
-	//	min_warning	not set for	StoredProcedureRelease
-	//	delta_t	not set for	StoredProcedureRelease
-	//	delta_val	not set for	StoredProcedureRelease
-
+	//	description	not set for StoredProcedureRelease
+	//	label	not set for StoredProcedureRelease
+	//	unit	not set for StoredProcedureRelease
+	//	standard_unit	not set for StoredProcedureRelease
+	//	display_unit	not set for StoredProcedureRelease
+	//	format	not set for StoredProcedureRelease
+	//	max_value	not set for StoredProcedureRelease
+	//	min_value	not set for StoredProcedureRelease
+	//	max_alarm	not set for StoredProcedureRelease
+	//	min_alarm	not set for StoredProcedureRelease
+	//	max_warning	not set for StoredProcedureRelease
+	//	min_warning	not set for StoredProcedureRelease
+	//	delta_t	not set for StoredProcedureRelease
+	//	delta_val	not set for StoredProcedureRelease
+	
 	storedprocedurerelease->set_default_properties(storedprocedurerelease_prop);
 	storedprocedurerelease->set_polling_period(0);
 	storedprocedurerelease->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	StoredProcedureRelease does not fire change event
-	//	StoredProcedureRelease does not fire archive event
-	//	StoredProcedureRelease does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(storedprocedurerelease);
-	
+
 	//	Attribute : Timing_average
 	Timing_averageAttrib	*timing_average = new Timing_averageAttrib();
 	Tango::UserDefaultAttrProp	timing_average_prop;
-	//	description	not set for	Timing_average
-	//	label	not set for	Timing_average
-	//	unit	not set for	Timing_average
-	//	standard_unit	not set for	Timing_average
-	//	display_unit	not set for	Timing_average
-	//	format	not set for	Timing_average
-	//	max_value	not set for	Timing_average
-	//	min_value	not set for	Timing_average
-	//	max_alarm	not set for	Timing_average
-	//	min_alarm	not set for	Timing_average
-	//	max_warning	not set for	Timing_average
-	//	min_warning	not set for	Timing_average
-	//	delta_t	not set for	Timing_average
-	//	delta_val	not set for	Timing_average
-
+	//	description	not set for Timing_average
+	//	label	not set for Timing_average
+	//	unit	not set for Timing_average
+	//	standard_unit	not set for Timing_average
+	//	display_unit	not set for Timing_average
+	//	format	not set for Timing_average
+	//	max_value	not set for Timing_average
+	//	min_value	not set for Timing_average
+	//	max_alarm	not set for Timing_average
+	//	min_alarm	not set for Timing_average
+	//	max_warning	not set for Timing_average
+	//	min_warning	not set for Timing_average
+	//	delta_t	not set for Timing_average
+	//	delta_val	not set for Timing_average
+	
 	timing_average->set_default_properties(timing_average_prop);
 	timing_average->set_polling_period(0);
 	timing_average->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	Timing_average does not fire change event
-	//	Timing_average does not fire archive event
-	//	Timing_average does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(timing_average);
-	
+
 	//	Attribute : Timing_minimum
 	Timing_minimumAttrib	*timing_minimum = new Timing_minimumAttrib();
 	Tango::UserDefaultAttrProp	timing_minimum_prop;
-	//	description	not set for	Timing_minimum
-	//	label	not set for	Timing_minimum
-	//	unit	not set for	Timing_minimum
-	//	standard_unit	not set for	Timing_minimum
-	//	display_unit	not set for	Timing_minimum
-	//	format	not set for	Timing_minimum
-	//	max_value	not set for	Timing_minimum
-	//	min_value	not set for	Timing_minimum
-	//	max_alarm	not set for	Timing_minimum
-	//	min_alarm	not set for	Timing_minimum
-	//	max_warning	not set for	Timing_minimum
-	//	min_warning	not set for	Timing_minimum
-	//	delta_t	not set for	Timing_minimum
-	//	delta_val	not set for	Timing_minimum
-
+	//	description	not set for Timing_minimum
+	//	label	not set for Timing_minimum
+	//	unit	not set for Timing_minimum
+	//	standard_unit	not set for Timing_minimum
+	//	display_unit	not set for Timing_minimum
+	//	format	not set for Timing_minimum
+	//	max_value	not set for Timing_minimum
+	//	min_value	not set for Timing_minimum
+	//	max_alarm	not set for Timing_minimum
+	//	min_alarm	not set for Timing_minimum
+	//	max_warning	not set for Timing_minimum
+	//	min_warning	not set for Timing_minimum
+	//	delta_t	not set for Timing_minimum
+	//	delta_val	not set for Timing_minimum
+	
 	timing_minimum->set_default_properties(timing_minimum_prop);
 	timing_minimum->set_polling_period(0);
 	timing_minimum->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	Timing_minimum does not fire change event
-	//	Timing_minimum does not fire archive event
-	//	Timing_minimum does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(timing_minimum);
-	
+
 	//	Attribute : Timing_maximum
 	Timing_maximumAttrib	*timing_maximum = new Timing_maximumAttrib();
 	Tango::UserDefaultAttrProp	timing_maximum_prop;
-	//	description	not set for	Timing_maximum
-	//	label	not set for	Timing_maximum
-	//	unit	not set for	Timing_maximum
-	//	standard_unit	not set for	Timing_maximum
-	//	display_unit	not set for	Timing_maximum
-	//	format	not set for	Timing_maximum
-	//	max_value	not set for	Timing_maximum
-	//	min_value	not set for	Timing_maximum
-	//	max_alarm	not set for	Timing_maximum
-	//	min_alarm	not set for	Timing_maximum
-	//	max_warning	not set for	Timing_maximum
-	//	min_warning	not set for	Timing_maximum
-	//	delta_t	not set for	Timing_maximum
-	//	delta_val	not set for	Timing_maximum
-
+	//	description	not set for Timing_maximum
+	//	label	not set for Timing_maximum
+	//	unit	not set for Timing_maximum
+	//	standard_unit	not set for Timing_maximum
+	//	display_unit	not set for Timing_maximum
+	//	format	not set for Timing_maximum
+	//	max_value	not set for Timing_maximum
+	//	min_value	not set for Timing_maximum
+	//	max_alarm	not set for Timing_maximum
+	//	min_alarm	not set for Timing_maximum
+	//	max_warning	not set for Timing_maximum
+	//	min_warning	not set for Timing_maximum
+	//	delta_t	not set for Timing_maximum
+	//	delta_val	not set for Timing_maximum
+	
 	timing_maximum->set_default_properties(timing_maximum_prop);
 	timing_maximum->set_polling_period(0);
 	timing_maximum->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	Timing_maximum does not fire change event
-	//	Timing_maximum does not fire archive event
-	//	Timing_maximum does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(timing_maximum);
-	
+
 	//	Attribute : Timing_calls
 	Timing_callsAttrib	*timing_calls = new Timing_callsAttrib();
 	Tango::UserDefaultAttrProp	timing_calls_prop;
-	//	description	not set for	Timing_calls
-	//	label	not set for	Timing_calls
-	//	unit	not set for	Timing_calls
-	//	standard_unit	not set for	Timing_calls
-	//	display_unit	not set for	Timing_calls
-	//	format	not set for	Timing_calls
-	//	max_value	not set for	Timing_calls
-	//	min_value	not set for	Timing_calls
-	//	max_alarm	not set for	Timing_calls
-	//	min_alarm	not set for	Timing_calls
-	//	max_warning	not set for	Timing_calls
-	//	min_warning	not set for	Timing_calls
-	//	delta_t	not set for	Timing_calls
-	//	delta_val	not set for	Timing_calls
-
+	//	description	not set for Timing_calls
+	//	label	not set for Timing_calls
+	//	unit	not set for Timing_calls
+	//	standard_unit	not set for Timing_calls
+	//	display_unit	not set for Timing_calls
+	//	format	not set for Timing_calls
+	//	max_value	not set for Timing_calls
+	//	min_value	not set for Timing_calls
+	//	max_alarm	not set for Timing_calls
+	//	min_alarm	not set for Timing_calls
+	//	max_warning	not set for Timing_calls
+	//	min_warning	not set for Timing_calls
+	//	delta_t	not set for Timing_calls
+	//	delta_val	not set for Timing_calls
+	
 	timing_calls->set_default_properties(timing_calls_prop);
 	timing_calls->set_polling_period(0);
 	timing_calls->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	Timing_calls does not fire change event
-	//	Timing_calls does not fire archive event
-	//	Timing_calls does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(timing_calls);
-	
+
 	//	Attribute : Timing_index
 	Timing_indexAttrib	*timing_index = new Timing_indexAttrib();
 	Tango::UserDefaultAttrProp	timing_index_prop;
-	//	description	not set for	Timing_index
-	//	label	not set for	Timing_index
-	//	unit	not set for	Timing_index
-	//	standard_unit	not set for	Timing_index
-	//	display_unit	not set for	Timing_index
-	//	format	not set for	Timing_index
-	//	max_value	not set for	Timing_index
-	//	min_value	not set for	Timing_index
-	//	max_alarm	not set for	Timing_index
-	//	min_alarm	not set for	Timing_index
-	//	max_warning	not set for	Timing_index
-	//	min_warning	not set for	Timing_index
-	//	delta_t	not set for	Timing_index
-	//	delta_val	not set for	Timing_index
-
+	//	description	not set for Timing_index
+	//	label	not set for Timing_index
+	//	unit	not set for Timing_index
+	//	standard_unit	not set for Timing_index
+	//	display_unit	not set for Timing_index
+	//	format	not set for Timing_index
+	//	max_value	not set for Timing_index
+	//	min_value	not set for Timing_index
+	//	max_alarm	not set for Timing_index
+	//	min_alarm	not set for Timing_index
+	//	max_warning	not set for Timing_index
+	//	min_warning	not set for Timing_index
+	//	delta_t	not set for Timing_index
+	//	delta_val	not set for Timing_index
+	
 	timing_index->set_default_properties(timing_index_prop);
 	timing_index->set_polling_period(0);
 	timing_index->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	Timing_index does not fire change event
-	//	Timing_index does not fire archive event
-	//	Timing_index does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(timing_index);
-	
+
 	//	Attribute : Timing_info
 	Timing_infoAttrib	*timing_info = new Timing_infoAttrib();
 	Tango::UserDefaultAttrProp	timing_info_prop;
-	//	description	not set for	Timing_info
-	//	label	not set for	Timing_info
-	//	unit	not set for	Timing_info
-	//	standard_unit	not set for	Timing_info
-	//	display_unit	not set for	Timing_info
-	//	format	not set for	Timing_info
-	//	max_value	not set for	Timing_info
-	//	min_value	not set for	Timing_info
-	//	max_alarm	not set for	Timing_info
-	//	min_alarm	not set for	Timing_info
-	//	max_warning	not set for	Timing_info
-	//	min_warning	not set for	Timing_info
-	//	delta_t	not set for	Timing_info
-	//	delta_val	not set for	Timing_info
-
+	//	description	not set for Timing_info
+	//	label	not set for Timing_info
+	//	unit	not set for Timing_info
+	//	standard_unit	not set for Timing_info
+	//	display_unit	not set for Timing_info
+	//	format	not set for Timing_info
+	//	max_value	not set for Timing_info
+	//	min_value	not set for Timing_info
+	//	max_alarm	not set for Timing_info
+	//	min_alarm	not set for Timing_info
+	//	max_warning	not set for Timing_info
+	//	min_warning	not set for Timing_info
+	//	delta_t	not set for Timing_info
+	//	delta_val	not set for Timing_info
+	
 	timing_info->set_default_properties(timing_info_prop);
 	timing_info->set_polling_period(0);
 	timing_info->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	Timing_info does not fire change event
-	//	Timing_info does not fire archive event
-	//	Timing_info does not fire data_ready event
-
+	//	Not Memorized
+	//	Not set to hardware at init
 	att_list.push_back(timing_info);
-	
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());
-
-	/*----- PROTECTED REGION ID(DataBase::Class::attribute_factory_after) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::attribute_factory_after) ENABLED START -----*/
 
 	//	Add your own code
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::attribute_factory_after
-
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::attribute_factory_after
 }
-
-
-
 //--------------------------------------------------------
 /**
- *	Method      : DataBase::DataBaseClass::command_factory()
+ *	Method      : DataBaseClass::command_factory()
  *	Description : Create the command object(s)
- *	              and store them in the command list
+ *                and store them in the command list
  */
 //--------------------------------------------------------
 void DataBaseClass::command_factory()
 {
-	/*----- PROTECTED REGION ID(DataBase::Class::command_factory_before) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::command_factory_before) ENABLED START -----*/
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::command_factory_before
-
-
-	
-	//	Create DbAddDevice command object
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::command_factory_before
 	DbAddDeviceClass	*pDbAddDeviceCmd =
 		new DbAddDeviceClass("DbAddDevice",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2228,10 +2190,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbAddDeviceCmd);
-
-
-	
-	//	Create DbAddServer command object
 	DbAddServerClass	*pDbAddServerCmd =
 		new DbAddServerClass("DbAddServer",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2239,10 +2197,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbAddServerCmd);
-
-
-	
-	//	Create DbDeleteAttributeAlias command object
 	DbDeleteAttributeAliasClass	*pDbDeleteAttributeAliasCmd =
 		new DbDeleteAttributeAliasClass("DbDeleteAttributeAlias",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -2250,10 +2204,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteAttributeAliasCmd);
-
-
-	
-	//	Create DbDeleteClassAttribute command object
 	DbDeleteClassAttributeClass	*pDbDeleteClassAttributeCmd =
 		new DbDeleteClassAttributeClass("DbDeleteClassAttribute",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2261,10 +2211,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteClassAttributeCmd);
-
-
-	
-	//	Create DbDeleteClassAttributeProperty command object
 	DbDeleteClassAttributePropertyClass	*pDbDeleteClassAttributePropertyCmd =
 		new DbDeleteClassAttributePropertyClass("DbDeleteClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2272,10 +2218,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteClassAttributePropertyCmd);
-
-
-	
-	//	Create DbDeleteClassProperty command object
 	DbDeleteClassPropertyClass	*pDbDeleteClassPropertyCmd =
 		new DbDeleteClassPropertyClass("DbDeleteClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2283,10 +2225,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteClassPropertyCmd);
-
-
-	
-	//	Create DbDeleteDevice command object
 	DbDeleteDeviceClass	*pDbDeleteDeviceCmd =
 		new DbDeleteDeviceClass("DbDeleteDevice",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -2294,10 +2232,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceCmd);
-
-
-	
-	//	Create DbDeleteDeviceAlias command object
 	DbDeleteDeviceAliasClass	*pDbDeleteDeviceAliasCmd =
 		new DbDeleteDeviceAliasClass("DbDeleteDeviceAlias",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -2305,10 +2239,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceAliasCmd);
-
-
-	
-	//	Create DbDeleteDeviceAttribute command object
 	DbDeleteDeviceAttributeClass	*pDbDeleteDeviceAttributeCmd =
 		new DbDeleteDeviceAttributeClass("DbDeleteDeviceAttribute",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2316,10 +2246,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceAttributeCmd);
-
-
-	
-	//	Create DbDeleteDeviceAttributeProperty command object
 	DbDeleteDeviceAttributePropertyClass	*pDbDeleteDeviceAttributePropertyCmd =
 		new DbDeleteDeviceAttributePropertyClass("DbDeleteDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2327,10 +2253,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDeviceAttributePropertyCmd);
-
-
-	
-	//	Create DbDeleteDeviceProperty command object
 	DbDeleteDevicePropertyClass	*pDbDeleteDevicePropertyCmd =
 		new DbDeleteDevicePropertyClass("DbDeleteDeviceProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2338,10 +2260,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteDevicePropertyCmd);
-
-
-	
-	//	Create DbDeleteProperty command object
 	DbDeletePropertyClass	*pDbDeletePropertyCmd =
 		new DbDeletePropertyClass("DbDeleteProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2349,10 +2267,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeletePropertyCmd);
-
-
-	
-	//	Create DbDeleteServer command object
 	DbDeleteServerClass	*pDbDeleteServerCmd =
 		new DbDeleteServerClass("DbDeleteServer",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -2360,10 +2274,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteServerCmd);
-
-
-	
-	//	Create DbDeleteServerInfo command object
 	DbDeleteServerInfoClass	*pDbDeleteServerInfoCmd =
 		new DbDeleteServerInfoClass("DbDeleteServerInfo",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -2371,10 +2281,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteServerInfoCmd);
-
-
-	
-	//	Create DbExportDevice command object
 	DbExportDeviceClass	*pDbExportDeviceCmd =
 		new DbExportDeviceClass("DbExportDevice",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2382,10 +2288,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbExportDeviceCmd);
-
-
-	
-	//	Create DbExportEvent command object
 	DbExportEventClass	*pDbExportEventCmd =
 		new DbExportEventClass("DbExportEvent",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2393,10 +2295,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbExportEventCmd);
-
-
-	
-	//	Create DbGetAliasDevice command object
 	DbGetAliasDeviceClass	*pDbGetAliasDeviceCmd =
 		new DbGetAliasDeviceClass("DbGetAliasDevice",
 			Tango::DEV_STRING, Tango::DEV_STRING,
@@ -2404,10 +2302,6 @@ void DataBaseClass::command_factory()
 			"Device name",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAliasDeviceCmd);
-
-
-	
-	//	Create DbGetAttributeAlias command object
 	DbGetAttributeAliasClass	*pDbGetAttributeAliasCmd =
 		new DbGetAttributeAliasClass("DbGetAttributeAlias",
 			Tango::DEV_STRING, Tango::DEV_STRING,
@@ -2415,10 +2309,6 @@ void DataBaseClass::command_factory()
 			"The attribute name (device/attribute)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAttributeAliasCmd);
-
-
-	
-	//	Create DbGetAttributeAliasList command object
 	DbGetAttributeAliasListClass	*pDbGetAttributeAliasListCmd =
 		new DbGetAttributeAliasListClass("DbGetAttributeAliasList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2426,10 +2316,6 @@ void DataBaseClass::command_factory()
 			"attribute aliases",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAttributeAliasListCmd);
-
-
-	
-	//	Create DbGetClassAttributeList command object
 	DbGetClassAttributeListClass	*pDbGetClassAttributeListCmd =
 		new DbGetClassAttributeListClass("DbGetClassAttributeList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2437,10 +2323,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Class attribute name\nStr[n] = Class attribute name",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributeListCmd);
-
-
-	
-	//	Create DbGetClassAttributeProperty command object
 	DbGetClassAttributePropertyClass	*pDbGetClassAttributePropertyCmd =
 		new DbGetClassAttributePropertyClass("DbGetClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2448,10 +2330,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Tango class name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributePropertyCmd);
-
-
-	
-	//	Create DbGetClassAttributeProperty2 command object
 	DbGetClassAttributeProperty2Class	*pDbGetClassAttributeProperty2Cmd =
 		new DbGetClassAttributeProperty2Class("DbGetClassAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2459,10 +2337,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Tango class name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value number (array case)\nStr[4] = Attribute property 1 value\nStr[n] = Attribute property 1 value (array case)\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value number (array case)\nStr[n + 3] = Attribute property 2 value\nStr[n + m] = Attribute property 2 value (array case)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributeProperty2Cmd);
-
-
-	
-	//	Create DbGetClassAttributePropertyHist command object
 	DbGetClassAttributePropertyHistClass	*pDbGetClassAttributePropertyHistCmd =
 		new DbGetClassAttributePropertyHistClass("DbGetClassAttributePropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2470,10 +2344,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Attribute name\nStr[1] = Property name\nStr[2] = date\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassAttributePropertyHistCmd);
-
-
-	
-	//	Create DbGetClassForDevice command object
 	DbGetClassForDeviceClass	*pDbGetClassForDeviceCmd =
 		new DbGetClassForDeviceClass("DbGetClassForDevice",
 			Tango::DEV_STRING, Tango::DEV_STRING,
@@ -2481,10 +2351,6 @@ void DataBaseClass::command_factory()
 			"Device Tango class",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassForDeviceCmd);
-
-
-	
-	//	Create DbGetClassInheritanceForDevice command object
 	DbGetClassInheritanceForDeviceClass	*pDbGetClassInheritanceForDeviceCmd =
 		new DbGetClassInheritanceForDeviceClass("DbGetClassInheritanceForDevice",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2492,10 +2358,6 @@ void DataBaseClass::command_factory()
 			"Classes off the specified device.\n[0] - is the class of the device.\n[1] - is the class from the device class is inherited.\n........and so on",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassInheritanceForDeviceCmd);
-
-
-	
-	//	Create DbGetClassList command object
 	DbGetClassListClass	*pDbGetClassListCmd =
 		new DbGetClassListClass("DbGetClassList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2503,10 +2365,6 @@ void DataBaseClass::command_factory()
 			"Class list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassListCmd);
-
-
-	
-	//	Create DbGetClassProperty command object
 	DbGetClassPropertyClass	*pDbGetClassPropertyCmd =
 		new DbGetClassPropertyClass("DbGetClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2514,10 +2372,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Tango class\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value\nStr[n] = Propery value (array case)\n....",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyCmd);
-
-
-	
-	//	Create DbGetClassPropertyHist command object
 	DbGetClassPropertyHistClass	*pDbGetClassPropertyHistCmd =
 		new DbGetClassPropertyHistClass("DbGetClassPropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2525,10 +2379,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Property name\nStr[1] = date\nStr[2] = Property value number (array case)\nStr[3] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyHistCmd);
-
-
-	
-	//	Create DbGetClassPropertyList command object
 	DbGetClassPropertyListClass	*pDbGetClassPropertyListCmd =
 		new DbGetClassPropertyListClass("DbGetClassPropertyList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2536,10 +2386,6 @@ void DataBaseClass::command_factory()
 			"Property name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyListCmd);
-
-
-	
-	//	Create DbGetDeviceAlias command object
 	DbGetDeviceAliasClass	*pDbGetDeviceAliasCmd =
 		new DbGetDeviceAliasClass("DbGetDeviceAlias",
 			Tango::DEV_STRING, Tango::DEV_STRING,
@@ -2547,10 +2393,6 @@ void DataBaseClass::command_factory()
 			"The alias found",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAliasCmd);
-
-
-	
-	//	Create DbGetDeviceAliasList command object
 	DbGetDeviceAliasListClass	*pDbGetDeviceAliasListCmd =
 		new DbGetDeviceAliasListClass("DbGetDeviceAliasList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2558,10 +2400,6 @@ void DataBaseClass::command_factory()
 			"Device alias list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAliasListCmd);
-
-
-	
-	//	Create DbGetDeviceAttributeList command object
 	DbGetDeviceAttributeListClass	*pDbGetDeviceAttributeListCmd =
 		new DbGetDeviceAttributeListClass("DbGetDeviceAttributeList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2569,10 +2407,6 @@ void DataBaseClass::command_factory()
 			"attribute name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributeListCmd);
-
-
-	
-	//	Create DbGetDeviceAttributeProperty command object
 	DbGetDeviceAttributePropertyClass	*pDbGetDeviceAttributePropertyCmd =
 		new DbGetDeviceAttributePropertyClass("DbGetDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2580,10 +2414,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Device name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributePropertyCmd);
-
-
-	
-	//	Create DbGetDeviceAttributeProperty2 command object
 	DbGetDeviceAttributeProperty2Class	*pDbGetDeviceAttributeProperty2Cmd =
 		new DbGetDeviceAttributeProperty2Class("DbGetDeviceAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2591,10 +2421,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Device name\nStr[1] = Attribute property  number\nStr[2] = Attribute property 1 name\nStr[3] = Attribute property 1 value number (array case)\nStr[4] = Attribute property 1 value\nStr[n] = Attribute property 1 value (array case)\nStr[n + 1] = Attribute property 2 name\nStr[n + 2] = Attribute property 2 value number (array case)\nStr[n + 3] = Attribute property 2 value\nStr[n + m] = Attribute property 2 value (array case)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributeProperty2Cmd);
-
-
-	
-	//	Create DbGetDeviceAttributePropertyHist command object
 	DbGetDeviceAttributePropertyHistClass	*pDbGetDeviceAttributePropertyHistCmd =
 		new DbGetDeviceAttributePropertyHistClass("DbGetDeviceAttributePropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2602,10 +2428,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Attribute name\nStr[1] = Property name\nStr[2] = date\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceAttributePropertyHistCmd);
-
-
-	
-	//	Create DbGetDeviceClassList command object
 	DbGetDeviceClassListClass	*pDbGetDeviceClassListCmd =
 		new DbGetDeviceClassListClass("DbGetDeviceClassList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2613,10 +2435,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Device name\nStr[1] = Tango class\nStr[n] = Device name\nStr[n + 1] = Tango class",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceClassListCmd);
-
-
-	
-	//	Create DbGetDeviceDomainList command object
 	DbGetDeviceDomainListClass	*pDbGetDeviceDomainListCmd =
 		new DbGetDeviceDomainListClass("DbGetDeviceDomainList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2624,10 +2442,6 @@ void DataBaseClass::command_factory()
 			"Device name domain list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceDomainListCmd);
-
-
-	
-	//	Create DbGetDeviceExportedList command object
 	DbGetDeviceExportedListClass	*pDbGetDeviceExportedListCmd =
 		new DbGetDeviceExportedListClass("DbGetDeviceExportedList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2635,10 +2449,6 @@ void DataBaseClass::command_factory()
 			"list of exported devices",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceExportedListCmd);
-
-
-	
-	//	Create DbGetDeviceFamilyList command object
 	DbGetDeviceFamilyListClass	*pDbGetDeviceFamilyListCmd =
 		new DbGetDeviceFamilyListClass("DbGetDeviceFamilyList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2646,10 +2456,6 @@ void DataBaseClass::command_factory()
 			"Family list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceFamilyListCmd);
-
-
-	
-	//	Create DbGetDeviceInfo command object
 	DbGetDeviceInfoClass	*pDbGetDeviceInfoCmd =
 		new DbGetDeviceInfoClass("DbGetDeviceInfo",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
@@ -2657,10 +2463,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Device name\nStr[1] = CORBA IOR\nStr[2] = Device version\nStr[3] = Device Server name\nStr[4] = Device Server process host name\nStr[5] = Started date (or ? if not set)\nStr[6] = Stopped date (or ? if not set)\nStr[7] = Device class\n\nLg[0] = Device exported flag\nLg[1] = Device Server process PID (or -1 if not set)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceInfoCmd);
-
-
-	
-	//	Create DbGetDeviceList command object
 	DbGetDeviceListClass	*pDbGetDeviceListCmd =
 		new DbGetDeviceListClass("DbGetDeviceList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2668,10 +2470,6 @@ void DataBaseClass::command_factory()
 			"The list of devices for specified server and class.",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceListCmd);
-
-
-	
-	//	Create DbGetDeviceWideList command object
 	DbGetDeviceWideListClass	*pDbGetDeviceWideListCmd =
 		new DbGetDeviceWideListClass("DbGetDeviceWideList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2679,10 +2477,6 @@ void DataBaseClass::command_factory()
 			"list of exported devices",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceWideListCmd);
-
-
-	
-	//	Create DbGetDeviceMemberList command object
 	DbGetDeviceMemberListClass	*pDbGetDeviceMemberListCmd =
 		new DbGetDeviceMemberListClass("DbGetDeviceMemberList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2690,10 +2484,6 @@ void DataBaseClass::command_factory()
 			"Device names member list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceMemberListCmd);
-
-
-	
-	//	Create DbGetDeviceProperty command object
 	DbGetDevicePropertyClass	*pDbGetDevicePropertyCmd =
 		new DbGetDevicePropertyClass("DbGetDeviceProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2701,10 +2491,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Device name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n (array case)\nStr[n + 1] = Property name\nStr[n + 2] = Property value number (array case)\nStr[n + 3] = Property value 1\nStr[n + m] = Property value m",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePropertyCmd);
-
-
-	
-	//	Create DbGetDevicePropertyHist command object
 	DbGetDevicePropertyHistClass	*pDbGetDevicePropertyHistCmd =
 		new DbGetDevicePropertyHistClass("DbGetDevicePropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2712,10 +2498,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Property name\nStr[1] = date\nStr[2] = Property value number (array case)\nStr[3] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePropertyHistCmd);
-
-
-	
-	//	Create DbGetDevicePropertyList command object
 	DbGetDevicePropertyListClass	*pDbGetDevicePropertyListCmd =
 		new DbGetDevicePropertyListClass("DbGetDevicePropertyList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2723,10 +2505,6 @@ void DataBaseClass::command_factory()
 			"Property name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePropertyListCmd);
-
-
-	
-	//	Create DbGetDeviceServerClassList command object
 	DbGetDeviceServerClassListClass	*pDbGetDeviceServerClassListCmd =
 		new DbGetDeviceServerClassListClass("DbGetDeviceServerClassList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2734,10 +2512,6 @@ void DataBaseClass::command_factory()
 			"list of classes for this device server",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDeviceServerClassListCmd);
-
-
-	
-	//	Create DbGetExportdDeviceListForClass command object
 	DbGetExportdDeviceListForClassClass	*pDbGetExportdDeviceListForClassCmd =
 		new DbGetExportdDeviceListForClassClass("DbGetExportdDeviceListForClass",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2745,10 +2519,6 @@ void DataBaseClass::command_factory()
 			"Device exported list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetExportdDeviceListForClassCmd);
-
-
-	
-	//	Create DbGetHostList command object
 	DbGetHostListClass	*pDbGetHostListCmd =
 		new DbGetHostListClass("DbGetHostList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2756,10 +2526,6 @@ void DataBaseClass::command_factory()
 			"Host name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetHostListCmd);
-
-
-	
-	//	Create DbGetHostServerList command object
 	DbGetHostServerListClass	*pDbGetHostServerListCmd =
 		new DbGetHostServerListClass("DbGetHostServerList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2767,10 +2533,6 @@ void DataBaseClass::command_factory()
 			"Device server process name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetHostServerListCmd);
-
-
-	
-	//	Create DbGetHostServersInfo command object
 	DbGetHostServersInfoClass	*pDbGetHostServersInfoCmd =
 		new DbGetHostServersInfoClass("DbGetHostServersInfo",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2778,10 +2540,6 @@ void DataBaseClass::command_factory()
 			"Server info for all servers running on specified host",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetHostServersInfoCmd);
-
-
-	
-	//	Create DbGetInstanceNameList command object
 	DbGetInstanceNameListClass	*pDbGetInstanceNameListCmd =
 		new DbGetInstanceNameListClass("DbGetInstanceNameList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2789,10 +2547,6 @@ void DataBaseClass::command_factory()
 			"The instance names found for specified server.",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetInstanceNameListCmd);
-
-
-	
-	//	Create DbGetObjectList command object
 	DbGetObjectListClass	*pDbGetObjectListCmd =
 		new DbGetObjectListClass("DbGetObjectList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2800,10 +2554,6 @@ void DataBaseClass::command_factory()
 			"Object name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetObjectListCmd);
-
-
-	
-	//	Create DbGetProperty command object
 	DbGetPropertyClass	*pDbGetPropertyCmd =
 		new DbGetPropertyClass("DbGetProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2811,10 +2561,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Object name\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n (array case)\nStr[n + 1] = Property name\nStr[n + 2] = Property value number (array case)\nStr[n + 3] = Property value 1\nStr[n + m] = Property value m",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetPropertyCmd);
-
-
-	
-	//	Create DbGetPropertyHist command object
 	DbGetPropertyHistClass	*pDbGetPropertyHistCmd =
 		new DbGetPropertyHistClass("DbGetPropertyHist",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2822,10 +2568,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = Property name\nStr[1] = date\nStr[2] = Property value number (array case)\nStr[3] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetPropertyHistCmd);
-
-
-	
-	//	Create DbGetPropertyList command object
 	DbGetPropertyListClass	*pDbGetPropertyListCmd =
 		new DbGetPropertyListClass("DbGetPropertyList",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -2833,10 +2575,6 @@ void DataBaseClass::command_factory()
 			"Property name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetPropertyListCmd);
-
-
-	
-	//	Create DbGetServerInfo command object
 	DbGetServerInfoClass	*pDbGetServerInfoCmd =
 		new DbGetServerInfoClass("DbGetServerInfo",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2844,10 +2582,6 @@ void DataBaseClass::command_factory()
 			"server info",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetServerInfoCmd);
-
-
-	
-	//	Create DbGetServerList command object
 	DbGetServerListClass	*pDbGetServerListCmd =
 		new DbGetServerListClass("DbGetServerList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2855,10 +2589,6 @@ void DataBaseClass::command_factory()
 			"Device server process name list",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetServerListCmd);
-
-
-	
-	//	Create DbGetServerNameList command object
 	DbGetServerNameListClass	*pDbGetServerNameListCmd =
 		new DbGetServerNameListClass("DbGetServerNameList",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
@@ -2866,10 +2596,6 @@ void DataBaseClass::command_factory()
 			"server names found.",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetServerNameListCmd);
-
-
-	
-	//	Create DbImportDevice command object
 	DbImportDeviceClass	*pDbImportDeviceCmd =
 		new DbImportDeviceClass("DbImportDevice",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
@@ -2877,10 +2603,6 @@ void DataBaseClass::command_factory()
 			"Str[0] = device name\nStr[1] = CORBA IOR\nStr[2] = device version\nStr[3] = device server process name\nStr[4] = host name\nStr[5] = Tango class name\n\nLg[0] = Exported flag\nLg[1] = Device server process PID",
 			Tango::OPERATOR);
 	command_list.push_back(pDbImportDeviceCmd);
-
-
-	
-	//	Create DbImportEvent command object
 	DbImportEventClass	*pDbImportEventCmd =
 		new DbImportEventClass("DbImportEvent",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
@@ -2888,10 +2610,6 @@ void DataBaseClass::command_factory()
 			"export information e.g. IOR",
 			Tango::OPERATOR);
 	command_list.push_back(pDbImportEventCmd);
-
-
-	
-	//	Create DbInfo command object
 	DbInfoClass	*pDbInfoCmd =
 		new DbInfoClass("DbInfo",
 			Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY,
@@ -2899,10 +2617,6 @@ void DataBaseClass::command_factory()
 			"Miscellaneous info like:\n- Device defined in database\n- Device marked as exported in database\n- Device server process defined in database\n- Device server process marked as exported in database\n- Device properties defined in database\n- Class properties defined in database\n- Device attribute properties defined in database\n- Class attribute properties defined in database\n- Object properties defined in database",
 			Tango::OPERATOR);
 	command_list.push_back(pDbInfoCmd);
-
-
-	
-	//	Create DbPutAttributeAlias command object
 	DbPutAttributeAliasClass	*pDbPutAttributeAliasCmd =
 		new DbPutAttributeAliasClass("DbPutAttributeAlias",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2910,10 +2624,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutAttributeAliasCmd);
-
-
-	
-	//	Create DbPutClassAttributeProperty command object
 	DbPutClassAttributePropertyClass	*pDbPutClassAttributePropertyCmd =
 		new DbPutClassAttributePropertyClass("DbPutClassAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2921,10 +2631,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutClassAttributePropertyCmd);
-
-
-	
-	//	Create DbPutClassAttributeProperty2 command object
 	DbPutClassAttributeProperty2Class	*pDbPutClassAttributeProperty2Cmd =
 		new DbPutClassAttributeProperty2Class("DbPutClassAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2932,10 +2638,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutClassAttributeProperty2Cmd);
-
-
-	
-	//	Create DbPutClassProperty command object
 	DbPutClassPropertyClass	*pDbPutClassPropertyCmd =
 		new DbPutClassPropertyClass("DbPutClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2943,10 +2645,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutClassPropertyCmd);
-
-
-	
-	//	Create DbPutDeviceAlias command object
 	DbPutDeviceAliasClass	*pDbPutDeviceAliasCmd =
 		new DbPutDeviceAliasClass("DbPutDeviceAlias",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2954,10 +2652,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDeviceAliasCmd);
-
-
-	
-	//	Create DbPutDeviceAttributeProperty command object
 	DbPutDeviceAttributePropertyClass	*pDbPutDeviceAttributePropertyCmd =
 		new DbPutDeviceAttributePropertyClass("DbPutDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2965,10 +2659,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDeviceAttributePropertyCmd);
-
-
-	
-	//	Create DbPutDeviceAttributeProperty2 command object
 	DbPutDeviceAttributeProperty2Class	*pDbPutDeviceAttributeProperty2Cmd =
 		new DbPutDeviceAttributeProperty2Class("DbPutDeviceAttributeProperty2",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2976,10 +2666,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDeviceAttributeProperty2Cmd);
-
-
-	
-	//	Create DbPutDeviceProperty command object
 	DbPutDevicePropertyClass	*pDbPutDevicePropertyCmd =
 		new DbPutDevicePropertyClass("DbPutDeviceProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2987,10 +2673,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutDevicePropertyCmd);
-
-
-	
-	//	Create DbPutProperty command object
 	DbPutPropertyClass	*pDbPutPropertyCmd =
 		new DbPutPropertyClass("DbPutProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -2998,10 +2680,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutPropertyCmd);
-
-
-	
-	//	Create DbPutServerInfo command object
 	DbPutServerInfoClass	*pDbPutServerInfoCmd =
 		new DbPutServerInfoClass("DbPutServerInfo",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -3009,10 +2687,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbPutServerInfoCmd);
-
-
-	
-	//	Create DbUnExportDevice command object
 	DbUnExportDeviceClass	*pDbUnExportDeviceCmd =
 		new DbUnExportDeviceClass("DbUnExportDevice",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -3020,10 +2694,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbUnExportDeviceCmd);
-
-
-	
-	//	Create DbUnExportEvent command object
 	DbUnExportEventClass	*pDbUnExportEventCmd =
 		new DbUnExportEventClass("DbUnExportEvent",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -3031,10 +2701,6 @@ void DataBaseClass::command_factory()
 			"none",
 			Tango::OPERATOR);
 	command_list.push_back(pDbUnExportEventCmd);
-
-
-	
-	//	Create DbUnExportServer command object
 	DbUnExportServerClass	*pDbUnExportServerCmd =
 		new DbUnExportServerClass("DbUnExportServer",
 			Tango::DEV_STRING, Tango::DEV_VOID,
@@ -3042,10 +2708,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbUnExportServerCmd);
-
-
-	
-	//	Create ResetTimingValues command object
 	ResetTimingValuesClass	*pResetTimingValuesCmd =
 		new ResetTimingValuesClass("ResetTimingValues",
 			Tango::DEV_VOID, Tango::DEV_VOID,
@@ -3053,10 +2715,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pResetTimingValuesCmd);
-
-
-	
-	//	Create DbGetDataForServerCache command object
 	DbGetDataForServerCacheClass	*pDbGetDataForServerCacheCmd =
 		new DbGetDataForServerCacheClass("DbGetDataForServerCache",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
@@ -3064,10 +2722,6 @@ void DataBaseClass::command_factory()
 			"All the data needed by the device server during its startup sequence. Precise list depend on the device server",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDataForServerCacheCmd);
-
-
-	
-	//	Create DbDeleteAllDeviceAttributeProperty command object
 	DbDeleteAllDeviceAttributePropertyClass	*pDbDeleteAllDeviceAttributePropertyCmd =
 		new DbDeleteAllDeviceAttributePropertyClass("DbDeleteAllDeviceAttributeProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
@@ -3075,10 +2729,6 @@ void DataBaseClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pDbDeleteAllDeviceAttributePropertyCmd);
-
-
-	
-	//	Create DbMySqlSelect command object
 	DbMySqlSelectClass	*pDbMySqlSelectCmd =
 		new DbMySqlSelectClass("DbMySqlSelect",
 			Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
@@ -3086,10 +2736,6 @@ void DataBaseClass::command_factory()
 			"MySql Select command result\n - svalues : select results\n - lvalue[n] : =0 if svalue[n] is null else =1\n (last lvalue -1) is number of rows, (last lvalue) is number of fields",
 			Tango::OPERATOR);
 	command_list.push_back(pDbMySqlSelectCmd);
-
-
-	
-	//	Create DbGetCSDbServerList command object
 	DbGetCSDbServerListClass	*pDbGetCSDbServerListCmd =
 		new DbGetCSDbServerListClass("DbGetCSDbServerList",
 			Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY,
@@ -3097,23 +2743,28 @@ void DataBaseClass::command_factory()
 			"List of host:port with one element for each database server",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetCSDbServerListCmd);
+	DbGetAttributeAlias2Class	*pDbGetAttributeAlias2Cmd =
+		new DbGetAttributeAlias2Class("DbGetAttributeAlias2",
+			Tango::DEV_STRING, Tango::DEV_STRING,
+			"The attribute name (dev_name/att_name)",
+			"The attribute alias name (or empty string)",
+			Tango::OPERATOR);
+	command_list.push_back(pDbGetAttributeAlias2Cmd);
+	DbGetAliasAttributeClass	*pDbGetAliasAttributeCmd =
+		new DbGetAliasAttributeClass("DbGetAliasAttribute",
+			Tango::DEV_STRING, Tango::DEV_STRING,
+			"The attribute alias",
+			"The attribute name (dev_name/att_name)",
+			Tango::OPERATOR);
+	command_list.push_back(pDbGetAliasAttributeCmd);
+	/*----- PROTECTED REGION ID(DataBaseClass::command_factory_after) ENABLED START -----*/
 
-
-
-
-	/*----- PROTECTED REGION ID(DataBase::Class::command_factory_after) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::command_factory_after
-
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::command_factory_after
 }
-
-
-
 
 //===================================================================
 //	Dynamic attributes related methods
 //===================================================================
-
 
 //--------------------------------------------------------
 /**
@@ -3134,11 +2785,9 @@ void DataBaseClass::create_static_attribute_list(vector<Tango::Attr *> &att_list
 
 	cout2 << defaultAttList.size() << " attributes in default list" << endl;
 
+	/*----- PROTECTED REGION ID(DataBaseClass::create_static_att_list) ENABLED START -----*/
 
-	/*----- PROTECTED REGION ID(DataBase::Class::create_static_att_list) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::create_static_att_list
-
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::create_static_att_list
 }
 
 
@@ -3177,16 +2826,29 @@ void DataBaseClass::erase_dynamic_attributes(const Tango::DevVarStringArray *dev
 			}
 		}
 	}
-	/*----- PROTECTED REGION ID(DataBase::Class::erase_dynamic_attributes) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(DataBaseClass::erase_dynamic_attributes) ENABLED START -----*/
 
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::erase_dynamic_attributes
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::erase_dynamic_attributes
+}
 
+//--------------------------------------------------------
+/**
+ *	Method      : DataBaseClass::get_attr_by_name()
+ *	Description : returns Tango::Attr * object found by name
+ */
+//--------------------------------------------------------
+Tango::Attr *DataBaseClass::get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname)
+{
+	vector<Tango::Attr *>::iterator it;
+	for (it=att_list.begin() ; it<att_list.end() ; it++)
+		if ((*it)->get_name()==attname)
+			return (*it);
+	//	Attr does not exist
+	return NULL;
 }
 
 
+/*----- PROTECTED REGION ID(DataBaseClass::Additional Methods) ENABLED START -----*/
 
-	/*----- PROTECTED REGION ID(DataBase::Class::Additional Methods) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	DataBase::Class::Additional Methods
-
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::Additional Methods
 } //	namespace
