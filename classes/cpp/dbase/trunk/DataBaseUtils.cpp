@@ -153,18 +153,14 @@ string DataBase::escape_string(const char *string_c_str)
 	{
 		//	Check if double backslash already treated by client
 		string	s = escaped_string.substr(index+1);
-		if (s.find('\\')==0)
+
+			//	Check if another escape sequence treated by client
+		if (s.find('\"')==0 || s.find('\'')==0)
 			index++;
 		else
 		{
-			//	Check if another escape sequence treated by client
-			if (s.find('\"')==0 || s.find('\'')==0)
-				index++;
-			else
-			{
-				escaped_string.insert(index, 1, '\\');
-				index += 2;
-			}
+			escaped_string.insert(index, 1, '\\');
+			index += 2;
 		}
 	}
 
