@@ -114,6 +114,7 @@ void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 				catch(Tango::DevFailed &e)
 				{
 					//Tango::Except::print_exception(e);
+					cout << e.errors[0].desc << endl;
 				}
 				delete dev;
 			}
