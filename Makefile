@@ -30,8 +30,8 @@ MAKE_ENV = /segfs/tango/cppserver/env
 #
 PACKAGE_NAME = DataBase
 MAJOR_VERS   = 4
-MINOR_VERS   = 17
-RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
+MINOR_VERS   = 18
+RELEASE      = Release-$(MAJOR_VERS)_$(MINOR_VERS)
 
 # #=============================================================================
 # # RELEASE_TYPE
@@ -159,5 +159,13 @@ ADDITIONAL_OBJS =  \
 include $(MAKE_ENV)/common_target.opt
 
 	
+#=============================================================================
+#
+SVN_TCS  =  https://tango-cs.svn.sourceforge.net/svnroot/tango-cs
+SVN_PATH =	$(SVN_TCS)/classes/cpp/dbase
+tag:
+	@echo "Tagging  $(PACKAGE_NAME)  for $(RELEASE)"
+	svn copy  $(SVN_PATH)/trunk \
+	          $(SVN_PATH)/tags/$(PACKAGE_NAME)-$(RELEASE)
 
 #PROTECTED REGION END#
