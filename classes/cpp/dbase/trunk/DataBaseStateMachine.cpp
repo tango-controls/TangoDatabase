@@ -4,14 +4,14 @@ static const char *RcsId = "$Id$";
 //
 // file :        DataBaseStateMachine.cpp
 //
-// description : C++ source for the «name» and its alowed
+// description : C++ source for the ï¿½nameï¿½ and its alowed
 //               methods for commands and attributes
 //
 // project :     TANGO.
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE

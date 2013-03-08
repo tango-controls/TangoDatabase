@@ -11,13 +11,13 @@ static const char *HttpServer = "http://www.esrf.eu/computing/cs/tango/tango_doc
 // description : C++ source for the DataBaseClass. A singleton
 //               class derived from DeviceClass. It implements the
 //               command list and all properties and methods required
-//               by the «name» once per process.
+//               by the ï¿½nameï¿½ once per process.
 //
 // project :     TANGO.
 //
 // $Author$
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
