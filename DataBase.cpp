@@ -7673,6 +7673,39 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 	}
 
 //
+//	get  host where running
+//
+	string	previous_host("");
+	if (fireToStarter==true)
+	{
+		omni_mutex_lock oml(starter_mutex);
+
+		string	adm_dev("dserver/");
+		adm_dev += old_name;
+		try
+		{
+			char *tmp_ptr = db_get_device_host((Tango::DevString)adm_dev.c_str());
+			previous_host = tmp_ptr;
+			DEBUG_STREAM << old_name << " was running on " << previous_host << endl;
+			CORBA::string_free(tmp_ptr);
+		}
+		catch (Tango::DevFailed &e)
+		{
+			string reason(e.errors[0].reason.in());
+			if (reason == DB_DeviceNotDefined)
+			{
+				WARN_STREAM << "DataBase::db_delete_server(): server " << old_name << " not defined in DB" << endl;
+				TangoSys_OMemStream o;
+				o << "Server " << old_name << " not defined in database !";
+				Tango::Except::throw_exception((const char *)DB_IncorrectServerName,o.str(),
+							   (const char *)"DataBase::db_delete_server()");
+			}
+		}
+
+	}
+
+
+//
 // Change ds exec name. This means
 // 1 - Update the device's server column
 // 2 - Change the ds admin device name
@@ -7719,6 +7752,20 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 		simple_query(sql_query_stream.str(),"db_rename_server()",al.get_con_nb());
 	}
 
+//
+//	Update host's starter to update controlled servers list
+//
+	if (fireToStarter==true)
+	{
+		omni_mutex_lock oml(starter_mutex);
+
+		vector<string>	hosts;
+		if (previous_host!="")
+		{
+			hosts.push_back(previous_host);
+			starter_shared->send_starter_cmd(hosts);
+		}
+	}
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_rename_server
 }
 
