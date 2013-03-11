@@ -148,6 +148,7 @@ static const char *RcsId = "$Id$";
 //  DbGetCSDbServerList                 |  db_get_csdb_server_list
 //  DbGetAttributeAlias2                |  db_get_attribute_alias2
 //  DbGetAliasAttribute                 |  db_get_alias_attribute
+//  DbRenameServer                      |  db_rename_server
 //================================================================
 
 //================================================================
@@ -459,7 +460,7 @@ void DataBase::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 
 //--------------------------------------------------------
 /**
- *	Read attribute StoredProcedureRelease related mehod
+ *	Read attribute StoredProcedureRelease related method
  *	Description:
  *
  *	Data type:	Tango::DevString
@@ -517,7 +518,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute Timing_average related mehod
+ *	Read attribute Timing_average related method
  *	Description:
  *
  *	Data type:	Tango::DevDouble
@@ -547,7 +548,7 @@ void DataBase::read_Timing_average(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute Timing_minimum related mehod
+ *	Read attribute Timing_minimum related method
  *	Description:
  *
  *	Data type:	Tango::DevDouble
@@ -577,7 +578,7 @@ void DataBase::read_Timing_minimum(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute Timing_maximum related mehod
+ *	Read attribute Timing_maximum related method
  *	Description:
  *
  *	Data type:	Tango::DevDouble
@@ -607,7 +608,7 @@ void DataBase::read_Timing_maximum(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute Timing_calls related mehod
+ *	Read attribute Timing_calls related method
  *	Description:
  *
  *	Data type:	Tango::DevDouble
@@ -637,7 +638,7 @@ void DataBase::read_Timing_calls(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute Timing_index related mehod
+ *	Read attribute Timing_index related method
  *	Description:
  *
  *	Data type:	Tango::DevString
@@ -654,7 +655,7 @@ void DataBase::read_Timing_index(Tango::Attribute &attr)
 }
 //--------------------------------------------------------
 /**
- *	Read attribute Timing_info related mehod
+ *	Read attribute Timing_info related method
  *	Description:
  *
  *	Data type:	Tango::DevString
@@ -716,7 +717,7 @@ void DataBase::add_dynamic_attributes()
 
 //--------------------------------------------------------
 /**
- *	Command State related mehod
+ *	Command State related method
  *	Description: This command gets the device state (stored in its <i>device_state</i> data member) and returns it to the caller.
  *
  *	@param argin none.
@@ -740,12 +741,12 @@ Tango::DevState DataBase::dev_state()
 }
 //--------------------------------------------------------
 /**
- *	Command DbAddDevice related mehod
+ *	Command DbAddDevice related method
  *	Description: Add a Tango class device to a specific device server
  *
  *	@param argin Str[0] = Full device server process name
-Str[1] = Device name
-Str[2] = Tango class name
+ *               Str[1] = Device name
+ *               Str[2] = Tango class name
  *	@returns
  */
 //--------------------------------------------------------
@@ -866,14 +867,14 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbAddServer related mehod
+ *	Command DbAddServer related method
  *	Description: Create a device server process entry in database
  *
  *	@param argin Str[0] = Full device server name
-Str[1] = Device(s) name
-Str[2] = Tango class name
-Str[n] = Device name
-Str[n + 1] = Tango class name
+ *               Str[1] = Device(s) name
+ *               Str[2] = Tango class name
+ *               Str[n] = Device name
+ *               Str[n + 1] = Tango class name
  *	@returns
  */
 //--------------------------------------------------------
@@ -943,7 +944,7 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteAttributeAlias related mehod
+ *	Command DbDeleteAttributeAlias related method
  *	Description: Delete an attribute alias.
  *
  *	@param argin Attriibute alias name.
@@ -967,11 +968,11 @@ void DataBase::db_delete_attribute_alias(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteClassAttribute related mehod
+ *	Command DbDeleteClassAttribute related method
  *	Description: delete a class attribute and all its properties from database
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute name
+ *               Str[1] = Attribute name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1011,13 +1012,13 @@ void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteClassAttributeProperty related mehod
+ *	Command DbDeleteClassAttributeProperty related method
  *	Description: delete class attribute properties from database
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute name
-Str[2] = Property name
-Str[n] = Property name
+ *               Str[1] = Attribute name
+ *               Str[2] = Property name
+ *               Str[n] = Property name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1100,12 +1101,12 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteClassProperty related mehod
+ *	Command DbDeleteClassProperty related method
  *	Description: Delete class properties from database
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Property name
-Str[n] = Property name
+ *               Str[1] = Property name
+ *               Str[n] = Property name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1178,7 +1179,7 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteDevice related mehod
+ *	Command DbDeleteDevice related method
  *	Description: Delete a devcie from database
  *
  *	@param argin device name
@@ -1243,7 +1244,7 @@ void DataBase::db_delete_device(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteDeviceAlias related mehod
+ *	Command DbDeleteDeviceAlias related method
  *	Description: Delete a device alias.
  *
  *	@param argin device alias name
@@ -1267,11 +1268,11 @@ void DataBase::db_delete_device_alias(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteDeviceAttribute related mehod
+ *	Command DbDeleteDeviceAttribute related method
  *	Description: Delete  device attribute properties from database
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute name
+ *               Str[1] = Attribute name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1326,13 +1327,13 @@ void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteDeviceAttributeProperty related mehod
+ *	Command DbDeleteDeviceAttributeProperty related method
  *	Description: delete a device attribute property from the database
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute name
-Str[2] = Property name
-Str[n] = Property name
+ *               Str[1] = Attribute name
+ *               Str[2] = Property name
+ *               Str[n] = Property name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1421,12 +1422,12 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteDeviceProperty related mehod
+ *	Command DbDeleteDeviceProperty related method
  *	Description: Delete device property(ies)
  *
  *	@param argin Str[0] = Device name
-Str[1] = Property name
-Str[n] = Property name
+ *               Str[1] = Property name
+ *               Str[n] = Property name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1505,12 +1506,12 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteProperty related mehod
+ *	Command DbDeleteProperty related method
  *	Description: Delete free property from database
  *
  *	@param argin Str[0]  = Object name
-Str[1] = Property name
-Str[n] = Property name
+ *               Str[1] = Property name
+ *               Str[n] = Property name
  *	@returns
  */
 //--------------------------------------------------------
@@ -1586,7 +1587,7 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteServer related mehod
+ *	Command DbDeleteServer related method
  *	Description: Delete server from the database but dont delete device properties
  *
  *	@param argin Device server name
@@ -1707,7 +1708,7 @@ void DataBase::db_delete_server(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteServerInfo related mehod
+ *	Command DbDeleteServerInfo related method
  *	Description: delete info related to a Tango devvice server process
  *
  *	@param argin Device server name
@@ -1738,14 +1739,14 @@ void DataBase::db_delete_server_info(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbExportDevice related mehod
+ *	Command DbExportDevice related method
  *	Description: Export a device to the database
  *
  *	@param argin Str[0] = Device name
-Str[1] = CORBA IOR
-Str[2] = Device server process host name
-Str[3] = Device server process PID or string ``null``
-Str[4] = Device server process version
+ *               Str[1] = CORBA IOR
+ *               Str[2] = Device server process host name
+ *               Str[3] = Device server process PID or string ``null``
+ *               Str[4] = Device server process version
  *	@returns
  */
 //--------------------------------------------------------
@@ -1897,14 +1898,14 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbExportEvent related mehod
+ *	Command DbExportEvent related method
  *	Description: Export Event channel to database
  *
  *	@param argin Str[0] = event channel name (or factory name)
-Str[1] = CORBA IOR
-Str[2] = Notifd host name
-Str[3] = Notifd pid
-Str[4] = Notifd version
+ *               Str[1] = CORBA IOR
+ *               Str[2] = Notifd host name
+ *               Str[3] = Notifd pid
+ *               Str[4] = Notifd version
  *	@returns
  */
 //--------------------------------------------------------
@@ -1968,7 +1969,7 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetAliasDevice related mehod
+ *	Command DbGetAliasDevice related method
  *	Description: Get device name from its alias.
  *
  *	@param argin Alias name
@@ -2030,7 +2031,7 @@ Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetAttributeAlias related mehod
+ *	Command DbGetAttributeAlias related method
  *	Description: Get the attribute name for the given alias.
  *               If alias not found in database, returns an empty string.
  *
@@ -2091,7 +2092,7 @@ Tango::DevString DataBase::db_get_attribute_alias(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetAttributeAliasList related mehod
+ *	Command DbGetAttributeAliasList related method
  *	Description: Get attribute alias list for a specified filter
  *
  *	@param argin attribute alias filter string (eg: att*)
@@ -2154,13 +2155,13 @@ Tango::DevVarStringArray *DataBase::db_get_attribute_alias_list(Tango::DevString
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassAttributeList related mehod
+ *	Command DbGetClassAttributeList related method
  *	Description: Get attrilute list for a given Tango class with a specified filter
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute name filter (eg: att*)
+ *               Str[1] = Attribute name filter (eg: att*)
  *	@returns Str[0] = Class attribute name
-Str[n] = Class attribute name
+ *           Str[n] = Class attribute name
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::DevVarStringArray *argin)
@@ -2226,18 +2227,18 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassAttributeProperty related mehod
+ *	Command DbGetClassAttributeProperty related method
  *	Description: Get Tango class property(ies) value
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute name
-Str[n] = Attribute name
+ *               Str[1] = Attribute name
+ *               Str[n] = Attribute name
  *	@returns Str[0] = Tango class name
-Str[1] = Attribute property  number
-Str[2] = Attribute property 1 name
-Str[3] = Attribute property 1 value
-Str[n + 1] = Attribute property 2 name
-Str[n + 2] = Attribute property 2 value
+ *           Str[1] = Attribute property  number
+ *           Str[2] = Attribute property 1 name
+ *           Str[3] = Attribute property 1 value
+ *           Str[n + 1] = Attribute property 2 name
+ *           Str[n + 2] = Attribute property 2 value
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango::DevVarStringArray *argin)
@@ -2312,24 +2313,24 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassAttributeProperty2 related mehod
+ *	Command DbGetClassAttributeProperty2 related method
  *	Description: This command supports array property compared to the old command called
  *               DbGetClassAttributeProperty. The old command has not been deleted from the
  *               server for compatibility reasons.
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute name
-Str[n] = Attribute name
+ *               Str[1] = Attribute name
+ *               Str[n] = Attribute name
  *	@returns Str[0] = Tango class name
-Str[1] = Attribute property  number
-Str[2] = Attribute property 1 name
-Str[3] = Attribute property 1 value number (array case)
-Str[4] = Attribute property 1 value
-Str[n] = Attribute property 1 value (array case)
-Str[n + 1] = Attribute property 2 name
-Str[n + 2] = Attribute property 2 value number (array case)
-Str[n + 3] = Attribute property 2 value
-Str[n + m] = Attribute property 2 value (array case)
+ *           Str[1] = Attribute property  number
+ *           Str[2] = Attribute property 1 name
+ *           Str[3] = Attribute property 1 value number (array case)
+ *           Str[4] = Attribute property 1 value
+ *           Str[n] = Attribute property 1 value (array case)
+ *           Str[n + 1] = Attribute property 2 name
+ *           Str[n + 2] = Attribute property 2 value number (array case)
+ *           Str[n + 3] = Attribute property 2 value
+ *           Str[n + m] = Attribute property 2 value (array case)
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango::DevVarStringArray *argin)
@@ -2458,18 +2459,18 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassAttributePropertyHist related mehod
+ *	Command DbGetClassAttributePropertyHist related method
  *	Description: Retrieve Tango class attribute property history
  *
  *	@param argin Str[0] = Tango class
-Str[1] = Attribute name
-Str[2] = Property name
+ *               Str[1] = Attribute name
+ *               Str[2] = Property name
  *	@returns Str[0] = Attribute name
-Str[1] = Property name
-Str[2] = date
-Str[3] = Property value number (array case)
-Str[4] = Property value 1
-Str[n] = Property value n
+ *           Str[1] = Property name
+ *           Str[2] = date
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value 1
+ *           Str[n] = Property value n
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const Tango::DevVarStringArray *argin)
@@ -2557,7 +2558,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassForDevice related mehod
+ *	Command DbGetClassForDevice related method
  *	Description: Get Tango class for the specified device.
  *
  *	@param argin Device name
@@ -2609,14 +2610,14 @@ Tango::DevString DataBase::db_get_class_for_device(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassInheritanceForDevice related mehod
+ *	Command DbGetClassInheritanceForDevice related method
  *	Description: Get class inheritance for the specified device.
  *
  *	@param argin Device name
  *	@returns Classes off the specified device.
-[0] - is the class of the device.
-[1] - is the class from the device class is inherited.
-........and so on
+ *           [0] - is the class of the device.
+ *           [1] - is the class from the device class is inherited.
+ *           ........and so on
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_inheritance_for_device(Tango::DevString argin)
@@ -2651,7 +2652,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_inheritance_for_device(Tango::D
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassList related mehod
+ *	Command DbGetClassList related method
  *	Description: Get Tango class list with a specified filter
  *
  *	@param argin Filter
@@ -2707,19 +2708,19 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassProperty related mehod
+ *	Command DbGetClassProperty related method
  *	Description:
  *
  *	@param argin Str[0] = Tango class
-Str[1] = Property name
-Str[2] = Property name
+ *               Str[1] = Property name
+ *               Str[2] = Property name
  *	@returns Str[0] = Tango class
-Str[1] = Property number
-Str[2] = Property name
-Str[3] = Property value number (array case)
-Str[4] = Property value
-Str[n] = Propery value (array case)
-....
+ *           Str[1] = Property number
+ *           Str[2] = Property name
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value
+ *           Str[n] = Propery value (array case)
+ *           ....
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStringArray *argin)
@@ -2793,16 +2794,16 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassPropertyHist related mehod
+ *	Command DbGetClassPropertyHist related method
  *	Description: Retrieve Tango class property history
  *
  *	@param argin Str[0] = Tango class
-Str[1] = Property name
+ *               Str[1] = Property name
  *	@returns Str[0] = Property name
-Str[1] = date
-Str[2] = Property value number (array case)
-Str[3] = Property value 1
-Str[n] = Property value n
+ *           Str[1] = date
+ *           Str[2] = Property value number (array case)
+ *           Str[3] = Property value 1
+ *           Str[n] = Property value n
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevVarStringArray *argin)
@@ -2886,7 +2887,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetClassPropertyList related mehod
+ *	Command DbGetClassPropertyList related method
  *	Description: Get property list for a given Tango class with a specified filter
  *
  *	@param argin The filter
@@ -2954,7 +2955,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_list(Tango::DevString 
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceAlias related mehod
+ *	Command DbGetDeviceAlias related method
  *	Description: Return alias for device name if found.
  *
  *	@param argin The device name
@@ -3034,7 +3035,7 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceAliasList related mehod
+ *	Command DbGetDeviceAliasList related method
  *	Description: Get device alias name with a specific filter
  *
  *	@param argin The filter
@@ -3097,12 +3098,12 @@ Tango::DevVarStringArray *DataBase::db_get_device_alias_list(Tango::DevString ar
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceAttributeList related mehod
+ *	Command DbGetDeviceAttributeList related method
  *	Description: Return list of attributes matching the wildcard
  *                for the specified device
  *
  *	@param argin Str[0] = Device name
-Str[1] = Wildcard
+ *               Str[1] = Wildcard
  *	@returns attribute name list
  */
 //--------------------------------------------------------
@@ -3167,18 +3168,18 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_list(const Tango::De
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceAttributeProperty related mehod
+ *	Command DbGetDeviceAttributeProperty related method
  *	Description: Get device attribute property(ies) value
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute name
-Str[n] = Attribute name
+ *               Str[1] = Attribute name
+ *               Str[n] = Attribute name
  *	@returns Str[0] = Device name
-Str[1] = Attribute property  number
-Str[2] = Attribute property 1 name
-Str[3] = Attribute property 1 value
-Str[n + 1] = Attribute property 2 name
-Str[n + 2] = Attribute property 2 value
+ *           Str[1] = Attribute property  number
+ *           Str[2] = Attribute property 1 name
+ *           Str[3] = Attribute property 1 value
+ *           Str[n + 1] = Attribute property 2 name
+ *           Str[n + 2] = Attribute property 2 value
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango::DevVarStringArray *argin)
@@ -3260,25 +3261,25 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceAttributeProperty2 related mehod
+ *	Command DbGetDeviceAttributeProperty2 related method
  *	Description: Retrieve device attribute properties. This command has the possibility to retrieve
  *               device attribute properties which are arrays. It is not possible with the old
  *               DbGetDeviceAttributeProperty command. Nevertheless, the old command has not been
  *               deleted for compatibility reason
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute name
-Str[n] = Attribute name
+ *               Str[1] = Attribute name
+ *               Str[n] = Attribute name
  *	@returns Str[0] = Device name
-Str[1] = Attribute property  number
-Str[2] = Attribute property 1 name
-Str[3] = Attribute property 1 value number (array case)
-Str[4] = Attribute property 1 value
-Str[n] = Attribute property 1 value (array case)
-Str[n + 1] = Attribute property 2 name
-Str[n + 2] = Attribute property 2 value number (array case)
-Str[n + 3] = Attribute property 2 value
-Str[n + m] = Attribute property 2 value (array case)
+ *           Str[1] = Attribute property  number
+ *           Str[2] = Attribute property 1 name
+ *           Str[3] = Attribute property 1 value number (array case)
+ *           Str[4] = Attribute property 1 value
+ *           Str[n] = Attribute property 1 value (array case)
+ *           Str[n + 1] = Attribute property 2 name
+ *           Str[n + 2] = Attribute property 2 value number (array case)
+ *           Str[n + 3] = Attribute property 2 value
+ *           Str[n + m] = Attribute property 2 value (array case)
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tango::DevVarStringArray *argin)
@@ -3576,18 +3577,18 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceAttributePropertyHist related mehod
+ *	Command DbGetDeviceAttributePropertyHist related method
  *	Description: Retrieve device attribute property history
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute name
-Str[2] = Property name
+ *               Str[1] = Attribute name
+ *               Str[2] = Property name
  *	@returns Str[0] = Attribute name
-Str[1] = Property name
-Str[2] = date
-Str[3] = Property value number (array case)
-Str[4] = Property value 1
-Str[n] = Property value n
+ *           Str[1] = Property name
+ *           Str[2] = date
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value 1
+ *           Str[n] = Property value n
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const Tango::DevVarStringArray *argin)
@@ -3675,14 +3676,14 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceClassList related mehod
+ *	Command DbGetDeviceClassList related method
  *	Description: Get Tango classes/device list embedded in a specific device server
  *
  *	@param argin Device server process name
  *	@returns Str[0] = Device name
-Str[1] = Tango class
-Str[n] = Device name
-Str[n + 1] = Tango class
+ *           Str[1] = Tango class
+ *           Str[n] = Device name
+ *           Str[n + 1] = Tango class
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_device_class_list(Tango::DevString argin)
@@ -3740,7 +3741,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_class_list(Tango::DevString ar
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceDomainList related mehod
+ *	Command DbGetDeviceDomainList related method
  *	Description: Get list of device domain name matching the specified
  *
  *	@param argin The wildcard
@@ -3809,7 +3810,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_domain_list(Tango::DevString a
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceExportedList related mehod
+ *	Command DbGetDeviceExportedList related method
  *	Description: Get a list of exported devices whose names satisfy the filter (wildcard is
  *
  *	@param argin filter
@@ -3879,7 +3880,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_exported_list(Tango::DevString
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceFamilyList related mehod
+ *	Command DbGetDeviceFamilyList related method
  *	Description: Get a list of device name families for device name matching the
  *               specified wildcard
  *
@@ -3950,21 +3951,21 @@ Tango::DevVarStringArray *DataBase::db_get_device_family_list(Tango::DevString a
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceInfo related mehod
+ *	Command DbGetDeviceInfo related method
  *	Description: Returns info from DbImportDevice and started/stopped dates.
  *
  *	@param argin Device name
  *	@returns Str[0] = Device name
-Str[1] = CORBA IOR
-Str[2] = Device version
-Str[3] = Device Server name
-Str[4] = Device Server process host name
-Str[5] = Started date (or ? if not set)
-Str[6] = Stopped date (or ? if not set)
-Str[7] = Device class
-
-Lg[0] = Device exported flag
-Lg[1] = Device Server process PID (or -1 if not set)
+ *           Str[1] = CORBA IOR
+ *           Str[2] = Device version
+ *           Str[3] = Device Server name
+ *           Str[4] = Device Server process host name
+ *           Str[5] = Started date (or ? if not set)
+ *           Str[6] = Stopped date (or ? if not set)
+ *           Str[7] = Device class
+ *
+ *           Lg[0] = Device exported flag
+ *           Lg[1] = Device Server process PID (or -1 if not set)
  */
 //--------------------------------------------------------
 Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argin)
@@ -4096,11 +4097,11 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceList related mehod
+ *	Command DbGetDeviceList related method
  *	Description: Get a list of devices for specified server and class.
  *
  *	@param argin argin[0] : server name
-argin[1] : class name
+ *               argin[1] : class name
  *	@returns The list of devices for specified server and class.
  */
 //--------------------------------------------------------
@@ -4164,7 +4165,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_list(const Tango::DevVarString
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceWideList related mehod
+ *	Command DbGetDeviceWideList related method
  *	Description: Get a list of devices whose names satisfy the filter.
  *
  *	@param argin filter
@@ -4232,7 +4233,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString arg
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceMemberList related mehod
+ *	Command DbGetDeviceMemberList related method
  *	Description: Get a list of device name members for device name matching the
  *               specified filter
  *
@@ -4303,22 +4304,22 @@ Tango::DevVarStringArray *DataBase::db_get_device_member_list(Tango::DevString a
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceProperty related mehod
+ *	Command DbGetDeviceProperty related method
  *	Description:
  *
  *	@param argin Str[0] = Device name
-Str[1] = Property name
-Str[n] = Property name
+ *               Str[1] = Property name
+ *               Str[n] = Property name
  *	@returns Str[0] = Device name
-Str[1] = Property number
-Str[2] = Property name
-Str[3] = Property value number (array case)
-Str[4] = Property value 1
-Str[n] = Property value n (array case)
-Str[n + 1] = Property name
-Str[n + 2] = Property value number (array case)
-Str[n + 3] = Property value 1
-Str[n + m] = Property value m
+ *           Str[1] = Property number
+ *           Str[2] = Property name
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value 1
+ *           Str[n] = Property value n (array case)
+ *           Str[n + 1] = Property name
+ *           Str[n + 2] = Property value number (array case)
+ *           Str[n + 3] = Property value 1
+ *           Str[n + m] = Property value m
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarStringArray *argin)
@@ -4416,16 +4417,16 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDevicePropertyHist related mehod
+ *	Command DbGetDevicePropertyHist related method
  *	Description: Retrieve device  property history
  *
  *	@param argin Str[0] = Device name
-Str[2] = Property name
+ *               Str[2] = Property name
  *	@returns Str[0] = Property name
-Str[1] = date
-Str[2] = Property value number (array case)
-Str[3] = Property value 1
-Str[n] = Property value n
+ *           Str[1] = date
+ *           Str[2] = Property value number (array case)
+ *           Str[3] = Property value 1
+ *           Str[n] = Property value n
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::DevVarStringArray *argin)
@@ -4509,12 +4510,12 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDevicePropertyList related mehod
+ *	Command DbGetDevicePropertyList related method
  *	Description: Get property list belonging to the specified device and with
  *               name matching the specified filter
  *
  *	@param argin Str[0] = device name
-Str[1] = Filter
+ *               Str[1] = Filter
  *	@returns Property name list
  */
 //--------------------------------------------------------
@@ -4586,7 +4587,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_list(const Tango::Dev
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDeviceServerClassList related mehod
+ *	Command DbGetDeviceServerClassList related method
  *	Description: Get list of Tango classes for a device server
  *
  *	@param argin device server process name
@@ -4642,7 +4643,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_server_class_list(Tango::DevSt
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetExportdDeviceListForClass related mehod
+ *	Command DbGetExportdDeviceListForClass related method
  *	Description: Query the database for device exported for the specified class.
  *
  *	@param argin Class name
@@ -4705,7 +4706,7 @@ Tango::DevVarStringArray *DataBase::db_get_exportd_device_list_for_class(Tango::
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetHostList related mehod
+ *	Command DbGetHostList related method
  *	Description: Get host list with name matching the specified filter
  *
  *	@param argin The filter
@@ -4775,7 +4776,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_list(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetHostServerList related mehod
+ *	Command DbGetHostServerList related method
  *	Description: Get list of device server process name running on host with name matching
  *               the specified filter
  *
@@ -4847,7 +4848,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_server_list(Tango::DevString arg
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetHostServersInfo related mehod
+ *	Command DbGetHostServersInfo related method
  *	Description: Get info about all servers running on specified host, name, mode and level
  *
  *	@param argin Host name
@@ -4890,7 +4891,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_servers_info(Tango::DevString ar
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetInstanceNameList related mehod
+ *	Command DbGetInstanceNameList related method
  *	Description: Returns the instance names found for specified server.
  *
  *	@param argin Server name
@@ -4938,7 +4939,7 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetObjectList related mehod
+ *	Command DbGetObjectList related method
  *	Description: Get list of free object defined in database with name
  *               matching the specified filter
  *
@@ -4996,22 +4997,22 @@ Tango::DevVarStringArray *DataBase::db_get_object_list(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetProperty related mehod
+ *	Command DbGetProperty related method
  *	Description: Get free object property
  *
  *	@param argin Str[0] = Object name
-Str[1] = Property name
-Str[n] = Property name
+ *               Str[1] = Property name
+ *               Str[n] = Property name
  *	@returns Str[0] = Object name
-Str[1] = Property number
-Str[2] = Property name
-Str[3] = Property value number (array case)
-Str[4] = Property value 1
-Str[n] = Property value n (array case)
-Str[n + 1] = Property name
-Str[n + 2] = Property value number (array case)
-Str[n + 3] = Property value 1
-Str[n + m] = Property value m
+ *           Str[1] = Property number
+ *           Str[2] = Property name
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value 1
+ *           Str[n] = Property value n (array case)
+ *           Str[n + 1] = Property name
+ *           Str[n + 2] = Property value number (array case)
+ *           Str[n + 3] = Property value 1
+ *           Str[n + m] = Property value m
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArray *argin)
@@ -5091,16 +5092,16 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetPropertyHist related mehod
+ *	Command DbGetPropertyHist related method
  *	Description: Retrieve object  property history
  *
  *	@param argin Str[0] = Object name
-Str[2] = Property name
+ *               Str[2] = Property name
  *	@returns Str[0] = Property name
-Str[1] = date
-Str[2] = Property value number (array case)
-Str[3] = Property value 1
-Str[n] = Property value n
+ *           Str[1] = date
+ *           Str[2] = Property value number (array case)
+ *           Str[3] = Property value 1
+ *           Str[n] = Property value n
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStringArray *argin)
@@ -5184,12 +5185,12 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetPropertyList related mehod
+ *	Command DbGetPropertyList related method
  *	Description: Get list of property defined for a free object and matching the
  *               specified filter
  *
  *	@param argin Str[0] = Object name
-Str[1] = filter
+ *               Str[1] = filter
  *	@returns Property name list
  */
 //--------------------------------------------------------
@@ -5260,7 +5261,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_list(const Tango::DevVarStri
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetServerInfo related mehod
+ *	Command DbGetServerInfo related method
  *	Description: Get info about host, mode and level for specified server
  *
  *	@param argin server name
@@ -5318,7 +5319,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_info(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetServerList related mehod
+ *	Command DbGetServerList related method
  *	Description: Get list of device server process defined in database
  *               with name matching the specified filter
  *
@@ -5389,7 +5390,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_list(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetServerNameList related mehod
+ *	Command DbGetServerNameList related method
  *	Description: Returns the list of server names found for the wildcard specified.
  *               It returns only the server executable name without instance name as DbGetServerList.
  *
@@ -5449,19 +5450,19 @@ Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString arg
 }
 //--------------------------------------------------------
 /**
- *	Command DbImportDevice related mehod
+ *	Command DbImportDevice related method
  *	Description: Import a device from the database
  *
  *	@param argin Device name (or alias)
  *	@returns Str[0] = device name
-Str[1] = CORBA IOR
-Str[2] = device version
-Str[3] = device server process name
-Str[4] = host name
-Str[5] = Tango class name
-
-Lg[0] = Exported flag
-Lg[1] = Device server process PID
+ *           Str[1] = CORBA IOR
+ *           Str[2] = device version
+ *           Str[3] = device server process name
+ *           Str[4] = host name
+ *           Str[5] = Tango class name
+ *
+ *           Lg[0] = Exported flag
+ *           Lg[1] = Device server process PID
  */
 //--------------------------------------------------------
 Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString argin)
@@ -5597,7 +5598,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbImportEvent related mehod
+ *	Command DbImportEvent related method
  *	Description: Get event channel info from database
  *
  *	@param argin name of event channel or factory
@@ -5684,21 +5685,21 @@ Tango::DevVarLongStringArray *DataBase::db_import_event(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbInfo related mehod
+ *	Command DbInfo related method
  *	Description: Get miscellaneous numbers on information
  *               stored in database
  *
  *	@param argin
  *	@returns Miscellaneous info like:
-- Device defined in database
-- Device marked as exported in database
-- Device server process defined in database
-- Device server process marked as exported in database
-- Device properties defined in database
-- Class properties defined in database
-- Device attribute properties defined in database
-- Class attribute properties defined in database
-- Object properties defined in database
+ *           - Device defined in database
+ *           - Device marked as exported in database
+ *           - Device server process defined in database
+ *           - Device server process marked as exported in database
+ *           - Device properties defined in database
+ *           - Class properties defined in database
+ *           - Device attribute properties defined in database
+ *           - Class attribute properties defined in database
+ *           - Object properties defined in database
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_info()
@@ -5965,11 +5966,11 @@ Tango::DevVarStringArray *DataBase::db_info()
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutAttributeAlias related mehod
+ *	Command DbPutAttributeAlias related method
  *	Description: Define an alias for an attribute
  *
  *	@param argin Str[0] = attribute name
-Str[1] = attribute alias
+ *               Str[1] = attribute alias
  *	@returns
  */
 //--------------------------------------------------------
@@ -6067,16 +6068,16 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutClassAttributeProperty related mehod
+ *	Command DbPutClassAttributeProperty related method
  *	Description: Create/Update class attribute property(ies) in database
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute number
-Str[2] = Attribute name
-Str[3] = Property number
-Str[4] = Property name
-Str[5] = Property value
-.....
+ *               Str[1] = Attribute number
+ *               Str[2] = Attribute name
+ *               Str[3] = Property number
+ *               Str[4] = Property name
+ *               Str[5] = Property value
+ *               .....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6151,19 +6152,19 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutClassAttributeProperty2 related mehod
+ *	Command DbPutClassAttributeProperty2 related method
  *	Description: This command adds support for array properties compared to the previous one
  *               called DbPutClassAttributeProperty. The old comman is still there for compatibility reason
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Attribute number
-Str[2] = Attribute name
-Str[3] = Property number
-Str[4] = Property name
-Str[5] = Property value number (array case)
-Str[5] = Property value 1
-Str[n] = Property value n (array case)
-.....
+ *               Str[1] = Attribute number
+ *               Str[2] = Attribute name
+ *               Str[3] = Property number
+ *               Str[4] = Property name
+ *               Str[5] = Property value number (array case)
+ *               Str[5] = Property value 1
+ *               Str[n] = Property value n (array case)
+ *               .....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6249,16 +6250,16 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutClassProperty related mehod
+ *	Command DbPutClassProperty related method
  *	Description: Create / Update class property(ies)
  *
  *	@param argin Str[0] = Tango class name
-Str[1] = Property number
-Str[2] = Property name
-Str[3] = Property value number
-Str[4] = Property value 1
-Str[n] = Property value n
-....
+ *               Str[1] = Property number
+ *               Str[2] = Property name
+ *               Str[3] = Property value number
+ *               Str[4] = Property value 1
+ *               Str[n] = Property value n
+ *               ....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6340,11 +6341,11 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutDeviceAlias related mehod
+ *	Command DbPutDeviceAlias related method
  *	Description: Define alias for  a given device name
  *
  *	@param argin Str[0] = device name
-Str[1] = alias name
+ *               Str[1] = alias name
  *	@returns
  */
 //--------------------------------------------------------
@@ -6413,16 +6414,16 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutDeviceAttributeProperty related mehod
+ *	Command DbPutDeviceAttributeProperty related method
  *	Description: Create/Update device attribute property(ies) in database
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute number
-Str[2] = Attribute name
-Str[3] = Property number
-Str[4] = Property name
-Str[5] = Property value
-.....
+ *               Str[1] = Attribute number
+ *               Str[2] = Attribute name
+ *               Str[3] = Property number
+ *               Str[4] = Property name
+ *               Str[5] = Property value
+ *               .....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6503,20 +6504,20 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutDeviceAttributeProperty2 related mehod
+ *	Command DbPutDeviceAttributeProperty2 related method
  *	Description: Put device attribute property. This command adds the possibility to have attribute property
  *               which are arrays. Not possible with the old DbPutDeviceAttributeProperty command.
  *               This old command is not deleted for compatibility reasons.
  *
  *	@param argin Str[0] = Device name
-Str[1] = Attribute number
-Str[2] = Attribute name
-Str[3] = Property number
-Str[4] = Property name
-Str[5] = Property value number (array case)
-Str[5] = Property value 1
-Str[n] = Property value n (array case)
-.....
+ *               Str[1] = Attribute number
+ *               Str[2] = Attribute name
+ *               Str[3] = Property number
+ *               Str[4] = Property name
+ *               Str[5] = Property value number (array case)
+ *               Str[5] = Property value 1
+ *               Str[n] = Property value n (array case)
+ *               .....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6605,16 +6606,16 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutDeviceProperty related mehod
+ *	Command DbPutDeviceProperty related method
  *	Description: Create / Update device property(ies)
  *
  *	@param argin Str[0] = Tango device name
-Str[1] = Property number
-Str[2] = Property name
-Str[3] = Property value number
-Str[4] = Property value 1
-Str[n] = Property value n
-....
+ *               Str[1] = Property number
+ *               Str[2] = Property name
+ *               Str[3] = Property value number
+ *               Str[4] = Property value 1
+ *               Str[n] = Property value n
+ *               ....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6703,16 +6704,16 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutProperty related mehod
+ *	Command DbPutProperty related method
  *	Description: Create / Update free object property(ies)
  *
  *	@param argin Str[0] = Object name
-Str[1] = Property number
-Str[2] = Property name
-Str[3] = Property value number
-Str[4] = Property value 1
-Str[n] = Property value n
-....
+ *               Str[1] = Property number
+ *               Str[2] = Property name
+ *               Str[3] = Property value number
+ *               Str[4] = Property value 1
+ *               Str[n] = Property value n
+ *               ....
  *	@returns
  */
 //--------------------------------------------------------
@@ -6788,7 +6789,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbPutServerInfo related mehod
+ *	Command DbPutServerInfo related method
  *	Description: Update server info including host, mode and level
  *
  *	@param argin server info
@@ -6886,7 +6887,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbUnExportDevice related mehod
+ *	Command DbUnExportDevice related method
  *	Description: Mark a device as non exported in database
  *
  *	@param argin Device name
@@ -6925,7 +6926,7 @@ void DataBase::db_un_export_device(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbUnExportEvent related mehod
+ *	Command DbUnExportEvent related method
  *	Description: Mark one event channel as non exported in database
  *
  *	@param argin name of event channel or factory to unexport
@@ -6960,7 +6961,7 @@ void DataBase::db_un_export_event(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbUnExportServer related mehod
+ *	Command DbUnExportServer related method
  *	Description: Mark all devices belonging to a specified device server
  *               process as non exported
  *
@@ -7005,7 +7006,7 @@ void DataBase::db_un_export_server(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command ResetTimingValues related mehod
+ *	Command ResetTimingValues related method
  *	Description: Reset the timing attribute values.
  *
  *	@param argin
@@ -7037,7 +7038,7 @@ void DataBase::reset_timing_values()
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetDataForServerCache related mehod
+ *	Command DbGetDataForServerCache related method
  *	Description: This command returns all the data needed by a device server process during its
  *               startup sequence. The aim of this command is to minimize database access during
  *               device server startup sequence.
@@ -7230,11 +7231,11 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 }
 //--------------------------------------------------------
 /**
- *	Command DbDeleteAllDeviceAttributeProperty related mehod
+ *	Command DbDeleteAllDeviceAttributeProperty related method
  *	Description: Delete all attribute properties for the specified device attribute(s)
  *
  *	@param argin str[0] = device name
-Str[1]...str[n] = attribute name(s)
+ *               Str[1]...str[n] = attribute name(s)
  *	@returns
  */
 //--------------------------------------------------------
@@ -7325,15 +7326,15 @@ void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarString
 }
 //--------------------------------------------------------
 /**
- *	Command DbMySqlSelect related mehod
+ *	Command DbMySqlSelect related method
  *	Description: This is a very low level command.
  *               It executes the specified  SELECT command on TANGO database and returns its result without filter.
  *
  *	@param argin MySql Select command
  *	@returns MySql Select command result
- - svalues : select results
- - lvalue[n] : =0 if svalue[n] is null else =1
- (last lvalue -1) is number of rows, (last lvalue) is number of fields
+ *            - svalues : select results
+ *            - lvalue[n] : =0 if svalue[n] is null else =1
+ *            (last lvalue -1) is number of rows, (last lvalue) is number of fields
  */
 //--------------------------------------------------------
 Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
@@ -7419,7 +7420,7 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetCSDbServerList related mehod
+ *	Command DbGetCSDbServerList related method
  *	Description: Get a list of host:port for all database server defined in the control system
  *
  *	@param argin
@@ -7484,11 +7485,12 @@ Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetAttributeAlias2 related mehod
+ *	Command DbGetAttributeAlias2 related method
  *	Description: Get the attribute alias from the attribute name.
+ *               Returns one empty string if nothing found in database
  *
  *	@param argin The attribute name (dev_name/att_name)
- *	@returns The attribute alias name
+ *	@returns The attribute alias name (or empty string)
  */
 //--------------------------------------------------------
 Tango::DevString DataBase::db_get_attribute_alias2(Tango::DevString argin)
@@ -7541,8 +7543,9 @@ Tango::DevString DataBase::db_get_attribute_alias2(Tango::DevString argin)
 }
 //--------------------------------------------------------
 /**
- *	Command DbGetAliasAttribute related mehod
+ *	Command DbGetAliasAttribute related method
  *	Description: Get the attribute name from the given alias.
+ *               If the given alias is not found in database, returns an empty string
  *
  *	@param argin The attribute alias
  *	@returns The attribute name (dev_name/att_name)
@@ -7598,6 +7601,125 @@ Tango::DevString DataBase::db_get_alias_attribute(Tango::DevString argin)
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_alias_attribute
 	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbRenameServer related method
+ *	Description: Rename a device server process
+ *
+ *	@param argin s[0] = old device server name (exec/instance)
+ *               s[1] = new device server name (exec/instance)
+ *	@returns
+ */
+//--------------------------------------------------------
+void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbRenameServer()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_rename_server) ENABLED START -----*/
+
+	//	Add your own code
+
+//
+// Check argument validity
+//
+
+	if (argin->length() != 2)
+	{
+		Tango::Except::throw_exception("DB_WrongArgNUmber",
+	   				                   "Wrong number of args (two required: old name and new name)",
+					                   "DataBase::db_rename_server()");
+	}
+
+	string old_name((*argin)[0]);
+	string new_name((*argin)[1]);
+
+	string::size_type pos_old,pos_new;
+
+	pos_old = old_name.find('/');
+	pos_new = new_name.find('/');
+
+	if ((pos_old == string::npos) || (pos_new == string::npos))
+	{
+		Tango::Except::throw_exception("Db_WrongArgument","Wrong syntax in command args (ds_exec_name/inst_name)",
+										"DataBase::db_rename_server()");
+	}
+
+//
+// Check that the new name is not already used
+//
+
+	string new_adm_name("dserver/");
+	new_adm_name = new_adm_name + new_name;
+
+	TangoSys_MemStream sql_query_stream;
+	MYSQL_RES *result;
+	long n_rows=0;
+
+	sql_query_stream << "SELECT name from device WHERE name = \'" << new_adm_name << "\' ";
+	DEBUG_STREAM << "DataBase::db_rename_server(): sql_query " << sql_query_stream.str() << endl;
+
+	result = query(sql_query_stream.str(),"db_rename_server()");
+
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::db_rename_server(): mysql_num_rows() " << n_rows << endl;
+
+	if (n_rows > 0)
+	{
+		mysql_free_result(result);
+
+		stringstream ss;
+		ss << "Device server process name " << new_name << " is already used";
+		Tango::Except::throw_exception("Db_WrongArgument",ss.str(),"DataBase::db_rename_server()");
+	}
+
+//
+// Change ds exec name. This means
+// 1 - Update the device's server column
+// 2 - Change the ds admin device name
+// 3 - Change admin device property (if any)
+// 4 - Change admin device attribute property (if any)
+//
+
+	string old_adm_name("dserver/");
+	old_adm_name = old_adm_name + old_name;
+
+	string new_exec = new_name.substr(0,pos_new);
+	string new_inst = new_name.substr(pos_new + 1);
+
+	{
+		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE",this);
+
+   		sql_query_stream.str("");
+		sql_query_stream << "UPDATE device set server=\'" << new_name << "\' where server=\'" << old_name << "\'";
+		DEBUG_STREAM << "DataBase::db_rename_server(): sql_query " << sql_query_stream.str() << endl;
+
+		simple_query(sql_query_stream.str(),"db_rename_server()",al.get_con_nb());
+
+   		sql_query_stream.str("");
+		sql_query_stream << "UPDATE device set name=\'" << new_adm_name;
+		sql_query_stream << "\', family=\'" << new_exec;
+		sql_query_stream << "\', member=\'" << new_inst;
+		sql_query_stream << "\' where name=\'" << old_adm_name << "\'";
+		DEBUG_STREAM << "DataBase::db_rename_server(): sql_query " << sql_query_stream.str() << endl;
+
+		simple_query(sql_query_stream.str(),"db_rename_server()",al.get_con_nb());
+
+   		sql_query_stream.str("");
+		sql_query_stream << "UPDATE property_device set device=\'" << new_adm_name;
+		sql_query_stream << "\' where device=\'" << old_adm_name << "\'";
+		DEBUG_STREAM << "DataBase::db_rename_server(): sql_query " << sql_query_stream.str() << endl;
+
+		simple_query(sql_query_stream.str(),"db_rename_server()",al.get_con_nb());
+
+   		sql_query_stream.str("");
+		sql_query_stream << "UPDATE property_attribute_device set device=\'" << new_adm_name;
+		sql_query_stream << "\' where device=\'" << old_adm_name << "\'";
+		DEBUG_STREAM << "DataBase::db_rename_server(): sql_query " << sql_query_stream.str() << endl;
+
+		simple_query(sql_query_stream.str(),"db_rename_server()",al.get_con_nb());
+	}
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_rename_server
 }
 
 /*----- PROTECTED REGION ID(DataBase::namespace_ending) ENABLED START -----*/
