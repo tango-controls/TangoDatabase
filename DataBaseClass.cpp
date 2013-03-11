@@ -134,7 +134,7 @@ DataBaseClass *DataBaseClass::init(const char *name)
 			string s(name);
 			_instance = new DataBaseClass(s);
 		}
-		catch (bad_alloc)
+		catch (bad_alloc &)
 		{
 			throw;
 		}		
@@ -1747,6 +1747,26 @@ CORBA::Any *DbGetAliasAttributeClass::execute(Tango::DeviceImpl *device, const C
 	return insert((static_cast<DataBase *>(device))->db_get_alias_attribute(argin));
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		DbRenameServerClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *DbRenameServerClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "DbRenameServerClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	((static_cast<DataBase *>(device))->db_rename_server(argin));
+	return new CORBA::Any();
+}
+
 
 //===================================================================
 //	Properties management
@@ -2010,7 +2030,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	storedprocedurerelease->set_polling_period(0);
 	storedprocedurerelease->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(storedprocedurerelease);
 
 	//	Attribute : Timing_average
@@ -2035,7 +2054,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	timing_average->set_polling_period(0);
 	timing_average->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(timing_average);
 
 	//	Attribute : Timing_minimum
@@ -2060,7 +2078,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	timing_minimum->set_polling_period(0);
 	timing_minimum->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(timing_minimum);
 
 	//	Attribute : Timing_maximum
@@ -2085,7 +2102,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	timing_maximum->set_polling_period(0);
 	timing_maximum->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(timing_maximum);
 
 	//	Attribute : Timing_calls
@@ -2110,7 +2126,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	timing_calls->set_polling_period(0);
 	timing_calls->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(timing_calls);
 
 	//	Attribute : Timing_index
@@ -2135,7 +2150,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	timing_index->set_polling_period(0);
 	timing_index->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(timing_index);
 
 	//	Attribute : Timing_info
@@ -2160,7 +2174,6 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	timing_info->set_polling_period(0);
 	timing_info->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
-	//	Not set to hardware at init
 	att_list.push_back(timing_info);
 
 	//	Create a list of static attributes
@@ -2757,6 +2770,13 @@ void DataBaseClass::command_factory()
 			"The attribute name (dev_name/att_name)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetAliasAttributeCmd);
+	DbRenameServerClass	*pDbRenameServerCmd =
+		new DbRenameServerClass("DbRenameServer",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
+			"s[0] = old device server name (exec/instance)\ns[1] = new device server name (exec/instance)",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pDbRenameServerCmd);
 	/*----- PROTECTED REGION ID(DataBaseClass::command_factory_after) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::command_factory_after
@@ -2821,7 +2841,7 @@ void DataBaseClass::erase_dynamic_attributes(const Tango::DevVarStringArray *dev
 			{
 				cout2 << att_name << " is a UNWANTED dynamic attribute for device " << (*devlist_ptr)[i] << endl;
 				Tango::Attribute &att = dev->get_device_attr()->get_attr_by_name(att_name.c_str());
-				dev->remove_attribute(att_list[att.get_attr_idx()],true);
+				dev->remove_attribute(att_list[att.get_attr_idx()], true, false);
 				--ite_att;
 			}
 		}

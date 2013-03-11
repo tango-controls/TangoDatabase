@@ -1405,4 +1405,19 @@ bool DataBase::is_DbGetAliasAttribute_allowed(TANGO_UNUSED(const CORBA::Any &any
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbRenameServer_allowed()
+ *	Description : Execution allowed for DbRenameServer attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbRenameServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbRenameServer command.
+	/*----- PROTECTED REGION ID(DataBase::DbRenameServerStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbRenameServerStateAllowed
+	return true;
+}
+
 }	//	End of namespace
