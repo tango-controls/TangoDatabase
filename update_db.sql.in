@@ -4,7 +4,5 @@ USE @TANGO_DB_NAME@;
 # Update entries in the property_class tables for controlled access service
 #
 
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',32,'DbImportEvent',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',33,'DbGetDeviceAlias',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',34,'DbGetCSDbServerList',NULL,NULL,NULL);
-
+INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NULL,NULL,NULL);
+INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',5,'UpdateServerList',NULL,NULL,NULL);

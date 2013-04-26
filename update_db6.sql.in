@@ -18,6 +18,7 @@ INSERT INTO property_class VALUES('Database','AllowedAccessCmd',34,'DbGetCSDbSer
 #
 
 INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',9,'QuerySubDevice',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NULL,NULL,NULL);
 
 #
 #
@@ -29,6 +30,7 @@ INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',1,'DevReadLog',N
 INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',2,'DevStart',NULL,NULL,NULL);
 INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',3,'DevGetRunningServers',NULL,NULL,NULL);
 INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',4,'DevGetStopServers',NULL,NULL,NULL);
+INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',5,'UpdateServerList',NULL,NULL,NULL);
 
 #
 #
