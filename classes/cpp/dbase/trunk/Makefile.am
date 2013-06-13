@@ -6,7 +6,7 @@ INCLUDES = $(ORB_INCLUDE_PREFIX)  $(LIBZMQ_CFLAGS) \
       	$(MYSQLCLIENT_CFLAGS) \
       	$(ZLIB_CPPFLAGS)
 
-AM_CXXFLAGS= @CPP_ELEVEN@ -Wall -D_FORTIFY_SOURCE=2 -O1 -fpie
+AM_CXXFLAGS= -Wall -D_FORTIFY_SOURCE=2 -O1 -fpie
 
 LDADD = -L$(top_builddir)/lib/cpp/server -ltango -L$(top_builddir)/lib/cpp/log4tango/src \
 		-llog4tango $(MYSQLCLIENT_LDFLAGS) \
