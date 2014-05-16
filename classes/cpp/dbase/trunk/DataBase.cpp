@@ -5997,6 +5997,13 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 	tmp_alias = (*argin)[1];
 	for (unsigned int i=0; i<tmp_name.length(); i++) {
 		tmp_name[i] = tolower(tmp_name[i]);
+		if (tmp_name[i] == '/' || tmp_name[i] == ' ')
+		{
+   			WARN_STREAM << "DataBase::db_put_attribute_alias(): Wrong alias for attribute ";
+   			Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
+					       (const char *)"Wrong alias for attribute!. Characters '/',' ' forbidden in alias",
+					       (const char *)"DataBase::db_put_attribute_alias()");
+		}
 	}
 	INFO_STREAM << "DataBase::db_put_attribute_alias(): put " << tmp_alias << " for attribute " << tmp_name << endl;
 
@@ -6373,6 +6380,13 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 	tmp_alias = (*device_alias)[1];
 	for (unsigned int i=0; i<tmp_device.length(); i++) {
 		tmp_device[i] = tolower(tmp_device[i]);
+		if (tmp_device[i] == '/' || tmp_device[i] == ' ')
+		{
+   			WARN_STREAM << "DataBase::db_put_device_alias(): Wrong alias info for device ";
+   			Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
+					       (const char *)"Wrong alias info for device!. Characters '/',' ' forbidden in alias",
+					       (const char *)"DataBase::db_put_device_alias()");
+		}
 	}
 	INFO_STREAM << "DataBase::db_put_device_alias(): put " << tmp_alias << " for device " << tmp_device << endl;
 
