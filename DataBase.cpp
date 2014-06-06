@@ -1215,7 +1215,7 @@ void DataBase::db_delete_device(Tango::DevString argin)
 	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
 
 	{
-		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE",this);
+		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE, attribute_alias WRITE",this);
 
 // then delete the device from the device table
 
@@ -1235,6 +1235,13 @@ void DataBase::db_delete_device(Tango::DevString argin)
     	sql_query_stream.str("");
 		sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \"" << tmp_wildcard << "\"";
     	DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
+		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
+
+// then delete device from attribute_alias table
+
+		sql_query_stream.str("");
+		sql_query_stream << "DELETE FROM attribute_alias WHERE device LIKE \"" << tmp_wildcard << "\"";
+		DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
 		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
 	}
 
@@ -5982,7 +5989,7 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
-	const char *tmp_alias;
+	string tmp_alias;
 	string tmp_name, tmp_attribute, tmp_device;
 
 
@@ -5995,9 +6002,9 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 
 	tmp_name = (*argin)[0];
 	tmp_alias = (*argin)[1];
-	for (unsigned int i=0; i<tmp_name.length(); i++) {
-		tmp_name[i] = tolower(tmp_name[i]);
-		if (tmp_name[i] == '/' || tmp_name[i] == ' ')
+	for (unsigned int i=0; i<tmp_alias.length(); i++) {
+		char tmp_char = tmp_alias[i];
+		if (tmp_char == '/' || tmp_char == ' ')
 		{
    			WARN_STREAM << "DataBase::db_put_attribute_alias(): Wrong alias for attribute ";
    			Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
@@ -6365,7 +6372,7 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 	const Tango::DevVarStringArray  *device_alias = argin;
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
-	const char *tmp_alias;
+	string tmp_alias;
 	string tmp_device;
 
 
@@ -6378,9 +6385,9 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 
 	tmp_device = (*device_alias)[0];
 	tmp_alias = (*device_alias)[1];
-	for (unsigned int i=0; i<tmp_device.length(); i++) {
-		tmp_device[i] = tolower(tmp_device[i]);
-		if (tmp_device[i] == '/' || tmp_device[i] == ' ')
+	for (unsigned int i=0; i<tmp_alias.length(); i++) {
+		char tmp_char = tmp_alias[i];
+		if (tmp_char == '/' || tmp_char == ' ')
 		{
    			WARN_STREAM << "DataBase::db_put_device_alias(): Wrong alias info for device ";
    			Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
