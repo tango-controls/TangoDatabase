@@ -149,6 +149,19 @@ static const char *RcsId = "$Id$";
 //  DbGetAttributeAlias2                |  db_get_attribute_alias2
 //  DbGetAliasAttribute                 |  db_get_alias_attribute
 //  DbRenameServer                      |  db_rename_server
+//  DbGetClassPipeProperty              |  db_get_class_pipe_property
+//  DbGetDevicePipeProperty             |  db_get_device_pipe_property
+//  DbDeleteClassPipe                   |  db_delete_class_pipe
+//  DbDeleteDevicePipe                  |  db_delete_device_pipe
+//  DbDeleteClassPipeProperty           |  db_delete_class_pipe_property
+//  DbDeleteDevicePipeProperty          |  db_delete_device_pipe_property
+//  DbGetClassPipeList                  |  db_get_class_pipe_list
+//  DbGetDevicePipeList                 |  db_get_device_pipe_list
+//  DbDeleteAllDevicePipeProperty       |  db_delete_all_device_pipe_property
+//  DbPutClassPipeProperty              |  db_put_class_pipe_property
+//  DbPutDevicePipeProperty             |  db_put_device_pipe_property
+//  DbGetClassPipePropertyHist          |  db_get_class_pipe_property_hist
+//  DbGetDevicePipePropertyHist         |  db_get_device_pipe_property_hist
 //================================================================
 
 //================================================================
@@ -184,7 +197,7 @@ bool nocase_compare(char c1, char c2)
  */
 //--------------------------------------------------------
 DataBase::DataBase(Tango::DeviceClass *cl, string &s)
- : Tango::Device_4Impl(cl, s.c_str())
+ : TANGO_BASE_CLASS(cl, s.c_str())
 {
 	/*----- PROTECTED REGION ID(DataBase::constructor_1) ENABLED START -----*/
 
@@ -194,7 +207,7 @@ DataBase::DataBase(Tango::DeviceClass *cl, string &s)
 }
 //--------------------------------------------------------
 DataBase::DataBase(Tango::DeviceClass *cl, const char *s)
- : Tango::Device_4Impl(cl, s)
+ : TANGO_BASE_CLASS(cl, s)
 {
 	/*----- PROTECTED REGION ID(DataBase::constructor_2) ENABLED START -----*/
 
@@ -204,7 +217,7 @@ DataBase::DataBase(Tango::DeviceClass *cl, const char *s)
 }
 //--------------------------------------------------------
 DataBase::DataBase(Tango::DeviceClass *cl, const char *s, const char *d)
- : Tango::Device_4Impl(cl, s, d)
+ : TANGO_BASE_CLASS(cl, s, d)
 {
 	/*----- PROTECTED REGION ID(DataBase::constructor_3) ENABLED START -----*/
 
@@ -276,7 +289,6 @@ void DataBase::init_device()
 	/*----- PROTECTED REGION END -----*/	//	DataBase::init_device_before
 
 	//	No device property to be read from database
-
 
 	/*----- PROTECTED REGION ID(DataBase::init_device) ENABLED START -----*/
 
@@ -433,7 +445,7 @@ void DataBase::init_device()
 //--------------------------------------------------------
 void DataBase::always_executed_hook()
 {
-	INFO_STREAM << "DataBase::always_executed_hook()  " << device_name << endl;
+	DEBUG_STREAM << "DataBase::always_executed_hook()  " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::always_executed_hook) ENABLED START -----*/
 
 	//	code always executed before all requests
@@ -720,7 +732,6 @@ void DataBase::add_dynamic_attributes()
  *	Command State related method
  *	Description: This command gets the device state (stored in its <i>device_state</i> data member) and returns it to the caller.
  *
- *	@param argin none.
  *	@returns State Code
  */
 //--------------------------------------------------------
@@ -747,7 +758,6 @@ Tango::DevState DataBase::dev_state()
  *	@param argin Str[0] = Full device server process name
  *               Str[1] = Device name
  *               Str[2] = Tango class name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
@@ -875,7 +885,6 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
  *               Str[2] = Tango class name
  *               Str[n] = Device name
  *               Str[n + 1] = Tango class name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
@@ -948,7 +957,6 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
  *	Description: Delete an attribute alias.
  *
  *	@param argin Attriibute alias name.
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_attribute_alias(Tango::DevString argin)
@@ -973,7 +981,6 @@ void DataBase::db_delete_attribute_alias(Tango::DevString argin)
  *
  *	@param argin Str[0] = Tango class name
  *               Str[1] = Attribute name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
@@ -1019,7 +1026,6 @@ void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
  *               Str[1] = Attribute name
  *               Str[2] = Property name
  *               Str[n] = Property name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray *argin)
@@ -1107,7 +1113,6 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
  *	@param argin Str[0] = Tango class name
  *               Str[1] = Property name
  *               Str[n] = Property name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
@@ -1183,7 +1188,6 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
  *	Description: Delete a devcie from database
  *
  *	@param argin device name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_device(Tango::DevString argin)
@@ -1255,7 +1259,6 @@ void DataBase::db_delete_device(Tango::DevString argin)
  *	Description: Delete a device alias.
  *
  *	@param argin device alias name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_device_alias(Tango::DevString argin)
@@ -1280,7 +1283,6 @@ void DataBase::db_delete_device_alias(Tango::DevString argin)
  *
  *	@param argin Str[0] = Device name
  *               Str[1] = Attribute name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
@@ -1341,7 +1343,6 @@ void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
  *               Str[1] = Attribute name
  *               Str[2] = Property name
  *               Str[n] = Property name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArray *argin)
@@ -1435,7 +1436,6 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
  *	@param argin Str[0] = Device name
  *               Str[1] = Property name
  *               Str[n] = Property name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
@@ -1519,7 +1519,6 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
  *	@param argin Str[0]  = Object name
  *               Str[1] = Property name
  *               Str[n] = Property name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
@@ -1598,7 +1597,6 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
  *	Description: Delete server from the database but dont delete device properties
  *
  *	@param argin Device server name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_server(Tango::DevString argin)
@@ -1719,7 +1717,6 @@ void DataBase::db_delete_server(Tango::DevString argin)
  *	Description: delete info related to a Tango devvice server process
  *
  *	@param argin Device server name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_server_info(Tango::DevString argin)
@@ -1754,7 +1751,6 @@ void DataBase::db_delete_server_info(Tango::DevString argin)
  *               Str[2] = Device server process host name
  *               Str[3] = Device server process PID or string ``null``
  *               Str[4] = Device server process version
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
@@ -1913,7 +1909,6 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
  *               Str[2] = Notifd host name
  *               Str[3] = Notifd pid
  *               Str[4] = Notifd version
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
@@ -5696,7 +5691,6 @@ Tango::DevVarLongStringArray *DataBase::db_import_event(Tango::DevString argin)
  *	Description: Get miscellaneous numbers on information
  *               stored in database
  *
- *	@param argin
  *	@returns Miscellaneous info like:
  *           - Device defined in database
  *           - Device marked as exported in database
@@ -5978,7 +5972,6 @@ Tango::DevVarStringArray *DataBase::db_info()
  *
  *	@param argin Str[0] = attribute name
  *               Str[1] = attribute alias
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
@@ -6092,7 +6085,6 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
  *               Str[4] = Property name
  *               Str[5] = Property value
  *               .....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *argin)
@@ -6179,7 +6171,6 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
  *               Str[5] = Property value 1
  *               Str[n] = Property value n (array case)
  *               .....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *argin)
@@ -6274,7 +6265,6 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
  *               Str[4] = Property value 1
  *               Str[n] = Property value n
  *               ....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
@@ -6360,7 +6350,6 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
  *
  *	@param argin Str[0] = device name
  *               Str[1] = alias name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
@@ -6445,7 +6434,6 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
  *               Str[4] = Property name
  *               Str[5] = Property value
  *               .....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *argin)
@@ -6539,7 +6527,6 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
  *               Str[5] = Property value 1
  *               Str[n] = Property value n (array case)
  *               .....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray *argin)
@@ -6637,7 +6624,6 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
  *               Str[4] = Property value 1
  *               Str[n] = Property value n
  *               ....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
@@ -6735,7 +6721,6 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
  *               Str[4] = Property value 1
  *               Str[n] = Property value n
  *               ....
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
@@ -6814,7 +6799,6 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
  *	Description: Update server info including host, mode and level
  *
  *	@param argin server info
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
@@ -6912,7 +6896,6 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
  *	Description: Mark a device as non exported in database
  *
  *	@param argin Device name
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_un_export_device(Tango::DevString argin)
@@ -6951,7 +6934,6 @@ void DataBase::db_un_export_device(Tango::DevString argin)
  *	Description: Mark one event channel as non exported in database
  *
  *	@param argin name of event channel or factory to unexport
- *	@returns none
  */
 //--------------------------------------------------------
 void DataBase::db_un_export_event(Tango::DevString argin)
@@ -6987,7 +6969,6 @@ void DataBase::db_un_export_event(Tango::DevString argin)
  *               process as non exported
  *
  *	@param argin Device server name (executable/instance)
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_un_export_server(Tango::DevString argin)
@@ -7030,8 +7011,6 @@ void DataBase::db_un_export_server(Tango::DevString argin)
  *	Command ResetTimingValues related method
  *	Description: Reset the timing attribute values.
  *
- *	@param argin
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::reset_timing_values()
@@ -7257,7 +7236,6 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
  *
  *	@param argin str[0] = device name
  *               Str[1]...str[n] = attribute name(s)
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarStringArray *argin)
@@ -7444,7 +7422,6 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
  *	Command DbGetCSDbServerList related method
  *	Description: Get a list of host:port for all database server defined in the control system
  *
- *	@param argin
  *	@returns List of host:port with one element for each database server
  */
 //--------------------------------------------------------
@@ -7630,7 +7607,6 @@ Tango::DevString DataBase::db_get_alias_attribute(Tango::DevString argin)
  *
  *	@param argin s[0] = old device server name (exec/instance)
  *               s[1] = new device server name (exec/instance)
- *	@returns
  */
 //--------------------------------------------------------
 void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
@@ -7788,6 +7764,1353 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 		}
 	}
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_rename_server
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetClassPipeProperty related method
+ *	Description: Retrieve class pipe properties
+ *
+ *	@param argin Str[0] = Tango class name
+ *               Str[1] = Pipe name
+ *               Str[n] = Pipe name
+ *	@returns Str[0] = Tango class name
+ *           Str[1] = Pipe property  number
+ *           Str[2] = Pipe property 1 name
+ *           Str[3] = Pipe property 1 value number (array case)
+ *           Str[4] = Pipe property 1 value
+ *           Str[n] = Pipe property 1 value (array case)
+ *           Str[n + 1] = Pipe property 2 name
+ *           Str[n + 2] = Pipe property 2 value number (array case)
+ *           Str[n + 3] = Pipe property 2 value
+ *           Str[n + m] = Pipe property 2 value (array case)
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_class_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetClassPipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_class_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+
+	const Tango::DevVarStringArray  *property_names = argin;
+	DEBUG_STREAM << "DataBase::db_get_class_pipe_property(): entering... !" << endl;
+
+	TangoSys_MemStream sql_query_stream;
+	char n_pipes_str[256];
+	char n_rows_str[256];
+	char prop_size_str[256];
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	int n_rows=0, n_props=0;
+	argout = new Tango::DevVarStringArray;
+	const char *tmp_class, *tmp_pipe;
+
+	INFO_STREAM << "DataBase::GetClassPipeProperty(): get properties for " << property_names->length()-1 << " pipe(s) for class " << (*property_names)[0] << endl;
+
+	tmp_class = (*property_names)[0];
+#ifdef TANGO_LONG32
+	sprintf(n_pipes_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_pipes_str, "%u", property_names->length()-1);
+#endif
+	n_props = 2;
+	argout->length(n_props);
+	(*argout)[n_props-2] = CORBA::string_dup(tmp_class);
+	(*argout)[n_props-1] = CORBA::string_dup(n_pipes_str);
+
+	for (unsigned int i=1; i<property_names->length(); i++)
+	{
+	   	tmp_pipe = (*property_names)[i];
+		sql_query_stream.str("");
+		sql_query_stream << "SELECT name,value FROM property_pipe_class WHERE class = \""
+		                 << tmp_class << "\" AND pipe LIKE \"" << tmp_pipe
+						 << "\" ORDER BY name,count";
+	   	DEBUG_STREAM << "DataBase::GetClassPipeProperty(): sql_query " << sql_query_stream.str() << endl;
+
+		result = query(sql_query_stream.str(),"db_get_class_pipe_property()");
+
+	   	n_rows = mysql_num_rows(result);
+	   	DEBUG_STREAM << "DataBase::GetClassPipeProperty(): mysql_num_rows() " << n_rows << endl;
+	   	n_props = n_props+2;
+	   	argout->length(n_props);
+	   	(*argout)[n_props-2] = CORBA::string_dup(tmp_pipe);
+		int prop_number_idx = n_props-1;
+		int prop_number = 0;
+	   	if (n_rows > 0)
+	   	{
+			string name, old_name;
+			bool new_prop = true;
+			int prop_size_idx = 0;
+			int prop_size = 0;
+	      	for (int j=0; j<n_rows; j++)
+	      	{
+	        	if ((row = mysql_fetch_row(result)) != NULL)
+	         	{
+					name = row[0];
+					if (j == 0)
+						old_name = name;
+					else
+					{
+						name = row[0];
+						if (name != old_name)
+						{
+							new_prop = true;
+							old_name = name;
+						}
+						else
+							new_prop = false;
+					}
+//	            			DEBUG_STREAM << "DataBase::GetClassPipeProperty(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
+					if (new_prop == true)
+					{
+						n_props = n_props + 3;
+						argout->length(n_props);
+	            		(*argout)[n_props-3] = CORBA::string_dup(row[0]);
+	            		(*argout)[n_props-1] = CORBA::string_dup(row[1]);
+						if (prop_size != 0)
+						{
+							sprintf(prop_size_str,"%d",prop_size);
+							(*argout)[prop_size_idx] = CORBA::string_dup(prop_size_str);
+							prop_number++;
+						}
+						prop_size_idx = n_props - 2;
+						prop_size = 1;
+					}
+					else
+					{
+						n_props = n_props + 1;
+						argout->length(n_props);
+						(*argout)[n_props-1] = CORBA::string_dup(row[1]);
+						prop_size++;
+					}
+	         	}
+	      	}
+			if (prop_size != 0)
+			{
+				sprintf(prop_size_str,"%d",prop_size);
+				(*argout)[prop_size_idx] = CORBA::string_dup(prop_size_str);
+				prop_number++;
+			}
+	   	}
+	   	sprintf(n_rows_str,"%d",prop_number);
+		(*argout)[prop_number_idx] = CORBA::string_dup(n_rows_str);
+	   	mysql_free_result(result);
+	}
+
+	DEBUG_STREAM << "DataBase::GetClassPipeProperty(): argout->length() "<< argout->length() << endl;
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_class_pipe_property
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetDevicePipeProperty related method
+ *	Description: Retrieve device pipe properties
+ *
+ *	@param argin Str[0] = Device name
+ *               Str[1] = Pipe name
+ *               Str[n] = Pipe name
+ *	@returns Str[0] = Device name
+ *           Str[1] = Pipe property  number
+ *           Str[2] = Pipe property 1 name
+ *           Str[3] = Pipe property 1 value number (array case)
+ *           Str[4] = Pipe property 1 value
+ *           Str[n] = Pipe property 1 value (array case)
+ *           Str[n + 1] = Pipe property 2 name
+ *           Str[n + 2] = Pipe property 2 value number (array case)
+ *           Str[n + 3] = Pipe property 2 value
+ *           Str[n + m] = Pipe property 2 value (array case)
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetDevicePipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_device_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+	const Tango::DevVarStringArray  *property_names = argin;
+	TangoSys_MemStream sql_query_stream;
+	char n_pipes_str[256];
+	char n_rows_str[256];
+	char prop_size_str[256];
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	int n_rows=0, n_props=0;
+	argout = new Tango::DevVarStringArray;
+	const char *tmp_device, *tmp_pipe;
+
+	TimeVal	before, after;
+	GetTime(before);
+
+	INFO_STREAM << "DataBase::GetDevicePipeProperty(): get properties for " << property_names->length()-1 << " pipe(s) for device " << (*property_names)[0] << endl;
+
+	tmp_device = (*property_names)[0];
+#ifdef TANGO_LONG32
+	sprintf(n_pipes_str, "%lu", property_names->length()-1);
+#else
+	sprintf(n_pipes_str, "%u", property_names->length()-1);
+#endif
+	n_props = 2;
+	argout->length(n_props);
+	(*argout)[n_props-2] = CORBA::string_dup(tmp_device);
+	(*argout)[n_props-1] = CORBA::string_dup(n_pipes_str);
+
+//
+// First, get how many pipes belonging to the device have
+// properties defined in the db
+//
+
+	bool all_pipe = false;
+	sql_query_stream << "SELECT COUNT(DISTINCT pipe) FROM property_pipe_device WHERE device = \"" << tmp_device << "\"";
+	DEBUG_STREAM << "Database::GetDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+
+	result = query(sql_query_stream.str(),"db_get_device_pipe_property()");
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): mysql_num_rows() " << n_rows << endl;
+
+	if (n_rows != 0)
+	{
+		if ((row = mysql_fetch_row(result)) != NULL)
+		{
+			stringstream tmp_str;
+			string nb_pipe_str = row[0];
+		 	tmp_str << nb_pipe_str;
+			unsigned int nb_pipe = 0;
+			tmp_str >> nb_pipe;
+			if (property_names->length()-1 >= nb_pipe)
+				all_pipe = true;
+	   		mysql_free_result(result);
+		}
+	}
+
+	if (all_pipe == true)
+	{
+		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): Get pipe properties for all pipe(s)" << endl;
+	}
+
+	if (all_pipe == false)
+	{
+		for (unsigned int i=1; i<property_names->length(); i++)
+		{
+	   		tmp_pipe = (*property_names)[i];
+			sql_query_stream.str("");
+			sql_query_stream << "SELECT name,value FROM property_pipe_device WHERE device = \""
+		                 << tmp_device << "\" AND pipe LIKE \"" << tmp_pipe
+						 << "\" ORDER BY name,count";
+	   		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+
+			result = query(sql_query_stream.str(),"db_get_device_pipe_property()");
+
+	   		n_rows = mysql_num_rows(result);
+	   		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): mysql_num_rows() " << n_rows << endl;
+	   		n_props = n_props+2;
+	   		argout->length(n_props);
+	   		(*argout)[n_props-2] = CORBA::string_dup(tmp_pipe);
+			int prop_number_idx = n_props-1;
+			int prop_number = 0;
+	   		if (n_rows > 0)
+	   		{
+				string name, old_name;
+				bool new_prop = true;
+				int prop_size_idx = 0;
+				int prop_size = 0;
+	      		for (int j=0; j<n_rows; j++)
+	      		{
+	        		if ((row = mysql_fetch_row(result)) != NULL)
+	         		{
+						name = row[0];
+						if (j == 0)
+							old_name = name;
+						else
+						{
+							name = row[0];
+							if (name != old_name)
+							{
+								new_prop = true;
+								old_name = name;
+							}
+							else
+								new_prop = false;
+						}
+//	            			DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): property[ "<< i << "] count " << row[0] << " value " << row[1] << endl;
+						if (new_prop == true)
+						{
+							n_props = n_props + 3;
+							argout->length(n_props);
+	            			(*argout)[n_props-3] = CORBA::string_dup(row[0]);
+	            			(*argout)[n_props-1] = CORBA::string_dup(row[1]);
+							if (prop_size != 0)
+							{
+								sprintf(prop_size_str,"%d",prop_size);
+								(*argout)[prop_size_idx] = CORBA::string_dup(prop_size_str);
+								prop_number++;
+							}
+							prop_size_idx = n_props - 2;
+							prop_size = 1;
+						}
+						else
+						{
+							n_props = n_props + 1;
+							argout->length(n_props);
+							(*argout)[n_props-1] = CORBA::string_dup(row[1]);
+							prop_size++;
+						}
+	         		}
+	      		}
+				if (prop_size != 0)
+				{
+					sprintf(prop_size_str,"%d",prop_size);
+					(*argout)[prop_size_idx] = CORBA::string_dup(prop_size_str);
+					prop_number++;
+				}
+	   		}
+	   		sprintf(n_rows_str,"%d",prop_number);
+			(*argout)[prop_number_idx] = CORBA::string_dup(n_rows_str);
+	   		mysql_free_result(result);
+		}
+	}
+	else
+	{
+		sql_query_stream.str("");
+		sql_query_stream << "SELECT pipe,name,value FROM property_pipe_device WHERE device = \""
+		                 << tmp_device << "\" ORDER BY pipe,name,count";
+	   	DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+
+		result = query(sql_query_stream.str(),"db_get_device_pipe_property()");
+		n_rows = mysql_num_rows(result);
+		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): mysql_num_rows() " << n_rows << endl;
+
+		map<string,vector<PropDef> > db_data;
+
+		string pipe,prev_pipe;
+		string p_name,prev_p_name;
+		string value;
+		PropDef prop;
+		vector<PropDef> pipe_props;
+
+//
+// Create a map with data coming from db
+//
+
+		for (int j = 0;j < n_rows;j++)
+		{
+			if ((row = mysql_fetch_row(result)) != NULL)
+			{
+				pipe = row[0];
+				transform(pipe.begin(),pipe.end(),pipe.begin(),::tolower);
+
+				if (pipe != prev_pipe)
+				{
+					if (j != 0)
+					{
+						pipe_props.push_back(prop);
+						db_data.insert(make_pair(prev_pipe,pipe_props));
+						prop.prop_val.clear();
+						pipe_props.clear();
+					}
+					p_name = row[1];
+					prop.prop_name_cd = p_name;
+					transform(p_name.begin(),p_name.end(),p_name.begin(),::tolower);
+
+					prop.prop_name = p_name;
+					value = row[2];
+					prop.prop_val.push_back(value);
+
+					prev_p_name = p_name;
+					prev_pipe = pipe;
+				}
+				else
+				{
+					p_name = row[1];
+					transform(p_name.begin(),p_name.end(),p_name.begin(),::tolower);
+
+					if (p_name != prev_p_name)
+					{
+						pipe_props.push_back(prop);
+						prop.prop_val.clear();
+
+						prop.prop_name = p_name;
+						prop.prop_name_cd = row[1];
+						value = row[2];
+						prop.prop_val.push_back(value);
+
+						prev_p_name = p_name;
+					}
+					else
+					{
+						value = row[2];
+						prop.prop_val.push_back(value);
+					}
+				}
+			}
+		}
+	   	mysql_free_result(result);
+
+		if (n_rows != 0)
+		{
+			pipe_props.push_back(prop);
+			db_data.insert(make_pair(pipe,pipe_props));
+		}
+
+//
+// Initialized data returned to caller
+//
+
+		for (unsigned int i=1; i<property_names->length(); i++)
+		{
+	   		string tmp_pipe((*property_names)[i]);
+			string tmp_pipe_lower(tmp_pipe);
+			transform(tmp_pipe_lower.begin(),tmp_pipe_lower.end(),tmp_pipe_lower.begin(),::tolower);
+
+			map<string,vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
+
+//
+// Data for this pipe in map?
+//
+
+			if (pos == db_data.end())
+			{
+	   			n_props = n_props+2;
+	   			argout->length(n_props);
+	   			(*argout)[n_props-2] = CORBA::string_dup(tmp_pipe.c_str());
+				(*argout)[n_props-1] = CORBA::string_dup("0");
+			}
+			else
+			{
+				int prop_nb = pos->second.size();
+
+	   			n_props = n_props + 2;
+	   			argout->length(n_props);
+	   			(*argout)[n_props - 2] = CORBA::string_dup(tmp_pipe.c_str());
+	   			sprintf(n_rows_str,"%d",prop_nb);
+				(*argout)[n_props - 1] = CORBA::string_dup(n_rows_str);
+
+				for (int i = 0;i < prop_nb;i++)
+				{
+					PropDef &pd = (pos->second)[i];
+					int prop_size = pd.prop_val.size();
+					int old_n_props = n_props;
+					n_props = n_props + 2 + prop_size;
+
+					argout->length(n_props);
+					(*argout)[old_n_props++] = CORBA::string_dup(pd.prop_name_cd.c_str());
+	   				sprintf(n_rows_str,"%d",prop_size);
+					(*argout)[old_n_props++] = CORBA::string_dup(n_rows_str);
+
+					for (int j = 0;j < prop_size;j++)
+					{
+						(*argout)[old_n_props++] = CORBA::string_dup(pd.prop_val[j].c_str());
+					}
+				}
+			}
+		}
+	}
+
+	DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): argout->length() "<< argout->length() << endl;
+
+	GetTime(after);
+	update_timing_stats(before, after, "DbGetDevicePipeProperty");
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_device_pipe_property
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbDeleteClassPipe related method
+ *	Description: Delete a class pipe and all its properties from database
+ *
+ *	@param argin Str[0] = Tango class name
+ *               Str[1] = Pipe name
+ */
+//--------------------------------------------------------
+void DataBase::db_delete_class_pipe(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbDeleteClassPipe()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_delete_class_pipe) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	const char *pipe;
+	string tmp_class;
+
+	if (argin->length() < 2) {
+   		WARN_STREAM << "DataBase::db_delete_class_pipe(): insufficient number of arguments ";
+   		WARN_STREAM << endl;
+   		Tango::Except::throw_exception(DB_IncorrectArguments,
+					       "insufficient number of arguments to delete class pipe",
+					       "DataBase::db_delete_class_pipe()");
+	}
+
+	tmp_class = (*argin)[0];
+	pipe = (*argin)[1];
+
+	INFO_STREAM << "DataBase::db_delete_class_pipe(): delete " << tmp_class << " from database" << endl;
+
+// then delete class from the property_pipe_class table
+
+    sql_query_stream << "DELETE FROM property_pipe_class WHERE class LIKE \"" << tmp_class
+	                 << "\" AND pipe LIKE \"" << pipe << "\" ";
+    DEBUG_STREAM << "DataBase::db_delete_class_pipe(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_delete_class_pipe()");
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_delete_class_pipe
+}
+//--------------------------------------------------------
+/**
+ *	Command DbDeleteDevicePipe related method
+ *	Description: Delete device pipe properties from database
+ *
+ *	@param argin Str[0] = Device name
+ *               Str[1] = Pipe name
+ */
+//--------------------------------------------------------
+void DataBase::db_delete_device_pipe(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbDeleteDevicePipe()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_delete_device_pipe) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	const char *pipe;
+	string tmp_device;
+
+	if (argin->length() < 2) {
+   		WARN_STREAM << "DataBase::db_delete_device_pipe(): insufficient number of arguments ";
+   		WARN_STREAM << endl;
+   		Tango::Except::throw_exception(DB_IncorrectArguments,
+					       "insufficient number of arguments to delete device pipe",
+					       "DataBase::db_delete_device_pipe()");
+	}
+
+	tmp_device = (*argin)[0].in();
+	pipe = (*argin)[1];
+
+	INFO_STREAM << "DataBase::db_delete_device_pipe(): delete pipe " << pipe << " for device " << tmp_device << " from database" << endl;
+
+// first check the device name
+
+	if (!check_device_name(tmp_device))
+	{
+         	WARN_STREAM << "DataBase::db_delete_device_pipe(): device name  " << tmp_device << " incorrect ";
+         	WARN_STREAM << endl;
+         	Tango::Except::throw_exception(DB_IncorrectDeviceName,
+					       "Failed to delete device pipe, device name incorrect",
+					       "DataBase::db_delete_device_pipe()");
+	}
+
+// replace database wildcards (% and _)
+
+	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
+
+// then delete device from the property_attribute_device table
+
+    sql_query_stream << "DELETE FROM property_pipe_device WHERE device LIKE \""
+	                 << tmp_wildcard << "\" AND pipe LIKE \"" << pipe << "\" ";
+    DEBUG_STREAM << "DataBase::db_delete_device_pipe(): sql_query " << sql_query_stream.str() << endl;
+	simple_query(sql_query_stream.str(),"db_delete_device_pipe()");
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_delete_device_pipe
+}
+//--------------------------------------------------------
+/**
+ *	Command DbDeleteClassPipeProperty related method
+ *	Description: Delete class pipe properties from database
+ *
+ *	@param argin Str[0] = Tango class name
+ *               Str[1] = Pipe name
+ *               Str[2] = Property name
+ *               Str[n] = Property name
+ */
+//--------------------------------------------------------
+void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbDeleteClassPipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_delete_class_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	const char *pipe, *property;
+	string tmp_class;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+
+	if (argin->length() < 3) {
+   		WARN_STREAM << "DataBase::db_delete_class_pipe_property(): insufficient number of arguments ";
+   		WARN_STREAM << endl;
+   		Tango::Except::throw_exception(DB_IncorrectArguments,
+					       "insufficient number of arguments to delete class pipe property",
+					       "DataBase::db_delete_class_pipe_property()");
+	}
+
+	tmp_class = (*argin)[0];
+	pipe = (*argin)[1];
+
+	{
+		AutoLock al("LOCK TABLES property_pipe_class WRITE,property_pipe_class_hist WRITE,class_pipe_history_id WRITE",this);
+
+		for (unsigned  int i=0; i<argin->length()-2; i++)
+		{
+			property = (*argin)[i+2];
+
+			INFO_STREAM << "DataBase::db_delete_class_pipe_property(): delete class " << tmp_class ;
+			INFO_STREAM << " pipe " << pipe << " property[" << i <<"] " << property << " from database" << endl;
+
+// Is there something to delete ?
+
+        	sql_query_stream.str("");
+			sql_query_stream << "SELECT count(*) FROM property_pipe_class WHERE class = \"" << tmp_class
+		                	 << "\" AND pipe = \"" << pipe << "\" AND name = \"" << property
+							 << "\" ";
+   			DEBUG_STREAM << "DataBase::db_delete_class_pipe_property(): sql_query " << sql_query_stream.str() << endl;
+			result = query(sql_query_stream.str(),"db_delete_class_pipe_property()",al.get_con_nb());
+ 	    	row = mysql_fetch_row(result);
+			int count = atoi(row[0]);
+  	    	mysql_free_result(result);
+
+			if(count) {
+
+// then delete property from the property_attribute_class table
+
+        	  sql_query_stream.str("");
+			  sql_query_stream << "DELETE FROM property_pipe_class WHERE class = \"" << tmp_class
+		                	   << "\" AND pipe = \"" << pipe << "\" AND name = \"" << property
+							   << "\" ";
+   			  DEBUG_STREAM << "DataBase::db_delete_class_pipe_property(): sql_query " << sql_query_stream.str() << endl;
+			  simple_query(sql_query_stream.str(),"db_delete_class_pipe_property()",al.get_con_nb());
+
+// Mark this property as deleted
+
+        	  unsigned int class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
+        	  sql_query_stream.str("");
+			  sql_query_stream << "INSERT INTO property_pipe_class_hist SET class='" << tmp_class \
+													 << "',pipe='" << pipe \
+													 << "',name='" << property \
+													 << "',id='" << class_pipe_property_hist_id \
+													 << "',count='0',value='DELETED'";
+	    	  DEBUG_STREAM << "DataBase::db_delete_class_pipe_property(): sql_query " << sql_query_stream.str() << endl;
+			  simple_query(sql_query_stream.str(),"db_delete_class_pipe_property()",al.get_con_nb());
+
+			}
+			purge_att_property("property_pipe_class_hist","class",tmp_class.c_str(),pipe,property,al.get_con_nb());
+		}
+	}
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_delete_class_pipe_property
+}
+//--------------------------------------------------------
+/**
+ *	Command DbDeleteDevicePipeProperty related method
+ *	Description: Delete device pipe properties from database
+ *
+ *	@param argin Str[0] = Device name
+ *               Str[1] = Pipe name
+ *               Str[2] = Property name
+ *               Str[n] = Property name
+ */
+//--------------------------------------------------------
+void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbDeleteDevicePipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_delete_device_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	const char *pipe, *property;
+	string tmp_device;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+
+	if (argin->length() < 3) {
+   		WARN_STREAM << "DataBase::db_delete_device_pipe_property(): insufficient number of arguments ";
+   		WARN_STREAM << endl;
+   		Tango::Except::throw_exception(DB_IncorrectArguments,
+					       "Insufficient number of arguments to delete device pipe property",
+					       "DataBase::db_delete_device_pipe_property()");
+	}
+
+	tmp_device = (*argin)[0];
+	if (!check_device_name(tmp_device))
+	{
+        	WARN_STREAM << "DataBase::db_delete_device_pipe(): device name  " << tmp_device << " incorrect ";
+         	WARN_STREAM << endl;
+         	Tango::Except::throw_exception(DB_IncorrectDeviceName,
+				       	"Failed to delete device pipe, device name incorrect",
+				       	"DataBase::db_delete_device_pipe_property()");
+	}
+	pipe = (*argin)[1];
+
+	{
+		AutoLock al("LOCK TABLES property_pipe_device WRITE, property_pipe_device_hist WRITE,device_pipe_history_id WRITE",this);
+
+		unsigned int i;
+		for (i=0; i<argin->length()-2; i++)
+		{
+			property = (*argin)[i+2];
+
+			INFO_STREAM << "DataBase::db_delete_device_pipe_property(): delete device " << tmp_device ;
+			INFO_STREAM << " pipe " << pipe << " property[" << i <<"] " << property << " from database" << endl;
+
+// Is there something to delete ?
+
+			sql_query_stream.str("");
+			sql_query_stream << "SELECT count(*) FROM property_pipe_device WHERE device = \"" << tmp_device
+		                	 <<"\" AND pipe = \"" << pipe << "\" AND name = \"" << property << "\" ";
+			result = query(sql_query_stream.str(),"db_delete_device_pipe_property()",al.get_con_nb());
+ 	    	row = mysql_fetch_row(result);
+			int count = atoi(row[0]);
+  	    	mysql_free_result(result);
+
+			if(count) {
+
+// then delete property from the property_pipe_device table
+
+			  sql_query_stream.str("");
+			  sql_query_stream << "DELETE FROM property_pipe_device WHERE device = \"" << tmp_device
+		                	   <<"\" AND pipe = \"" << pipe << "\" AND name = \"" << property << "\" ";
+   			  DEBUG_STREAM << "DataBase::db_delete_device_pipe_property(): sql_query " << sql_query_stream.str() << endl;
+			  simple_query(sql_query_stream.str(),"db_delete_device_pipe_property()",al.get_con_nb());
+
+// Mark this property as deleted
+
+        	  unsigned int device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
+			  sql_query_stream.str("");
+			  sql_query_stream << "INSERT INTO property_pipe_device_hist SET device='" << tmp_device
+							   << "',pipe='" << pipe
+							   << "',name='" << property
+							   << "',id='" << device_pipe_property_hist_id
+							   << "',count='0',value='DELETED'";
+	    	  DEBUG_STREAM << "DataBase::DbDeleteDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+			  simple_query(sql_query_stream.str(),"db_delete_device_pipe_property()",al.get_con_nb());
+
+			}
+			purge_att_property("property_pipe_device_hist","device",tmp_device.c_str(),pipe,property,al.get_con_nb());
+		}
+	}
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_delete_device_pipe_property
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetClassPipeList related method
+ *	Description: Get pipe list for a given Tango class with a specified filter
+ *
+ *	@param argin Str[0] = Tango class name
+ *               Str[1] = Pipe name filter (eg: pip*)
+ *	@returns Str[0] = Class pipe name
+ *           Str[n] = Class pipe name
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_class_pipe_list(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetClassPipeList()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_class_pipe_list) ENABLED START -----*/
+
+	//	Add your own code
+	const Tango::DevVarStringArray  *class_wildcard = argin;
+	TangoSys_MemStream sql_query_stream;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	int n_rows=0;
+	argout = new Tango::DevVarStringArray;
+	const char *class_name, *wildcard;
+	string tmp_wildcard;
+
+	class_name = (*class_wildcard)[0];
+	INFO_STREAM << "DataBase::db_get_class_pipe_list(): get pipes for class " << class_name << endl;
+
+	wildcard = (*class_wildcard)[1];
+	if (wildcard == NULL)
+	{
+#ifdef WIN32
+		sql_query_stream << "SELECT DISTINCT pipe FROM property_pipe_class WHERE class = \"" << class_name << "\"  AND pipe like \"\\%\"";
+#else
+		sql_query_stream << "SELECT DISTINCT pipe FROM property_pipe_class WHERE class = \"" << class_name << "\"  AND pipe like \"%%\"";
+#endif /* WIN32 */
+	}
+	else
+	{
+		tmp_wildcard = replace_wildcard(wildcard);
+		sql_query_stream << "SELECT DISTINCT pipe FROM property_pipe_class WHERE class = \""
+		                 << class_name << "\"  AND pipe like \"" << tmp_wildcard << "\"";
+	}
+	DEBUG_STREAM << "DataBase::DbGetClassPipeList(): sql_query " << sql_query_stream.str() << endl;
+
+	result = query(sql_query_stream.str(),"db_get_class_pipe_list()");
+
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::DbGetClassPipeList(): num_rows() " << n_rows << endl;
+	if (n_rows > 0)
+	{
+		  int n_pipes=0;
+	      for (int j=0; j<n_rows; j++)
+	      {
+	         if ((row = mysql_fetch_row(result)) != NULL)
+	         {
+	            DEBUG_STREAM << "DataBase::DbGetClassPipeList(): pipe[ "<< j << "] " << row[0] << endl;
+		    	n_pipes++;
+		    	argout->length(n_pipes);
+	            (*argout)[n_pipes-1] = CORBA::string_dup(row[0]);
+	         }
+	      }
+	}
+	mysql_free_result(result);
+
+	DEBUG_STREAM << "DataBase::DbGetClassPipeList(): argout->length() "<< argout->length() << endl;
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_class_pipe_list
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetDevicePipeList related method
+ *	Description: Return list of pipes matching the wildcard for the specified device
+ *
+ *	@param argin Str[0] = Device name
+ *               Str[1] = Wildcard
+ *	@returns Pipe name list
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_device_pipe_list(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetDevicePipeList()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_device_pipe_list) ENABLED START -----*/
+
+	//	Add your own code
+	const Tango::DevVarStringArray  *device_wildcard = argin;
+	TangoSys_MemStream sql_query_stream;
+	string tmp_wildcard;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	int n_rows;
+	const char *device, *wildcard;
+
+	device = (*device_wildcard)[0];
+	wildcard = (*device_wildcard)[1];
+	INFO_STREAM << "DataBase::db_get_device_pipe_list(): device " << device;
+	WARN_STREAM << " wildcard " << wildcard << endl;
+
+	if (wildcard == NULL)
+	{
+		sql_query_stream << "SELECT DISTINCT pipe FROM property_pipe_device WHERE device=\""
+		                 << device << "\" AND pipe LIKE \"%\" ORDER BY pipe";
+	}
+	else
+	{
+		tmp_wildcard = replace_wildcard (wildcard);
+		sql_query_stream << "SELECT DISTINCT pipe FROM property_pipe_device WHERE device=\""
+		                 << device << "\" AND pipe LIKE \"" << tmp_wildcard << "\" ORDER BY pipe";
+	}
+	DEBUG_STREAM << "DataBase::db_get_device_attrribute_list(): sql_query " << sql_query_stream.str() << endl;
+
+	result = query(sql_query_stream.str(),"db_get_device_pipe_list()");
+
+	n_rows = mysql_num_rows(result);
+	DEBUG_STREAM << "DataBase::db_get_device_pipe_list(): mysql_num_rows() " << n_rows << endl;
+	argout = new Tango::DevVarStringArray;
+
+	if (n_rows > 0)
+	{
+	   argout->length(n_rows);
+
+	   for (int i=0; i<n_rows; i++)
+	   {
+	      if ((row = mysql_fetch_row(result)) != NULL)
+	      {
+	         DEBUG_STREAM << "DataBase::db_get_device_pipe_list(): pipe[ "<< i << "] pipe " << row[0] << endl;
+	         (*argout)[i]   = CORBA::string_dup(row[0]);
+	      }
+	   }
+	}
+	else
+		argout->length(0);
+	mysql_free_result(result);
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_device_pipe_list
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbDeleteAllDevicePipeProperty related method
+ *	Description: Delete all pipe properties for the specified device pipe(s)
+ *
+ *	@param argin str[0] = device name
+ *               Str[1]...str[n] = pipe name(s)
+ */
+//--------------------------------------------------------
+void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbDeleteAllDevicePipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_delete_all_device_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	const char *pipe;
+	string tmp_device;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+
+	if (argin->length() < 2) {
+   		WARN_STREAM << "DataBase::db_delete_all_device_pipe_property(): insufficient number of arguments ";
+   		WARN_STREAM << endl;
+   		Tango::Except::throw_exception(DB_IncorrectArguments,
+					       "Insufficient number of arguments to delete all device pipe(s) property",
+					       "DataBase::db_delete_all_device_pipe_property()");
+	}
+
+	tmp_device = (*argin)[0];
+	if (!check_device_name(tmp_device))
+	{
+        	WARN_STREAM << "DataBase::db_delete_all_device_pipe(): device name  " << tmp_device << " incorrect ";
+         	WARN_STREAM << endl;
+         	Tango::Except::throw_exception(DB_IncorrectDeviceName,
+				       	"Failed to delete all device pipe(s) property, device name incorrect",
+				       	"DataBase::db_delete_all_device_pipe()");
+	}
+
+
+	{
+		AutoLock al("LOCK TABLES property_pipe_device WRITE, property_pipe_device_hist WRITE,device_pipe_history_id WRITE",this);
+
+		for (unsigned int i=0; i<argin->length()-1; i++)
+		{
+			pipe = (*argin)[i+1];
+
+			INFO_STREAM << "DataBase::db_delete_all_device_pipe_property(): delete device " << tmp_device ;
+			INFO_STREAM << " pipe " << pipe << " property(ies) from database" << endl;
+
+// Is there something to delete ?
+
+			sql_query_stream.str("");
+			sql_query_stream << "SELECT DISTINCT name FROM property_pipe_device WHERE device = \"" << tmp_device
+		                	 <<"\" AND pipe = \"" << pipe << "\" ";
+			result = query(sql_query_stream.str(),"db_delete_all_device_pipe_property()",al.get_con_nb());
+			my_ulonglong count = mysql_num_rows(result);
+
+			if (count != 0)
+			{
+
+// then delete property from the property_pipe_device table
+
+				sql_query_stream.str("");
+				sql_query_stream << "DELETE FROM property_pipe_device WHERE device = \"" << tmp_device
+		       					<<"\" AND pipe = \"" << pipe << "\" ";
+				DEBUG_STREAM << "DataBase::db_delete_all_device_pipe_property(): sql_query " << sql_query_stream.str() << endl;
+				simple_query(sql_query_stream.str(),"db_delete_all_device_pipe_property()",al.get_con_nb());
+
+// Mark this property as deleted
+
+				for(unsigned int j=0;j<count;j++)
+				{
+					row = mysql_fetch_row(result);
+					unsigned int device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
+					sql_query_stream.str("");
+					sql_query_stream << "INSERT INTO property_pipe_device_hist SET device='" << tmp_device
+			   					 << "',pipe='" << pipe
+			   					 << "',name='" << row[0]
+			   					 << "',id='" << device_pipe_property_hist_id
+			   					 << "',count='0',value='DELETED'";
+					DEBUG_STREAM << "DataBase::DeletAllDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+					simple_query(sql_query_stream.str(),"db_delete_all_device_pipe_property()",al.get_con_nb());
+					purge_att_property("property_pipe_device_hist","device",tmp_device.c_str(),pipe,row[0],al.get_con_nb());
+				}
+			}
+			mysql_free_result(result);
+		}
+	}
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_delete_all_device_pipe_property
+}
+//--------------------------------------------------------
+/**
+ *	Command DbPutClassPipeProperty related method
+ *	Description: Create/Update class pipe property(ies) in database
+ *
+ *	@param argin Str[0] = Tango class name
+ *               Str[1] = Pipe number
+ *               Str[2] = Pipe name
+ *               Str[3] = Property number
+ *               Str[4] = Property name
+ *               Str[5] = Property value number (array case)
+ *               Str[5] = Property value 1
+ *               Str[n] = Property value n (array case)
+ */
+//--------------------------------------------------------
+void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbPutClassPipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_put_class_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	char tmp_count_str[256];
+	int n_pipes, n_properties=0, n_rows=0;
+	const char *tmp_class, *tmp_pipe, *tmp_name;
+
+	sscanf((*argin)[1],"%6d",&n_pipes);
+	INFO_STREAM << "DataBase::PutClasspipeProperty2(): put " << n_pipes << " pipes for device " << (*argin)[0] << endl;
+
+	{
+		AutoLock al("LOCK TABLES property_pipe_class WRITE, property_pipe_class_hist WRITE,class_pipe_history_id WRITE",this);
+
+		int tmp_count, i, j, k, l, jj;
+		k = 2;
+		for (i=0; i<n_pipes; i++)
+		{
+	   		tmp_class = (*argin)[0];
+	   		tmp_pipe = (*argin)[k];
+	   		sscanf((*argin)[k+1], "%6d", &n_properties);
+	   		for (jj=0; jj<n_properties; jj++)
+	   		{
+				j = k + 2;
+	      		tmp_name = (*argin)[j];
+
+// first delete the tuple (device,name,count) from the property table
+
+				sql_query_stream.str("");
+				sql_query_stream << "DELETE FROM property_pipe_class WHERE class LIKE \""
+			                	 << tmp_class << "\" AND pipe LIKE \"" << tmp_pipe
+								 << "\" AND name LIKE \"" << tmp_name << "\" ";
+	      		DEBUG_STREAM << "DataBase::PutClassPipeProperty(): sql_query " << sql_query_stream.str() << endl;
+				simple_query(sql_query_stream.str(),"db_put_class_pipe_property()",al.get_con_nb());
+
+				sscanf((*argin)[j+1], "%6d", &n_rows);
+				tmp_count = 0;
+				unsigned int class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
+	   			for (l=j+1; l<j+n_rows+1; l++)
+	   			{
+          				string tmp_escaped_string = escape_string((*argin)[l+1]);
+	      				tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
+
+// then insert the new value for this tuple
+
+ 			        sql_query_stream.str("");
+					sql_query_stream << "INSERT INTO property_pipe_class SET class=\'"
+					                 << tmp_class << "\',pipe=\'" << tmp_pipe
+									 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
+									 << "\',value=\'" << tmp_escaped_string
+									 << "\',updated=NULL,accessed=NULL";
+	      			DEBUG_STREAM << "DataBase::PutClassPipeProperty(): sql_query " << sql_query_stream.str() << endl;
+			        simple_query(sql_query_stream.str(),"db_put_class_pipe_property()",al.get_con_nb());
+
+// then insert the new value into the history table
+
+ 			        sql_query_stream.str("");
+					sql_query_stream << "INSERT INTO property_pipe_class_hist SET class=\'"
+					                 << tmp_class << "\',pipe=\'" << tmp_pipe
+									 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
+									 << "\',id=\'" << class_pipe_property_hist_id
+									 << "\',value=\'" << tmp_escaped_string << "\'";
+	      			DEBUG_STREAM << "DataBase::PutClassPipeProperty(): sql_query " << sql_query_stream.str() << endl;
+			        simple_query(sql_query_stream.str(),"db_put_class_pipe_property()",al.get_con_nb());
+
+				}
+		        purge_att_property("property_pipe_class_hist","class",tmp_class,tmp_pipe,tmp_name,al.get_con_nb());
+				k = k + n_rows + 2;
+	   		}
+	   		k = k+2;
+		}
+	}
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_put_class_pipe_property
+}
+//--------------------------------------------------------
+/**
+ *	Command DbPutDevicePipeProperty related method
+ *	Description: Create/Update device pipe property(ies) in database
+ *
+ *	@param argin Str[0] = Device name
+ *               Str[1] = Pipe number
+ *               Str[2] = Pipe name
+ *               Str[3] = Property number
+ *               Str[4] = Property name
+ *               Str[5] = Property value number (array case)
+ *               Str[6] = Property value 1
+ *               Str[n] = Property value n (array case)
+ */
+//--------------------------------------------------------
+void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin)
+{
+	DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_put_device_pipe_property) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream sql_query_stream;
+	char tmp_count_str[256];
+	int n_pipes, n_properties=0, n_rows=0;
+	const char *tmp_device, *tmp_pipe, *tmp_name;
+
+	TimeVal	before, after;
+	GetTime(before);
+
+
+	sscanf((*argin)[1],"%6d",&n_pipes);
+	INFO_STREAM << "DataBase::DbPutDevicePipeProperty(): put " << n_pipes << " pipes for device " << (*argin)[0] << endl;
+
+	{
+		AutoLock al("LOCK TABLES property_pipe_device WRITE, property_pipe_device_hist WRITE,device_pipe_history_id WRITE",this);
+
+		int tmp_count, i, j, k, l, jj;
+		k = 2;
+		for (i=0; i<n_pipes; i++)
+		{
+	   		tmp_device = (*argin)[0];
+	   		tmp_pipe = (*argin)[k];
+	   		sscanf((*argin)[k+1], "%6d", &n_properties);
+	   		for (jj=0; jj<n_properties; jj++)
+	   		{
+				j = k + 2;
+	      		tmp_name = (*argin)[j];
+
+// first delete the tuple (device,name,count) from the property table
+				sql_query_stream.str("");
+	      		sql_query_stream << "DELETE FROM property_pipe_device WHERE device LIKE \""
+				                	 << tmp_device << "\" AND pipe LIKE \"" << tmp_pipe
+									 << "\" AND name LIKE \"" << tmp_name << "\" ";
+	      		DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+				simple_query(sql_query_stream.str(),"db_put_device_pipe_property()",al.get_con_nb());
+
+				sscanf((*argin)[j+1], "%6d", &n_rows);
+				tmp_count = 0;
+            	unsigned int device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
+
+	   			for (l=j+1; l<j+n_rows+1; l++)
+	   			{
+          			string tmp_escaped_string = escape_string((*argin)[l+1]);
+	      			tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
+
+// then insert the new value for this tuple
+					sql_query_stream.str("");
+					sql_query_stream << "INSERT INTO property_pipe_device SET device=\'"
+					                	 << tmp_device << "\',pipe=\'" << tmp_pipe
+										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
+										 << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
+	      			DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+					simple_query(sql_query_stream.str(),"db_put_device_pipe_property()",al.get_con_nb());
+
+// then insert the new value into the history table
+					sql_query_stream.str("");
+					sql_query_stream << "INSERT INTO property_pipe_device_hist SET device=\'"
+					                	 << tmp_device << "\',pipe=\'" << tmp_pipe
+										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
+										 << "\',id=\'" << device_pipe_property_hist_id
+										 << "\',value=\'" << tmp_escaped_string << "\'";
+	      			DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
+					simple_query(sql_query_stream.str(),"db_put_device_pipe_property()",al.get_con_nb());
+
+				}
+				purge_att_property("property_pipe_device_hist","device",tmp_device,tmp_pipe,tmp_name,al.get_con_nb());
+				k = k + n_rows + 2;
+	   		}
+	   		k = k+2;
+		}
+	}
+
+	GetTime(after);
+	update_timing_stats(before, after, "DbPutDevicePipeProperty");
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_put_device_pipe_property
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetClassPipePropertyHist related method
+ *	Description: Retrieve Tango class pipe property history
+ *
+ *	@param argin Str[0] = Tango class
+ *               Str[1] = Pipe name
+ *               Str[2] = Property name
+ *	@returns Str[0] = Pipe name
+ *           Str[1] = Property name
+ *           Str[2] = date
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value 1
+ *           Str[n] = Property value n
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetClassPipePropertyHist()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_class_pipe_property_hist) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream	sql_query_stream;
+	MYSQL_RES *ids;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	const char *tmp_class;
+	string      tmp_pipe;
+	string      tmp_name;
+
+	if (argin->length() != 3)
+	{
+	   WARN_STREAM << "DataBase::DbGetClassPipePropertyHist(): incorrect number of input arguments " << endl;
+	   Tango::Except::throw_exception(DB_IncorrectArguments,
+	   				  "Incorrect no. of input arguments, needs 3 (class,pipe,property)",
+					  "DataBase::DbGetClassPipePropertyHist()");
+	}
+
+	argout = new Tango::DevVarStringArray;
+
+	tmp_class     = (*argin)[0];
+	tmp_pipe 	  = replace_wildcard((*argin)[1]);
+	tmp_name      = replace_wildcard((*argin)[2]);
+
+	// Get id list
+
+    sql_query_stream << "SELECT DISTINCT id FROM property_pipe_class_hist WHERE class = \""
+                     << tmp_class << "\" AND pipe LIKE \"" << tmp_pipe
+				     << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
+
+	{
+		AutoLock al("LOCK TABLE property_pipe_class_hist READ",this);
+
+		ids = query(sql_query_stream.str(),"db_get_class_pipe_property_hist()",al.get_con_nb());
+
+		// Retreive history
+		int nb_item = 0;
+		argout->length(0);
+
+		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
+		{
+		   row = mysql_fetch_row(ids);
+		   unsigned int id = atoi(row[0]);
+		   sql_query_stream.str("");
+		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,pipe,name,count FROM property_pipe_class_hist WHERE id = \""
+	                    	<< id << "\" AND class = \"" << tmp_class << "\" ORDER BY count ASC";
+
+		   result = query(sql_query_stream.str(),"db_get_class_pipe_property_hist()",al.get_con_nb());
+
+		   int count = mysql_num_rows(result);
+
+    	   row = mysql_fetch_row(result);
+  		   int deleted = (atoi(row[4]) == 0); // count=0 for deleted property
+  		   if(deleted) count = 0;
+		   char n_rows_str[256];
+		   sprintf(n_rows_str,"%d",count);
+
+    	   argout->length(nb_item+4+count);
+		   (*argout)[nb_item+0] = CORBA::string_dup(row[2]);
+    	   (*argout)[nb_item+1] = CORBA::string_dup(row[3]);
+    	   (*argout)[nb_item+2] = CORBA::string_dup(row[0]);
+    	   (*argout)[nb_item+3] = CORBA::string_dup(n_rows_str);
+
+		   for(int j=0;j<count;j++) {
+            	 (*argout)[nb_item+4+j] = CORBA::string_dup(row[1]);
+            	 row = mysql_fetch_row(result);
+		   }
+
+		   nb_item += 4+count;
+		   mysql_free_result(result);
+		}
+	}
+
+	mysql_free_result(ids);
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_class_pipe_property_hist
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetDevicePipePropertyHist related method
+ *	Description: Retrieve device pipe property history
+ *
+ *	@param argin Str[0] = Device name
+ *               Str[1] = Pipe name
+ *               Str[2] = Property name
+ *	@returns Str[0] = Pipe name
+ *           Str[1] = Property name
+ *           Str[2] = date
+ *           Str[3] = Property value number (array case)
+ *           Str[4] = Property value 1
+ *           Str[n] = Property value n
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetDevicePipePropertyHist()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_device_pipe_property_hist) ENABLED START -----*/
+
+	//	Add your own code
+	TangoSys_MemStream	sql_query_stream;
+	MYSQL_RES *ids;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	const char *tmp_device;
+	string      tmp_pipe;
+	string      tmp_name;
+
+	if (argin->length() != 3)
+	{
+	   WARN_STREAM << "DataBase::DbGetDevicePipePropertyHist(): incorrect number of input arguments " << endl;
+	   Tango::Except::throw_exception(DB_IncorrectArguments,
+	   				  "Incorrect no. of input arguments, needs 3 (device,pipe,property)",
+					  "DataBase::DbGetDevicePipePropertyHist()");
+	}
+
+	argout = new Tango::DevVarStringArray;
+
+	tmp_device    = (*argin)[0];
+	tmp_pipe 	  = replace_wildcard((*argin)[1]);
+	tmp_name      = replace_wildcard((*argin)[2]);
+
+	// Get id list
+
+    sql_query_stream << "SELECT DISTINCT id FROM property_pipe_device_hist WHERE device = \""
+	                 << tmp_device << "\" AND pipe LIKE \"" << tmp_pipe
+ 			         << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
+
+	{
+		AutoLock al("LOCK TABLE property_pipe_device_hist READ",this);
+
+		ids = query(sql_query_stream.str(),"db_get_device_pipe_property_hist()",al.get_con_nb());
+
+		// Retreive history
+		int nb_item = 0;
+		argout->length(0);
+
+		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
+		{
+		   row = mysql_fetch_row(ids);
+		   unsigned int id = atoi(row[0]);
+		   sql_query_stream.str("");
+		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,pipe,name,count FROM property_pipe_device_hist WHERE id = \""
+	                    	<< id << "\" AND device = \"" << tmp_device << "\" ORDER BY count ASC";
+
+		   result = query(sql_query_stream.str(),"db_get_device_pipe_property_hist()",al.get_con_nb());
+
+		   int count = mysql_num_rows(result);
+
+    	   row = mysql_fetch_row(result);
+  		   int deleted = (atoi(row[4]) == 0); // count=0 for deleted property
+  		   if(deleted) count = 0;
+		   char n_rows_str[256];
+		   sprintf(n_rows_str,"%d",count);
+
+    	   argout->length(nb_item+4+count);
+		   (*argout)[nb_item+0] = CORBA::string_dup(row[2]);
+    	   (*argout)[nb_item+1] = CORBA::string_dup(row[3]);
+    	   (*argout)[nb_item+2] = CORBA::string_dup(row[0]);
+    	   (*argout)[nb_item+3] = CORBA::string_dup(n_rows_str);
+
+		   for(int j=0;j<count;j++) {
+        	 (*argout)[nb_item+4+j] = CORBA::string_dup(row[1]);
+        	 row = mysql_fetch_row(result);
+		   }
+
+		   nb_item += 4+count;
+		   mysql_free_result(result);
+		}
+	}
+
+	mysql_free_result(ids);
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_device_pipe_property_hist
+	return argout;
 }
 
 /*----- PROTECTED REGION ID(DataBase::namespace_ending) ENABLED START -----*/

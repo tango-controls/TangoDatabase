@@ -20,12 +20,12 @@ static const char *RcsId = "$Header$";
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Tango is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -64,7 +64,7 @@ namespace DataBase_ns {
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::replace_wildcard(char *wildcard_c_str)
-// 
+//
 // description : 	utility method to replace all occurrences of
 //			wildcards (*) with SQL wildcards % and to escape
 //			all occurrences	of '%' and '_' with '\'
@@ -132,8 +132,8 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::escape_string(char *string_c_str)
-// 
-// description : 	utility method to escape all occurrences	
+//
+// description : 	utility method to escape all occurrences
 //			of ' and " with '\'
 //
 // in :			const char *string_c_str -  C string to be modified.
@@ -220,7 +220,7 @@ string DataBase::escape_string(const char *string_c_str)
 //
 // method : 		DataBase::device_name_to_dfm(string &device_name,
 //			          char **domain, char **family, char **member)
-// 
+//
 // description : 	utility function to return domain, family and member
 //			from device name. Assumes device name has (optional)
 //			protocol and instance stripped off i.e. conforms
@@ -257,9 +257,9 @@ bool DataBase::device_name_to_dfm(string &devname, char domain[], char family[],
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::check_device_name(string *device_name)
-// 
+//
 // description : 	utility function to check whether device name conforms
-//			to the TANGO naming convention of 
+//			to the TANGO naming convention of
 //
 //			[tango!taco:][//instance/]domain/family/member
 //
@@ -281,7 +281,7 @@ bool DataBase::check_device_name(string &device_name_str)
 	if (devname.find('*') != string::npos) return false;
 
 // check protocol - "tango:" | "taco:"
-	
+
 	if (devname.substr(0,6) == "tango:")
 	{
 		devname.erase(0,6);
@@ -299,10 +299,10 @@ bool DataBase::check_device_name(string &device_name_str)
 	if (devname.substr(0,2) == "//")
 	{
 		index = devname.find('/',(string::size_type)2);
-		if (index == 0 || index == string::npos)		
+		if (index == 0 || index == string::npos)
 		{
 			return false;
-			
+
 		}
 		devname.erase(0,index+1);
 	}
@@ -342,7 +342,7 @@ void DataBase::init_timing_stats()
 	TimingStatsStruct new_timing_stats = {0.0, 0.0, 0.0, 0.0, 0.0};
 
 	timing_stats_mutex.lock();
-	
+
 	timing_stats_map["DbImportDevice"] = new TimingStatsStruct;
 	timing_stats_map["DbExportDevice"] = new TimingStatsStruct;
 	timing_stats_map["DbGetHostServerList"] = new TimingStatsStruct;
@@ -369,6 +369,8 @@ void DataBase::init_timing_stats()
 	timing_stats_map["DbGetDataForServerCache"] = new TimingStatsStruct;
 	timing_stats_map["DbPutClassProperty"] = new TimingStatsStruct;
 	timing_stats_map["DbMySqlSelect"] = new TimingStatsStruct;
+	timing_stats_map["DbGetDevicePipeProperty"] = new TimingStatsStruct;
+	timing_stats_map["DbPutDevicePipeProperty"] = new TimingStatsStruct;
 
 	timing_stats_size = timing_stats_map.size();
 	timing_stats_average = new double[timing_stats_size];
@@ -388,14 +390,14 @@ void DataBase::init_timing_stats()
 		strcpy(timing_stats_index[i],iter->first.c_str());
 		i++;
 	}
-	
+
 	timing_stats_mutex.unlock();
 }
 
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::check_history_tables()
-// 
+//
 // description : 	Return history id
 //
 //-----------------------------------------------------------------------------
@@ -416,7 +418,7 @@ void DataBase::check_history_tables()
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::get_id()
-// 
+//
 // description : 	Return history id
 //					In this method, we don't use the classical query()
 //					method in order to be sure that the UPDATE and the following
@@ -424,7 +426,7 @@ void DataBase::check_history_tables()
 //
 //-----------------------------------------------------------------------------
 
-unsigned int DataBase::get_id(const char *name,int con_nb) 
+unsigned int DataBase::get_id(const char *name,int con_nb)
 {
 	TangoSys_MemStream sql_query;
 
@@ -434,7 +436,7 @@ unsigned int DataBase::get_id(const char *name,int con_nb)
 //
 
 	bool need_release = false;
-	
+
 	if (con_nb == -1)
 	{
 		con_nb = get_connection();
@@ -448,16 +450,16 @@ unsigned int DataBase::get_id(const char *name,int con_nb)
 	if (mysql_real_query(conn_pool[con_nb].db, tmp_str.c_str(),tmp_str.length()) != 0)
 	{
 		TangoSys_OMemStream o;
-		  
+
 		WARN_STREAM << "DataBase::get_id() failed to query TANGO database:" << endl;
 		WARN_STREAM << "  query = " << tmp_str << endl;
 		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-		
+
 		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")" << ends;
 
 		if (need_release == true)
 			release_connection(con_nb);
-			
+
 		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),(const char *)"DataBase::get_id()");
 	}
 
@@ -467,11 +469,11 @@ unsigned int DataBase::get_id(const char *name,int con_nb)
 		TangoSys_OMemStream o;
 
 		o << "Failed to get history id : " << name;
-		
+
 		if (need_release == true)
 			release_connection(con_nb);
-			
-		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),(const char *)"DataBase::get_id()");	
+
+		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),(const char *)"DataBase::get_id()");
 	}
 
 	if (need_release == true)
@@ -483,27 +485,27 @@ unsigned int DataBase::get_id(const char *name,int con_nb)
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::simple_query()
-// 
+//
 // description : 	Execute a SQL query , ignore the result.
 //
 //-----------------------------------------------------------------------------
 void DataBase::simple_query(string sql_query,const char *method,int con_nb)
 {
-	
+
 //
 // If no MySQL connection passed to this method,
 // get one
 //
 
 	bool need_release = false;
-	
+
 	if (con_nb == -1)
 	{
 		con_nb = get_connection();
 		need_release = true;
 	}
 
-	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << endl;	
+	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << endl;
 
 //
 // Call MySQL
@@ -512,19 +514,19 @@ void DataBase::simple_query(string sql_query,const char *method,int con_nb)
 	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
 	{
 		TangoSys_OMemStream o;
-		TangoSys_OMemStream o2;	 
-		  
+		TangoSys_OMemStream o2;
+
 		WARN_STREAM << "DataBase::" << method << " failed to query TANGO database:" << endl;
 		WARN_STREAM << "  query = " << sql_query << endl;
 		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-		
+
 		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
 		o << "\n.The query was: " << sql_query << ends;
 		o2 << "DataBase::" << method << ends;
 
 		if (need_release == true)
 			release_connection(con_nb);
-				
+
 		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),o2.str());
 	}
 
@@ -536,7 +538,7 @@ void DataBase::simple_query(string sql_query,const char *method,int con_nb)
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::query()
-// 
+//
 // description : 	Execute a SQL query and return the result.
 //
 //-----------------------------------------------------------------------------
@@ -550,7 +552,7 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 //
 
 	bool need_release = false;
-	
+
 	if (con_nb == -1)
 	{
 		con_nb = get_connection();
@@ -558,27 +560,27 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 	}
 
 	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << endl;
-		
+
 //
 // Call MySQL
 //
-		
+
 	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
 	{
 		TangoSys_OMemStream o;
 		TangoSys_OMemStream o2;
-	
+
 		WARN_STREAM << "DataBase::" << method << " failed to query TANGO database:" << endl;
 		WARN_STREAM << "  query = " << sql_query << endl;
 		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-		
+
 		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
 		o << "\nThe query was: " << sql_query << ends;
 		o2 << "DataBase::" << method << ends;
 
 		if (need_release == true)
 			release_connection(con_nb);
-		
+
 		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),o2.str());
 	}
 
@@ -586,21 +588,21 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 	{
 		TangoSys_OMemStream o;
 		TangoSys_OMemStream o2;
-		
+
 		WARN_STREAM << "DataBase:: " << method << " : mysql_store_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
-	   
+
 		o << "mysql_store_result() failed (error=" << mysql_error(conn_pool[con_nb].db) << ")";
-		o2 << "DataBase::" << method;	   
+		o2 << "DataBase::" << method;
 
 		if (need_release == true)
 			release_connection(con_nb);
-		
+
 		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),o2.str());
 	}
 
 	if (need_release)
 		release_connection(con_nb);
-		
+
 	return result;
 
 }
@@ -608,13 +610,13 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 //+----------------------------------------------------------------------------
 //
 // method : 		DataBase::get_connection()
-// 
+//
 // description : 	Get a MySQl connection from the connection pool
 //
 //-----------------------------------------------------------------------------
 int DataBase::get_connection()
 {
-	
+
 //
 // Get a MySQL connection and lock it
 // If none available, wait for one
@@ -639,7 +641,7 @@ int DataBase::get_connection()
 			break;
 		}
 	}
-	
+
 	return loop;
 }
 
@@ -657,17 +659,17 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
   TangoSys_MemStream sql_query;
   MYSQL_RES *result;
   MYSQL_ROW row2;
-  
+
   sql_query.str("");
   sql_query << "SELECT DISTINCT id FROM " << table
-            << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name 
+            << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name
             << "\" ORDER by date";
-	    
+
   result = query(sql_query.str(),"purge_property()",con_nb);
   int nb_item = mysql_num_rows(result);
 
   if(nb_item>historyDepth) {
-    // Purge 
+    // Purge
     int toDelete = nb_item-historyDepth;
     for(int j=0;j<toDelete;j++) {
         row2 = mysql_fetch_row(result);
@@ -676,7 +678,7 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
 		simple_query(sql_query.str(),"purge_property()",con_nb);
     }
   }
-  
+
   mysql_free_result(result);
 }
 
@@ -693,19 +695,19 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
   TangoSys_MemStream sql_query;
   MYSQL_RES *result;
   MYSQL_ROW row2;
-  
+
   //cout << "purge_att_property(" << object << "," << attribute << "," << name << ")" << endl;
-		
+
   sql_query.str("");
   sql_query << "SELECT DISTINCT id FROM " << table
-            << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name 
+            << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name
             << "\" AND attribute=\"" << attribute << "\" ORDER by date";
 
   result = query(sql_query.str(),"purge_att_property()",con_nb);
   int nb_item = mysql_num_rows(result);
-  
+
   if(nb_item>historyDepth) {
-    // Purge 
+    // Purge
     int toDelete = nb_item-historyDepth;
     for(int j=0;j<toDelete;j++) {
 		row2 = mysql_fetch_row(result);
@@ -773,8 +775,8 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 #endif
 
 	if (mysql_user != NULL && mysql_password != NULL)
-	{	
-		WARN_STREAM << "DataBase::create_connection_pool(): mysql database user =  " << mysql_user 
+	{
+		WARN_STREAM << "DataBase::create_connection_pool(): mysql database user =  " << mysql_user
 	           	 << " , password = " << mysql_password << endl;
 	}
 
@@ -808,7 +810,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 
 	for (int loop = 0;loop < conn_pool_size;loop++)
 	{
-	
+
 		base_connect(loop);
 
 //
@@ -848,7 +850,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 							WARN_STREAM << "Throw exception because no MySQL connection possible after 5 re-tries" << endl;
 							TangoSys_MemStream out_stream;
 							out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
-				
+
 							Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
 												out_stream.str(),
 												(const char *)"DataBase::init_device()");
@@ -866,7 +868,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 				WARN_STREAM << "Failed to connect to MySQL for conn. " << loop << ". No re-try in this case" << endl;
 				TangoSys_MemStream out_stream;
 				out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
-				
+
 				Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
 												out_stream.str(),
 												(const char *)"DataBase::init_device()");
@@ -876,7 +878,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 
 	mysql_svr_version = mysql_get_server_version(conn_pool[0].db);
 	last_sem_wait = 0;
-	
+
 }
 
 //+------------------------------------------------------------------
@@ -908,7 +910,7 @@ bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
 	{
     	int j = i*2;
     	CORBA::Octet v;
-    
+
     	if (p[j] >= '0' && p[j] <= '9')
 		{
       		v = ((p[j] - '0') << 4);
@@ -1062,7 +1064,7 @@ AutoLock::AutoLock(const char *lock_cmd,DataBase *db):the_db(db)
 {
 	con_nb = the_db->get_connection();
 	TangoSys_MemStream sql_query_stream;
-	
+
 	sql_query_stream << lock_cmd;
 	try
 	{

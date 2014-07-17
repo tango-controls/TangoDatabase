@@ -1420,4 +1420,199 @@ bool DataBase::is_DbRenameServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetClassPipeProperty_allowed()
+ *	Description : Execution allowed for DbGetClassPipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetClassPipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetClassPipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetClassPipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetClassPipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetDevicePipeProperty_allowed()
+ *	Description : Execution allowed for DbGetDevicePipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetDevicePipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetDevicePipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetDevicePipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbDeleteClassPipe_allowed()
+ *	Description : Execution allowed for DbDeleteClassPipe attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbDeleteClassPipe_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbDeleteClassPipe command.
+	/*----- PROTECTED REGION ID(DataBase::DbDeleteClassPipeStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteClassPipeStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbDeleteDevicePipe_allowed()
+ *	Description : Execution allowed for DbDeleteDevicePipe attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbDeleteDevicePipe_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbDeleteDevicePipe command.
+	/*----- PROTECTED REGION ID(DataBase::DbDeleteDevicePipeStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDevicePipeStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbDeleteClassPipeProperty_allowed()
+ *	Description : Execution allowed for DbDeleteClassPipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbDeleteClassPipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbDeleteClassPipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbDeleteClassPipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteClassPipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbDeleteDevicePipeProperty_allowed()
+ *	Description : Execution allowed for DbDeleteDevicePipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbDeleteDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbDeleteDevicePipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbDeleteDevicePipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDevicePipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetClassPipeList_allowed()
+ *	Description : Execution allowed for DbGetClassPipeList attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetClassPipeList_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetClassPipeList command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetClassPipeListStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetClassPipeListStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetDevicePipeList_allowed()
+ *	Description : Execution allowed for DbGetDevicePipeList attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetDevicePipeList_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetDevicePipeList command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetDevicePipeListStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetDevicePipeListStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbDeleteAllDevicePipeProperty_allowed()
+ *	Description : Execution allowed for DbDeleteAllDevicePipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbDeleteAllDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbDeleteAllDevicePipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbDeleteAllDevicePipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteAllDevicePipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbPutClassPipeProperty_allowed()
+ *	Description : Execution allowed for DbPutClassPipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbPutClassPipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbPutClassPipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbPutClassPipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutClassPipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbPutDevicePipeProperty_allowed()
+ *	Description : Execution allowed for DbPutDevicePipeProperty attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbPutDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbPutDevicePipeProperty command.
+	/*----- PROTECTED REGION ID(DataBase::DbPutDevicePipePropertyStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutDevicePipePropertyStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetClassPipePropertyHist_allowed()
+ *	Description : Execution allowed for DbGetClassPipePropertyHist attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetClassPipePropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetClassPipePropertyHist command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetClassPipePropertyHistStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetClassPipePropertyHistStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetDevicePipePropertyHist_allowed()
+ *	Description : Execution allowed for DbGetDevicePipePropertyHist attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetDevicePipePropertyHist_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetDevicePipePropertyHist command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetDevicePipePropertyHistStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetDevicePipePropertyHistStateAllowed
+	return true;
+}
+
 }	//	End of namespace

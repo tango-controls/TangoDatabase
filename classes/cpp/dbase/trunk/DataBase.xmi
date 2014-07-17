@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
-  <classes name="DataBase" pogoRevision="8.1">
+  <classes name="DataBase" pogoRevision="8.4">
     <description description="This class manage the TANGO database." title="TANGO" sourcePath="/home/taurel/tango/dbserver" language="Cpp" filestogenerate="XMI   file,Code files" hasMandatoryProperty="false" hasConcreteProperty="false" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_4Impl" sourcePath="/segfs/tango/templates/AbstractClasses"/>
       <identification contact="at esrf.fr - accelerator-control" author="accelerator-control" emailDomain="esrf.fr" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
@@ -767,6 +767,123 @@
       </argin>
       <argout description="">
         <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassPipeProperty" description="Retrieve class pipe properties" execMethod="db_get_class_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Pipe name&#xA;Str[n] = Pipe name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Str[0] = Tango class name&#xA;Str[1] = Pipe property  number&#xA;Str[2] = Pipe property 1 name&#xA;Str[3] = Pipe property 1 value number (array case)&#xA;Str[4] = Pipe property 1 value&#xA;Str[n] = Pipe property 1 value (array case)&#xA;Str[n + 1] = Pipe property 2 name&#xA;Str[n + 2] = Pipe property 2 value number (array case)&#xA;Str[n + 3] = Pipe property 2 value&#xA;Str[n + m] = Pipe property 2 value (array case)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDevicePipeProperty" description="Retrieve device pipe properties" execMethod="db_get_device_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Pipe name&#xA;Str[n] = Pipe name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Str[0] = Device name&#xA;Str[1] = Pipe property  number&#xA;Str[2] = Pipe property 1 name&#xA;Str[3] = Pipe property 1 value number (array case)&#xA;Str[4] = Pipe property 1 value&#xA;Str[n] = Pipe property 1 value (array case)&#xA;Str[n + 1] = Pipe property 2 name&#xA;Str[n + 2] = Pipe property 2 value number (array case)&#xA;Str[n + 3] = Pipe property 2 value&#xA;Str[n + m] = Pipe property 2 value (array case)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteClassPipe" description="Delete a class pipe and all its properties from database" execMethod="db_delete_class_pipe" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Pipe name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDevicePipe" description="Delete device pipe properties from database" execMethod="db_delete_device_pipe" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Pipe name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteClassPipeProperty" description="Delete class pipe properties from database" execMethod="db_delete_class_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Pipe name&#xA;Str[2] = Property name&#xA;Str[n] = Property name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteDevicePipeProperty" description="Delete device pipe properties from database" execMethod="db_delete_device_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Pipe name&#xA;Str[2] = Property name&#xA;Str[n] = Property name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassPipeList" description="Get pipe list for a given Tango class with a specified filter" execMethod="db_get_class_pipe_list" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Pipe name filter (eg: pip*)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Str[0] = Class pipe name&#xA;Str[n] = Class pipe name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDevicePipeList" description="Return list of pipes matching the wildcard for the specified device" execMethod="db_get_device_pipe_list" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Wildcard">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Pipe name list">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbDeleteAllDevicePipeProperty" description="Delete all pipe properties for the specified device pipe(s)" execMethod="db_delete_all_device_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="str[0] = device name&#xA;Str[1]...str[n] = pipe name(s)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutClassPipeProperty" description="Create/Update class pipe property(ies) in database" execMethod="db_put_class_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Tango class name&#xA;Str[1] = Pipe number&#xA;Str[2] = Pipe name&#xA;Str[3] = Property number&#xA;Str[4] = Property name&#xA;Str[5] = Property value number (array case)&#xA;Str[5] = Property value 1&#xA;Str[n] = Property value n (array case)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbPutDevicePipeProperty" description="Create/Update device pipe property(ies) in database" execMethod="db_put_device_pipe_property" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Pipe number&#xA;Str[2] = Pipe name&#xA;Str[3] = Property number&#xA;Str[4] = Property name&#xA;Str[5] = Property value number (array case)&#xA;Str[6] = Property value 1&#xA;Str[n] = Property value n (array case)">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetClassPipePropertyHist" description="Retrieve Tango class pipe property history" execMethod="db_get_class_pipe_property_hist" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Tango class&#xA;Str[1] = Pipe name&#xA;Str[2] = Property name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Str[0] = Pipe name&#xA;Str[1] = Property name&#xA;Str[2] = date&#xA;Str[3] = Property value number (array case)&#xA;Str[4] = Property value 1&#xA;Str[n] = Property value n">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetDevicePipePropertyHist" description="Retrieve device pipe property history" execMethod="db_get_device_pipe_property_hist" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="Str[0] = Device name&#xA;Str[1] = Pipe name&#xA;Str[2] = Property name">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Str[0] = Pipe name&#xA;Str[1] = Property name&#xA;Str[2] = date&#xA;Str[3] = Property value number (array case)&#xA;Str[4] = Property value 1&#xA;Str[n] = Property value n">
+        <type xsi:type="pogoDsl:StringArrayType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
