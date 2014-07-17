@@ -30,7 +30,7 @@ static const char *RcsId = "$Id$";
 
 
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013
+// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -41,12 +41,12 @@ static const char *RcsId = "$Id$";
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Tango is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -68,16 +68,16 @@ int main(int argc,char *argv[])
 
 	Tango::Util *tango_util;
 	Tango::Util::_UseDb = false; // suppress database use
-	
+
 #ifndef WIN32
 
         // Setting maximum number of opened file
-	
+
 	// Default limit
 	struct rlimit limit;
 	limit.rlim_cur = 1024;
 	limit.rlim_max = 1024;
-	
+
 	// Browse argv and try to find the -maxFile option
 	int found = 0;
 	int i = 0;
@@ -100,8 +100,8 @@ int main(int argc,char *argv[])
 	}
 
 	// Apply the max open file limit
-	if( setrlimit(RLIMIT_NOFILE,&limit) != 0 ) {	
-	  cout << "setrlimit(RLIMIT_NOFILE," << (int)limit.rlim_cur << ") failed." << endl;	  
+	if( setrlimit(RLIMIT_NOFILE,&limit) != 0 ) {
+	  cout << "setrlimit(RLIMIT_NOFILE," << (int)limit.rlim_cur << ") failed." << endl;
 	  if(errno==EPERM) {
 	    cout << "You may need to increase maximum number of opened file system limit." << endl;
 	  } else {
@@ -109,8 +109,8 @@ int main(int argc,char *argv[])
 	  }
 	  return -1;
 	}
-#endif	
-	
+#endif
+
 	// Browse argv and try to find the -connPoolSize option
 	int j = 0;
 	int found_conn = 0;
@@ -135,7 +135,7 @@ int main(int argc,char *argv[])
 	  }
 	}
 	DataBase_ns::DataBase::set_conn_pool_size(conn_size);
-	
+
 
 	try
 	{
@@ -144,9 +144,9 @@ int main(int argc,char *argv[])
 //
 		cout1 << "main(): calling  Tango::Util::Init(argc,argv)" << endl;
 		tango_util = Tango::Util::init(argc,argv);
-		
+
 // construct database name
-	
+
 		DataBase_ns::DataBase::db_name = "sys/database/";
 		DataBase_ns::DataBase::db_name.append(argv[1]);
 		cout1 << "main(): create DataBase " << DataBase_ns::DataBase::db_name << endl;
@@ -181,7 +181,7 @@ int main(int argc,char *argv[])
 		dserver = tango_util->get_dserver_device();
 		dbase = tango_util->get_device_by_name(DataBase_ns::DataBase::db_name);
 //
-// export database as named servant 
+// export database as named servant
 //
 		cout << "main(): export DataBase as named servant (name=database)" << endl;
 		export_parms->length(5);
@@ -214,7 +214,7 @@ int main(int argc,char *argv[])
 // Run the endless loop
 //
 
-		cout << "Ready to accept request" << endl;		
+		cout << "Ready to accept request" << endl;
 		(tango_util->get_orb())->run();
 	}
 	catch (bad_alloc)

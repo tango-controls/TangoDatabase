@@ -14,8 +14,10 @@ source create_db_tables.sql
 
 INSERT INTO device_history_id VALUES (0);
 INSERT INTO device_attribute_history_id VALUES (0);
+INSERT INTO device_pipe_history_id VALUES (0);
 INSERT INTO class_history_id VALUES (0);
 INSERT INTO class_attribute_history_id VALUES (0);
+INSERT INTO class_pipe_history_id VALUES (0);
 INSERT INTO object_history_id VALUES (0);
 
 #

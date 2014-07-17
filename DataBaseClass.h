@@ -2066,6 +2066,305 @@ public:
 	{return (static_cast<DataBase *>(dev))->is_DbRenameServer_allowed(any);}
 };
 
+//	Command DbGetClassPipeProperty class definition
+class DbGetClassPipePropertyClass : public Tango::Command
+{
+public:
+	DbGetClassPipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetClassPipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetClassPipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetClassPipeProperty_allowed(any);}
+};
+
+//	Command DbGetDevicePipeProperty class definition
+class DbGetDevicePipePropertyClass : public Tango::Command
+{
+public:
+	DbGetDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetDevicePipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetDevicePipeProperty_allowed(any);}
+};
+
+//	Command DbDeleteClassPipe class definition
+class DbDeleteClassPipeClass : public Tango::Command
+{
+public:
+	DbDeleteClassPipeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbDeleteClassPipeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbDeleteClassPipeClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbDeleteClassPipe_allowed(any);}
+};
+
+//	Command DbDeleteDevicePipe class definition
+class DbDeleteDevicePipeClass : public Tango::Command
+{
+public:
+	DbDeleteDevicePipeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbDeleteDevicePipeClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbDeleteDevicePipeClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbDeleteDevicePipe_allowed(any);}
+};
+
+//	Command DbDeleteClassPipeProperty class definition
+class DbDeleteClassPipePropertyClass : public Tango::Command
+{
+public:
+	DbDeleteClassPipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbDeleteClassPipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbDeleteClassPipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbDeleteClassPipeProperty_allowed(any);}
+};
+
+//	Command DbDeleteDevicePipeProperty class definition
+class DbDeleteDevicePipePropertyClass : public Tango::Command
+{
+public:
+	DbDeleteDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbDeleteDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbDeleteDevicePipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbDeleteDevicePipeProperty_allowed(any);}
+};
+
+//	Command DbGetClassPipeList class definition
+class DbGetClassPipeListClass : public Tango::Command
+{
+public:
+	DbGetClassPipeListClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetClassPipeListClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetClassPipeListClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetClassPipeList_allowed(any);}
+};
+
+//	Command DbGetDevicePipeList class definition
+class DbGetDevicePipeListClass : public Tango::Command
+{
+public:
+	DbGetDevicePipeListClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetDevicePipeListClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetDevicePipeListClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetDevicePipeList_allowed(any);}
+};
+
+//	Command DbDeleteAllDevicePipeProperty class definition
+class DbDeleteAllDevicePipePropertyClass : public Tango::Command
+{
+public:
+	DbDeleteAllDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbDeleteAllDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbDeleteAllDevicePipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbDeleteAllDevicePipeProperty_allowed(any);}
+};
+
+//	Command DbPutClassPipeProperty class definition
+class DbPutClassPipePropertyClass : public Tango::Command
+{
+public:
+	DbPutClassPipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbPutClassPipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbPutClassPipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbPutClassPipeProperty_allowed(any);}
+};
+
+//	Command DbPutDevicePipeProperty class definition
+class DbPutDevicePipePropertyClass : public Tango::Command
+{
+public:
+	DbPutDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbPutDevicePipePropertyClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbPutDevicePipePropertyClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbPutDevicePipeProperty_allowed(any);}
+};
+
+//	Command DbGetClassPipePropertyHist class definition
+class DbGetClassPipePropertyHistClass : public Tango::Command
+{
+public:
+	DbGetClassPipePropertyHistClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetClassPipePropertyHistClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetClassPipePropertyHistClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetClassPipePropertyHist_allowed(any);}
+};
+
+//	Command DbGetDevicePipePropertyHist class definition
+class DbGetDevicePipePropertyHistClass : public Tango::Command
+{
+public:
+	DbGetDevicePipePropertyHistClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	DbGetDevicePipePropertyHistClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~DbGetDevicePipePropertyHistClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<DataBase *>(dev))->is_DbGetDevicePipePropertyHist_allowed(any);}
+};
+
 
 /**
  *	The DataBaseClass singleton definition
