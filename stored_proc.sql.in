@@ -7,6 +7,9 @@ DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.class_att_prop;
 DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.get_dev_list;
 DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.dev_att_prop;
 DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.obj_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.class_pipe_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.dev_pipe_prop;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.proc_release_nb;
 
 
 #########################################################
@@ -33,7 +36,7 @@ DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.8'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.9'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -54,6 +57,12 @@ proc: BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
 
 	SET adm_dev_name = CONCAT(adm_dev_name,ds_name);
+
+#
+# get procedure release number
+#
+
+	CALL tango.proc_release_nb(res_str);
 
 #
 # import admin device
@@ -154,6 +163,14 @@ proc: BEGIN
 					CLOSE cur_class_list;
 					LEAVE proc;
 				END IF;
+
+				CALL @TANGO_DB_NAME@.class_pipe_prop(tmp_class,res_str);
+				
+				IF LOCATE('MySQL Error',res_str) != 0 THEN
+					SET res_str = 'MySQL ERROR while getting DS class(es) pipe(s) property(ies)';
+					CLOSE cur_class_list;
+					LEAVE proc;
+				END IF;
 				
 				CALL @TANGO_DB_NAME@.get_dev_list(tmp_class,ds_name,res_str,dev_list,dev_nb);
 				
@@ -189,6 +206,14 @@ proc: BEGIN
 					
 					IF LOCATE('MySQL Error',res_str) != 0 THEN
 						SET res_str = 'MySQL ERROR while getting device attribute property(ies)';
+						CLOSE cur_class_list;
+						LEAVE proc;
+					END IF;
+
+					CALL @TANGO_DB_NAME@.dev_pipe_prop(d_name,res_str);
+					
+					IF LOCATE('MySQL Error',res_str) != 0 THEN
+						SET res_str = 'MySQL ERROR while getting device pipe property(ies)';
 						CLOSE cur_class_list;
 						LEAVE proc;
 					END IF;
@@ -710,6 +735,237 @@ BEGIN
 	SET res_str = INSERT(res_str,class_name_pos+1,1,CONCAT_WS(CONCAT(nb_dev),CHAR(0),CHAR(0)));
 	SET d_num = nb_dev;
 END |
+
+
+#########################################################
+#														#
+#		GET CLASS PIPE PROPERTIES PROCEDURE				#
+#														#
+#########################################################
+
+
+CREATE PROCEDURE @TANGO_DB_NAME@.class_pipe_prop 
+(IN class_name VARCHAR(255),
+ INOUT res_str BLOB) READS SQL DATA
+BEGIN
+	DECLARE tmp_name,tmp_pipe VARCHAR(255);
+	DECLARE known_pipe VARCHAR(255) DEFAULT '';
+	DECLARE tmp_value TEXT;
+	DECLARE tmp_count INT;
+	DECLARE done,prop_nb,pipe_nb,prop_elt_nb INT DEFAULT 0;
+	DECLARE class_name_pos,pipe_name_pos,prop_name_pos INT;
+	
+	DECLARE cur_class_pipe_prop CURSOR FOR 
+	SELECT pipe,name,count,value 
+	FROM @TANGO_DB_NAME@.property_pipe_class 
+	WHERE class = class_name ORDER BY pipe,name,count;
+	
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
+
+	SET res_str = CONCAT_WS(CHAR(0),res_str,class_name);
+	SET class_name_pos = LENGTH(res_str);
+
+	OPEN cur_class_pipe_prop;
+
+	REPEAT
+		FETCH cur_class_pipe_prop INTO tmp_pipe,tmp_name,tmp_count,tmp_value;
+		IF NOT done THEN
+		
+			IF tmp_pipe != known_pipe THEN
+				IF prop_nb != 0 THEN
+					SET res_str = INSERT(res_str,pipe_name_pos+1,1,CONCAT_WS(CONCAT(prop_nb),CHAR(0),CHAR(0)));
+					IF prop_nb < 10 THEN
+						SET prop_name_pos = prop_name_pos + 2;
+					ELSEIF prop_nb < 100 THEN
+						SET prop_name_pos = prop_name_pos + 3;
+					ELSE
+						SET prop_name_pos = prop_name_pos + 4;
+					END IF;
+				END IF;
+				SET known_pipe = tmp_pipe;
+				SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_pipe);
+				SET pipe_name_pos = LENGTH(res_str);
+				SET pipe_nb = pipe_nb + 1;
+				SET prop_nb = 0;
+			END IF;
+			
+			IF tmp_count = 1 THEN
+				IF prop_elt_nb != 0 THEN
+					SET res_str = INSERT(res_str,prop_name_pos+1,1,CONCAT_WS(CONCAT(prop_elt_nb),CHAR(0),CHAR(0)));
+					IF prop_nb = 0 THEN
+						IF prop_elt_nb < 10 THEN
+							SET pipe_name_pos = pipe_name_pos + 2;
+						ELSEIF prop_elt_nb < 100 THEN
+							SET pipe_name_pos = pipe_name_pos + 3;
+						ELSE
+							SET pipe_name_pos = pipe_name_pos + 4;
+						END IF;
+					END IF;
+				END IF;
+				SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_name);
+				SET prop_name_pos = LENGTH(res_str);
+				SET prop_nb = prop_nb + 1;
+				SET prop_elt_nb = 0;
+			END IF;
+						
+			SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_value);
+			SET prop_elt_nb = prop_elt_nb + 1;
+		END IF;
+	UNTIL done END REPEAT;
+	
+	CLOSE cur_class_pipe_prop;
+
+	IF prop_nb != 0 THEN	
+		SET res_str = INSERT(res_str,pipe_name_pos+1,1,CONCAT_WS(CONCAT(prop_nb),CHAR(0),CHAR(0)));
+		IF prop_nb < 10 THEN
+			SET prop_name_pos = prop_name_pos + 2;
+		ELSEIF prop_nb < 100 THEN
+			SET prop_name_pos = prop_name_pos + 3;
+		ELSE
+			SET prop_name_pos = prop_name_pos + 4;
+		END IF;	
+		IF prop_elt_nb != 0 THEN
+			SET res_str = INSERT(res_str,prop_name_pos+1,1,CONCAT_WS(CONCAT(prop_elt_nb),CHAR(0),CHAR(0)));
+		END IF;
+	END IF;
+
+	IF pipe_nb != 0 THEN	
+		SET res_str = INSERT(res_str,class_name_pos+1,1,CONCAT_WS(CONCAT(pipe_nb),CHAR(0),CHAR(0)));
+	ELSE
+		SET res_str = CONCAT_WS(CHAR(0),res_str,0);
+	END IF;
+END |
+
+
+#########################################################
+#														#
+#		GET DEVICE PIPE PROPERTIES PROCEDURE			#
+#														#
+#########################################################
+
+
+CREATE PROCEDURE @TANGO_DB_NAME@.dev_pipe_prop 
+(IN dev_name VARCHAR(255),
+ INOUT res_str BLOB) READS SQL DATA
+BEGIN
+	DECLARE tmp_name,tmp_pipe VARCHAR(255);
+	DECLARE known_pipe VARCHAR(255) DEFAULT '';
+	DECLARE tmp_value TEXT;
+	DECLARE tmp_count INT;
+	DECLARE done,prop_nb,pipe_nb,prop_elt_nb INT DEFAULT 0;
+	DECLARE dev_name_pos,pipe_name_pos,prop_name_pos INT;
+	
+	DECLARE cur_dev_pipe_prop CURSOR FOR 
+	SELECT pipe,name,count,value 
+	FROM @TANGO_DB_NAME@.property_pipe_device 
+	WHERE device = dev_name ORDER BY pipe,name,count;
+	
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done = 1;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
+
+	SET res_str = CONCAT_WS(CHAR(0),res_str,dev_name);
+	SET dev_name_pos = LENGTH(res_str);
+
+	OPEN cur_dev_pipe_prop;
+
+	REPEAT
+		FETCH cur_dev_pipe_prop INTO tmp_pipe,tmp_name,tmp_count,tmp_value;
+		IF NOT done THEN
+		
+			IF tmp_pipe != known_pipe THEN
+				IF prop_nb != 0 THEN
+					SET res_str = INSERT(res_str,pipe_name_pos+1,1,CONCAT_WS(CONCAT(prop_nb),CHAR(0),CHAR(0)));
+					IF prop_nb < 10 THEN
+						SET prop_name_pos = prop_name_pos + 2;
+					ELSEIF prop_nb < 100 THEN
+						SET prop_name_pos = prop_name_pos + 3;
+					ELSE
+						SET prop_name_pos = prop_name_pos + 4;
+					END IF;
+				END IF;
+				SET known_pipe = tmp_pipe;
+				SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_pipe);
+				SET pipe_name_pos = LENGTH(res_str);
+				SET pipe_nb = pipe_nb + 1;
+				SET prop_nb = 0;
+			END IF;
+			
+			IF tmp_count = 1 THEN
+				IF prop_elt_nb != 0 THEN
+					SET res_str = INSERT(res_str,prop_name_pos+1,1,CONCAT_WS(CONCAT(prop_elt_nb),CHAR(0),CHAR(0)));
+					IF prop_nb = 0 THEN
+						IF prop_elt_nb < 10 THEN
+							SET pipe_name_pos = pipe_name_pos + 2;
+						ELSEIF prop_elt_nb < 100 THEN
+							SET pipe_name_pos = pipe_name_pos + 3;
+						ELSE
+							SET pipe_name_pos = pipe_name_pos + 4;
+						END IF;
+					END IF;
+				END IF;
+				SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_name);
+				SET prop_name_pos = LENGTH(res_str);
+				SET prop_nb = prop_nb + 1;
+				SET prop_elt_nb = 0;
+			END IF;
+						
+			SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_value);
+			SET prop_elt_nb = prop_elt_nb + 1;
+		END IF;
+	UNTIL done END REPEAT;
+	
+	CLOSE cur_dev_pipe_prop;
+
+	IF prop_nb != 0 THEN	
+		SET res_str = INSERT(res_str,pipe_name_pos+1,1,CONCAT_WS(CONCAT(prop_nb),CHAR(0),CHAR(0)));
+		IF prop_nb < 10 THEN
+			SET prop_name_pos = prop_name_pos + 2;
+		ELSEIF prop_nb < 100 THEN
+			SET prop_name_pos = prop_name_pos + 3;
+		ELSE
+			SET prop_name_pos = prop_name_pos + 4;
+		END IF;	
+		IF prop_elt_nb != 0 THEN
+			SET res_str = INSERT(res_str,prop_name_pos+1,1,CONCAT_WS(CONCAT(prop_elt_nb),CHAR(0),CHAR(0)));
+		END IF;
+	END IF;
+
+	IF pipe_nb != 0 THEN	
+		SET res_str = INSERT(res_str,dev_name_pos+1,1,CONCAT_WS(CONCAT(pipe_nb),CHAR(0),CHAR(0)));
+	ELSE
+		SET res_str = CONCAT_WS(CHAR(0),res_str,0);
+	END IF;
+END |
+
+#########################################################
+#														#
+#		STORED PROCEDURE RELEASE PROCEDURE				#
+#														#
+#########################################################
+
+
+CREATE PROCEDURE @TANGO_DB_NAME@.proc_release_nb 
+(INOUT res_str BLOB) READS SQL DATA
+BEGIN
+	DECLARE tmp_rel TEXT;
+	DECLARE not_found INT DEFAULT 0;
+	
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found = 1;
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
+	
+	SELECT comment
+	INTO tmp_rel
+	FROM mysql.proc 
+	WHERE name = 'ds_start';
+	
+	IF not_found = 1 THEN
+		SET res_str = CONCAT_WS(CHAR(0),res_str,'Not Found');
+	ELSE
+		SET res_str = CONCAT_WS(CHAR(0),res_str,tmp_rel);
+	END IF;
+END |
+
 
 #########################################################
 #														#
