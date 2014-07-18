@@ -8340,7 +8340,7 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
    		WARN_STREAM << "DataBase::db_delete_class_pipe_property(): insufficient number of arguments ";
    		WARN_STREAM << endl;
    		Tango::Except::throw_exception(DB_IncorrectArguments,
-					       "insufficient number of arguments to delete class pipe property",
+					       "Insufficient number of arguments to delete class pipe property",
 					       "DataBase::db_delete_class_pipe_property()");
 	}
 
@@ -8393,7 +8393,7 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
 			  simple_query(sql_query_stream.str(),"db_delete_class_pipe_property()",al.get_con_nb());
 
 			}
-			purge_att_property("property_pipe_class_hist","class",tmp_class.c_str(),pipe,property,al.get_con_nb());
+			purge_pipe_property("property_pipe_class_hist","class",tmp_class.c_str(),pipe,property,al.get_con_nb());
 		}
 	}
 
@@ -8485,7 +8485,7 @@ void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *ar
 			  simple_query(sql_query_stream.str(),"db_delete_device_pipe_property()",al.get_con_nb());
 
 			}
-			purge_att_property("property_pipe_device_hist","device",tmp_device.c_str(),pipe,property,al.get_con_nb());
+			purge_pipe_property("property_pipe_device_hist","device",tmp_device.c_str(),pipe,property,al.get_con_nb());
 		}
 	}
 
@@ -8715,7 +8715,7 @@ void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray
 			   					 << "',count='0',value='DELETED'";
 					DEBUG_STREAM << "DataBase::DeletAllDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
 					simple_query(sql_query_stream.str(),"db_delete_all_device_pipe_property()",al.get_con_nb());
-					purge_att_property("property_pipe_device_hist","device",tmp_device.c_str(),pipe,row[0],al.get_con_nb());
+					purge_pipe_property("property_pipe_device_hist","device",tmp_device.c_str(),pipe,row[0],al.get_con_nb());
 				}
 			}
 			mysql_free_result(result);
@@ -8808,7 +8808,7 @@ void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 			        simple_query(sql_query_stream.str(),"db_put_class_pipe_property()",al.get_con_nb());
 
 				}
-		        purge_att_property("property_pipe_class_hist","class",tmp_class,tmp_pipe,tmp_name,al.get_con_nb());
+		        purge_pipe_property("property_pipe_class_hist","class",tmp_class,tmp_pipe,tmp_name,al.get_con_nb());
 				k = k + n_rows + 2;
 	   		}
 	   		k = k+2;
@@ -8902,7 +8902,7 @@ void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin
 					simple_query(sql_query_stream.str(),"db_put_device_pipe_property()",al.get_con_nb());
 
 				}
-				purge_att_property("property_pipe_device_hist","device",tmp_device,tmp_pipe,tmp_name,al.get_con_nb());
+				purge_pipe_property("property_pipe_device_hist","device",tmp_device,tmp_pipe,tmp_name,al.get_con_nb());
 				k = k + n_rows + 2;
 	   		}
 	   		k = k+2;

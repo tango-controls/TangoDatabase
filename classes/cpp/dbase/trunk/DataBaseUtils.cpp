@@ -721,6 +721,43 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
 
 //+------------------------------------------------------------------
 /**
+ *	method:	purge_pipe_property()
+ *
+ *	description:	purge an pipe property history table.
+ *
+ */
+//+------------------------------------------------------------------
+void DataBase::purge_pipe_property(const char *table,const char *field,const char *object,const char *pipe,const char *name,int con_nb) {
+
+  TangoSys_MemStream sql_query;
+  MYSQL_RES *result;
+  MYSQL_ROW row2;
+
+  //cout << "purge_pipe_property(" << object << "," << pipe << "," << name << ")" << endl;
+
+  sql_query.str("");
+  sql_query << "SELECT DISTINCT id FROM " << table
+            << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name
+            << "\" AND pipe=\"" << pipe << "\" ORDER by date";
+
+  result = query(sql_query.str(),"purge_pipe_property()",con_nb);
+  int nb_item = mysql_num_rows(result);
+
+  if(nb_item>historyDepth) {
+    // Purge
+    int toDelete = nb_item-historyDepth;
+    for(int j=0;j<toDelete;j++) {
+		row2 = mysql_fetch_row(result);
+        sql_query.str("");
+        sql_query << "DELETE FROM " << table << " WHERE id='" << row2[0] << "'";
+		simple_query(sql_query.str(),"purge_pipe_property()",con_nb);
+    }
+  }
+  mysql_free_result(result);
+}
+
+//+------------------------------------------------------------------
+/**
  *	method:	base_connect()
  *
  *	description:	Basic action to build a Mysql connection
