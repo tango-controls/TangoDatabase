@@ -20,12 +20,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Tango is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -133,12 +133,12 @@ public:
 	 *	Will be set by property of Default object
 	 */
 	bool	fireToStarter;
-	
+
 	/**
 	 *	Database value history depth
 	 */
 	int	historyDepth;
-	
+
 	/**
 	 *	Shared data for update starter thread
 	 */
@@ -160,7 +160,7 @@ public:
 		double maximum;
 	} TimingStatsStruct;
 
-	map<std::string,TimingStatsStruct*> timing_stats_map; 
+	map<std::string,TimingStatsStruct*> timing_stats_map;
 
 	int timing_stats_size;
 	double *timing_stats_average;
@@ -219,7 +219,7 @@ public:
 	DataBase(Tango::DeviceClass *cl,const char *s,const char *d);
 	/**
 	 * The device object destructor.
-	 */	
+	 */
 	~DataBase() {delete_device();};
 
 
@@ -251,7 +251,7 @@ public:
 
 /**
  *	Attribute StoredProcedureRelease related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Scalar
@@ -260,7 +260,7 @@ public:
 	virtual bool is_StoredProcedureRelease_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_average related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -269,7 +269,7 @@ public:
 	virtual bool is_Timing_average_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_minimum related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -278,7 +278,7 @@ public:
 	virtual bool is_Timing_minimum_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_maximum related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -287,7 +287,7 @@ public:
 	virtual bool is_Timing_maximum_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_calls related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -296,7 +296,7 @@ public:
 	virtual bool is_Timing_calls_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_index related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Spectrum max = 64
@@ -305,7 +305,7 @@ public:
 	virtual bool is_Timing_index_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_info related methods
- *	Description: 
+ *	Description:
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Spectrum max = 64
@@ -614,7 +614,7 @@ public:
 	virtual bool is_DbGetClassList_allowed(const CORBA::Any &any);
 	/**
 	 *	Command DbGetClassProperty related method
-	 *	Description: 
+	 *	Description:
 	 *
 	 *	@param argin Str[0] = Tango class
 	 *               Str[1] = Property name
@@ -789,7 +789,7 @@ public:
 	 *           Str[5] = Started date (or ? if not set)
 	 *           Str[6] = Stopped date (or ? if not set)
 	 *           Str[7] = Device class
-	 *           
+	 *
 	 *           Lg[0] = Device exported flag
 	 *           Lg[1] = Device Server process PID (or -1 if not set)
 	 */
@@ -826,7 +826,7 @@ public:
 	virtual bool is_DbGetDeviceMemberList_allowed(const CORBA::Any &any);
 	/**
 	 *	Command DbGetDeviceProperty related method
-	 *	Description: 
+	 *	Description:
 	 *
 	 *	@param argin Str[0] = Device name
 	 *               Str[1] = Property name
@@ -1019,7 +1019,7 @@ public:
 	 *           Str[3] = device server process name
 	 *           Str[4] = host name
 	 *           Str[5] = Tango class name
-	 *           
+	 *
 	 *           Lg[0] = Exported flag
 	 *           Lg[1] = Device server process PID
 	 */
@@ -1470,9 +1470,9 @@ public:
 /*----- PROTECTED REGION ID(DataBase::Additional Method prototypes) ENABLED START -----*/
 
 	//	Additional Method prototypes
-protected :	
+protected :
 	unsigned long	mysql_svr_version;
-	
+
 	bool check_device_name(string &);
 	bool device_name_to_dfm(string &device_name, char domain[], char family[], char member[]);
 	string replace_wildcard(const char*);
@@ -1483,6 +1483,7 @@ protected :
 	void check_history_tables();
 	void purge_property(const char *table,const char *field,const char *object,const char *name,int con_nb=-1);
 	void purge_att_property(const char *table,const char *field,const char *object,const char *attribute,const char *name,int con_nb=-1);
+	void purge_pipe_property(const char *table,const char *field,const char *object,const char *pipe,const char *name,int con_nb=-1);
 
 	typedef struct
 	{
@@ -1501,7 +1502,7 @@ protected :
 	omni_mutex		timing_stats_mutex;
 	omni_mutex		starter_mutex;
 	omni_mutex		sem_wait_mutex;
-				
+
 	void create_connection_pool(const char *,const char *,const char *);
 	void base_connect(int);
 	bool host_port_from_ior(const char *,string &);
@@ -1521,7 +1522,7 @@ protected :
 		}
 		timing_stats_mutex.unlock();
 	}
-	
+
 #ifdef WIN32
 	inline static void w_gettimeofday(LARGE_INTEGER *t)
 	{
@@ -1538,11 +1539,11 @@ protected :
 #endif
 
 public:
-	
+
 	void simple_query(string sql_query,const char *method,int con_nb=-1);
 	MYSQL_RES *query(string sql_query,const char *method,int con_nb=-1);
 	static void set_conn_pool_size(int si) {conn_pool_size = si;}
-	
+
 	int get_connection();
 	void release_connection(int con_nb) {conn_pool[con_nb].the_sema.post();}
 
@@ -1557,9 +1558,9 @@ class AutoLock
 public:
 	AutoLock(const char *,DataBase *);
 	~AutoLock();
-	
+
 	int get_con_nb() {return con_nb;}
-	
+
 private:
 	DataBase	*the_db;
 	int 		con_nb;
@@ -1570,8 +1571,8 @@ class DbInter: public Tango::Interceptors
 public:
 	DbInter() {}
 	~DbInter() {}
-	
-	virtual void create_thread() 
+
+	virtual void create_thread()
 	{
 		if (Tango::Util::instance()->is_svr_starting() == false)
 			mysql_thread_init();
