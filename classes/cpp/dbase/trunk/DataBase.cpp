@@ -1219,7 +1219,7 @@ void DataBase::db_delete_device(Tango::DevString argin)
 	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
 
 	{
-		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE, attribute_alias WRITE",this);
+		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE, property_pipe_device WRITE, attribute_alias WRITE",this);
 
 // then delete the device from the device table
 
@@ -1238,6 +1238,13 @@ void DataBase::db_delete_device(Tango::DevString argin)
 
     	sql_query_stream.str("");
 		sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \"" << tmp_wildcard << "\"";
+    	DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
+		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
+
+// then delete device from the property_pipe_device table
+
+    	sql_query_stream.str("");
+		sql_query_stream << "DELETE FROM property_pipe_device WHERE device LIKE \"" << tmp_wildcard << "\"";
     	DEBUG_STREAM << "DataBase::db_delete_device(): sql_query " << sql_query_stream.str() << endl;
 		simple_query(sql_query_stream.str(),"db_delete_device()",al.get_con_nb());
 
