@@ -35,18 +35,19 @@ DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.proc_release_nb;
 DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
- IN host VARCHAR(255),
+ IN recev_host VARCHAR(255),
  OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.9'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
 	DECLARE adm_dev_name VARCHAR(255) DEFAULT 'dserver/';
 	DECLARE done, dev_nb,class_nb INT DEFAULT 0;
-	DECLARE tmp_class,d_name VARCHAR(255);
+	DECLARE tmp_class,d_name,rel_str VARCHAR(255);
 	DECLARE dev_list BLOB;
-	DECLARE start,pos INT DEFAULT 1;
+	DECLARE start,pos,ds_pipe INT DEFAULT 1;
 	DECLARE class_nb_pos INT;
 	DECLARE ca_dev_name VARCHAR(255);
+	DECLARE host VARCHAR(255);
 
 	DECLARE cur_class_list CURSOR FOR 
 	SELECT DISTINCT class 
@@ -59,10 +60,30 @@ proc: BEGIN
 	SET adm_dev_name = CONCAT(adm_dev_name,ds_name);
 
 #
+# Do we have Tango release added in host name?
+#
+
+	SET pos = LOCATE('%%',recev_host);
+	IF pos != 0 THEN
+		SET rel_str = SUBSTRING(recev_host,pos+2);
+		SET host = SUBSTRING(recev_host,1,pos-1);
+		IF rel_str >= 9 THEN
+			SET ds_pipe = 1;
+		ELSE
+			SET ds_pipe = 0;
+		END IF;
+	ELSE
+		SET ds_pipe = 0;
+		SET host = recev_host;
+	END IF;
+
+#
 # get procedure release number
 #
 
-	CALL tango.proc_release_nb(res_str);
+	IF ds_pipe = 1 THEN
+		CALL tango.proc_release_nb(res_str);
+	END IF;
 
 #
 # import admin device
@@ -164,12 +185,14 @@ proc: BEGIN
 					LEAVE proc;
 				END IF;
 
-				CALL @TANGO_DB_NAME@.class_pipe_prop(tmp_class,res_str);
+				IF ds_pipe = 1 THEN
+					CALL @TANGO_DB_NAME@.class_pipe_prop(tmp_class,res_str);
 				
-				IF LOCATE('MySQL Error',res_str) != 0 THEN
-					SET res_str = 'MySQL ERROR while getting DS class(es) pipe(s) property(ies)';
-					CLOSE cur_class_list;
-					LEAVE proc;
+					IF LOCATE('MySQL Error',res_str) != 0 THEN
+						SET res_str = 'MySQL ERROR while getting DS class(es) pipe(s) property(ies)';
+						CLOSE cur_class_list;
+						LEAVE proc;
+					END IF;
 				END IF;
 				
 				CALL @TANGO_DB_NAME@.get_dev_list(tmp_class,ds_name,res_str,dev_list,dev_nb);
@@ -210,12 +233,14 @@ proc: BEGIN
 						LEAVE proc;
 					END IF;
 
-					CALL @TANGO_DB_NAME@.dev_pipe_prop(d_name,res_str);
+					IF ds_pipe = 1 THEN
+						CALL @TANGO_DB_NAME@.dev_pipe_prop(d_name,res_str);
 					
-					IF LOCATE('MySQL Error',res_str) != 0 THEN
-						SET res_str = 'MySQL ERROR while getting device pipe property(ies)';
-						CLOSE cur_class_list;
-						LEAVE proc;
+						IF LOCATE('MySQL Error',res_str) != 0 THEN
+							SET res_str = 'MySQL ERROR while getting device pipe property(ies)';
+							CLOSE cur_class_list;
+							LEAVE proc;
+						END IF;
 					END IF;
 					
 					SET dev_nb = dev_nb - 1;
