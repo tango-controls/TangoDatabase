@@ -411,7 +411,11 @@ void DataBase::init_device()
 		if ((*argout)[3] != 0)
 		{
 		  if(strcmp((*argout)[4]," ")!=0) {
-		    historyDepth = atoi( (*argout)[4] );
+
+			stringstream ss;
+		    ss << (*argout)[4];
+		    ss >> historyDepth;
+
 		    if( historyDepth == 0 ) {
 		      cout << "Warning, Invalid historyDepth property, reseting to default value (10)" << endl;
 		      historyDepth = 10;
@@ -1070,7 +1074,10 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
    			DEBUG_STREAM << "DataBase::db_delete_class_attribute_property(): sql_query " << sql_query_stream.str() << endl;
 			result = query(sql_query_stream.str(),"db_delete_class_attribute_property()",al.get_con_nb());
  	    	row = mysql_fetch_row(result);
-			int count = atoi(row[0]);
+			int count;
+			stringstream ss;
+			ss << row[0];
+			ss >> count;
   	    	mysql_free_result(result);
 
 			if(count) {
@@ -1401,7 +1408,10 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
 		                	 <<"\" AND attribute = \"" << attribute << "\" AND name = \"" << property << "\" ";
 			result = query(sql_query_stream.str(),"db_delete_device_attribute_property()",al.get_con_nb());
  	    	row = mysql_fetch_row(result);
-			int count = atoi(row[0]);
+			int count;
+			stringstream ss;
+			ss << row[0];
+			ss >> count;
   	    	mysql_free_result(result);
 
 			if(count) {
@@ -2529,7 +2539,10 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,attribute,name,count FROM property_attribute_class_hist WHERE id = \""
 	                    	<< id << "\" AND class = \"" << tmp_class << "\" ORDER BY count ASC";
@@ -2859,7 +2872,10 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,name,count FROM property_class_hist WHERE id = \""
 	                    	<< id << "\" AND class = \"" << tmp_class << "\" ORDER BY count ASC";
@@ -3647,7 +3663,10 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,attribute,name,count FROM property_attribute_device_hist WHERE id = \""
 	                    	<< id << "\" AND device = \"" << tmp_device << "\" ORDER BY count ASC";
@@ -4482,7 +4501,10 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,name,count FROM property_device_hist WHERE id = \""
 	                    	<< id << "\" AND device = \"" << tmp_device << "\" ORDER BY count ASC";
@@ -5157,7 +5179,10 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,name,count FROM property_hist WHERE id = \""
 	                    	<< id << "\" AND object = \"" << tmp_object << "\" ORDER BY count";
@@ -8373,7 +8398,10 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
    			DEBUG_STREAM << "DataBase::db_delete_class_pipe_property(): sql_query " << sql_query_stream.str() << endl;
 			result = query(sql_query_stream.str(),"db_delete_class_pipe_property()",al.get_con_nb());
  	    	row = mysql_fetch_row(result);
-			int count = atoi(row[0]);
+			int count;
+			stringstream ss;
+			ss << row[0];
+			ss >> count;
   	    	mysql_free_result(result);
 
 			if(count) {
@@ -8466,7 +8494,10 @@ void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *ar
 		                	 <<"\" AND pipe = \"" << pipe << "\" AND name = \"" << property << "\" ";
 			result = query(sql_query_stream.str(),"db_delete_device_pipe_property()",al.get_con_nb());
  	    	row = mysql_fetch_row(result);
-			int count = atoi(row[0]);
+			int count;
+			stringstream ss;
+			ss << row[0];
+			ss >> count;
   	    	mysql_free_result(result);
 
 			if(count) {
@@ -8984,7 +9015,10 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango:
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,pipe,name,count FROM property_pipe_class_hist WHERE id = \""
 	                    	<< id << "\" AND class = \"" << tmp_class << "\" ORDER BY count ASC";
@@ -9083,7 +9117,10 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id = atoi(row[0]);
+		   unsigned int id;
+		   stringstream ss;
+		   ss << row[0];
+		   ss >> id;
 		   sql_query_stream.str("");
 		   sql_query_stream << "SELECT DATE_FORMAT(date,'%Y-%m-%d %H:%i:%s'),value,pipe,name,count FROM property_pipe_device_hist WHERE id = \""
 	                    	<< id << "\" AND device = \"" << tmp_device << "\" ORDER BY count ASC";
