@@ -1,8 +1,17 @@
 USE @TANGO_DB_NAME@;
 
 #
-# Update entries in the property_class tables for controlled access service
+# Update entries in the property_class tables for controlled access service, starter and database
 #
 
 INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NULL,NULL,NULL);
 INSERT INTO property_class VALUES('Starter','AllowedAccessCmd',5,'UpdateServerList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',35,'DbGetDeviceClassList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',36,'DbGetDeviceExportedList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',37,'DbGetHostServerList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',38,'DbGetAttributeAlias2',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',39,'DbGetAliasAttribute',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',40,'DbGetClassPipeProperty',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',41,'DbGetDevicePipeProperty',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',42,'DbGetClassPipeList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',43,'DbGetDevicePipeList',NULL,NULL,NULL);
