@@ -7,6 +7,15 @@ USE tango;
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',32,'DbImportEvent',NULL,NULL,NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',33,'DbGetDeviceAlias',NULL,NULL,NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',34,'DbGetCSDbServerList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',35,'DbGetDeviceClassList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',36,'DbGetDeviceExportedList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',37,'DbGetHostServerList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',38,'DbGetAttributeAlias2',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',39,'DbGetAliasAttribute',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',40,'DbGetClassPipeProperty',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',41,'DbGetDevicePipeProperty',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',42,'DbGetClassPipeList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',43,'DbGetDevicePipeList',NULL,NULL,NULL);
 
 INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NULL,NULL,NULL);
 
