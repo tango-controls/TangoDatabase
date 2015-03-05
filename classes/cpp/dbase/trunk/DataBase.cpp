@@ -4955,6 +4955,7 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 			instance_names.push_back(str);
 		}
 	}
+	delete server_list;
 	//	copy result vector to arg out.
 	argout = new Tango::DevVarStringArray;
 	argout->length(instance_names.size());
