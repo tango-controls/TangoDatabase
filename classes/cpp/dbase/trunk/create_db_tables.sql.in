@@ -223,31 +223,31 @@ CREATE TABLE IF NOT EXISTS server (
 #
 
 CREATE TABLE IF NOT EXISTS device_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS device_attribute_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS device_pipe_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS class_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS class_attribute_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS class_pipe_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS object_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 #
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS object_history_id (
 #
 
 CREATE TABLE IF NOT EXISTS property_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   object varchar(255) NOT NULL default '',
   name varchar(255) NOT NULL default '',
@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS property_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_device_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   device varchar(255) NOT NULL default '',
   name varchar(255) NOT NULL default '',
@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS property_device_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_class_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   class varchar(255) NOT NULL default '',
   name varchar(255) NOT NULL default '',
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS property_class_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_attribute_class_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   class varchar(255) NOT NULL default '',
   attribute varchar(255) NOT NULL default '',
@@ -305,7 +305,7 @@ CREATE TABLE IF NOT EXISTS property_attribute_class_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_attribute_device_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   device varchar(255) NOT NULL default '',
   attribute varchar(255) NOT NULL default '',
@@ -319,7 +319,7 @@ CREATE TABLE IF NOT EXISTS property_attribute_device_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_pipe_class_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   class varchar(255) NOT NULL default '',
   pipe varchar(255) NOT NULL default '',
@@ -333,7 +333,7 @@ CREATE TABLE IF NOT EXISTS property_pipe_class_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_pipe_device_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   device varchar(255) NOT NULL default '',
   pipe varchar(255) NOT NULL default '',
