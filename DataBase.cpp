@@ -1093,7 +1093,7 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
 
 // Mark this property as deleted
 
-        	  unsigned int class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
+        	  Tango::DevULong64 class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
         	  sql_query_stream.str("");
 			  sql_query_stream << "INSERT INTO property_attribute_class_hist SET class='" << tmp_class \
 													 << "',attribute='" << attribute \
@@ -1168,7 +1168,7 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 		    	simple_query(sql_query_stream.str(),"db_delete_class_property()",al.get_con_nb());
 
 				// Mark this property as deleted
-				unsigned int class_property_hist_id = get_id("class",al.get_con_nb());
+				Tango::DevULong64 class_property_hist_id = get_id("class",al.get_con_nb());
 				sql_query_stream.str("");
 				sql_query_stream << "INSERT INTO property_class_hist SET class='" << tmp_class \
 													 << "',name='" << row[0] \
@@ -1426,7 +1426,7 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
 
 // Mark this property as deleted
 
-        	  unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
+        	  Tango::DevULong64 device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
 			  sql_query_stream.str("");
 			  sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device
 							   << "',attribute='" << attribute
@@ -1506,7 +1506,7 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
 
 				// Mark this property as deleted
 
-	        	unsigned int device_property_hist_id = get_id("device",al.get_con_nb());
+	        	Tango::DevULong64 device_property_hist_id = get_id("device",al.get_con_nb());
 		    	sql_query_stream.str("");
 		    	sql_query_stream << "INSERT INTO property_device_hist SET device='"
 		                	   << tmp_device << "',id='" << device_property_hist_id << "',name='"
@@ -1586,7 +1586,7 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
 
 				// Mark this property as deleted
 
-		    	unsigned int object_property_hist_id = get_id("object",al.get_con_nb());
+		    	Tango::DevULong64 object_property_hist_id = get_id("object",al.get_con_nb());
 		    	sql_query_stream.str("");
 		    	sql_query_stream << "INSERT INTO property_hist SET object='" << tmp_object
 											 << "',name='" << row[0]
@@ -2539,7 +2539,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;
@@ -2872,7 +2872,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;
@@ -3663,7 +3663,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;
@@ -4501,7 +4501,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;
@@ -5180,7 +5180,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;
@@ -6169,7 +6169,7 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 
 // then insert the new value into the history table
 
-			  unsigned int class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
+			  Tango::DevULong64 class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
         	  sql_query_stream.str("");
 			  sql_query_stream << "INSERT INTO property_attribute_class_hist SET class='" << tmp_class \
 													 << "',attribute='" << tmp_attribute \
@@ -6246,7 +6246,7 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 
 				sscanf((*argin)[j+1], "%6d", &n_rows);
 				tmp_count = 0;
-				unsigned int class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
+				Tango::DevULong64 class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
           				string tmp_escaped_string = escape_string((*argin)[l+1]);
@@ -6339,7 +6339,7 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 			DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
 		   	simple_query(sql_query_stream.str(),"db_put_class_property()",al.get_con_nb());
 		   	sscanf((*property_list)[k+1], "%6d", &n_rows);
-		   	unsigned int class_property_hist_id = get_id("class",al.get_con_nb());
+		   	Tango::DevULong64 class_property_hist_id = get_id("class",al.get_con_nb());
 		   	for (j=k+2; j<k+n_rows+2; j++)
 		   	{
         	  	string tmp_escaped_string = escape_string((*property_list)[j]);
@@ -6522,7 +6522,7 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 		  		simple_query(sql_query_stream.str(),"db_put_device_attribute_property()",al.get_con_nb());
 
 // then insert the new value for this tuple into the history table
-          		unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
+          		Tango::DevULong64 device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
 				sql_query_stream.str("");
 				sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device \
 												 << "',attribute='" << tmp_attribute \
@@ -6605,7 +6605,7 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 
 				sscanf((*argin)[j+1], "%6d", &n_rows);
 				tmp_count = 0;
-            	unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
+            	Tango::DevULong64 device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
 
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
@@ -6699,7 +6699,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 
 		   simple_query(sql_query_stream.str(),"db_put_device_property()",al.get_con_nb());
 		   sscanf((*property_list)[k+1], "%6d", &n_rows);
-		   unsigned int device_property_hist_id = get_id("device",al.get_con_nb());
+		   Tango::DevULong64 device_property_hist_id = get_id("device",al.get_con_nb());
 
 		   for (j=k+2; j<k+n_rows+2; j++)
 		   {
@@ -6791,7 +6791,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 			DEBUG_STREAM  << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
 
 			simple_query(sql_query_stream.str(),"db_put_property()",al.get_con_nb());
-			unsigned int object_property_hist_id = get_id("object",al.get_con_nb());
+			Tango::DevULong64 object_property_hist_id = get_id("object",al.get_con_nb());
 	    	for (int j=k+2 ; j<k+n_rows+2 ; j++)
 	    	{
         	  string tmp_escaped_string = escape_string((*property_list)[j]);
@@ -7336,7 +7336,7 @@ void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarString
 				for(unsigned int j=0;j<count;j++)
 				{
 					row = mysql_fetch_row(result);
-					unsigned int device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
+					Tango::DevULong64 device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
 					sql_query_stream.str("");
 					sql_query_stream << "INSERT INTO property_attribute_device_hist SET device='" << tmp_device
 			   					 << "',attribute='" << attribute
@@ -8418,7 +8418,7 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
 
 // Mark this property as deleted
 
-        	  unsigned int class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
+        	  Tango::DevULong64 class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
         	  sql_query_stream.str("");
 			  sql_query_stream << "INSERT INTO property_pipe_class_hist SET class='" << tmp_class \
 													 << "',pipe='" << pipe \
@@ -8513,7 +8513,7 @@ void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *ar
 
 // Mark this property as deleted
 
-        	  unsigned int device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
+        	  Tango::DevULong64 device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
 			  sql_query_stream.str("");
 			  sql_query_stream << "INSERT INTO property_pipe_device_hist SET device='" << tmp_device
 							   << "',pipe='" << pipe
@@ -8745,7 +8745,7 @@ void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray
 				for(unsigned int j=0;j<count;j++)
 				{
 					row = mysql_fetch_row(result);
-					unsigned int device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
+					Tango::DevULong64 device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
 					sql_query_stream.str("");
 					sql_query_stream << "INSERT INTO property_pipe_device_hist SET device='" << tmp_device
 			   					 << "',pipe='" << pipe
@@ -8818,7 +8818,7 @@ void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 
 				sscanf((*argin)[j+1], "%6d", &n_rows);
 				tmp_count = 0;
-				unsigned int class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
+				Tango::DevULong64 class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
           				string tmp_escaped_string = escape_string((*argin)[l+1]);
@@ -8914,7 +8914,7 @@ void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin
 
 				sscanf((*argin)[j+1], "%6d", &n_rows);
 				tmp_count = 0;
-            	unsigned int device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
+            	Tango::DevULong64 device_pipe_property_hist_id = get_id("device_pipe",al.get_con_nb());
 
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
@@ -9016,7 +9016,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango:
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;
@@ -9118,7 +9118,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 		for (unsigned int i=0; i<mysql_num_rows(ids); i++)
 		{
 		   row = mysql_fetch_row(ids);
-		   unsigned int id;
+		   Tango::DevULong64 id;
 		   stringstream ss;
 		   ss << row[0];
 		   ss >> id;

@@ -1479,7 +1479,7 @@ protected :
 	Tango::DevString db_get_device_host(Tango::DevString,int con_nb=-1);
 	string escape_string(const char *string_c_str);
 	void init_timing_stats();
-	unsigned int get_id(const char *name,int con_nb=-1);
+	Tango::DevULong64 get_id(const char *name,int con_nb=-1);
 	void check_history_tables();
 	void purge_property(const char *table,const char *field,const char *object,const char *name,int con_nb=-1);
 	void purge_att_property(const char *table,const char *field,const char *object,const char *attribute,const char *name,int con_nb=-1);

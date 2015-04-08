@@ -426,7 +426,7 @@ void DataBase::check_history_tables()
 //
 //-----------------------------------------------------------------------------
 
-unsigned int DataBase::get_id(const char *name,int con_nb)
+Tango::DevULong64 DataBase::get_id(const char *name,int con_nb)
 {
 	TangoSys_MemStream sql_query;
 
@@ -479,7 +479,7 @@ unsigned int DataBase::get_id(const char *name,int con_nb)
 	if (need_release == true)
 		release_connection(con_nb);
 
-	return val;
+	return (Tango::DevULong64)val;
 }
 
 //+----------------------------------------------------------------------------

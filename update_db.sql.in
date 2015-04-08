@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS property_pipe_device (
 #
 
 CREATE TABLE IF NOT EXISTS device_pipe_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS class_pipe_history_id (
-  id int(11) unsigned NOT NULL default '0'
+  id bigint unsigned NOT NULL default '0'
 ) ENGINE=MyISAM;
 
 #
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS class_pipe_history_id (
 #
 
 CREATE TABLE IF NOT EXISTS property_pipe_class_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   class varchar(255) NOT NULL default '',
   pipe varchar(255) NOT NULL default '',
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS property_pipe_class_hist (
 ) ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS property_pipe_device_hist (
-  id int(10) unsigned NOT NULL default '0',
+  id bigint unsigned NOT NULL default '0',
   date timestamp NOT NULL,
   device varchar(255) NOT NULL default '',
   pipe varchar(255) NOT NULL default '',
@@ -82,6 +82,22 @@ CREATE TABLE IF NOT EXISTS property_pipe_device_hist (
 
 INSERT INTO device_pipe_history_id VALUES (0);
 INSERT INTO class_pipe_history_id VALUES (0);
+
+#
+# Update history id columns to support id on more than 32 bits
+#
+
+ALTER TABLE property_attribute_device_hist MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE property_attribute_class_hist MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE property_class_hist MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE property_device_hist MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE property_hist MODIFY id bigint unsigned NOT NULL default '0';
+
+ALTER TABLE class_attribute_history_id MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE class_history_id MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE device_attribute_history_id MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE device_history_id MODIFY id bigint unsigned NOT NULL default '0';
+ALTER TABLE object_history_id MODIFY id bigint unsigned NOT NULL default '0';
 
 #
 # Update entries in the property_class tables for database
