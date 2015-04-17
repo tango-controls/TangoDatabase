@@ -24,22 +24,22 @@ INSERT INTO object_history_id VALUES (0);
 # Create entry for database device server in device table
 #
 
-INSERT INTO device VALUES ('sys/database/2',NULL,'sys','database','2','nada','nada','nada','DataBaseds/2','nada','DataBase','nada','nada','nada','nada');
-INSERT INTO device VALUES ('dserver/DataBaseds/2',NULL,'dserver','DataBaseds','2','nada','nada','nada','DataBaseds/2','nada','DServer','nada','nada','nada','nada');
+INSERT INTO device VALUES ('sys/database/2',NULL,'sys','database','2',0,'nada','nada','DataBaseds/2',0,'DataBase','nada',0,0,'nada');
+INSERT INTO device VALUES ('dserver/DataBaseds/2',NULL,'dserver','DataBaseds','2',0,'nada','nada','DataBaseds/2',0,'DServer','nada',0,0,'nada');
 
 #
 # Create entry for test device server in device table
 #
 
-INSERT INTO device VALUES ('sys/tg_test/1',NULL,'sys','tg_test','1','nada','nada','nada','TangoTest/test','nada','TangoTest','nada','nada','nada','nada');
-INSERT INTO device VALUES ('dserver/TangoTest/test',NULL,'dserver','TangoTest','test','nada','nada','nada','TangoTest/test','nada','DServer','nada','nada','nada','nada');
+INSERT INTO device VALUES ('sys/tg_test/1',NULL,'sys','tg_test','1',0,'nada','nada','TangoTest/test',0,'TangoTest','nada',0,0,'nada');
+INSERT INTO device VALUES ('dserver/TangoTest/test',NULL,'dserver','TangoTest','test',0,'nada','nada','TangoTest/test',0,'DServer','nada',0,0,'nada');
 
 #
 # Create entry for Tango Control Access in device table
 #
 
-INSERT INTO device VALUES ('sys/access_control/1',NULL,'sys','access_control','1','nada','nada','nada','TangoAccessControl/1','nada','TangoAccessControl','nada','nada','nada','nada');
-INSERT INTO device VALUES ('dserver/TangoAccessControl/1',NULL,'dserver','TangoAccessControl','1','nada','nada','nada','TangoAccessControl/1','nada','DServer','nada','nada','nada','nada');
+INSERT INTO device VALUES ('sys/access_control/1',NULL,'sys','access_control','1',0,'nada','nada','TangoAccessControl/1',0,'TangoAccessControl','nada',0,0,'nada');
+INSERT INTO device VALUES ('dserver/TangoAccessControl/1',NULL,'dserver','TangoAccessControl','1',0,'nada','nada','TangoAccessControl/1',0,'DServer','nada',0,0,'nada');
 INSERT INTO server VALUES ('tangoaccesscontrol/1','',0,0);
 
 #
