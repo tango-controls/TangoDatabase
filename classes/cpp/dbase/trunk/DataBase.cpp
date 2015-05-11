@@ -781,10 +781,10 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 
 	if (server_device->length() < 3)
 	{
-	   WARN_STREAM << "DataBase::AddServer(): incorrect number of input arguments " << endl;
+	   WARN_STREAM << "DataBase::AddDevice(): incorrect number of input arguments " << endl;
 	   Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
 	   				  (const char *)"incorrect no. of input arguments, needs at least 3 (server,device,class)",
-					  (const char *)"DataBase::AddServer()");
+					  (const char *)"DataBase::AddDevice()");
 	}
 
 	INFO_STREAM << "DataBase::AddDevice(): insert " << (*server_device)[0] << " server with device " << (*server_device)[1] << endl;
@@ -837,7 +837,7 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 							 << "\",alias=\"" << tmp_alias
 							 << "\",version=\"0\",started=NULL,stopped=NULL";
 		}
-		DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+		DEBUG_STREAM << "DataBase::AddDevice(): sql_query " << sql_query_stream.str() << endl;
 		simple_query(sql_query_stream.str(),"db_add_device()",al.get_con_nb());
 
 //
@@ -867,7 +867,7 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 							 << "\",member=\"" << member
 							 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" << tmp_server
 							 << "\",pid=0,class=\"DServer\",version=\"0\",started=NULL,stopped=NULL";
-			DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+			DEBUG_STREAM << "DataBase::AddDevice(): sql_query " << sql_query_stream.str() << endl;
   	    	simple_query(sql_query_stream.str(),"db_add_device()",al.get_con_nb());
 
 		}
@@ -930,7 +930,8 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 			}
 			device_name_to_dfm(tmp_device, domain, family, member);
 
-// first delete the tuple (device,name,count) from the property table
+// first delete the tuple (device,name,count) from the device table
+
         	sql_query_stream.str("");
         	sql_query_stream << "DELETE FROM device WHERE server=\"" << tmp_server
 		                	 << "\" AND name=\"" << tmp_device << "\" ";
@@ -938,6 +939,7 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 			simple_query(sql_query_stream.str(),"db_add_server()",al.get_con_nb());
 
 // then insert the new value for this tuple
+
         	sql_query_stream.str("");
         	sql_query_stream << "INSERT INTO device SET name=\"" << tmp_device
 		                	 << "\",domain=\"" << domain << "\",family=\"" << family
@@ -949,6 +951,30 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 			simple_query(sql_query_stream.str(),"db_add_server()",al.get_con_nb());
 
 		}
+
+// Finally, add the admin device
+
+        string tmp_device("dserver/");
+        tmp_device = tmp_device + tmp_server;
+
+        device_name_to_dfm(tmp_device,domain,family,member);
+
+        sql_query_stream.str("");
+        sql_query_stream << "DELETE FROM device WHERE server=\"" << tmp_server
+		                	 << "\" AND name=\"" << tmp_device << "\" ";
+        DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+        simple_query(sql_query_stream.str(),"db_add_server()",al.get_con_nb());
+
+        tmp_class = "DServer";
+        sql_query_stream.str("");
+        sql_query_stream << "INSERT INTO device SET name =\"" << tmp_device
+		                	 << "\",domain=\"" << domain << "\",family=\"" << family
+							 << "\",member=\"" << member
+							 << "\",exported=0,ior=\"nada\",host=\"nada\",server=\"" << tmp_server
+							 << "\",pid=0,class=\"" << tmp_class
+							 << "\",version=0,started=NULL,stopped=NULL";
+        DEBUG_STREAM << "DataBase::AddServer(): sql_query " << sql_query_stream.str() << endl;
+        simple_query(sql_query_stream.str(),"db_add_server()",al.get_con_nb());
 	}
 
 	return;
@@ -1192,7 +1218,7 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 /**
  *	Command DbDeleteDevice related method
- *	Description: Delete a devcie from database
+ *	Description: Delete a device from database
  *
  *	@param argin device name
  */
@@ -9156,6 +9182,21 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_device_pipe_property_hist
 	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::add_dynamic_commands()
+ *	Description : Create the dynamic commands if any
+ *                for specified device.
+ */
+//--------------------------------------------------------
+void DataBase::add_dynamic_commands()
+{
+	/*----- PROTECTED REGION ID(DataBase::add_dynamic_commands) ENABLED START -----*/
+
+	//	Add your own code to create and add dynamic commands if any
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::add_dynamic_commands
 }
 
 /*----- PROTECTED REGION ID(DataBase::namespace_ending) ENABLED START -----*/
