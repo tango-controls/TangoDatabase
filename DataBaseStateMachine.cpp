@@ -171,6 +171,7 @@ bool DataBase::is_Timing_info_allowed(TANGO_UNUSED(Tango::AttReqType type))
 	return true;
 }
 
+
 //=================================================
 //		Commands Allowed Methods
 //=================================================

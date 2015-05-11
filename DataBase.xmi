@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
-  <classes name="DataBase" pogoRevision="8.4">
-    <description description="This class manage the TANGO database." title="TANGO" sourcePath="/home/taurel/tango/dbserver" language="Cpp" filestogenerate="XMI   file,Code files" hasMandatoryProperty="false" hasConcreteProperty="false" hasAbstractCommand="false" hasAbstractAttribute="false">
+  <classes name="DataBase" pogoRevision="9.0">
+    <description description="This class manage the TANGO database." title="TANGO" sourcePath="/home/taurel/tango/dbserver" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" hasMandatoryProperty="false" hasConcreteProperty="false" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_4Impl" sourcePath="/segfs/tango/templates/AbstractClasses"/>
       <identification contact="at esrf.fr - accelerator-control" author="accelerator-control" emailDomain="esrf.fr" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
     </description>
@@ -77,7 +77,7 @@
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
-    <commands name="DbDeleteDevice" description="Delete a devcie from database" execMethod="db_delete_device" displayLevel="OPERATOR" polledPeriod="0">
+    <commands name="DbDeleteDevice" description="Delete a device from database" execMethod="db_delete_device" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="device name">
         <type xsi:type="pogoDsl:StringType"/>
       </argin>

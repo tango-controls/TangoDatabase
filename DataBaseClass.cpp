@@ -137,8 +137,8 @@ DataBaseClass *DataBaseClass::init(const char *name)
 		catch (bad_alloc &)
 		{
 			throw;
-		}		
-	}		
+		}
+	}
 	return _instance;
 }
 
@@ -2430,6 +2430,7 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Not Memorized
 	att_list.push_back(timing_info);
 
+
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());
 	/*----- PROTECTED REGION ID(DataBaseClass::attribute_factory_after) ENABLED START -----*/
@@ -2437,6 +2438,26 @@ void DataBaseClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Add your own code
 
 	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::attribute_factory_after
+}
+//--------------------------------------------------------
+/**
+ *	Method      : DataBaseClass::pipe_factory()
+ *	Description : Create the pipe object(s)
+ *                and store them in the pipe list
+ */
+//--------------------------------------------------------
+void DataBaseClass::pipe_factory()
+{
+	/*----- PROTECTED REGION ID(DataBaseClass::pipe_factory_before) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::pipe_factory_before
+	/*----- PROTECTED REGION ID(DataBaseClass::pipe_factory_after) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::pipe_factory_after
 }
 //--------------------------------------------------------
 /**
@@ -3330,7 +3351,7 @@ void DataBaseClass::command_factory()
  * method : 		DataBaseClass::create_static_attribute_list
  * description : 	Create the a list of static attributes
  *
- * @param	att_list	the ceated attribute list 
+ * @param	att_list	the ceated attribute list
  */
 //--------------------------------------------------------
 void DataBaseClass::create_static_attribute_list(vector<Tango::Attr *> &att_list)
@@ -3364,10 +3385,10 @@ void DataBaseClass::erase_dynamic_attributes(const Tango::DevVarStringArray *dev
 	Tango::Util *tg = Tango::Util::instance();
 
 	for (unsigned long i=0 ; i<devlist_ptr->length() ; i++)
-	{	
+	{
 		Tango::DeviceImpl *dev_impl = tg->get_device_by_name(((string)(*devlist_ptr)[i]).c_str());
 		DataBase *dev = static_cast<DataBase *> (dev_impl);
-		
+
 		vector<Tango::Attribute *> &dev_att_list = dev->get_device_attr()->get_attribute_list();
 		vector<Tango::Attribute *>::iterator ite_att;
 		for (ite_att=dev_att_list.begin() ; ite_att != dev_att_list.end() ; ++ite_att)
@@ -3399,7 +3420,7 @@ void DataBaseClass::erase_dynamic_attributes(const Tango::DevVarStringArray *dev
 Tango::Attr *DataBaseClass::get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname)
 {
 	vector<Tango::Attr *>::iterator it;
-	for (it=att_list.begin() ; it<att_list.end() ; it++)
+	for (it=att_list.begin() ; it<att_list.end() ; ++it)
 		if ((*it)->get_name()==attname)
 			return (*it);
 	//	Attr does not exist
