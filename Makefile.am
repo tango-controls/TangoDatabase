@@ -1,4 +1,4 @@
-INCLUDES = $(ORB_INCLUDE_PREFIX)  $(LIBZMQ_CFLAGS) \
+AM_CPPFLAGS = $(ORB_INCLUDE_PREFIX)  $(LIBZMQ_CFLAGS) \
 	   -I$(top_srcdir)/lib/cpp/log4tango/include \
 	   -I$(top_builddir)/lib/cpp/log4tango/include \
 	   -I$(top_srcdir)/lib/cpp/client \
