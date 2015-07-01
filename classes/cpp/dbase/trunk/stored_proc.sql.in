@@ -11,6 +11,8 @@ DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.class_pipe_prop;
 DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.dev_pipe_prop;
 DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.proc_release_nb;
 
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.init_history_ids;
+DROP PROCEDURE IF EXISTS @TANGO_DB_NAME@.init_tac_tables;
 
 #########################################################
 #														#
@@ -1068,5 +1070,87 @@ BEGIN
 		SET res_str = CONCAT_WS(CHAR(0),res_str,0);
 	END IF;
 END |
+
+###############################################################
+#														      #
+#		INIT HISTORY ID IN HISTORY TABLES IF NOT ALREADY DONE #
+#														      #
+###############################################################
+
+CREATE PROCEDURE @TANGO_DB_NAME@.init_history_ids()
+BEGIN
+	DECLARE ret_id INT DEFAULT -1;
+
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.object_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.object_history_id VALUES (0);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.class_attribute_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.class_attribute_history_id VALUES (0);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.class_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.class_history_id VALUES (0);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.class_pipe_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.class_pipe_history_id VALUES (0);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.device_attribute_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.device_attribute_history_id VALUES (0);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.device_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.device_history_id VALUES (0);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.device_pipe_history_id;
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.device_pipe_history_id VALUES (0);
+    END IF;
+END |
+
+###############################################################
+#														      #
+#		INIT TAC RELATED TABLES IF NOT ALREADY DONE           #
+#														      #
+###############################################################
+
+CREATE PROCEDURE @TANGO_DB_NAME@.init_tac_tables()
+BEGIN
+	DECLARE ret_id INT DEFAULT -1;
+
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.access_address WHERE user='*' and address='*.*.*.*';
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.access_address VALUES ('*','*.*.*.*','FF.FF.FF.FF',20060824131221,00000000000000);
+    END IF;
+
+
+    SET ret_id = -1;
+    SELECT COUNT(*) INTO ret_id FROM @TANGO_DB_NAME@.access_device WHERE user='*' and device='*/*/*';
+    IF ret_id = 0 THEN
+        INSERT INTO @TANGO_DB_NAME@.access_device VALUES ('*','*/*/*','write',20060824131221,00000000000000);
+    END IF;
+END |
+
 
 DELIMITER ;
