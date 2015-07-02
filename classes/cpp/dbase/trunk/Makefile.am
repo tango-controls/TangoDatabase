@@ -35,7 +35,7 @@ db_DATA=create_db.sh create_db.sql my.cnf create_db_tables.sql stored_proc.sql u
 ## This is to make sure that the create-db script is run on each make all.
 ## See create_db.sh for more information.
 all-local: .force
-    $(SHELL) ${top_builddir}/cppserver/database/create_db.sh < ${top_builddir}/cppserver/database/create_db.sql
+	$(SHELL) ${top_builddir}/cppserver/database/create_db.sh < ${top_builddir}/cppserver/database/create_db.sql
 
 endif
 
