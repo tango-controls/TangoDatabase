@@ -6602,68 +6602,78 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 	TimeVal	before, after;
 	GetTime(before);
 
+    if (argin->length() == 7 &&
+        ::strcmp((*argin)[1].in(),"1") == 0 &&
+        ::strcmp((*argin)[3].in(),"1") == 0 &&
+        ::strcmp((*argin)[4].in(),"__value") == 0 &&
+        ::strcmp((*argin)[5].in(),"1") == 0)
+    {
+        create_update_mem_att(argin);
+    }
+    else
+    {
+        sscanf((*argin)[1],"%6d",&n_attributes);
+        INFO_STREAM << "DataBase::PutAttributeProperty2(): put " << n_attributes << " attributes for device " << (*argin)[0] << endl;
 
-	sscanf((*argin)[1],"%6d",&n_attributes);
-	INFO_STREAM << "DataBase::PutAttributeProperty2(): put " << n_attributes << " attributes for device " << (*argin)[0] << endl;
+        {
+            AutoLock al("LOCK TABLES property_attribute_device WRITE, property_attribute_device_hist WRITE,device_attribute_history_id WRITE",this);
 
-	{
-		AutoLock al("LOCK TABLES property_attribute_device WRITE, property_attribute_device_hist WRITE,device_attribute_history_id WRITE",this);
-
-		int tmp_count, i, j, k, l, jj;
-		k = 2;
-		for (i=0; i<n_attributes; i++)
-		{
-	   		tmp_device = (*argin)[0];
-	   		tmp_attribute = (*argin)[k];
-	   		sscanf((*argin)[k+1], "%6d", &n_properties);
-	   		for (jj=0; jj<n_properties; jj++)
-	   		{
-				j = k + 2;
-	      		tmp_name = (*argin)[j];
+            int tmp_count, i, j, k, l, jj;
+            k = 2;
+            for (i=0; i<n_attributes; i++)
+            {
+                tmp_device = (*argin)[0];
+                tmp_attribute = (*argin)[k];
+                sscanf((*argin)[k+1], "%6d", &n_properties);
+                for (jj=0; jj<n_properties; jj++)
+                {
+                    j = k + 2;
+                    tmp_name = (*argin)[j];
 
 // first delete the tuple (device,name,count) from the property table
-				sql_query_stream.str("");
-	      		sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \""
-				                	 << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute
-									 << "\" AND name LIKE \"" << tmp_name << "\" ";
-	      		DEBUG_STREAM << "DataBase::PutAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
-				simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
+                    sql_query_stream.str("");
+                    sql_query_stream << "DELETE FROM property_attribute_device WHERE device LIKE \""
+                                         << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute
+                                         << "\" AND name LIKE \"" << tmp_name << "\" ";
+                    DEBUG_STREAM << "DataBase::PutAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
+                    simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
 
-				sscanf((*argin)[j+1], "%6d", &n_rows);
-				tmp_count = 0;
-            	Tango::DevULong64 device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
+                    sscanf((*argin)[j+1], "%6d", &n_rows);
+                    tmp_count = 0;
+                    Tango::DevULong64 device_attribute_property_hist_id = get_id("device_attribute",al.get_con_nb());
 
-	   			for (l=j+1; l<j+n_rows+1; l++)
-	   			{
-          			string tmp_escaped_string = escape_string((*argin)[l+1]);
-	      			tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
+                    for (l=j+1; l<j+n_rows+1; l++)
+                    {
+                        string tmp_escaped_string = escape_string((*argin)[l+1]);
+                        tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
-					sql_query_stream.str("");
-					sql_query_stream << "INSERT INTO property_attribute_device SET device=\'"
-					                	 << tmp_device << "\',attribute=\'" << tmp_attribute
-										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
-										 << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
-	      			DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-					simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
+                        sql_query_stream.str("");
+                        sql_query_stream << "INSERT INTO property_attribute_device SET device=\'"
+                                             << tmp_device << "\',attribute=\'" << tmp_attribute
+                                             << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
+                                             << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
+                        DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+                        simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
 
 // then insert the new value into the history table
-					sql_query_stream.str("");
-					sql_query_stream << "INSERT INTO property_attribute_device_hist SET device=\'"
-					                	 << tmp_device << "\',attribute=\'" << tmp_attribute
-										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
-										 << "\',id=\'" << device_attribute_property_hist_id
-										 << "\',value=\'" << tmp_escaped_string << "\'";
-	      			DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
-					simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
+                        sql_query_stream.str("");
+                        sql_query_stream << "INSERT INTO property_attribute_device_hist SET device=\'"
+                                             << tmp_device << "\',attribute=\'" << tmp_attribute
+                                             << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
+                                             << "\',id=\'" << device_attribute_property_hist_id
+                                             << "\',value=\'" << tmp_escaped_string << "\'";
+                        DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+                        simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
 
-				}
-				purge_att_property("property_attribute_device_hist","device",tmp_device,tmp_attribute,tmp_name,al.get_con_nb());
-				k = k + n_rows + 2;
-	   		}
-	   		k = k+2;
-		}
-	}
+                    }
+                    purge_att_property("property_attribute_device_hist","device",tmp_device,tmp_attribute,tmp_name,al.get_con_nb());
+                    k = k + n_rows + 2;
+                }
+                k = k+2;
+            }
+        }
+    }
 
 	GetTime(after);
 	update_timing_stats(before, after, "DbPutDeviceAttributeProperty2");
@@ -9241,6 +9251,90 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 	mysql_free_result(result); //C.S. 05-10-2004
 
 	return argout;
+}
+
+//--------------------------------------------------------------
+/**
+ *	Method      : DataBase::create_udate_mem_att()
+ *	Description : Update or create (if not already there) entry
+ *                in the property_attribute_device table for
+ *                memorized attribute.
+ *                Don't use the simple_query() method because
+ *                we need to know if the UPDATE done first has
+ *                modified something in DB and we need to keep the
+ *                same DB connection
+ */
+//--------------------------------------------------------------
+
+void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
+{
+    const char *tmp_device = (*argin)[0];
+    const char *tmp_attribute = (*argin)[2];
+
+//
+// First the update
+//
+
+    stringstream sql_query_stream;
+    sql_query_stream << "UPDATE property_attribute_device SET value=\"" << (*argin)[6]
+                     << "\" WHERE device=\"" << tmp_device << "\" AND attribute=\"" << tmp_attribute
+                     << "\" AND name=\"__value\" AND count=1";
+    DEBUG_STREAM << "DataBase::PutAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
+
+    int con_nb = get_connection();
+
+    string sql_query = sql_query_stream.str();
+	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
+	{
+		stringstream o;
+
+		WARN_STREAM << "DataBase::db_put_device_attribute_property2() failed to query TANGO database:" << endl;
+		WARN_STREAM << "  query = " << sql_query << endl;
+		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
+
+		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
+		o << "\n.The query was: " << sql_query << ends;
+
+        release_connection(con_nb);
+
+		Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),"Database::db_put_device_attribute_property2()");
+	}
+
+    my_ulonglong nb_rows = mysql_affected_rows(conn_pool[con_nb].db);
+    if (nb_rows == 0)
+    {
+
+//
+// The update hasn't changed anything in DB (0 rows affected). This means that the property is not yet
+// created in DB. Therefore, create it now
+//
+
+        sql_query_stream.str("");
+        sql_query_stream << "INSERT INTO property_attribute_device SET device=\'"
+                         << tmp_device << "\',attribute=\'" << tmp_attribute
+                         << "\',name=\'__value\',count=1,value=\'" << (*argin)[6] << "\',updated=NULL,accessed=NULL";
+        DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
+
+        sql_query = sql_query_stream.str();
+        if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
+        {
+            stringstream o;
+
+            WARN_STREAM << "DataBase::db_put_device_attribute_property2() failed to query TANGO database:" << endl;
+            WARN_STREAM << "  query = " << sql_query << endl;
+            WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
+
+            o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
+            o << "\n.The query was: " << sql_query << ends;
+
+            release_connection(con_nb);
+
+            Tango::Except::throw_exception((const char *)DB_SQLError,o.str(),"Database::db_put_device_attribute_property2()");
+        }
+
+    }
+
+    release_connection(con_nb);
 }
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::namespace_ending
