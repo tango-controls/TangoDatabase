@@ -77,11 +77,16 @@ CREATE TABLE IF NOT EXISTS property_pipe_device_hist (
 ) ENGINE=MyISAM;
 
 #
+# Load the new stored procedures
+#
+
+source stored_proc.sql
+
+#
 # Init new history ID
 #
 
-INSERT INTO device_pipe_history_id VALUES (0);
-INSERT INTO class_pipe_history_id VALUES (0);
+CALL init_history_ids();
 
 #
 # Update history id columns to support id on more than 32 bits
@@ -102,6 +107,8 @@ ALTER TABLE object_history_id MODIFY id bigint unsigned NOT NULL default '0';
 #
 # Update entries in the property_class tables for database
 #
+
+DELETE FROM property_class WHERE class='Database' AND count >= 35;
 
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',35,'DbGetDeviceClassList',NULL,NULL,NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',36,'DbGetDeviceExportedList',NULL,NULL,NULL);
