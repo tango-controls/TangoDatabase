@@ -861,7 +861,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 
 
 		WARN_STREAM << "Going to connect to MySQL for conn. " << loop << endl;
-		if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS))
+		if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS | CLIENT_FOUND_ROWS))
 		{
 			if (loop == 0)
 			{
@@ -878,7 +878,7 @@ void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_p
 						base_connect(loop);
 					}
 					WARN_STREAM << "Going to retry to connect to MySQL for connection " << loop << endl;
-					if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS))
+					if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS | CLIENT_FOUND_ROWS))
 					{
 						WARN_STREAM << "Connection to MySQL (re-try) failed with error " << mysql_errno(conn_pool[loop].db) << endl;
 						retry--;
