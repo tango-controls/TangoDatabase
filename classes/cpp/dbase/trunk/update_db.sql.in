@@ -121,3 +121,9 @@ INSERT INTO property_class VALUES('Database','AllowedAccessCmd',42,'DbGetClassPi
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',43,'DbGetDevicePipeList',NULL,NULL,NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',44,'DbGetAttributeAliasList',NULL,NULL,NULL);
 
+#
+# Remove history entries for the property used by memorized attribute
+#
+
+DELETE FROM property_attribute_device_hist WHERE count=1 AND name='__value';
+
