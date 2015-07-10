@@ -6189,7 +6189,7 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 													 << "',attribute='" << tmp_attribute \
 													 << "',name='" << tmp_name \
 													 << "',count='1',value='" << tmp_escaped_string \
-													 << "',updated=NULL,accessed=NULL";
+													 << "',updated=NOW(),accessed=NOW()";
 	    	  DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
 			  simple_query(sql_query_stream.str(),"db_put_class_attribute_property()",al.get_con_nb());
 
@@ -6285,7 +6285,7 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 					                 << tmp_class << "\',attribute=\'" << tmp_attribute
 									 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
 									 << "\',value=\'" << tmp_escaped_string
-									 << "\',updated=NULL,accessed=NULL";
+									 << "\',updated=NOW(),accessed=NOW()";
 	      			DEBUG_STREAM << "DataBase::PutClassAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
 			        simple_query(sql_query_stream.str(),"db_put_class_attribute_property2()",al.get_con_nb());
 
@@ -6377,7 +6377,7 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 													 << "',name='" << tmp_name \
 													 << "',count='" << tmp_count_str \
 													 << "',value='" << tmp_escaped_string \
-													 << "',updated=NULL,accessed=NULL";
+													 << "',updated=NOW(),accessed=NOW()";
 	    	  	DEBUG_STREAM << "DataBase::PutClassProperty(): sql_query " << sql_query_stream.str() << endl;
   	    	  	simple_query(sql_query_stream.str(),"db_put_class_property()",al.get_con_nb());
 
@@ -6543,7 +6543,7 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 												 << "',attribute='" << tmp_attribute \
 												 << "',name='" << tmp_name \
 												 << "',count='1',value='" << tmp_escaped_string \
-												 << "',updated=NULL,accessed=NULL";
+												 << "',updated=NOW(),accessed=NOW()";
 	      		DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
 		  		simple_query(sql_query_stream.str(),"db_put_device_attribute_property()",al.get_con_nb());
 
@@ -6652,7 +6652,7 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
                         sql_query_stream << "INSERT INTO property_attribute_device SET device=\'"
                                              << tmp_device << "\',attribute=\'" << tmp_attribute
                                              << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
-                                             << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
+                                             << "\',value=\'" << tmp_escaped_string << "\',updated=NOW(),accessed=NOW()";
                         DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
                         simple_query(sql_query_stream.str(),"db_put_device_attribute_property2()",al.get_con_nb());
 
@@ -6748,7 +6748,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 													 << "',name='" << tmp_name \
 													 << "',count='" << tmp_count_str \
 													 << "',value='" << tmp_escaped_string \
-													 << "',updated=NULL,accessed=NULL";
+													 << "',updated=NOW(),accessed=NOW()";
 	    	  DEBUG_STREAM << "DataBase::PutDeviceProperty(): sql_query " << sql_query_stream.str() << endl;
 
 			  simple_query(sql_query_stream.str(),"db_put_device_property",al.get_con_nb());
@@ -6839,7 +6839,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 											 << "',name='" << tmp_name
 											 << "',count='" << tmp_count
 											 << "',value='" << tmp_escaped_string
-											 << "',updated=NULL,accessed=NULL";
+											 << "',updated=NOW(),accessed=NOW()";
 	    	  DEBUG_STREAM << "DataBase::db_put_property(): sql_query " << sql_query_stream.str() << endl;
 			  simple_query(sql_query_stream.str(),"db_put_property()",al.get_con_nb());
 
@@ -8867,7 +8867,7 @@ void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 					                 << tmp_class << "\',pipe=\'" << tmp_pipe
 									 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
 									 << "\',value=\'" << tmp_escaped_string
-									 << "\',updated=NULL,accessed=NULL";
+									 << "\',updated=NOW(),accessed=NOW()";
 	      			DEBUG_STREAM << "DataBase::PutClassPipeProperty(): sql_query " << sql_query_stream.str() << endl;
 			        simple_query(sql_query_stream.str(),"db_put_class_pipe_property()",al.get_con_nb());
 
@@ -8962,7 +8962,7 @@ void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin
 					sql_query_stream << "INSERT INTO property_pipe_device SET device=\'"
 					                	 << tmp_device << "\',pipe=\'" << tmp_pipe
 										 << "\',name=\'" << tmp_name << "\',count=\'" << tmp_count_str
-										 << "\',value=\'" << tmp_escaped_string << "\',updated=NULL,accessed=NULL";
+										 << "\',value=\'" << tmp_escaped_string << "\',updated=NOW(),accessed=NOW()";
 	      			DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty(): sql_query " << sql_query_stream.str() << endl;
 					simple_query(sql_query_stream.str(),"db_put_device_pipe_property()",al.get_con_nb());
 
@@ -9312,7 +9312,7 @@ void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
         sql_query_stream.str("");
         sql_query_stream << "INSERT INTO property_attribute_device SET device=\'"
                          << tmp_device << "\',attribute=\'" << tmp_attribute
-                         << "\',name=\'__value\',count=1,value=\'" << (*argin)[6] << "\',updated=NULL,accessed=NULL";
+                         << "\',name=\'__value\',count=1,value=\'" << (*argin)[6] << "\',updated=NOW(),accessed=NOW()";
         DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
 
         sql_query = sql_query_stream.str();
