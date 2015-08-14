@@ -9276,7 +9276,8 @@ void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
 //
 
     stringstream sql_query_stream;
-    sql_query_stream << "UPDATE property_attribute_device SET value=\"" << (*argin)[6]
+    string tmp_escaped_string = escape_string((*argin)[6]);
+    sql_query_stream << "UPDATE property_attribute_device SET value=\"" << tmp_escaped_string
                      << "\" WHERE device=\"" << tmp_device << "\" AND attribute=\"" << tmp_attribute
                      << "\" AND name=\"__value\" AND count=1";
     DEBUG_STREAM << "DataBase::PutAttributeProperty2(): sql_query " << sql_query_stream.str() << endl;
@@ -9312,7 +9313,7 @@ void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
         sql_query_stream.str("");
         sql_query_stream << "INSERT INTO property_attribute_device SET device=\'"
                          << tmp_device << "\',attribute=\'" << tmp_attribute
-                         << "\',name=\'__value\',count=1,value=\'" << (*argin)[6] << "\',updated=NOW(),accessed=NOW()";
+                         << "\',name=\'__value\',count=1,value=\'" << tmp_escaped_string << "\',updated=NOW(),accessed=NOW()";
         DEBUG_STREAM << "DataBase::PutAttributeProperty(): sql_query " << sql_query_stream.str() << endl;
 
         sql_query = sql_query_stream.str();
