@@ -41,7 +41,7 @@ all-local: .force
 endif
 
 EXTRA_DIST    = create_db.sh.in create_db.sql.in my.cnf.in create_db_tables.sql.in stored_proc.sql.in \
-                update_db.sh.in update_db7.sql.in update_db.sql.in
+                update_db.sh.in update_db7.sql.in update_db.sql.in rem_history.sql.in
 
 .force:
 
