@@ -1504,7 +1504,7 @@ protected :
 	omni_mutex		starter_mutex;
 	omni_mutex		sem_wait_mutex;
 
-	void create_connection_pool(const char *,const char *,const char *);
+	void create_connection_pool(const char *,const char *,const char *,const char *);
 	void base_connect(int);
 	bool host_port_from_ior(const char *,string &);
     void create_update_mem_att(const Tango::DevVarStringArray *);

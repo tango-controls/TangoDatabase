@@ -803,13 +803,21 @@ void DataBase::base_connect(int loop)
  */
 //+------------------------------------------------------------------
 
-void DataBase::create_connection_pool(const char *mysql_user,const char *mysql_password,const char *mysql_host)
+void DataBase::create_connection_pool(const char *mysql_user,
+                                      const char *mysql_password,
+                                      const char *mysql_host,
+                                      const char *mysql_name)
 {
 #ifndef HAVE_CONFIG_H
 	char *database = (char *)"tango";
 #else
 	char *database = (char *)TANGO_DB_NAME;
 #endif
+
+    if (mysql_name != NULL)
+    {
+        database = const_cast<char *>(mysql_name);
+    }
 
 	if (mysql_user != NULL && mysql_password != NULL)
 	{
