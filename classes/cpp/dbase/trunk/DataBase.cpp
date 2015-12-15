@@ -62,106 +62,107 @@ static const char *RcsId = "$Id$";
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name                        |  Method name
+//  Command name                          |  Method name
 //================================================================
-//  State                               |  dev_state
-//  Status                              |  Inherited (no method)
-//  DbAddDevice                         |  db_add_device
-//  DbAddServer                         |  db_add_server
-//  DbDeleteAttributeAlias              |  db_delete_attribute_alias
-//  DbDeleteClassAttribute              |  db_delete_class_attribute
-//  DbDeleteClassAttributeProperty      |  db_delete_class_attribute_property
-//  DbDeleteClassProperty               |  db_delete_class_property
-//  DbDeleteDevice                      |  db_delete_device
-//  DbDeleteDeviceAlias                 |  db_delete_device_alias
-//  DbDeleteDeviceAttribute             |  db_delete_device_attribute
-//  DbDeleteDeviceAttributeProperty     |  db_delete_device_attribute_property
-//  DbDeleteDeviceProperty              |  db_delete_device_property
-//  DbDeleteProperty                    |  db_delete_property
-//  DbDeleteServer                      |  db_delete_server
-//  DbDeleteServerInfo                  |  db_delete_server_info
-//  DbExportDevice                      |  db_export_device
-//  DbExportEvent                       |  db_export_event
-//  DbGetAliasDevice                    |  db_get_alias_device
-//  DbGetAttributeAlias                 |  db_get_attribute_alias
-//  DbGetAttributeAliasList             |  db_get_attribute_alias_list
-//  DbGetClassAttributeList             |  db_get_class_attribute_list
-//  DbGetClassAttributeProperty         |  db_get_class_attribute_property
-//  DbGetClassAttributeProperty2        |  db_get_class_attribute_property2
-//  DbGetClassAttributePropertyHist     |  db_get_class_attribute_property_hist
-//  DbGetClassForDevice                 |  db_get_class_for_device
-//  DbGetClassInheritanceForDevice      |  db_get_class_inheritance_for_device
-//  DbGetClassList                      |  db_get_class_list
-//  DbGetClassProperty                  |  db_get_class_property
-//  DbGetClassPropertyHist              |  db_get_class_property_hist
-//  DbGetClassPropertyList              |  db_get_class_property_list
-//  DbGetDeviceAlias                    |  db_get_device_alias
-//  DbGetDeviceAliasList                |  db_get_device_alias_list
-//  DbGetDeviceAttributeList            |  db_get_device_attribute_list
-//  DbGetDeviceAttributeProperty        |  db_get_device_attribute_property
-//  DbGetDeviceAttributeProperty2       |  db_get_device_attribute_property2
-//  DbGetDeviceAttributePropertyHist    |  db_get_device_attribute_property_hist
-//  DbGetDeviceClassList                |  db_get_device_class_list
-//  DbGetDeviceDomainList               |  db_get_device_domain_list
-//  DbGetDeviceExportedList             |  db_get_device_exported_list
-//  DbGetDeviceFamilyList               |  db_get_device_family_list
-//  DbGetDeviceInfo                     |  db_get_device_info
-//  DbGetDeviceList                     |  db_get_device_list
-//  DbGetDeviceWideList                 |  db_get_device_wide_list
-//  DbGetDeviceMemberList               |  db_get_device_member_list
-//  DbGetDeviceProperty                 |  db_get_device_property
-//  DbGetDevicePropertyHist             |  db_get_device_property_hist
-//  DbGetDevicePropertyList             |  db_get_device_property_list
-//  DbGetDeviceServerClassList          |  db_get_device_server_class_list
-//  DbGetExportdDeviceListForClass      |  db_get_exportd_device_list_for_class
-//  DbGetHostList                       |  db_get_host_list
-//  DbGetHostServerList                 |  db_get_host_server_list
-//  DbGetHostServersInfo                |  db_get_host_servers_info
-//  DbGetInstanceNameList               |  db_get_instance_name_list
-//  DbGetObjectList                     |  db_get_object_list
-//  DbGetProperty                       |  db_get_property
-//  DbGetPropertyHist                   |  db_get_property_hist
-//  DbGetPropertyList                   |  db_get_property_list
-//  DbGetServerInfo                     |  db_get_server_info
-//  DbGetServerList                     |  db_get_server_list
-//  DbGetServerNameList                 |  db_get_server_name_list
-//  DbImportDevice                      |  db_import_device
-//  DbImportEvent                       |  db_import_event
-//  DbInfo                              |  db_info
-//  DbPutAttributeAlias                 |  db_put_attribute_alias
-//  DbPutClassAttributeProperty         |  db_put_class_attribute_property
-//  DbPutClassAttributeProperty2        |  db_put_class_attribute_property2
-//  DbPutClassProperty                  |  db_put_class_property
-//  DbPutDeviceAlias                    |  db_put_device_alias
-//  DbPutDeviceAttributeProperty        |  db_put_device_attribute_property
-//  DbPutDeviceAttributeProperty2       |  db_put_device_attribute_property2
-//  DbPutDeviceProperty                 |  db_put_device_property
-//  DbPutProperty                       |  db_put_property
-//  DbPutServerInfo                     |  db_put_server_info
-//  DbUnExportDevice                    |  db_un_export_device
-//  DbUnExportEvent                     |  db_un_export_event
-//  DbUnExportServer                    |  db_un_export_server
-//  ResetTimingValues                   |  reset_timing_values
-//  DbGetDataForServerCache             |  db_get_data_for_server_cache
-//  DbDeleteAllDeviceAttributeProperty  |  db_delete_all_device_attribute_property
-//  DbMySqlSelect                       |  db_my_sql_select
-//  DbGetCSDbServerList                 |  db_get_csdb_server_list
-//  DbGetAttributeAlias2                |  db_get_attribute_alias2
-//  DbGetAliasAttribute                 |  db_get_alias_attribute
-//  DbRenameServer                      |  db_rename_server
-//  DbGetClassPipeProperty              |  db_get_class_pipe_property
-//  DbGetDevicePipeProperty             |  db_get_device_pipe_property
-//  DbDeleteClassPipe                   |  db_delete_class_pipe
-//  DbDeleteDevicePipe                  |  db_delete_device_pipe
-//  DbDeleteClassPipeProperty           |  db_delete_class_pipe_property
-//  DbDeleteDevicePipeProperty          |  db_delete_device_pipe_property
-//  DbGetClassPipeList                  |  db_get_class_pipe_list
-//  DbGetDevicePipeList                 |  db_get_device_pipe_list
-//  DbDeleteAllDevicePipeProperty       |  db_delete_all_device_pipe_property
-//  DbPutClassPipeProperty              |  db_put_class_pipe_property
-//  DbPutDevicePipeProperty             |  db_put_device_pipe_property
-//  DbGetClassPipePropertyHist          |  db_get_class_pipe_property_hist
-//  DbGetDevicePipePropertyHist         |  db_get_device_pipe_property_hist
+//  State                                 |  dev_state
+//  Status                                |  Inherited (no method)
+//  DbAddDevice                           |  db_add_device
+//  DbAddServer                           |  db_add_server
+//  DbDeleteAttributeAlias                |  db_delete_attribute_alias
+//  DbDeleteClassAttribute                |  db_delete_class_attribute
+//  DbDeleteClassAttributeProperty        |  db_delete_class_attribute_property
+//  DbDeleteClassProperty                 |  db_delete_class_property
+//  DbDeleteDevice                        |  db_delete_device
+//  DbDeleteDeviceAlias                   |  db_delete_device_alias
+//  DbDeleteDeviceAttribute               |  db_delete_device_attribute
+//  DbDeleteDeviceAttributeProperty       |  db_delete_device_attribute_property
+//  DbDeleteDeviceProperty                |  db_delete_device_property
+//  DbDeleteProperty                      |  db_delete_property
+//  DbDeleteServer                        |  db_delete_server
+//  DbDeleteServerInfo                    |  db_delete_server_info
+//  DbExportDevice                        |  db_export_device
+//  DbExportEvent                         |  db_export_event
+//  DbGetAliasDevice                      |  db_get_alias_device
+//  DbGetAttributeAlias                   |  db_get_attribute_alias
+//  DbGetAttributeAliasList               |  db_get_attribute_alias_list
+//  DbGetClassAttributeList               |  db_get_class_attribute_list
+//  DbGetClassAttributeProperty           |  db_get_class_attribute_property
+//  DbGetClassAttributeProperty2          |  db_get_class_attribute_property2
+//  DbGetClassAttributePropertyHist       |  db_get_class_attribute_property_hist
+//  DbGetClassForDevice                   |  db_get_class_for_device
+//  DbGetClassInheritanceForDevice        |  db_get_class_inheritance_for_device
+//  DbGetClassList                        |  db_get_class_list
+//  DbGetClassProperty                    |  db_get_class_property
+//  DbGetClassPropertyHist                |  db_get_class_property_hist
+//  DbGetClassPropertyList                |  db_get_class_property_list
+//  DbGetDeviceAlias                      |  db_get_device_alias
+//  DbGetDeviceAliasList                  |  db_get_device_alias_list
+//  DbGetDeviceAttributeList              |  db_get_device_attribute_list
+//  DbGetDeviceAttributeProperty          |  db_get_device_attribute_property
+//  DbGetDeviceAttributeProperty2         |  db_get_device_attribute_property2
+//  DbGetDeviceAttributePropertyHist      |  db_get_device_attribute_property_hist
+//  DbGetDeviceClassList                  |  db_get_device_class_list
+//  DbGetDeviceDomainList                 |  db_get_device_domain_list
+//  DbGetDeviceExportedList               |  db_get_device_exported_list
+//  DbGetDeviceFamilyList                 |  db_get_device_family_list
+//  DbGetDeviceInfo                       |  db_get_device_info
+//  DbGetDeviceList                       |  db_get_device_list
+//  DbGetDeviceWideList                   |  db_get_device_wide_list
+//  DbGetDeviceMemberList                 |  db_get_device_member_list
+//  DbGetDeviceProperty                   |  db_get_device_property
+//  DbGetDevicePropertyHist               |  db_get_device_property_hist
+//  DbGetDevicePropertyList               |  db_get_device_property_list
+//  DbGetDeviceServerClassList            |  db_get_device_server_class_list
+//  DbGetExportdDeviceListForClass        |  db_get_exportd_device_list_for_class
+//  DbGetHostList                         |  db_get_host_list
+//  DbGetHostServerList                   |  db_get_host_server_list
+//  DbGetHostServersInfo                  |  db_get_host_servers_info
+//  DbGetInstanceNameList                 |  db_get_instance_name_list
+//  DbGetObjectList                       |  db_get_object_list
+//  DbGetProperty                         |  db_get_property
+//  DbGetPropertyHist                     |  db_get_property_hist
+//  DbGetPropertyList                     |  db_get_property_list
+//  DbGetServerInfo                       |  db_get_server_info
+//  DbGetServerList                       |  db_get_server_list
+//  DbGetServerNameList                   |  db_get_server_name_list
+//  DbImportDevice                        |  db_import_device
+//  DbImportEvent                         |  db_import_event
+//  DbInfo                                |  db_info
+//  DbPutAttributeAlias                   |  db_put_attribute_alias
+//  DbPutClassAttributeProperty           |  db_put_class_attribute_property
+//  DbPutClassAttributeProperty2          |  db_put_class_attribute_property2
+//  DbPutClassProperty                    |  db_put_class_property
+//  DbPutDeviceAlias                      |  db_put_device_alias
+//  DbPutDeviceAttributeProperty          |  db_put_device_attribute_property
+//  DbPutDeviceAttributeProperty2         |  db_put_device_attribute_property2
+//  DbPutDeviceProperty                   |  db_put_device_property
+//  DbPutProperty                         |  db_put_property
+//  DbPutServerInfo                       |  db_put_server_info
+//  DbUnExportDevice                      |  db_un_export_device
+//  DbUnExportEvent                       |  db_un_export_event
+//  DbUnExportServer                      |  db_un_export_server
+//  ResetTimingValues                     |  reset_timing_values
+//  DbGetDataForServerCache               |  db_get_data_for_server_cache
+//  DbDeleteAllDeviceAttributeProperty    |  db_delete_all_device_attribute_property
+//  DbMySqlSelect                         |  db_my_sql_select
+//  DbGetCSDbServerList                   |  db_get_csdb_server_list
+//  DbGetAttributeAlias2                  |  db_get_attribute_alias2
+//  DbGetAliasAttribute                   |  db_get_alias_attribute
+//  DbRenameServer                        |  db_rename_server
+//  DbGetClassPipeProperty                |  db_get_class_pipe_property
+//  DbGetDevicePipeProperty               |  db_get_device_pipe_property
+//  DbDeleteClassPipe                     |  db_delete_class_pipe
+//  DbDeleteDevicePipe                    |  db_delete_device_pipe
+//  DbDeleteClassPipeProperty             |  db_delete_class_pipe_property
+//  DbDeleteDevicePipeProperty            |  db_delete_device_pipe_property
+//  DbGetClassPipeList                    |  db_get_class_pipe_list
+//  DbGetDevicePipeList                   |  db_get_device_pipe_list
+//  DbDeleteAllDevicePipeProperty         |  db_delete_all_device_pipe_property
+//  DbPutClassPipeProperty                |  db_put_class_pipe_property
+//  DbPutDevicePipeProperty               |  db_put_device_pipe_property
+//  DbGetClassPipePropertyHist            |  db_get_class_pipe_property_hist
+//  DbGetDevicePipePropertyHist           |  db_get_device_pipe_property_hist
+//  DbGetForwardedAttributeListForDevice  |  db_get_forwarded_attribute_list_for_device
 //================================================================
 
 //================================================================
@@ -9196,6 +9197,53 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 	mysql_free_result(ids);
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_device_pipe_property_hist
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command DbGetForwardedAttributeListForDevice related method
+ *	Description: Get the list of devices using forwarded attribute(s) from specified device
+ *
+ *	@param argin The specified device name
+ *	@returns argout[n]     : device name
+ *           argout[n+1] :the attribute (__root_att)
+ */
+//--------------------------------------------------------
+Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(Tango::DevString argin)
+{
+	Tango::DevVarStringArray *argout;
+	DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(DataBase::db_get_forwarded_attribute_list_for_device) ENABLED START -----*/
+
+	string device(argin);
+
+	TangoSys_MemStream	sql_query_stream;
+    sql_query_stream << "SELECT device,value  FROM property_attribute_device WHERE name = \"__root_att"
+	                 << "\" AND value LIKE \"" << device << "/%%\"";
+
+    MYSQL_RES *result = query(sql_query_stream.str(),"db_get_forwarded_attribute_list_for_device()");
+
+    int n_rows = mysql_num_rows(result);
+    DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice(): mysql_num_rows() " << n_rows << endl;
+	argout = new Tango::DevVarStringArray;
+    argout->length(n_rows*2);
+
+	MYSQL_ROW row;
+    if (n_rows > 0)
+    {
+      for (int i=0; i<n_rows; i++)
+      {
+         if ((row = mysql_fetch_row(result)) != NULL)
+         {
+            DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice(): property[ "<< i << "] device " << row[0] << " value " << row[1] << endl;
+            (*argout)[2*i]   = CORBA::string_dup(row[0]);
+            (*argout)[2*i+1] = CORBA::string_dup(row[1]);
+         }
+      }
+    }
+    mysql_free_result(result);
+
+	/*----- PROTECTED REGION END -----*/	//	DataBase::db_get_forwarded_attribute_list_for_device
 	return argout;
 }
 //--------------------------------------------------------

@@ -1616,4 +1616,26 @@ bool DataBase::is_DbGetDevicePipePropertyHist_allowed(TANGO_UNUSED(const CORBA::
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : DataBase::is_DbGetForwardedAttributeListForDevice_allowed()
+ *	Description : Execution allowed for DbGetForwardedAttributeListForDevice attribute
+ */
+//--------------------------------------------------------
+bool DataBase::is_DbGetForwardedAttributeListForDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for DbGetForwardedAttributeListForDevice command.
+	/*----- PROTECTED REGION ID(DataBase::DbGetForwardedAttributeListForDeviceStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	DataBase::DbGetForwardedAttributeListForDeviceStateAllowed
+	return true;
+}
+
+
+/*----- PROTECTED REGION ID(DataBase::DataBaseStateAllowed.AdditionalMethods) ENABLED START -----*/
+
+//	Additional Methods
+
+/*----- PROTECTED REGION END -----*/	//	DataBase::DataBaseStateAllowed.AdditionalMethods
+
 }	//	End of namespace
