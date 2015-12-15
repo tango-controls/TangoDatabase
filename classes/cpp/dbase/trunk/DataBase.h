@@ -1464,7 +1464,8 @@ public:
 	 *
 	 *	@param argin The specified device name
 	 *	@returns argout[n]     : device name
-	 *           argout[n+1] :the attribute (__root_att)
+	 *           argout[n+1] :the forwardef attribute
+	 *           argout[n+2] :the root attribute (__root_att)
 	 */
 	virtual Tango::DevVarStringArray *db_get_forwarded_attribute_list_for_device(Tango::DevString argin);
 	virtual bool is_DbGetForwardedAttributeListForDevice_allowed(const CORBA::Any &any);
