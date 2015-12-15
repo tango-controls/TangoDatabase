@@ -2021,6 +2021,25 @@ CORBA::Any *DbGetDevicePipePropertyHistClass::execute(Tango::DeviceImpl *device,
 	return insert((static_cast<DataBase *>(device))->db_get_device_pipe_property_hist(argin));
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		DbGetForwardedAttributeListForDeviceClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *DbGetForwardedAttributeListForDeviceClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "DbGetForwardedAttributeListForDeviceClass::execute(): arrived" << endl;
+	Tango::DevString argin;
+	extract(in_any, argin);
+	return insert((static_cast<DataBase *>(device))->db_get_forwarded_attribute_list_for_device(argin));
+}
+
 
 //===================================================================
 //	Properties management
@@ -3336,6 +3355,15 @@ void DataBaseClass::command_factory()
 			"Str[0] = Pipe name\nStr[1] = Property name\nStr[2] = date\nStr[3] = Property value number (array case)\nStr[4] = Property value 1\nStr[n] = Property value n",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetDevicePipePropertyHistCmd);
+
+	//	Command DbGetForwardedAttributeListForDevice
+	DbGetForwardedAttributeListForDeviceClass	*pDbGetForwardedAttributeListForDeviceCmd =
+		new DbGetForwardedAttributeListForDeviceClass("DbGetForwardedAttributeListForDevice",
+			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
+			"The specified device name",
+			"argout[n]     : device name\nargout[n+1] :the attribute (__root_att)",
+			Tango::OPERATOR);
+	command_list.push_back(pDbGetForwardedAttributeListForDeviceCmd);
 
 	/*----- PROTECTED REGION ID(DataBaseClass::command_factory_after) ENABLED START -----*/
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
-  <classes name="DataBase" pogoRevision="9.0">
-    <description description="This class manage the TANGO database." title="TANGO" sourcePath="/home/taurel/tango/dbserver" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" hasMandatoryProperty="false" hasConcreteProperty="false" hasAbstractCommand="false" hasAbstractAttribute="false">
-      <inheritances classname="Device_4Impl" sourcePath="/segfs/tango/templates/AbstractClasses"/>
+  <classes name="DataBase" pogoRevision="9.1">
+    <description description="This class manage the TANGO database." title="TANGO" sourcePath="/mntdirect/_segfs/tango/cppserver/dbase/src" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" hasMandatoryProperty="false" hasConcreteProperty="false" hasAbstractCommand="false" hasAbstractAttribute="false">
+      <inheritances classname="Device_4Impl" sourcePath="../../../../../../segfs/tango/templates/AbstractClasses"/>
       <identification contact="at esrf.fr - accelerator-control" author="accelerator-control" emailDomain="esrf.fr" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
     </description>
     <commands name="State" description="This command gets the device state (stored in its &lt;i>device_state&lt;/i> data member) and returns it to the caller." execMethod="dev_state" displayLevel="OPERATOR" polledPeriod="0">
@@ -883,6 +883,15 @@
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
       <argout description="Str[0] = Pipe name&#xA;Str[1] = Property name&#xA;Str[2] = date&#xA;Str[3] = Property value number (array case)&#xA;Str[4] = Property value 1&#xA;Str[n] = Property value n">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="DbGetForwardedAttributeListForDevice" description="Get the list of devices using forwarded attribute(s) from specified device" execMethod="db_get_forwarded_attribute_list_for_device" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="The specified device name">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argin>
+      <argout description="argout[n]     : device name&#xA;argout[n+1] :the attribute (__root_att)">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
