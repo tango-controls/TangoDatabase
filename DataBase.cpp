@@ -9206,7 +9206,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
  *
  *	@param argin The specified device name
  *	@returns argout[n]     : device name
- *           argout[n+1] :the attribute (__root_att)
+ *           argout[n+1] :the forwardef attribute
+ *           argout[n+2] :the root attribute (__root_att)
  */
 //--------------------------------------------------------
 Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(Tango::DevString argin)
@@ -9218,7 +9219,7 @@ Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(T
 	string device(argin);
 
 	TangoSys_MemStream	sql_query_stream;
-    sql_query_stream << "SELECT device,value  FROM property_attribute_device WHERE name = \"__root_att"
+    sql_query_stream << "SELECT device,attribute,value  FROM property_attribute_device WHERE name = \"__root_att"
 	                 << "\" AND value LIKE \"" << device << "/%%\"";
 
     MYSQL_RES *result = query(sql_query_stream.str(),"db_get_forwarded_attribute_list_for_device()");
@@ -9226,7 +9227,7 @@ Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(T
     int n_rows = mysql_num_rows(result);
     DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice(): mysql_num_rows() " << n_rows << endl;
 	argout = new Tango::DevVarStringArray;
-    argout->length(n_rows*2);
+    argout->length(n_rows*3);
 
 	MYSQL_ROW row;
     if (n_rows > 0)
@@ -9235,9 +9236,11 @@ Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(T
       {
          if ((row = mysql_fetch_row(result)) != NULL)
          {
-            DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice(): property[ "<< i << "] device " << row[0] << " value " << row[1] << endl;
-            (*argout)[2*i]   = CORBA::string_dup(row[0]);
-            (*argout)[2*i+1] = CORBA::string_dup(row[1]);
+            DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice(): property[ "<< i << "] device " << row[0] <<
+                            " attribute " << row[1] << " __root_att " << row[1] << endl;
+            (*argout)[3*i]   = CORBA::string_dup(row[0]);
+            (*argout)[3*i+1] = CORBA::string_dup(row[1]);
+            (*argout)[3*i+2] = CORBA::string_dup(row[2]);
          }
       }
     }

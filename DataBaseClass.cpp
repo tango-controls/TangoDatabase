@@ -3361,7 +3361,7 @@ void DataBaseClass::command_factory()
 		new DbGetForwardedAttributeListForDeviceClass("DbGetForwardedAttributeListForDevice",
 			Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
 			"The specified device name",
-			"argout[n]     : device name\nargout[n+1] :the attribute (__root_att)",
+			"argout[n]     : device name\nargout[n+1] :the forwardef attribute\nargout[n+2] :the root attribute (__root_att)",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetForwardedAttributeListForDeviceCmd);
 

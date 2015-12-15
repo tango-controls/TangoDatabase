@@ -891,7 +891,7 @@
       <argin description="The specified device name">
         <type xsi:type="pogoDsl:StringType"/>
       </argin>
-      <argout description="argout[n]     : device name&#xA;argout[n+1] :the attribute (__root_att)">
+      <argout description="argout[n]     : device name&#xA;argout[n+1] :the forwardef attribute&#xA;argout[n+2] :the root attribute (__root_att)">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
