@@ -110,23 +110,24 @@ ALTER TABLE object_history_id MODIFY id bigint unsigned NOT NULL default '0';
 
 DELETE FROM property_class WHERE class='Database' AND count >= 32;
 
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',32,'DbImportEvent',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',33,'DbGetDeviceAlias',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',34,'DbGetCSDbServerList',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',35,'DbGetDeviceClassList',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',36,'DbGetDeviceExportedList',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',37,'DbGetHostServerList',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',38,'DbGetAttributeAlias2',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',39,'DbGetAliasAttribute',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',40,'DbGetClassPipeProperty',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',41,'DbGetDevicePipeProperty',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',42,'DbGetClassPipeList',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',43,'DbGetDevicePipeList',NULL,NULL,NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',44,'DbGetAttributeAliasList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',32,'DbImportEvent',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',33,'DbGetDeviceAlias',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',34,'DbGetCSDbServerList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',35,'DbGetDeviceClassList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',36,'DbGetDeviceExportedList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',37,'DbGetHostServerList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',38,'DbGetAttributeAlias2',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',39,'DbGetAliasAttribute',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',40,'DbGetClassPipeProperty',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',41,'DbGetDevicePipeProperty',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',42,'DbGetClassPipeList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',43,'DbGetDevicePipeList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',44,'DbGetAttributeAliasList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',45,'DbGetForwardedAttributeListForDevice',NOW(),NOW(),NULL);
 
 DELETE FROM property_class WHERE class='DServer' AND count >= 10;
-INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NOW(),NOW(),NULL);
 
 DELETE FROM property_class WHERE class='Starter' AND count >= 5;
-INSERT INTO property_class VALUES('Starter','AllowedAccessCmd',5,'UpdateServerList',NULL,NULL,NULL);
+INSERT INTO property_class VALUES('Starter','AllowedAccessCmd',5,'UpdateServerList',NOW(),NOW(),NULL);
 
