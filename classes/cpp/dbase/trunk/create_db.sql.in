@@ -73,7 +73,7 @@ INSERT INTO property_class VALUES('Database','AllowedAccessCmd',9,'DbGetClassLis
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',10,'DbGetDeviceAliasList',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',11,'DbGetObjectList',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',12,'DbGetPropertyList',NOW(),NOW(),NULL);
-INSERT INTO property_class VALUES('Database','AllowedAccessCmd',13,'DbGetProperty',N)W(),NOW(),NULL);
+INSERT INTO property_class VALUES('Database','AllowedAccessCmd',13,'DbGetProperty',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',14,'DbGetClassPropertyList',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',15,'DbGetClassProperty',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',16,'DbGetDevicePropertyList',NOW(),NOW(),NULL);
