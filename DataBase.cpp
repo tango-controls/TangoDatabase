@@ -327,7 +327,6 @@ void DataBase::init_device()
 // Get user environment variables if defined
 //
 
-
 	DummyDev d;
 	string my_user,my_password,my_host,my_name;
 
@@ -7179,7 +7178,9 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 // interested in
 //
 
-	sql_query = "CALL tango.ds_start('" + svc + "','" + host + "'," + tmp_var_name + ")";
+	sql_query = "CALL ";
+	sql_query = sql_query + mysql_db_name;
+	sql_query = sql_query + ".ds_start('" + svc + "','" + host + "'," + tmp_var_name + ")";
 	sql_query = sql_query + ";SELECT " + tmp_var_name;
 //	cout << "Query = " << sql_query << endl;
 
