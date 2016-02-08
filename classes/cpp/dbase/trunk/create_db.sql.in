@@ -53,7 +53,7 @@ INSERT INTO server VALUES ('tangoaccesscontrol/1','',0,0);
 # Create default user access
 #
 
-CALL tango.init_tac_tables();
+CALL @TANGO_DB_NAME@.init_tac_tables();
 
 #
 # Create entries in the property_class tables for controlled access service

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS access_address (
   address varchar(255) default NULL,
   netmask varchar(255) default 'FF.FF.FF.FF',
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL default '00000000000000'
+  accessed timestamp NOT NULL default CURRENT_TIMESTAMP
 ) ENGINE=MyISAM;
 
 
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS access_device (
   device varchar(255) default NULL,
   rights varchar(255) default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL default '00000000000000'
+  accessed timestamp NOT NULL default CURRENT_TIMESTAMP
 ) ENGINE=MyISAM;
 
 #

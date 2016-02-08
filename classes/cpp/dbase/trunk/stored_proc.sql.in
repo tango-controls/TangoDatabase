@@ -38,7 +38,7 @@ DELIMITER |
 CREATE PROCEDURE @TANGO_DB_NAME@.ds_start 
 (IN ds_name VARCHAR(255),
  IN recev_host VARCHAR(255),
- OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.10'
+ OUT res_str BLOB) READS SQL DATA COMMENT 'release 1.11'
 proc: BEGIN
 
 	DECLARE notifd_event_name VARCHAR(255) DEFAULT 'notifd/factory/';
@@ -84,7 +84,7 @@ proc: BEGIN
 #
 
 	IF ds_pipe = 1 THEN
-		CALL tango.proc_release_nb(res_str);
+		CALL @TANGO_DB_NAME@.proc_release_nb(res_str);
 	END IF;
 
 #
@@ -315,7 +315,7 @@ BEGIN
 
 			SELECT exported,ior,version,pid,host
 			INTO tmp_exp,tmp_ior,tmp_version,tmp_pid,tmp_host
-			FROM tango.event
+			FROM @TANGO_DB_NAME@.event
 			WHERE name = tmp_ev_name_canon;
 	
 			IF not_found = 1 THEN

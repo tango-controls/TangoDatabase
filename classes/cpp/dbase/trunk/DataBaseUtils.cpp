@@ -814,10 +814,19 @@ void DataBase::create_connection_pool(const char *mysql_user,
 	char *database = (char *)TANGO_DB_NAME;
 #endif
 
+//
+// Init MySQL db name (locally and as data member)
+//
+
     if (mysql_name != NULL)
     {
         database = const_cast<char *>(mysql_name);
     }
+    mysql_db_name = database;
+
+//
+// Check on provided MySQl user and password
+//
 
 	if (mysql_user != NULL && mysql_password != NULL)
 	{
