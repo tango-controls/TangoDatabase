@@ -984,7 +984,7 @@ BEGIN
 	SELECT comment
 	INTO tmp_rel
 	FROM mysql.proc 
-	WHERE name = 'ds_start';
+	WHERE name = 'ds_start' and Db = '@TANGO_DB_NAME@';
 	
 	IF not_found = 1 THEN
 		SET res_str = CONCAT_WS(CHAR(0),res_str,'Not Found');
