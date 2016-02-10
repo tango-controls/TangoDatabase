@@ -497,7 +497,9 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 	MYSQL_ROW row;
 	int n_fields;
 
-	sql_query_stream << "SHOW PROCEDURE STATUS LIKE \"ds_start\"";
+	sql_query_stream << "SHOW PROCEDURE STATUS WHERE Db LIKE \"";
+	sql_query_stream << mysql_db_name;
+	sql_query_stream << "\" AND Name LIKE \"ds_start\"";
 
 	DEBUG_STREAM << "DataBase::read_StoredProcedureRelease(): sql_query " << sql_query_stream.str() << endl;
 
