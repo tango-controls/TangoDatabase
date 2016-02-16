@@ -7184,7 +7184,7 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	sql_query = sql_query + mysql_db_name;
 	sql_query = sql_query + ".ds_start('" + svc + "','" + host + "'," + tmp_var_name + ")";
 	sql_query = sql_query + ";SELECT " + tmp_var_name;
-//	cout << "Query = " << sql_query << endl;
+//  cout << "Query = " << sql_query << endl;
 
 	int con_nb = get_connection();
 	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
