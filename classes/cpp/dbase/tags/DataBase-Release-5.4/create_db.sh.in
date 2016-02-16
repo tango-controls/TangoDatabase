@@ -1,0 +1,43 @@
+mysql=@MYSQL@
+mysql_admin=@MYSQL_ADMIN@
+mysql_admin_passwd=@MYSQL_ADMIN_PASSWD@
+mysql_host=@MYSQL_HOST@
+db_name=@TANGO_DB_NAME@
+srcdir=@srcdir@
+
+
+if test "x$mysql_admin" = "x"; then
+	user_switch="";
+else
+	user_switch="-u$x$mysql_admin";
+fi
+
+if test "x$mysql_admin_passwd" = "x"; then
+   passwd_switch="";
+else
+   passwd_switch="-p$mysql_admin_passwd"
+fi
+
+if test "x$mysql_host" = "x"; then
+  host_switch="";
+else
+  host_switch="-h$mysql_host";
+fi
+
+
+
+
+connect="$mysql $user_switch $passwd_switch $host_switch $db_name"
+
+if `echo quit | $connect >/dev/null 2>&1`; then
+   if test "x$mysql_host" = "x"; then
+      echo "The $db_name database is already defined on this host"
+   else
+      echo "The $db_name database is already defined on $mysql_host"
+   fi
+   echo "Please run "
+   echo "$connect < ./update_db.sql"
+   echo "manually to force a db update"
+else
+  $mysql $user_switch $passwd_switch $host_switch < ./create_db.sql > /dev/null
+fi
