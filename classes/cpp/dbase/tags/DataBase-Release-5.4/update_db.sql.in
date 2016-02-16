@@ -1,8 +1,0 @@
-USE @TANGO_DB_NAME@;
-#
-# Load the new stored procedures
-#
-
-source stored_proc.sql
-
-
