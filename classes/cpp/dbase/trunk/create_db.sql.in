@@ -134,7 +134,7 @@ INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',1,'DevReadLog',N
 INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',2,'DevStart',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',3,'DevGetRunningServers',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',4,'DevGetStopServers',NOW(),NOW(),NULL);
-INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',5,'UpdateServerList',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES ('Starter','AllowedAccessCmd',5,'UpdateServersInfo',NOW(),NOW(),NULL);
 
 #
 #
