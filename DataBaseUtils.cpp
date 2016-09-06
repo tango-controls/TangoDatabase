@@ -661,7 +661,7 @@ void DataBase::purge_property(const char *table,const char *field,const char *ob
   MYSQL_ROW row2;
 
   sql_query.str("");
-  sql_query << "SELECT DISTINCT id FROM " << table
+  sql_query << "SELECT DISTINCT id,date FROM " << table
             << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name
             << "\" ORDER by date";
 
@@ -699,7 +699,7 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
   //cout << "purge_att_property(" << object << "," << attribute << "," << name << ")" << endl;
 
   sql_query.str("");
-  sql_query << "SELECT DISTINCT id FROM " << table
+  sql_query << "SELECT DISTINCT id,date FROM " << table
             << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name
             << "\" AND attribute=\"" << attribute << "\" ORDER by date";
 
@@ -736,7 +736,7 @@ void DataBase::purge_pipe_property(const char *table,const char *field,const cha
   //cout << "purge_pipe_property(" << object << "," << pipe << "," << name << ")" << endl;
 
   sql_query.str("");
-  sql_query << "SELECT DISTINCT id FROM " << table
+  sql_query << "SELECT DISTINCT id,date FROM " << table
             << " WHERE " << field << "=\"" << object << "\" AND name=\"" << name
             << "\" AND pipe=\"" << pipe << "\" ORDER by date";
 
