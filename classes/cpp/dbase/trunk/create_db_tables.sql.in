@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS access_address (
   address varchar(255) default NULL,
   netmask varchar(255) default 'FF.FF.FF.FF',
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL default CURRENT_TIMESTAMP
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00'
 ) ENGINE=MyISAM;
 
 
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS access_device (
   device varchar(255) default NULL,
   rights varchar(255) default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL default CURRENT_TIMESTAMP
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00'
 ) ENGINE=MyISAM;
 
 #
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS attribute_alias (
   device varchar(255) NOT NULL default '',
   attribute varchar(255) NOT NULL default '',
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_attribute_alias (alias(64),name(64))
 ) ENGINE=MyISAM;
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS attribute_class (
   class varchar(255) NOT NULL default '',
   name varchar(255) NOT NULL default '',
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_attribute_class (class(64),name(64))
 ) ENGINE=MyISAM;
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS device (
   pid int(11) default 0,
   class varchar(255) NOT NULL default 'nada',
   version varchar(8) NOT NULL default 'nada',
-  started datetime default 0,
-  stopped datetime default 0,
+  started datetime NULL default NULL,
+  stopped datetime NULL default NULL,
   comment text,
   KEY name (name(64),alias(64))
 ) ENGINE=MyISAM;
@@ -88,8 +88,8 @@ CREATE TABLE IF NOT EXISTS event (
   server varchar(255) default NULL,
   pid int(11) default NULL,
   version varchar(8) default NULL,
-  started datetime default NULL,
-  stopped datetime default NULL,
+  started datetime NULL default NULL,
+  stopped datetime NULL default NULL,
   KEY index_name (name(64))
 ) ENGINE=MyISAM;
 
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS property (
   count int(11) default NULL,
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_name (object(64),name(64))
 ) ENGINE=MyISAM;
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS property_attribute_class (
   count int(11) NOT NULL default '0',
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_property_attribute_class (class(64),attribute(64),name(64),count)
 ) ENGINE=MyISAM;
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS property_attribute_device (
   count int(11) NOT NULL default '0',
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_property_attribute_device (device(64),attribute(64),name(64),count)
 ) ENGINE=MyISAM;
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS property_class (
   count int(11) NOT NULL default '0',
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_property (class(64),name(64),count)
 ) ENGINE=MyISAM;
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS property_device (
   count int(11) NOT NULL default '0',
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_resource (device(64),name(64),count)
 ) ENGINE=MyISAM;
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS property_pipe_class (
   count int(11) NOT NULL default '0',
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_property_pipe_class (class(64),pipe(64),name(64),count)
 ) ENGINE=MyISAM;
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS property_pipe_device (
   count int(11) NOT NULL default '0',
   value text default NULL,
   updated timestamp NOT NULL,
-  accessed timestamp NOT NULL,
+  accessed timestamp NOT NULL default '2000-01-01 00:00:00',
   comment text,
   KEY index_property_pipe_device (device(64),pipe(64),name(64),count)
 ) ENGINE=MyISAM;

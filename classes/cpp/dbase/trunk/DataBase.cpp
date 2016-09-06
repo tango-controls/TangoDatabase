@@ -2169,12 +2169,12 @@ Tango::DevVarStringArray *DataBase::db_get_attribute_alias_list(Tango::DevString
 
 	if (argin == NULL)
 	{
-		sql_query_stream << "SELECT DISTINCT alias FROM attribute_alias WHERE alias LIKE \"%\" ORDER BY attribute";
+		sql_query_stream << "SELECT DISTINCT alias,attribute FROM attribute_alias WHERE alias LIKE \"%\" ORDER BY attribute";
 	}
 	else
 	{
 		tmp_wildcard = replace_wildcard (argin);
-		sql_query_stream << "SELECT DISTINCT alias FROM attribute_alias WHERE alias LIKE \""
+		sql_query_stream << "SELECT DISTINCT alias,attribute FROM attribute_alias WHERE alias LIKE \""
 		                 << tmp_wildcard << "\" ORDER BY attribute";
 	}
 	DEBUG_STREAM << "DataBase::db_get_attribute_alias_list(): sql_query " << sql_query_stream.str() << endl;
@@ -2556,7 +2556,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_attribute_class_hist WHERE class = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_attribute_class_hist WHERE class = \""
                      << tmp_class << "\" AND attribute LIKE \"" << tmp_attribute
 				     << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
 
@@ -2890,7 +2890,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_class_hist WHERE class = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_class_hist WHERE class = \""
 	                 << tmp_class << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
 
 	{
@@ -3680,7 +3680,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_attribute_device_hist WHERE device = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_attribute_device_hist WHERE device = \""
 	                 << tmp_device << "\" AND attribute LIKE \"" << tmp_attribute
  			         << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
 
@@ -4519,7 +4519,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_device_hist WHERE device = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_device_hist WHERE device = \""
 	                 << tmp_device << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
 
 	{
@@ -5198,7 +5198,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_hist WHERE object = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_hist WHERE object = \""
 	                 << tmp_object << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date";
 
 	{
@@ -9045,7 +9045,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango:
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_pipe_class_hist WHERE class = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_pipe_class_hist WHERE class = \""
                      << tmp_class << "\" AND pipe LIKE \"" << tmp_pipe
 				     << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
 
@@ -9147,7 +9147,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 
 	// Get id list
 
-    sql_query_stream << "SELECT DISTINCT id FROM property_pipe_device_hist WHERE device = \""
+    sql_query_stream << "SELECT DISTINCT id,date FROM property_pipe_device_hist WHERE device = \""
 	                 << tmp_device << "\" AND pipe LIKE \"" << tmp_pipe
  			         << "\" AND name LIKE \"" << tmp_name << "\" ORDER by date ASC";
 
