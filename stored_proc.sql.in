@@ -981,10 +981,10 @@ BEGIN
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found = 1;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION SET res_str = CONCAT_WS(CHAR(0),res_str,'MySQL Error');
 	
-	SELECT comment
+	SELECT ROUTINE_COMMENT
 	INTO tmp_rel
-	FROM mysql.proc 
-	WHERE name = 'ds_start' and Db = '@TANGO_DB_NAME@';
+	FROM INFORMATION_SCHEMA.ROUTINES
+	WHERE ROUTINE_NAME = 'ds_start' AND ROUTINE_SCHEMA = '@TANGO_DB_NAME@';
 	
 	IF not_found = 1 THEN
 		SET res_str = CONCAT_WS(CHAR(0),res_str,'Not Found');
