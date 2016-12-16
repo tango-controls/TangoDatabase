@@ -4,14 +4,14 @@ AM_CPPFLAGS = $(ORB_INCLUDE_PREFIX)  $(LIBZMQ_CFLAGS) \
        -I$(top_builddir)/lib/cpp/server \
        -I$(top_srcdir)/lib/cpp/client \
        -I$(top_srcdir)/lib/cpp/server \
-       $(MYSQLCLIENT_CFLAGS) \
+       $(DB_CFLAGS) \
        $(ZLIB_CPPFLAGS)
 
 AM_CXXFLAGS= -Wall -D_FORTIFY_SOURCE=2 -O1 -fPIE
 
 LDADD = -L$(top_builddir)/lib/cpp/client -ltango -L$(top_builddir)/lib/cpp/log4tango/src \
-        -llog4tango $(MYSQLCLIENT_LDFLAGS) \
-         $(MYSQLCLIENT_LIBS) $(ZLIB_LDFLAGS) $(ZLIB_LIBS)  $(LIBZMQ_LIBS)
+        -llog4tango $(DB_LDFLAGS) \
+         $(DB_LDLIBS) $(ZLIB_LDFLAGS) $(ZLIB_LIBS)  $(LIBZMQ_LIBS)
 
 AM_LDFLAGS = -Wl,-z,now -pie
 
