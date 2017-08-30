@@ -21,7 +21,8 @@ include_directories("." ${TANGO_PKG_INCLUDE_DIRS} ${MYSQL_INCLUDE_DIRS})
 link_directories(${TANGO_PKG_LIBRARY_DIRS})
 
 add_executable(Databaseds ${SOURCES} ${ADDITIONAL_SOURCES})
-target_link_libraries(Databaseds ${TANGO_PKG_LIBRARIES} ${MYSQL_LIBRARIES} -Wl,-z,now -pie)
+find_package(Threads)
+target_link_libraries(Databaseds ${TANGO_PKG_LIBRARIES} ${MYSQL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} -Wl,-z,now -pie)
 target_compile_options(Databaseds PUBLIC ${TANGO_PKG_CFLAGS_OTHER} -Wall -Wextra -D_FORTIFY_SOURCE=2 -O1 -fpie)
 
 install(TARGETS Databaseds

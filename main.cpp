@@ -54,10 +54,106 @@ static const char *RcsId = "$Id$";
 #include <tango.h>
 #include <dserverclass.h>
 #include <DataBase.h>
+#include <arpa/inet.h>
+
 
 #ifndef WIN32
 #include <sys/resource.h>
 #endif
+
+#include <omniORB4/internal/giopStrand.h>
+#include <omniORB4/internal/giopStream.h>
+#include <omniORB4/internal/GIOP_S.h>
+
+#include <omniORB4/omniInterceptors.h>
+
+pthread_key_t key;
+bool is_acl_enabled;
+std::set<std::string> ip_addresses_allowed;
+
+CORBA::Boolean retrieve_client_address(omni::omniInterceptors::serverReceiveRequest_T::info_T& info)
+{
+	void *tls_data = pthread_getspecific(key);
+	free(tls_data);
+	const char *addr_data = info.giop_s.strand().connection->peeraddress();
+	tls_data = malloc(strlen(addr_data) + 1);
+	strcpy((char*)tls_data, addr_data);
+	pthread_setspecific(key, tls_data);
+	return true;
+}
+
+void delete_tsl(void *data)
+{
+	free(data);
+}
+
+bool validate_address(std::string &address)
+{
+	int domain;
+	if (address[0] == '[') {
+	  domain = AF_INET6;
+	  address = address.substr(1, address.size()-1);
+	} else {
+	  domain = AF_INET;
+	}
+
+	unsigned char buf[sizeof(struct in6_addr)];
+	if (inet_pton(domain, address.c_str(), buf) < 1) {
+	  cout << "Invalid format: " << address << endl;
+	} else {
+	  char str[INET6_ADDRSTRLEN];
+	  if (! inet_ntop(domain, buf, str, INET6_ADDRSTRLEN)) {
+	    cout << "Invalid format: " << address << endl;
+	  } else {
+	    address = string(str);
+	    return true;
+	  }
+	}
+	return false;
+}
+
+void load_ip_rules(ifstream &acl_file)
+{
+	std::string line;
+	while (std::getline(acl_file, line))
+	{
+	  line.erase(0, line.find_first_not_of(" \t\n\r\f\v"));
+	  /* Ignore comments which have to start with # */
+	  if (line[0] != '#') {
+	    istringstream str(line);
+	    std::string octet[4];
+	    for (int i=0; i<4; ++i) {
+	      if (i != 3) {
+		/* Extract octet by octet */
+	        std::getline(str, octet[i], '.');
+	      } else {
+	        string ip_address;
+	        std::getline(str, octet[i]);
+		/* Avoid to include comments in the last octet */
+		if (int len = octet[i].find_first_of(" #\t\n\r\f\v") != string::npos) {
+			octet[i] = octet[i].substr(0, len + 1);
+		}
+	        if (octet[3][0] == '*') {
+		  /* Expand wildcard */
+	          for (int i=1; i<255; ++i) {
+		    char buf[4];
+		    sprintf(buf,"%d",i);
+	            ip_address = octet[0] + "." + octet[1] + "."
+			    + octet[2] + "." + buf;
+		    if (validate_address(ip_address))
+	              ip_addresses_allowed.insert(ip_address);
+	          }
+	        } else {
+	          ip_address = octet[0] + "." + octet[1] + "."
+			    + octet[2] + "." + octet[3];
+		  if (validate_address(ip_address))
+		    ip_addresses_allowed.insert(ip_address);
+	        }
+	      }
+	    }
+	  }
+	}
+}
 
 int DataBase_ns::DataBase::conn_pool_size;
 
@@ -77,6 +173,30 @@ int main(int argc,char *argv[])
 	struct rlimit limit;
 	limit.rlim_cur = 1024;
 	limit.rlim_max = 1024;
+
+	// Browse argv and try to find the --aclFile option
+	int found_acl = 0;
+	int k = 0;
+	while(k<argc && !found_acl) {
+	  found_acl = (strcasecmp(argv[k],"-aclFile")==0);
+	  if(!found_acl) k++;
+	}
+	if( found_acl ) {
+	  if(k>=argc-1) {
+	    cout << "Invalid aclFile parameter." << endl;
+	    return -1;
+	  }
+	  ifstream infile;
+	  infile.open(argv[k+1]);
+	  if( infile.is_open() ) {
+	    is_acl_enabled = true;
+	    load_ip_rules(infile);
+	    infile.close();
+	  } else {
+	    cout << "File " << argv[k+1] << " not found." << endl;
+	    return -1;
+	  }
+	}
 
 	// Browse argv and try to find the -maxFile option
 	int found = 0;
@@ -158,6 +278,16 @@ int main(int argc,char *argv[])
 		DataBase_ns::DbInter *dbi = new DataBase_ns::DbInter();
 		tango_util->set_interceptors(dbi);
 
+//
+// Add an OmniORB interceptor
+//
+		if (is_acl_enabled) {
+		  if (pthread_key_create(&key, &delete_tsl) ) {
+		    cerr << "cannot create key for thread specific data" << endl;
+		    exit(1);
+		  }
+		  omniORB::getInterceptors()->serverReceiveRequest.add(&retrieve_client_address);
+		}
 //
 // Set the serialization method
 //

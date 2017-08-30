@@ -1563,6 +1563,9 @@ public:
 	int get_connection();
 	void release_connection(int con_nb) {conn_pool[con_nb].the_sema.post();}
 
+private:
+	void check_ip_client(const char *func);
+
 	/*----- PROTECTED REGION END -----*/	//	DataBase::Additional Method prototypes
 };
 
