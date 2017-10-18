@@ -51,10 +51,6 @@ static const char *RcsId = "$Id$";
 #include <stdio.h>
 #include <algorithm>
 
-extern pthread_key_t key;
-extern bool is_acl_enabled;
-extern std::set<std::string> ip_addresses_allowed;
-
 /*----- PROTECTED REGION END -----*/	//	DataBase.cpp
 
 /**
@@ -780,8 +776,6 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbAddDevice()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_add_device) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *server_device = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -909,8 +903,6 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbAddServer()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_add_server) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *server_device_list = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -1009,8 +1001,6 @@ void DataBase::db_delete_attribute_alias(Tango::DevString argin)
 	DEBUG_STREAM << "DataBase::DbDeleteAttributeAlias()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_attribute_alias) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 
@@ -1034,8 +1024,6 @@ void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
 {
 	DEBUG_STREAM << "DataBase::DbDeleteClassAttribute()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_attribute) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -1172,8 +1160,6 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbDeleteClassProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -1248,8 +1234,6 @@ void DataBase::db_delete_device(Tango::DevString argin)
 {
 	DEBUG_STREAM << "DataBase::DbDeleteDevice()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	Tango::DevString  device = argin;
@@ -1328,8 +1312,6 @@ void DataBase::db_delete_device_alias(Tango::DevString argin)
 {
 	DEBUG_STREAM << "DataBase::DbDeleteDeviceAlias()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_alias) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -1511,8 +1493,6 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbDeleteDeviceProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream	sql_query_stream;
@@ -1595,8 +1575,6 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
 {
 	DEBUG_STREAM << "DataBase::DbDeleteProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_property) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
@@ -1796,8 +1774,6 @@ void DataBase::db_delete_server_info(Tango::DevString argin)
 	DEBUG_STREAM << "DataBase::DbDeleteServerInfo()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_server_info) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	Tango::DevString  server_name = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -1831,8 +1807,6 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 {
 	DEBUG_STREAM << "DataBase::DbExportDevice()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_export_device) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	const Tango::DevVarStringArray  *export_info = argin;
@@ -1991,8 +1965,6 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 {
 	DEBUG_STREAM << "DataBase::DbExportEvent()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_export_event) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	const Tango::DevVarStringArray  *export_info = argin;
@@ -6073,8 +6045,6 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbPutAttributeAlias()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_attribute_alias) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
@@ -6188,8 +6158,6 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 	DEBUG_STREAM << "DataBase::DbPutClassAttributeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_attribute_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -6275,8 +6243,6 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 {
 	DEBUG_STREAM << "DataBase::DbPutClassAttributeProperty2()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_attribute_property2) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -6372,8 +6338,6 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbPutClassProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -6459,8 +6423,6 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbPutDeviceAlias()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_alias) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *device_alias = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -6544,8 +6506,6 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 {
 	DEBUG_STREAM << "DataBase::DbPutDeviceAttributeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_attribute_property) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
@@ -6639,8 +6599,6 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 {
 	DEBUG_STREAM << "DataBase::DbPutDeviceAttributeProperty2()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_attribute_property2) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -6749,8 +6707,6 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbPutDeviceProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -6848,8 +6804,6 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbPutProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	const Tango::DevVarStringArray  *property_list = argin;
 	TangoSys_MemStream	sql_query_stream;
@@ -6927,8 +6881,6 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 {
 	DEBUG_STREAM << "DataBase::DbPutServerInfo()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_server_info) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	const Tango::DevVarStringArray  *server_info = argin;
@@ -7027,8 +6979,6 @@ void DataBase::db_un_export_device(Tango::DevString argin)
 	DEBUG_STREAM << "DataBase::DbUnExportDevice()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_un_export_device) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	Tango::DevString  devname = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -7067,8 +7017,6 @@ void DataBase::db_un_export_event(Tango::DevString argin)
 	DEBUG_STREAM << "DataBase::DbUnExportEvent()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_un_export_event) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	Tango::DevString  event_name = argin;
 	TangoSys_MemStream sql_query_stream;
@@ -7103,8 +7051,6 @@ void DataBase::db_un_export_server(Tango::DevString argin)
 {
 	DEBUG_STREAM << "DataBase::DbUnExportServer()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_un_export_server) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	Tango::DevString  server_name = argin;
@@ -7746,8 +7692,6 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbRenameServer()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_rename_server) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 
 //
@@ -8364,8 +8308,6 @@ void DataBase::db_delete_class_pipe(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbDeleteClassPipe()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_pipe) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe;
@@ -8406,8 +8348,6 @@ void DataBase::db_delete_device_pipe(const Tango::DevVarStringArray *argin)
 {
 	DEBUG_STREAM << "DataBase::DbDeleteDevicePipe()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_pipe) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -8466,8 +8406,6 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
 {
 	DEBUG_STREAM << "DataBase::DbDeleteClassPipeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_pipe_property) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -8557,8 +8495,6 @@ void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *ar
 {
 	DEBUG_STREAM << "DataBase::DbDeleteDevicePipeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_pipe_property) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -8794,8 +8730,6 @@ void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray
 	DEBUG_STREAM << "DataBase::DbDeleteAllDevicePipeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_all_device_pipe_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe;
@@ -8894,8 +8828,6 @@ void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 	DEBUG_STREAM << "DataBase::DbPutClassPipeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_pipe_property) ENABLED START -----*/
 
-	check_ip_client(__FUNCTION__);
-
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	char tmp_count_str[256];
@@ -8988,8 +8920,6 @@ void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin
 {
 	DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_pipe_property) ENABLED START -----*/
-
-	check_ip_client(__FUNCTION__);
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
@@ -9465,40 +9395,6 @@ void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
     }
 
     release_connection(con_nb);
-}
-
-void DataBase::check_ip_client(const char *func)
-{
-	DEBUG_STREAM << "DataBase::check_ip_client()" << endl;
-
-	if (is_acl_enabled) {
-	  char *ptr = (char*)pthread_getspecific(key);
-	  /* In case of the poller thread pointer ptr is NULL
-	   * so no need to check rules */
-	  if (ptr) {
-	    string addr(ptr);
-	    size_t end_pos = addr.rfind(":");
-	    if (addr.substr(0, 10) == "giop:unix:") {
-	      /* UNIX domain sockets are always allowed */
-	    } else { /* giop:tcp: or giop:ssl: */
-	      if (addr[9] == '[') {
-	        /* OmniORB wraps IPv6 addresses with
-		 * square brackets */
-	        addr = addr.substr(17, end_pos-1-17);
-	      } else {
-	        addr = addr.substr(9, end_pos-9);
-	      }
-	      std::set<std::string>::const_iterator cit;
-	      cit = ip_addresses_allowed.find(addr);
-	      if (cit == ip_addresses_allowed.end()) {
-	        Tango::Except::throw_exception(
-	            Tango::API_CommandNotAllowed,
-	            "Unauthorized access by " + addr,
-	            func);
-	      }
-	    }
-	  }
-	}
 }
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::namespace_ending
