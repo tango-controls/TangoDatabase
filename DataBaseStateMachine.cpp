@@ -46,9 +46,11 @@ static const char *RcsId = "$Id$";
 #include <DataBase.h>
 #include <DataBaseClass.h>
 
+#include <unordered_set>
+
 extern pthread_key_t key;
 extern bool is_acl_enabled;
-extern std::set<std::string> ip_addresses_allowed;
+extern std::unordered_set<std::string> ip_addresses_allowed;
 
 /*----- PROTECTED REGION END -----*/	//	DataBase::DataBaseStateMachine.cpp
 
@@ -1726,7 +1728,7 @@ void DataBase::check_ip_client()
 	      } else {
 	        addr = addr.substr(9, end_pos-9);
 	      }
-	      std::set<std::string>::const_iterator cit;
+	      std::unordered_set<std::string>::const_iterator cit;
 	      cit = ip_addresses_allowed.find(addr);
 	      if (cit == ip_addresses_allowed.end()) {
 	        Tango::Except::throw_exception(

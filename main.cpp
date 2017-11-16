@@ -67,9 +67,11 @@ static const char *RcsId = "$Id$";
 
 #include <omniORB4/omniInterceptors.h>
 
+#include <unordered_set>
+
 pthread_key_t key;
 bool is_acl_enabled;
-std::set<std::string> ip_addresses_allowed;
+std::unordered_set<std::string> ip_addresses_allowed;
 
 CORBA::Boolean retrieve_client_address(omni::omniInterceptors::serverReceiveRequest_T::info_T& info)
 {
