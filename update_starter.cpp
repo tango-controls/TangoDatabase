@@ -43,12 +43,10 @@ namespace DataBase_ns
 {
 //=============================================================================
 //=============================================================================
-UpdStarterData::UpdStarterData()
+UpdStarterData::UpdStarterData(string domain)
 {
-/*
-	starter_devnames[0] = "";
-	starter_devnames[1] = "";
-*/
+    starter_header = domain;
+	starter_header += STARTER_DEVNAME_FAMILY;
 }
 //=============================================================================
 //=============================================================================
@@ -59,16 +57,23 @@ vector<string> UpdStarterData::get_starter_devname()
 }
 //=============================================================================
 //=============================================================================
-void UpdStarterData::send_starter_cmd(vector<string> hostname)
+string UpdStarterData::get_starter_header()
+{
+	omni_mutex_lock sync(*this);
+	return starter_header;
+}
+//=============================================================================
+//=============================================================================
+void UpdStarterData::send_starter_cmd(vector<string> hostnames)
 {
 	omni_mutex_lock sync(*this);
 
 	//	Build starter devices to update
 	starter_devnames.clear();
-	for (unsigned int i=0 ; i<hostname.size() ; i++)
+	for (unsigned int i=0 ; i<hostnames.size() ; i++)
 	{
-		string	devname(STARTER_DEVNAME_HEADER);
-		devname += hostname[i];
+		string	devname(starter_header);
+		devname += hostnames[i];
 		starter_devnames.push_back(devname);
 	}
 
@@ -91,10 +96,11 @@ void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 	{
 		//	Get the starter device name
 		vector<string>	devnames = shared->get_starter_devname();
+        string starter_header = shared->get_starter_header();
 		for (unsigned int i=0 ; i<devnames.size() ; i++)
 		{
 			//	Verify if devname has been set
-			if (devnames[i].find(STARTER_DEVNAME_HEADER)==0)
+			if (devnames[i].find(starter_header)==0)
 			{
 				//	Remove the Fully Qualify Domain Name of host for device name
 				string::size_type	pos = devnames[i].find('.');

@@ -55,16 +55,18 @@ class UpdStarterData: public Tango::TangoMonitor
 {
 private:
 	vector<string>	starter_devnames;
+    string starter_header;
 public:
-	UpdStarterData();
+	UpdStarterData(string starter_domain);
 /**
  *	Get the host name to send cmd
  */
 vector<string> get_starter_devname();
+string get_starter_header();
 /**
  *	Set the host name to send cmd
  */
-void send_starter_cmd(vector<string> hostname);
+void send_starter_cmd(vector<string> hostnames);
 };
 //=========================================================
 /**

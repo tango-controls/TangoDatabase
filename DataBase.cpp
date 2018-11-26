@@ -396,9 +396,36 @@ void DataBase::init_device()
 	//	If fire to starter is true
 	if (fireToStarter==true)
 	{
-		//	Build shared data and thread to update Starter in case of
+        string starter_domain = STARTER_DEVNAME_DOMAIN;
+    	//	Get starter domain if not the default one
+	    Tango::DevVarStringArray	*array = new Tango::DevVarStringArray();
+	    array->length(2);
+    	(*array)[0] = CORBA::string_dup("Starter");
+	    (*array)[1] = CORBA::string_dup("Domain");
+    	Tango::DevVarStringArray	*props = db_get_class_property(array);
+
+        if (props->length()>0)
+        {
+            int nb = atoi((*props)[1]); // nb proeprties
+            if (nb==1)
+            {
+                nb = atoi((*props)[3]); // nb values
+                if (nb==1)
+                {
+                    string domain((*props)[4]);
+                    if (!domain.empty())
+                        starter_domain = domain;
+                }
+            }
+        }
+        //cout << "-----------> Starter domain = " << starter_domain << endl;
+
+    	delete array;
+	    delete props;
+		
+        //	Build shared data and thread to update Starter in case of
 		//	change of controlled servers conditions
-		starter_shared = new UpdStarterData();
+		starter_shared = new UpdStarterData(starter_domain);
 		upd_starter_thread = new UpdateStarter(starter_shared);
 		upd_starter_thread->start();
 	}

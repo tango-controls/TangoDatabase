@@ -61,7 +61,8 @@
 #define	DB_NoFreeMySQLConnection	"DB_NoFreeMySQLConnection"
 #define	DB_MySQLLibNotThreadSafe	"DB_MySQLLibNotThreadSafe"
 
-#define	STARTER_DEVNAME_HEADER		"tango/admin/"
+#define	STARTER_DEVNAME_DOMAIN		"tango"
+#define	STARTER_DEVNAME_FAMILY		"/admin/"
 
 #define	DEFAULT_CONN_POOL_SIZE		20
 
