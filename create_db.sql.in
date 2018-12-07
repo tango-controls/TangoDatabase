@@ -30,6 +30,16 @@ INSERT INTO device VALUES ('sys/database/2',NULL,'sys','database','2',0,'nada','
 INSERT INTO device VALUES ('dserver/DataBaseds/2',NULL,'dserver','DataBaseds','2',0,'nada','nada','DataBaseds/2',0,'DServer','nada',NULL,NULL,'nada');
 
 #
+# Create entry for TangoRestServer device server in device table
+#
+
+DELETE FROM device WHERE server='TangoRestServer/rest';
+
+INSERT INTO device VALUES ('sys/rest/0',NULL,'sys','rest','0',0,'nada','nada','TangoRestServer/rest',0,'TangoRestServer','nada',NULL,NULL,'nada');
+INSERT INTO device VALUES ('dserver/TangoRestServer/rest',NULL,'dserver','TangoRestServer','rest',0,'nada','nada','TangoRestServer/rest',0,'DServer','nada',NULL,NULL,'nada');
+
+
+#
 # Create entry for test device server in device table
 #
 
