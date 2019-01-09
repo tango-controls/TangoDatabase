@@ -133,6 +133,7 @@ INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',7,'QueryWizardDev
 INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',8,'QueryWizardClassProperty',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',9,'QuerySubDevice',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',10,'ZMQEventSubscriptionChange',NOW(),NOW(),NULL);
+INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',11,'EventConfirmSubscription',NOW(),NOW(),NULL);
 
 #
 #

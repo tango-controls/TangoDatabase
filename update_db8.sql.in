@@ -105,7 +105,7 @@ ALTER TABLE device_history_id MODIFY id bigint unsigned NOT NULL default '0';
 ALTER TABLE object_history_id MODIFY id bigint unsigned NOT NULL default '0';
 
 #
-# Update entries in the property_class tables for database
+# Update entries in the property_class tables for controlled access service
 #
 
 DELETE FROM property_class WHERE class='Database' AND count >= 35;
@@ -121,6 +121,9 @@ INSERT INTO property_class VALUES('Database','AllowedAccessCmd',42,'DbGetClassPi
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',43,'DbGetDevicePipeList',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',44,'DbGetAttributeAliasList',NOW(),NOW(),NULL);
 INSERT INTO property_class VALUES('Database','AllowedAccessCmd',45,'DbGetForwardedAttributeListForDevice',NOW(),NOW(),NULL);
+
+DELETE FROM property_class WHERE class='DServer' AND count >= 11;
+INSERT INTO property_class VALUES('DServer','AllowedAccessCmd',11,'EventConfirmSubscription',NOW(),NOW(),NULL);
 
 #
 # Remove history entries for the property used by memorized attribute
