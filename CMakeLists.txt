@@ -4,7 +4,7 @@ project(DataBase)
 include(configure/CMakeLists.txt)
 
 set(MAJOR_VERSION "5")
-set(MINOR_VERSION "6")
+set(MINOR_VERSION "10")
 set(PATCH_VERSION "0")
 set(PROJECT_VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
