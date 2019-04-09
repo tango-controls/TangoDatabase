@@ -3,8 +3,6 @@ mysql_admin=@MYSQL_ADMIN@
 mysql_admin_passwd=@MYSQL_ADMIN_PASSWD@
 mysql_host=@MYSQL_HOST@
 db_name=@TANGO_DB_NAME@
-srcdir=@srcdir@
-
 
 if test "x$mysql_admin" = "x"; then
 	user_switch="";
