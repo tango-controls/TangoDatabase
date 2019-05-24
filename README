@@ -11,6 +11,14 @@ Note: You need jive 3.3 or higher to be able to access history.
 Starting from scratch
 ------------------------------------------------------------------------
 
+Note: It is recommended to setup the database to use latin1 character set.
+Especially, any other character set with characters longer than 3 bytes
+will not work. Character set can be specified in my.cnf configuration file:
+
+[mysqld]
+character_set_server=latin1
+collation_server=latin1_swedish_ci
+
 #Launch the mysql client
 
 mysql -u[user] -p[password]
