@@ -276,3 +276,11 @@ DROP PROCEDURE IF EXISTS tango.upd_history_ids;
 
 source stored_proc.sql
 
+#
+# Create entry for TangoRestServer device server in device table
+#
+
+DELETE FROM device WHERE server='TangoRestServer/rest';
+
+INSERT INTO device VALUES ('sys/rest/0',NULL,'sys','rest','0',0,'nada','nada','TangoRestServer/rest',0,'TangoRestServer','nada',NULL,NULL,'nada');
+INSERT INTO device VALUES ('dserver/TangoRestServer/rest',NULL,'dserver','TangoRestServer','rest',0,'nada','nada','TangoRestServer/rest',0,'DServer','nada',NULL,NULL,'nada');

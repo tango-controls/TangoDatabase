@@ -105,6 +105,15 @@ ALTER TABLE device_history_id MODIFY id bigint unsigned NOT NULL default '0';
 ALTER TABLE object_history_id MODIFY id bigint unsigned NOT NULL default '0';
 
 #
+# Create entry for TangoRestServer device server in device table
+#
+
+DELETE FROM device WHERE server='TangoRestServer/rest';
+
+INSERT INTO device VALUES ('sys/rest/0',NULL,'sys','rest','0',0,'nada','nada','TangoRestServer/rest',0,'TangoRestServer','nada',NULL,NULL,'nada');
+INSERT INTO device VALUES ('dserver/TangoRestServer/rest',NULL,'dserver','TangoRestServer','rest',0,'nada','nada','TangoRestServer/rest',0,'DServer','nada',NULL,NULL,'nada');
+
+#
 # Update entries in the property_class tables for controlled access service
 #
 

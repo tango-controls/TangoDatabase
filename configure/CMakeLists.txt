@@ -37,10 +37,11 @@ set(DB_SCRIPTS create_db.sh
                create_db_tables.sql
                rem_history.sql
                stored_proc.sql
-               update_db5.sql
-               update_db6.sql
-               update_db7.sql
-               update_db8.sql
+               update_db_from_5_to_9.3.3.sql
+               update_db_from_6_to_9.3.3.sql
+               update_db_from_7_to_9.3.3.sql
+               update_db_from_8_to_9.3.3.sql
+               update_db_from_9.2.5_to_9.3.3.sql
                update_db.sh
                update_db.sql)
 
