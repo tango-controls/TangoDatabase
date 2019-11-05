@@ -449,7 +449,7 @@ void DataBase::init_device()
 		    ss >> historyDepth;
 
 		    if( historyDepth == 0 ) {
-		      cout << "Warning, Invalid historyDepth property, reseting to default value (10)" << endl;
+		      cout << "Warning, Invalid historyDepth property, resetting to default value (10)" << endl;
 		      historyDepth = 10;
 		    }
 		  }
