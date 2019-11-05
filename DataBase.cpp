@@ -422,7 +422,7 @@ void DataBase::init_device()
 
     	delete array;
 	    delete props;
-		
+
         //	Build shared data and thread to update Starter in case of
 		//	change of controlled servers conditions
 		starter_shared = new UpdStarterData(starter_domain);
