@@ -629,7 +629,7 @@ public:
 	 *           Str[2] = Property name
 	 *           Str[3] = Property value number (array case)
 	 *           Str[4] = Property value
-	 *           Str[n] = Propery value (array case)
+	 *           Str[n] = Property value (array case)
 	 *           ....
 	 */
 	virtual Tango::DevVarStringArray *db_get_class_property(const Tango::DevVarStringArray *argin);

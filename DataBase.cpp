@@ -2801,7 +2801,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
  *           Str[2] = Property name
  *           Str[3] = Property value number (array case)
  *           Str[4] = Property value
- *           Str[n] = Propery value (array case)
+ *           Str[n] = Property value (array case)
  *           ....
  */
 //--------------------------------------------------------
