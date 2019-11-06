@@ -422,7 +422,7 @@ void DataBase::init_device()
 
     	delete array;
 	    delete props;
-		
+
         //	Build shared data and thread to update Starter in case of
 		//	change of controlled servers conditions
 		starter_shared = new UpdStarterData(starter_domain);
@@ -449,7 +449,7 @@ void DataBase::init_device()
 		    ss >> historyDepth;
 
 		    if( historyDepth == 0 ) {
-		      cout << "Warning, Invalid historyDepth property, reseting to default value (10)" << endl;
+		      cout << "Warning, Invalid historyDepth property, resetting to default value (10)" << endl;
 		      historyDepth = 10;
 		    }
 		  }
@@ -2801,7 +2801,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
  *           Str[2] = Property name
  *           Str[3] = Property value number (array case)
  *           Str[4] = Property value
- *           Str[n] = Propery value (array case)
+ *           Str[n] = Property value (array case)
  *           ....
  */
 //--------------------------------------------------------

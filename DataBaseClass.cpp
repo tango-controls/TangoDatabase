@@ -2731,7 +2731,7 @@ void DataBaseClass::command_factory()
 		new DbGetClassPropertyClass("DbGetClassProperty",
 			Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_STRINGARRAY,
 			"Str[0] = Tango class\nStr[1] = Property name\nStr[2] = Property name",
-			"Str[0] = Tango class\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value\nStr[n] = Propery value (array case)\n....",
+			"Str[0] = Tango class\nStr[1] = Property number\nStr[2] = Property name\nStr[3] = Property value number (array case)\nStr[4] = Property value\nStr[n] = Property value (array case)\n....",
 			Tango::OPERATOR);
 	command_list.push_back(pDbGetClassPropertyCmd);
 

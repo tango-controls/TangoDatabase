@@ -261,7 +261,7 @@
       <argin description="Str[0] = Tango class&#xA;Str[1] = Property name&#xA;Str[2] = Property name">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
-      <argout description="Str[0] = Tango class&#xA;Str[1] = Property number&#xA;Str[2] = Property name&#xA;Str[3] = Property value number (array case)&#xA;Str[4] = Property value&#xA;Str[n] = Propery value (array case)&#xA;....">
+      <argout description="Str[0] = Tango class&#xA;Str[1] = Property number&#xA;Str[2] = Property name&#xA;Str[3] = Property value number (array case)&#xA;Str[4] = Property value&#xA;Str[n] = Property value (array case)&#xA;....">
         <type xsi:type="pogoDsl:StringArrayType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
