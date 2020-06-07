@@ -5,7 +5,7 @@ include(configure/CMakeLists.txt)
 
 # on change also adapt the versions in Makefile line 30ff
 set(MAJOR_VERSION "5")
-set(MINOR_VERSION "14")
+set(MINOR_VERSION "15")
 set(PATCH_VERSION "0")
 set(PROJECT_VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
