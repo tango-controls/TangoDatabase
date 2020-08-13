@@ -17,8 +17,6 @@ if( WIN32 )
             PATHS "$ENV{PROGRAMFILES}/MySQL/*/lib"
             "$ENV{PROGRAMFILES(x86)}/MySQL/*/lib"
             "$ENV{SYSTEMDRIVE}/MySQL/*/lib" )
-#elseif(WIN64)
-#TODO
 else()
     find_path( MYSQL_INCLUDE_DIR
             NAMES "mysql.h"
