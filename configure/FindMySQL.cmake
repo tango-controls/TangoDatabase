@@ -17,12 +17,11 @@ if( WIN32 )
             PATHS "$ENV{PROGRAMFILES}/MySQL/*/lib"
             "$ENV{PROGRAMFILES(x86)}/MySQL/*/lib"
             "$ENV{SYSTEMDRIVE}/MySQL/*/lib" )
-#elseif(WIN64)
-#TODO
 else()
     find_path( MYSQL_INCLUDE_DIR
             NAMES "mysql.h"
             PATHS "/usr/include/mysql"
+            "/usr/include/mariadb"
             "/usr/local/include/mysql"
             "/usr/mysql/include/mysql" )
 
@@ -31,6 +30,7 @@ else()
             PATHS "/lib/mysql"
             "/lib64/mysql"
             "/usr/lib/mysql"
+            "/usr/lib/mariadb"
             "/usr/lib64/mysql"
             "/usr/local/lib/mysql"
             "/usr/local/lib64/mysql"

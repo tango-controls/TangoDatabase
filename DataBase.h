@@ -51,6 +51,11 @@
 #include <mysql.h>
 #include <update_starter.h>
 
+#ifndef LIBMARIADB
+#if MYSQL_VERSION_ID >= 80001
+typedef bool my_bool;
+#endif
+#endif
 
 #define DB_SQLError 				"DB_SQLError"
 #define DB_IncorrectArguments		"DB_IncorrectArguments"
