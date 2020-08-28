@@ -31,7 +31,7 @@ MAKE_ENV = /segfs/tango/cppserver/env
 # on change also adapt the versions in CMakeLists.txt line 7ff
 PACKAGE_NAME = DataBase
 MAJOR_VERS   = 5
-MINOR_VERS   = 15
+MINOR_VERS   = 16
 RELEASE      = Release-$(MAJOR_VERS)_$(MINOR_VERS)
 
 # #=============================================================================
