@@ -210,7 +210,7 @@ public:
 	 *	@param cl	Class.
 	 *	@param s 	Device Name
 	 */
-	DataBase(Tango::DeviceClass *cl,string &s);
+	DataBase(Tango::DeviceClass *cl,std::string &s);
 	/**
 	 * Constructs a newly device object.
 	 *
@@ -256,11 +256,11 @@ public:
 	 *	Description : Hardware acquisition for attributes.
 	 */
 	//--------------------------------------------------------
-	virtual void read_attr_hardware(vector<long> &attr_list);
+	virtual void read_attr_hardware(std::vector<long> &attr_list);
 
 /**
  *	Attribute StoredProcedureRelease related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Scalar
@@ -269,7 +269,7 @@ public:
 	virtual bool is_StoredProcedureRelease_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_average related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -278,7 +278,7 @@ public:
 	virtual bool is_Timing_average_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_minimum related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -287,7 +287,7 @@ public:
 	virtual bool is_Timing_minimum_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_maximum related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -296,7 +296,7 @@ public:
 	virtual bool is_Timing_maximum_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_calls related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -305,7 +305,7 @@ public:
 	virtual bool is_Timing_calls_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_index related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Spectrum max = 64
@@ -314,7 +314,7 @@ public:
 	virtual bool is_Timing_index_allowed(Tango::AttReqType type);
 /**
  *	Attribute Timing_info related methods
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Spectrum max = 64
@@ -624,7 +624,7 @@ public:
 	virtual bool is_DbGetClassList_allowed(const CORBA::Any &any);
 	/**
 	 *	Command DbGetClassProperty related method
-	 *	Description:
+	 *	Description: 
 	 *
 	 *	@param argin Str[0] = Tango class
 	 *               Str[1] = Property name
@@ -799,7 +799,7 @@ public:
 	 *           Str[5] = Started date (or ? if not set)
 	 *           Str[6] = Stopped date (or ? if not set)
 	 *           Str[7] = Device class
-	 *
+	 *           
 	 *           Lg[0] = Device exported flag
 	 *           Lg[1] = Device Server process PID (or -1 if not set)
 	 */
@@ -836,7 +836,7 @@ public:
 	virtual bool is_DbGetDeviceMemberList_allowed(const CORBA::Any &any);
 	/**
 	 *	Command DbGetDeviceProperty related method
-	 *	Description:
+	 *	Description: 
 	 *
 	 *	@param argin Str[0] = Device name
 	 *               Str[1] = Property name
@@ -1029,7 +1029,7 @@ public:
 	 *           Str[3] = device server process name
 	 *           Str[4] = host name
 	 *           Str[5] = Tango class name
-	 *
+	 *           
 	 *           Lg[0] = Exported flag
 	 *           Lg[1] = Device server process PID
 	 */

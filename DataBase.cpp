@@ -197,7 +197,7 @@ bool nocase_compare(char c1, char c2)
  *                implementing the classDataBase
  */
 //--------------------------------------------------------
-DataBase::DataBase(Tango::DeviceClass *cl, string &s)
+DataBase::DataBase(Tango::DeviceClass *cl, std::string &s)
  : TANGO_BASE_CLASS(cl, s.c_str())
 {
 	/*----- PROTECTED REGION ID(DataBase::constructor_1) ENABLED START -----*/
@@ -235,7 +235,7 @@ DataBase::DataBase(Tango::DeviceClass *cl, const char *s, const char *d)
 //--------------------------------------------------------
 void DataBase::delete_device()
 {
-	DEBUG_STREAM << "DataBase::delete_device() " << device_name << endl;
+	DEBUG_STREAM << "DataBase::delete_device() " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::delete_device) ENABLED START -----*/
 
 	// Mark the server as non-exported in db
@@ -282,15 +282,15 @@ void DataBase::delete_device()
 //--------------------------------------------------------
 void DataBase::init_device()
 {
-	DEBUG_STREAM << "DataBase::init_device() create device " << device_name << endl;
+	DEBUG_STREAM << "DataBase::init_device() create device " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::init_device_before) ENABLED START -----*/
 
 	//	Initialization before get_device_property() call
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::init_device_before
-
+	
 	//	No device property to be read from database
-
+	
 	/*----- PROTECTED REGION ID(DataBase::init_device) ENABLED START -----*/
 
 //
@@ -481,7 +481,7 @@ void DataBase::init_device()
 //--------------------------------------------------------
 void DataBase::always_executed_hook()
 {
-	DEBUG_STREAM << "DataBase::always_executed_hook()  " << device_name << endl;
+	DEBUG_STREAM << "DataBase::always_executed_hook()  " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::always_executed_hook) ENABLED START -----*/
 
 	//	code always executed before all requests
@@ -495,9 +495,9 @@ void DataBase::always_executed_hook()
  *	Description : Hardware acquisition for attributes
  */
 //--------------------------------------------------------
-void DataBase::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
+void DataBase::read_attr_hardware(TANGO_UNUSED(std::vector<long> &attr_list))
 {
-	DEBUG_STREAM << "DataBase::read_attr_hardware(vector<long> &attr_list) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_attr_hardware(std::vector<long> &attr_list) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_attr_hardware) ENABLED START -----*/
 
 	//	Add your own code
@@ -509,7 +509,7 @@ void DataBase::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 //--------------------------------------------------------
 /**
  *	Read attribute StoredProcedureRelease related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Scalar
@@ -517,7 +517,7 @@ void DataBase::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 //--------------------------------------------------------
 void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_StoredProcedureRelease(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_StoredProcedureRelease(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_StoredProcedureRelease) ENABLED START -----*/
 	TangoSys_MemStream	sql_query_stream;
 	MYSQL_RES *result;
@@ -569,7 +569,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute Timing_average related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -577,7 +577,7 @@ void DataBase::read_StoredProcedureRelease(Tango::Attribute &attr)
 //--------------------------------------------------------
 void DataBase::read_Timing_average(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_Timing_average(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_Timing_average(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_Timing_average) ENABLED START -----*/
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 
@@ -599,7 +599,7 @@ void DataBase::read_Timing_average(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute Timing_minimum related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -607,7 +607,7 @@ void DataBase::read_Timing_average(Tango::Attribute &attr)
 //--------------------------------------------------------
 void DataBase::read_Timing_minimum(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_Timing_minimum(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_Timing_minimum(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_Timing_minimum) ENABLED START -----*/
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 
@@ -629,7 +629,7 @@ void DataBase::read_Timing_minimum(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute Timing_maximum related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -637,7 +637,7 @@ void DataBase::read_Timing_minimum(Tango::Attribute &attr)
 //--------------------------------------------------------
 void DataBase::read_Timing_maximum(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_Timing_maximum(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_Timing_maximum(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_Timing_maximum) ENABLED START -----*/
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 
@@ -659,7 +659,7 @@ void DataBase::read_Timing_maximum(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute Timing_calls related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Spectrum max = 64
@@ -667,7 +667,7 @@ void DataBase::read_Timing_maximum(Tango::Attribute &attr)
 //--------------------------------------------------------
 void DataBase::read_Timing_calls(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_Timing_calls(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_Timing_calls(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_Timing_calls) ENABLED START -----*/
 	std::map<std::string,TimingStatsStruct*>::iterator iter;
 
@@ -689,7 +689,7 @@ void DataBase::read_Timing_calls(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute Timing_index related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Spectrum max = 64
@@ -697,7 +697,7 @@ void DataBase::read_Timing_calls(Tango::Attribute &attr)
 //--------------------------------------------------------
 void DataBase::read_Timing_index(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_Timing_index(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_Timing_index(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_Timing_index) ENABLED START -----*/
 	attr.set_value(timing_stats_index, timing_stats_size);
 
@@ -706,7 +706,7 @@ void DataBase::read_Timing_index(Tango::Attribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute Timing_info related method
- *	Description:
+ *	Description: 
  *
  *	Data type:	Tango::DevString
  *	Attr type:	Spectrum max = 64
@@ -714,7 +714,7 @@ void DataBase::read_Timing_index(Tango::Attribute &attr)
 //--------------------------------------------------------
 void DataBase::read_Timing_info(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "DataBase::read_Timing_info(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "DataBase::read_Timing_info(Tango::Attribute &attr) entering... " << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::read_Timing_info) ENABLED START -----*/
 	char info_str[256];
 	char hostname[256];
@@ -775,7 +775,7 @@ void DataBase::add_dynamic_attributes()
 //--------------------------------------------------------
 Tango::DevState DataBase::dev_state()
 {
-	DEBUG_STREAM << "DataBase::State()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::State()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::dev_state) ENABLED START -----*/
 
 	Tango::DevState	argout = DeviceImpl::dev_state();
@@ -785,7 +785,7 @@ Tango::DevState DataBase::dev_state()
 	/*----- PROTECTED REGION END -----*/	//	DataBase::dev_state
 	set_state(argout);    // Give the state to Tango.
 	if (argout!=Tango::ALARM)
-		DeviceImpl::dev_state();
+		Tango::DeviceImpl::dev_state();
 	return get_state();  // Return it after Tango management.
 }
 //--------------------------------------------------------
@@ -800,7 +800,7 @@ Tango::DevState DataBase::dev_state()
 //--------------------------------------------------------
 void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbAddDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbAddDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_add_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -927,7 +927,7 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbAddServer()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbAddServer()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_add_server) ENABLED START -----*/
 
 	//	Add your own code
@@ -1025,7 +1025,7 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_attribute_alias(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteAttributeAlias()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteAttributeAlias()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_attribute_alias) ENABLED START -----*/
 
 	//	Add your own code
@@ -1049,7 +1049,7 @@ void DataBase::db_delete_attribute_alias(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteClassAttribute()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteClassAttribute()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_attribute) ENABLED START -----*/
 
 	//	Add your own code
@@ -1094,7 +1094,7 @@ void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteClassAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteClassAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -1184,7 +1184,7 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
 //--------------------------------------------------------
 void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteClassProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteClassProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -1259,7 +1259,7 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_device(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -1337,7 +1337,7 @@ void DataBase::db_delete_device(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_delete_device_alias(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDeviceAlias()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDeviceAlias()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_alias) ENABLED START -----*/
 
 	//	Add your own code
@@ -1361,7 +1361,7 @@ void DataBase::db_delete_device_alias(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDeviceAttribute()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDeviceAttribute()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_attribute) ENABLED START -----*/
 
 	//	Add your own code
@@ -1421,7 +1421,7 @@ void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDeviceAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDeviceAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -1517,7 +1517,7 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
 //--------------------------------------------------------
 void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDeviceProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDeviceProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -1600,7 +1600,7 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -1678,7 +1678,7 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_server(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteServer()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteServer()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_server) ENABLED START -----*/
 
 	//	Add your own code
@@ -1798,7 +1798,7 @@ void DataBase::db_delete_server(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_delete_server_info(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteServerInfo()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteServerInfo()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_server_info) ENABLED START -----*/
 
 	//	Add your own code
@@ -1832,7 +1832,7 @@ void DataBase::db_delete_server_info(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbExportDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbExportDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_export_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -1990,7 +1990,7 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbExportEvent()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbExportEvent()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_export_event) ENABLED START -----*/
 
 	//	Add your own code
@@ -2058,7 +2058,7 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 {
 	Tango::DevString argout;
-	DEBUG_STREAM << "DataBase::DbGetAliasDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetAliasDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_alias_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -2121,7 +2121,7 @@ Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 Tango::DevString DataBase::db_get_attribute_alias(Tango::DevString argin)
 {
 	Tango::DevString argout;
-	DEBUG_STREAM << "DataBase::DbGetAttributeAlias()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetAttributeAlias()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_attribute_alias) ENABLED START -----*/
 
 	//	Add your own code
@@ -2181,7 +2181,7 @@ Tango::DevString DataBase::db_get_attribute_alias(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_attribute_alias_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetAttributeAliasList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetAttributeAliasList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_attribute_alias_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -2246,7 +2246,7 @@ Tango::DevVarStringArray *DataBase::db_get_attribute_alias_list(Tango::DevString
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassAttributeList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassAttributeList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_attribute_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -2323,7 +2323,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -2415,7 +2415,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property(const Tango:
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassAttributeProperty2()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassAttributeProperty2()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_attribute_property2) ENABLED START -----*/
 
 	//	Add your own code
@@ -2555,7 +2555,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassAttributePropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassAttributePropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_attribute_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -2650,7 +2650,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 Tango::DevString DataBase::db_get_class_for_device(Tango::DevString argin)
 {
 	Tango::DevString argout;
-	DEBUG_STREAM << "DataBase::DbGetClassForDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassForDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_for_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -2705,7 +2705,7 @@ Tango::DevString DataBase::db_get_class_for_device(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_class_inheritance_for_device(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassInheritanceForDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassInheritanceForDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_inheritance_for_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -2744,7 +2744,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_inheritance_for_device(Tango::D
 Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -2791,7 +2791,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
 //--------------------------------------------------------
 /**
  *	Command DbGetClassProperty related method
- *	Description:
+ *	Description: 
  *
  *	@param argin Str[0] = Tango class
  *               Str[1] = Property name
@@ -2808,7 +2808,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -2891,7 +2891,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property(const Tango::DevVarStr
 Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassPropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassPropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -2982,7 +2982,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 Tango::DevVarStringArray *DataBase::db_get_class_property_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassPropertyList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassPropertyList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_property_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -3050,7 +3050,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_list(Tango::DevString 
 Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 {
 	Tango::DevString argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceAlias()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceAlias()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_alias) ENABLED START -----*/
 
 	//	Add your own code
@@ -3130,7 +3130,7 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_device_alias_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceAliasList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceAliasList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_alias_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -3195,7 +3195,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_alias_list(Tango::DevString ar
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceAttributeList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceAttributeList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_attribute_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -3270,7 +3270,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_list(const Tango::De
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -3370,7 +3370,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property(const Tango
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceAttributeProperty2()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceAttributeProperty2()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_attribute_property2) ENABLED START -----*/
 
 	//	Add your own code
@@ -3679,7 +3679,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceAttributePropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceAttributePropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_attribute_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -3777,7 +3777,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 Tango::DevVarStringArray *DataBase::db_get_device_class_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceClassList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceClassList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_class_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -3839,7 +3839,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_class_list(Tango::DevString ar
 Tango::DevVarStringArray *DataBase::db_get_device_domain_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceDomainList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceDomainList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_domain_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -3908,7 +3908,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_domain_list(Tango::DevString a
 Tango::DevVarStringArray *DataBase::db_get_device_exported_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceExportedList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceExportedList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_exported_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -3979,7 +3979,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_exported_list(Tango::DevString
 Tango::DevVarStringArray *DataBase::db_get_device_family_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceFamilyList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceFamilyList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_family_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4051,7 +4051,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_family_list(Tango::DevString a
  *           Str[5] = Started date (or ? if not set)
  *           Str[6] = Stopped date (or ? if not set)
  *           Str[7] = Device class
- *
+ *           
  *           Lg[0] = Device exported flag
  *           Lg[1] = Device Server process PID (or -1 if not set)
  */
@@ -4059,7 +4059,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_family_list(Tango::DevString a
 Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argin)
 {
 	Tango::DevVarLongStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceInfo()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceInfo()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_info) ENABLED START -----*/
 
 	//	Add your own code
@@ -4196,7 +4196,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 Tango::DevVarStringArray *DataBase::db_get_device_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4263,7 +4263,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_list(const Tango::DevVarString
 Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceWideList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceWideList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_wide_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4332,7 +4332,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString arg
 Tango::DevVarStringArray *DataBase::db_get_device_member_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceMemberList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceMemberList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_member_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4393,7 +4393,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_member_list(Tango::DevString a
 //--------------------------------------------------------
 /**
  *	Command DbGetDeviceProperty related method
- *	Description:
+ *	Description: 
  *
  *	@param argin Str[0] = Device name
  *               Str[1] = Property name
@@ -4413,7 +4413,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_member_list(Tango::DevString a
 Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -4520,7 +4520,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDevicePropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDevicePropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -4613,7 +4613,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 Tango::DevVarStringArray *DataBase::db_get_device_property_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDevicePropertyList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDevicePropertyList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_property_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4688,7 +4688,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_list(const Tango::Dev
 Tango::DevVarStringArray *DataBase::db_get_device_server_class_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDeviceServerClassList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDeviceServerClassList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_server_class_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4744,7 +4744,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_server_class_list(Tango::DevSt
 Tango::DevVarStringArray *DataBase::db_get_exportd_device_list_for_class(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetExportdDeviceListForClass()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetExportdDeviceListForClass()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_exportd_device_list_for_class) ENABLED START -----*/
 
 	//	Add your own code
@@ -4807,7 +4807,7 @@ Tango::DevVarStringArray *DataBase::db_get_exportd_device_list_for_class(Tango::
 Tango::DevVarStringArray *DataBase::db_get_host_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetHostList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetHostList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_host_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4878,7 +4878,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_list(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_host_server_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetHostServerList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetHostServerList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_host_server_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -4949,7 +4949,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_server_list(Tango::DevString arg
 Tango::DevVarStringArray *DataBase::db_get_host_servers_info(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetHostServersInfo()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetHostServersInfo()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_host_servers_info) ENABLED START -----*/
 
 	//	Add your own code
@@ -4992,7 +4992,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_servers_info(Tango::DevString ar
 Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetInstanceNameList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetInstanceNameList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_instance_name_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -5042,7 +5042,7 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 Tango::DevVarStringArray *DataBase::db_get_object_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetObjectList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetObjectList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_object_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -5110,7 +5110,7 @@ Tango::DevVarStringArray *DataBase::db_get_object_list(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -5199,7 +5199,7 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetPropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetPropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -5292,7 +5292,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 Tango::DevVarStringArray *DataBase::db_get_property_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetPropertyList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetPropertyList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_property_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -5366,7 +5366,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_list(const Tango::DevVarStri
 Tango::DevVarStringArray *DataBase::db_get_server_info(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetServerInfo()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetServerInfo()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_server_info) ENABLED START -----*/
 
 	//	Add your own code
@@ -5425,7 +5425,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_info(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_server_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetServerList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetServerList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_server_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -5496,7 +5496,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_list(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetServerNameList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetServerNameList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_server_name_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -5555,7 +5555,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString arg
  *           Str[3] = device server process name
  *           Str[4] = host name
  *           Str[5] = Tango class name
- *
+ *           
  *           Lg[0] = Exported flag
  *           Lg[1] = Device server process PID
  */
@@ -5563,7 +5563,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString arg
 Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString argin)
 {
 	Tango::DevVarLongStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbImportDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbImportDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_import_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -5703,7 +5703,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString argin)
 Tango::DevVarLongStringArray *DataBase::db_import_event(Tango::DevString argin)
 {
 	Tango::DevVarLongStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbImportEvent()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbImportEvent()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_import_event) ENABLED START -----*/
 
 	//	Add your own code
@@ -5799,7 +5799,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_event(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_info()
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbInfo()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbInfo()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_info) ENABLED START -----*/
 
 	//	Add your own code
@@ -6069,7 +6069,7 @@ Tango::DevVarStringArray *DataBase::db_info()
 //--------------------------------------------------------
 void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutAttributeAlias()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutAttributeAlias()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_attribute_alias) ENABLED START -----*/
 
 	//	Add your own code
@@ -6182,7 +6182,7 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutClassAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutClassAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -6268,7 +6268,7 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 //--------------------------------------------------------
 void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutClassAttributeProperty2()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutClassAttributeProperty2()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_attribute_property2) ENABLED START -----*/
 
 	//	Add your own code
@@ -6362,7 +6362,7 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 //--------------------------------------------------------
 void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutClassProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutClassProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -6447,7 +6447,7 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutDeviceAlias()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutDeviceAlias()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_alias) ENABLED START -----*/
 
 	//	Add your own code
@@ -6531,7 +6531,7 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutDeviceAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutDeviceAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -6624,7 +6624,7 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 //--------------------------------------------------------
 void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutDeviceAttributeProperty2()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutDeviceAttributeProperty2()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_attribute_property2) ENABLED START -----*/
 
 	//	Add your own code
@@ -6731,7 +6731,7 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 //--------------------------------------------------------
 void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutDeviceProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutDeviceProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -6828,7 +6828,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -6906,7 +6906,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutServerInfo()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutServerInfo()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_server_info) ENABLED START -----*/
 
 	//	Add your own code
@@ -7003,7 +7003,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_un_export_device(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbUnExportDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbUnExportDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_un_export_device) ENABLED START -----*/
 
 	//	Add your own code
@@ -7041,7 +7041,7 @@ void DataBase::db_un_export_device(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_un_export_event(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbUnExportEvent()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbUnExportEvent()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_un_export_event) ENABLED START -----*/
 
 	//	Add your own code
@@ -7076,7 +7076,7 @@ void DataBase::db_un_export_event(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_un_export_server(Tango::DevString argin)
 {
-	DEBUG_STREAM << "DataBase::DbUnExportServer()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbUnExportServer()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_un_export_server) ENABLED START -----*/
 
 	//	Add your own code
@@ -7118,7 +7118,7 @@ void DataBase::db_un_export_server(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::reset_timing_values()
 {
-	DEBUG_STREAM << "DataBase::ResetTimingValues()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::ResetTimingValues()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::reset_timing_values) ENABLED START -----*/
 
 	//	Add your own code
@@ -7153,7 +7153,7 @@ void DataBase::reset_timing_values()
 Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDataForServerCache()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDataForServerCache()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_data_for_server_cache) ENABLED START -----*/
 
 	//	Add your own code
@@ -7345,7 +7345,7 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 //--------------------------------------------------------
 void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteAllDeviceAttributeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteAllDeviceAttributeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_all_device_attribute_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -7444,7 +7444,7 @@ void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarString
 Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 {
 	Tango::DevVarLongStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbMySqlSelect()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbMySqlSelect()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_my_sql_select) ENABLED START -----*/
 
 	//	Add your own code
@@ -7533,7 +7533,7 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetCSDbServerList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_csdb_server_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -7599,7 +7599,7 @@ Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 Tango::DevString DataBase::db_get_attribute_alias2(Tango::DevString argin)
 {
 	Tango::DevString argout;
-	DEBUG_STREAM << "DataBase::DbGetAttributeAlias2()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetAttributeAlias2()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_attribute_alias2) ENABLED START -----*/
 
 	//	Add your own code
@@ -7657,7 +7657,7 @@ Tango::DevString DataBase::db_get_attribute_alias2(Tango::DevString argin)
 Tango::DevString DataBase::db_get_alias_attribute(Tango::DevString argin)
 {
 	Tango::DevString argout;
-	DEBUG_STREAM << "DataBase::DbGetAliasAttribute()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetAliasAttribute()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_alias_attribute) ENABLED START -----*/
 
 	//	Add your own code
@@ -7716,7 +7716,7 @@ Tango::DevString DataBase::db_get_alias_attribute(Tango::DevString argin)
 //--------------------------------------------------------
 void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbRenameServer()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbRenameServer()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_rename_server) ENABLED START -----*/
 
 	//	Add your own code
@@ -7893,7 +7893,7 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 Tango::DevVarStringArray *DataBase::db_get_class_pipe_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassPipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassPipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -8031,7 +8031,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property(const Tango::DevV
 Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDevicePipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDevicePipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -8332,7 +8332,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 //--------------------------------------------------------
 void DataBase::db_delete_class_pipe(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteClassPipe()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteClassPipe()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_pipe) ENABLED START -----*/
 
 	//	Add your own code
@@ -8373,7 +8373,7 @@ void DataBase::db_delete_class_pipe(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_device_pipe(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDevicePipe()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDevicePipe()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_pipe) ENABLED START -----*/
 
 	//	Add your own code
@@ -8431,7 +8431,7 @@ void DataBase::db_delete_device_pipe(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteClassPipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteClassPipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_class_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -8520,7 +8520,7 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
 //--------------------------------------------------------
 void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteDevicePipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteDevicePipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_device_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -8616,7 +8616,7 @@ void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *ar
 Tango::DevVarStringArray *DataBase::db_get_class_pipe_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassPipeList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassPipeList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_pipe_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -8687,7 +8687,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_list(const Tango::DevVarSt
 Tango::DevVarStringArray *DataBase::db_get_device_pipe_list(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDevicePipeList()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDevicePipeList()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_pipe_list) ENABLED START -----*/
 
 	//	Add your own code
@@ -8754,7 +8754,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_list(const Tango::DevVarS
 //--------------------------------------------------------
 void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbDeleteAllDevicePipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbDeleteAllDevicePipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_delete_all_device_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -8852,7 +8852,7 @@ void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray
 //--------------------------------------------------------
 void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutClassPipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutClassPipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_class_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -8945,7 +8945,7 @@ void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 //--------------------------------------------------------
 void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin)
 {
-	DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbPutDevicePipeProperty()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_put_device_pipe_property) ENABLED START -----*/
 
 	//	Add your own code
@@ -9044,7 +9044,7 @@ void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin
 Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetClassPipePropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetClassPipePropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_class_pipe_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -9146,7 +9146,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango:
 Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango::DevVarStringArray *argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetDevicePipePropertyHist()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetDevicePipePropertyHist()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_device_pipe_property_hist) ENABLED START -----*/
 
 	//	Add your own code
@@ -9243,7 +9243,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(Tango::DevString argin)
 {
 	Tango::DevVarStringArray *argout;
-	DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice()  - " << device_name << endl;
+	DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_forwarded_attribute_list_for_device) ENABLED START -----*/
 
 	string device(argin);
