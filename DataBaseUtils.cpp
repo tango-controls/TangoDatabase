@@ -849,7 +849,7 @@ void DataBase::create_connection_pool(const char *mysql_user,
 			ho = my_host.substr(0,pos);
 			pos++;
 			port = my_host.substr(pos);
-			stringstream ss(port);
+			std::stringstream ss(port);
 			ss >> port_num;
 			if (!ss)
 				port_num = 0;
@@ -1088,7 +1088,7 @@ bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
 // Add port number
 //
 
-				stringstream ss;
+				std::stringstream ss;
 				ss << pBody.address.port;
 				h_p = h_p + ss.str();
 
