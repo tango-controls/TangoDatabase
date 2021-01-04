@@ -54,19 +54,19 @@ namespace DataBase_ns {
 class UpdStarterData: public Tango::TangoMonitor
 {
 private:
-	vector<string>	starter_devnames;
-    string starter_header;
+	vector<std::string>	starter_devnames;
+    std::string starter_header;
 public:
-	UpdStarterData(string starter_domain);
+	UpdStarterData(std::string starter_domain);
 /**
  *	Get the host name to send cmd
  */
-vector<string> get_starter_devname();
-string get_starter_header();
+vector<std::string> get_starter_devname();
+std::string get_starter_header();
 /**
  *	Set the host name to send cmd
  */
-void send_starter_cmd(vector<string> hostnames);
+void send_starter_cmd(vector<std::string> hostnames);
 };
 //=========================================================
 /**

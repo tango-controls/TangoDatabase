@@ -182,7 +182,7 @@ namespace DataBase_ns
 /*----- PROTECTED REGION ID(DataBase::namespace_starting) ENABLED START -----*/
 
 	//	static initializations
-string DataBase::db_name("sys/database/1");
+std::string DataBase::db_name("sys/database/1");
 bool nocase_compare(char c1, char c2)
 {
 	return toupper(c1) == toupper(c2);
@@ -243,7 +243,7 @@ void DataBase::delete_device()
 	if (get_state() == Tango::ON)
 	{
 		Tango::Util *tg = Tango::Util::instance();
-		string &ds_name = tg->get_ds_name();
+		std::string &ds_name = tg->get_ds_name();
 		char *tmp_ds_name = const_cast<char *>(ds_name.c_str());
 		db_un_export_server(tmp_ds_name);
 	}
@@ -297,7 +297,7 @@ void DataBase::init_device()
 // Just to keep the rcsId string (Some compilers optimize it away)
 //
 
-	string str_rcs(RcsId);
+	std::string str_rcs(RcsId);
 
 //
 //	Initialize device
@@ -328,7 +328,7 @@ void DataBase::init_device()
 //
 
 	DummyDev d;
-	string my_user,my_password,my_host,my_name;
+	std::string my_user,my_password,my_host,my_name;
 
 	if (d.get_env_var("MYSQL_USER",my_user) != -1)
 	{
@@ -376,7 +376,7 @@ void DataBase::init_device()
 		else
 		{
 			//	Get property value
-			string	value((*argout)[4]);
+			std::string	value((*argout)[4]);
 			transform(value.begin(), value.end(), value.begin(), ::tolower);
 			if (value=="false")
 				fireToStarter = false;
@@ -396,7 +396,7 @@ void DataBase::init_device()
 	//	If fire to starter is true
 	if (fireToStarter==true)
 	{
-        string starter_domain = STARTER_DEVNAME_DOMAIN;
+        std::string starter_domain = STARTER_DEVNAME_DOMAIN;
     	//	Get starter domain if not the default one
 	    Tango::DevVarStringArray	*array = new Tango::DevVarStringArray();
 	    array->length(2);
@@ -412,7 +412,7 @@ void DataBase::init_device()
                 nb = atoi((*props)[3]); // nb values
                 if (nb==1)
                 {
-                    string domain((*props)[4]);
+                    std::string domain((*props)[4]);
                     if (!domain.empty())
                         starter_domain = domain;
                 }
@@ -808,8 +808,8 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 	TangoSys_MemStream sql_query_stream;
  	char domain[256], family[256], member[256];
 	const char *tmp_server, *tmp_class, *tmp_alias = NULL;
-	string tmp_device;
-	string dserver_name;
+	std::string tmp_device;
+	std::string dserver_name;
 	MYSQL_RES *result;
 
 
@@ -893,7 +893,7 @@ void DataBase::db_add_device(const Tango::DevVarStringArray *argin)
 		if (n_rows == 0)
 		{
 			dserver_name = "dserver/";
-			dserver_name = dserver_name + string(tmp_server);
+			dserver_name = dserver_name + std::string(tmp_server);
 			device_name_to_dfm(dserver_name, domain, family, member);
         	sql_query_stream.str("");
 			sql_query_stream << "INSERT INTO device SET name=\"dserver/" << tmp_server
@@ -952,7 +952,7 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 
 		for (unsigned int i=0; i<(server_device_list->length()-1)/2; i++)
 		{
-			string tmp_device((*server_device_list)[i*2+1].in());
+			std::string tmp_device((*server_device_list)[i*2+1].in());
 			tmp_class = (*server_device_list)[i*2+2];
 			if (!check_device_name(tmp_device))
 			{
@@ -988,7 +988,7 @@ void DataBase::db_add_server(const Tango::DevVarStringArray *argin)
 
 // Finally, add the admin device
 
-        string tmp_device("dserver/");
+        std::string tmp_device("dserver/");
         tmp_device = tmp_device + tmp_server;
 
         device_name_to_dfm(tmp_device,domain,family,member);
@@ -1055,7 +1055,7 @@ void DataBase::db_delete_class_attribute(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *attribute;
-	string tmp_class;
+	std::string tmp_class;
 
 	if (argin->length() < 2) {
    		WARN_STREAM << "DataBase::db_delete_class_attribute(): insufficient number of arguments ";
@@ -1100,7 +1100,7 @@ void DataBase::db_delete_class_attribute_property(const Tango::DevVarStringArray
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *attribute, *property;
-	string tmp_class;
+	std::string tmp_class;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -1192,7 +1192,7 @@ void DataBase::db_delete_class_property(const Tango::DevVarStringArray *argin)
 	TangoSys_MemStream sql_query_stream;
 	int n_properties=0;
 	const char *tmp_class;
-	string tmp_name;
+	std::string tmp_name;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -1265,7 +1265,7 @@ void DataBase::db_delete_device(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  device = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_device;
+	std::string tmp_device;
 
 	INFO_STREAM << "DataBase::db_delete_device(): delete " << device << " from database" << std::endl;
 
@@ -1283,7 +1283,7 @@ void DataBase::db_delete_device(Tango::DevString argin)
 
 // replace database wildcards (% and _)
 
-	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
+	std::string tmp_wildcard = replace_wildcard(tmp_device.c_str());
 
 	{
 		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE, property_pipe_device WRITE, attribute_alias WRITE",this);
@@ -1367,7 +1367,7 @@ void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *attribute;
-	string tmp_device;
+	std::string tmp_device;
 
 	if (argin->length() < 2) {
    		WARN_STREAM << "DataBase::db_delete_device_attribute(): insufficient number of arguments ";
@@ -1395,7 +1395,7 @@ void DataBase::db_delete_device_attribute(const Tango::DevVarStringArray *argin)
 
 // replace database wildcards (% and _)
 
-	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
+	std::string tmp_wildcard = replace_wildcard(tmp_device.c_str());
 
 // then delete device from the property_attribute_device table
 
@@ -1427,7 +1427,7 @@ void DataBase::db_delete_device_attribute_property(const Tango::DevVarStringArra
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *attribute, *property;
-	string tmp_device;
+	std::string tmp_device;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -1525,7 +1525,7 @@ void DataBase::db_delete_device_property(const Tango::DevVarStringArray *argin)
 	TangoSys_MemStream	sql_query_stream;
 	int n_properties=0;
 	const char *tmp_device;
-	string tmp_name;
+	std::string tmp_name;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -1608,7 +1608,7 @@ void DataBase::db_delete_property(const Tango::DevVarStringArray *argin)
 	TangoSys_MemStream	sql_query_stream;
 	int n_properties=0;
 	const char *tmp_object;
-	string tmp_name;
+	std::string tmp_name;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -1693,11 +1693,11 @@ void DataBase::db_delete_server(Tango::DevString argin)
 // first check the server name that it has no wildcard '*' and
 // that it has at least one slash in it
 
-	string tmp_server = string(server);
+	std::string tmp_server = std::string(server);
 
-	if ((tmp_server.find('*') != string::npos) ||
-	    (tmp_server.find('%') != string::npos) ||
-	    (tmp_server.find('/') == string::npos))
+	if ((tmp_server.find('*') != std::string::npos) ||
+	    (tmp_server.find('%') != std::string::npos) ||
+	    (tmp_server.find('/') == std::string::npos))
 	{
          	WARN_STREAM << "DataBase::db_delete_server(): server name  " << server << "incorrect ";
          	WARN_STREAM << std::endl;
@@ -1712,12 +1712,12 @@ void DataBase::db_delete_server(Tango::DevString argin)
 //	get  host where running
 //
 
-	string	previous_host("");
+	std::string	previous_host("");
 	if (fireToStarter==true)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		string	adm_dev("dserver/");
+		std::string	adm_dev("dserver/");
 		adm_dev += tmp_server;
 		try
 		{
@@ -1728,7 +1728,7 @@ void DataBase::db_delete_server(Tango::DevString argin)
 		}
 		catch (Tango::DevFailed &e)
 		{
-			string reason(e.errors[0].reason.in());
+			std::string reason(e.errors[0].reason.in());
 			if (reason == DB_DeviceNotDefined)
 			{
 				WARN_STREAM << "DataBase::db_delete_server(): server " << tmp_server << " not defined in DB" << std::endl;
@@ -1778,7 +1778,7 @@ void DataBase::db_delete_server(Tango::DevString argin)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		vector<string>	hosts;
+		vector<std::string>	hosts;
 		if (previous_host!="")
 		{
 			hosts.push_back(previous_host);
@@ -1809,7 +1809,7 @@ void DataBase::db_delete_server_info(Tango::DevString argin)
 
 // replace database wildcards (% and _)
 
-//	string tmp_wildcard = replace_wildcard(server_name);
+//	std::string tmp_wildcard = replace_wildcard(server_name);
 
 // then delete the device from the device table
     sql_query_stream << "DELETE FROM server WHERE name = \"" << server_name << "\"";
@@ -1841,7 +1841,7 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_ior, *tmp_host, *tmp_pid, *tmp_version;
-	string tmp_device, tmp_server;
+	std::string tmp_device, tmp_server;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -1871,7 +1871,7 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 //	If it is a server stating -> get previous host where running
 //
 	bool	do_fire = false;
-	string	previous_host;
+	std::string	previous_host;
 	{
 		AutoLock al("LOCK TABLES device WRITE, server WRITE",this);
 
@@ -1884,9 +1884,9 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 				//	Get database server name
 				//--------------------------------------
 				Tango::Util *tg = Tango::Util::instance();
-				string	db_serv = tg->get_ds_name();
+				std::string	db_serv = tg->get_ds_name();
 				transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
-				string	adm_dev("dserver/");
+				std::string	adm_dev("dserver/");
 				adm_dev += db_serv;
 
 				//	Check if not database or starter servers
@@ -1959,7 +1959,7 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 	if (do_fire)
 	{
 		//	Update host's starter to update controlled servers list
-		vector<string>	hosts;
+		vector<std::string>	hosts;
 		hosts.push_back(tmp_host);
 		DEBUG_STREAM << "New Host is " << tmp_host << std::endl;
 
@@ -1997,7 +1997,7 @@ void DataBase::db_export_event(const Tango::DevVarStringArray *argin)
 	const Tango::DevVarStringArray  *export_info = argin;
 	TangoSys_MemStream sql_query_stream;
 	const char *tmp_ior, *tmp_host, *tmp_pid, *tmp_version;
-	string tmp_event, tmp_server;
+	std::string tmp_event, tmp_server;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -2063,7 +2063,7 @@ Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
-	string tmp_argin;
+	std::string tmp_argin;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -2098,7 +2098,7 @@ Tango::DevString DataBase::db_get_alias_device(Tango::DevString argin)
 		mysql_free_result(result);
         TangoSys_OMemStream o;
 	    o << "No device found for alias \'" << argin << "\'";
-		string msg = o.str();
+		std::string msg = o.str();
 		WARN_STREAM << msg << std::endl;
 		Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
 	   				                   msg,
@@ -2186,7 +2186,7 @@ Tango::DevVarStringArray *DataBase::db_get_attribute_alias_list(Tango::DevString
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -2257,7 +2257,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_list(const Tango::Dev
 	int n_rows=0;
 	argout = new Tango::DevVarStringArray;
 	const char *class_name, *wildcard;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 
 	class_name = (*class_wildcard)[0];
 	INFO_STREAM << "DataBase::db_get_class_attribute(): get attributes for class " << class_name << std::endl;
@@ -2472,7 +2472,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property2(const Tango
 		int prop_number = 0;
 	   	if (n_rows > 0)
 	   	{
-			string name, old_name;
+			std::string name, old_name;
 			bool new_prop = true;
 			int prop_size_idx = 0;
 			int prop_size = 0;
@@ -2564,8 +2564,8 @@ Tango::DevVarStringArray *DataBase::db_get_class_attribute_property_hist(const T
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_class;
-	string      tmp_attribute;
-	string      tmp_name;
+	std::string      tmp_attribute;
+	std::string      tmp_name;
 
 	if (argin->length() != 3)
 	{
@@ -2710,7 +2710,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_inheritance_for_device(Tango::D
 
 	//	Add your own code
 	//	Get class for the specified device
-	string	classname = db_get_class_for_device(argin);
+	std::string	classname = db_get_class_for_device(argin);
 
 	//	Get its inheritance
 	Tango::DevVarStringArray	*array = new Tango::DevVarStringArray();
@@ -2753,7 +2753,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_list(Tango::DevString argin)
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
-	string tmp_server;
+	std::string tmp_server;
 
 	INFO_STREAM << "DataBase::db_get_class_list(): server " << server << std::endl;
 
@@ -2900,7 +2900,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_property_hist(const Tango::DevV
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_class;
-	string      tmp_name;
+	std::string      tmp_name;
 
 	if (argin->length() != 2)
 	{
@@ -3055,8 +3055,8 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
-	string		devname(argin);
-	string		tmp_devname;
+	std::string		devname(argin);
+	std::string		tmp_devname;
 	MYSQL_RES	*result;
 	MYSQL_ROW	row;
 	int			n_rows;
@@ -3092,7 +3092,7 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 				mysql_free_result(result);
   	            TangoSys_OMemStream o;
 				o << "No alias found for device \'" << devname << "\'";
-				string msg = o.str();
+				std::string msg = o.str();
 				WARN_STREAM << msg << std::endl;
 				Tango::Except::throw_exception((const char *)DB_AliasNotDefined,
 	   						                   msg,
@@ -3107,7 +3107,7 @@ Tango::DevString DataBase::db_get_device_alias(Tango::DevString argin)
 		mysql_free_result(result);
         TangoSys_OMemStream o;
 		o << "No alias found for device \'" << devname << "\'";
-		string msg = o.str();
+		std::string msg = o.str();
 		WARN_STREAM << msg << std::endl;
 		Tango::Except::throw_exception((const char *)DB_AliasNotDefined,
 	   				                   msg,
@@ -3136,7 +3136,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_alias_list(Tango::DevString ar
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -3201,7 +3201,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_list(const Tango::De
 	//	Add your own code
 	const Tango::DevVarStringArray  *device_wildcard = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -3419,7 +3419,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 		if ((row = mysql_fetch_row(result)) != NULL)
 		{
 			std::stringstream tmp_str;
-			string nb_attr_str = row[0];
+			std::string nb_attr_str = row[0];
 		 	tmp_str << nb_attr_str;
 			unsigned int nb_attr = 0;
 			tmp_str >> nb_attr;
@@ -3456,7 +3456,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			int prop_number = 0;
 	   		if (n_rows > 0)
 	   		{
-				string name, old_name;
+				std::string name, old_name;
 				bool new_prop = true;
 				int prop_size_idx = 0;
 				int prop_size = 0;
@@ -3526,11 +3526,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 		n_rows = mysql_num_rows(result);
 		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << std::endl;
 
-		map<string,vector<PropDef> > db_data;
+		map<std::string,vector<PropDef> > db_data;
 
-		string att,prev_att;
-		string p_name,prev_p_name;
-		string value;
+		std::string att,prev_att;
+		std::string p_name,prev_p_name;
+		std::string value;
 		PropDef prop;
 		vector<PropDef> att_props;
 
@@ -3604,11 +3604,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 
 		for (unsigned int i=1; i<property_names->length(); i++)
 		{
-	   		string tmp_attribute((*property_names)[i]);
-			string tmp_att_lower(tmp_attribute);
+	   		std::string tmp_attribute((*property_names)[i]);
+			std::string tmp_att_lower(tmp_attribute);
 			transform(tmp_att_lower.begin(),tmp_att_lower.end(),tmp_att_lower.begin(),::tolower);
 
-			map<string,vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
+			map<std::string,vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
 
 //
 // Data for this attribute in map?
@@ -3688,8 +3688,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property_hist(const 
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_device;
-	string      tmp_attribute;
-	string      tmp_name;
+	std::string      tmp_attribute;
+	std::string      tmp_name;
 
 	if (argin->length() != 3)
 	{
@@ -3845,7 +3845,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_domain_list(Tango::DevString a
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream	sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -3914,7 +3914,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_exported_list(Tango::DevString
 	//	Add your own code
 	Tango::DevString  filter = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_filter;
+	std::string tmp_filter;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -3985,7 +3985,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_family_list(Tango::DevString a
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream	sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -4068,7 +4068,7 @@ Tango::DevVarLongStringArray *DataBase::db_get_device_info(Tango::DevString argi
 	MYSQL_ROW row;
 	int n_rows=0;
 	int exported, pid;
-	string tmp_device;
+	std::string tmp_device;
 
 	INFO_STREAM << "DataBase::ImportDevice(): get import info for " << argin << " device " << std::endl;
 
@@ -4205,8 +4205,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_list(const Tango::DevVarString
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
-	string tmp_server;
-	string tmp_class;
+	std::string tmp_server;
+	std::string tmp_class;
 
 	if (server_class->length() != 2)
 	{
@@ -4269,7 +4269,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_wide_list(Tango::DevString arg
 	//	Add your own code
 	Tango::DevString  filter = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_filter;
+	std::string tmp_filter;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -4338,7 +4338,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_member_list(Tango::DevString a
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream	sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -4425,8 +4425,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_property(const Tango::DevVarSt
 	MYSQL_ROW row;
 	int n_rows=0, n_props=0;
 	const char *tmp_device;
-	string	tmp_name;
-	string	prop_name;
+	std::string	tmp_name;
+	std::string	prop_name;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -4529,7 +4529,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_hist(const Tango::Dev
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_device;
-	string      tmp_name;
+	std::string      tmp_name;
 
 	if (argin->length() != 2)
 	{
@@ -4623,7 +4623,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_property_list(const Tango::Dev
 	MYSQL_ROW row;
 	int n_rows;
 	const char *device,*wildcard;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -4697,7 +4697,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_server_class_list(Tango::DevSt
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
-	string tmp_server;
+	std::string tmp_server;
 
 	INFO_STREAM << "DataBase::db_get_device_server_class_list(): server " << server << std::endl;
 
@@ -4750,7 +4750,7 @@ Tango::DevVarStringArray *DataBase::db_get_exportd_device_list_for_class(Tango::
 	//	Add your own code
 	Tango::DevString  classname = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_classname;
+	std::string tmp_classname;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -4813,7 +4813,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_list(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream	sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -4884,7 +4884,7 @@ Tango::DevVarStringArray *DataBase::db_get_host_server_list(Tango::DevString arg
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream	sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -5002,14 +5002,14 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 	strcat(wildcard, "/*");
 	Tango::DevVarStringArray *server_list = db_get_server_list(wildcard);
 
-	vector<string>	instance_names;
+	vector<std::string>	instance_names;
 
 	for (unsigned  int i=0 ; i<server_list->length() ; i++)
 	{
 		//	Take only server name
-		string	str((*server_list)[i]);
-		string::size_type	idx;
-		if ((idx=str.find("/"))!= string::npos)
+		std::string	str((*server_list)[i]);
+		std::string::size_type	idx;
+		if ((idx=str.find("/"))!= std::string::npos)
 		{
 			str = str.substr(idx+1);
 			instance_names.push_back(str);
@@ -5021,7 +5021,7 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 	argout->length(instance_names.size());
 	for (unsigned int i = 0 ; i<instance_names.size() ; i++)
 	{
-		string	name(instance_names[i]);
+		std::string	name(instance_names[i]);
 		(*argout)[i] = CORBA::string_dup(name.c_str());
 	}
 	delete [] wildcard;
@@ -5051,7 +5051,7 @@ Tango::DevVarStringArray *DataBase::db_get_object_list(Tango::DevString argin)
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 
 	INFO_STREAM << "DataBase::db_get_object_list(): object " << wildcard << std::endl;
 
@@ -5123,7 +5123,7 @@ Tango::DevVarStringArray *DataBase::db_get_property(const Tango::DevVarStringArr
 	int n_rows=0, n_props=0;
 	argout = new Tango::DevVarStringArray;
 	const char *tmp_object;
-	string tmp_name;
+	std::string tmp_name;
 
 	INFO_STREAM << "DataBase::db_get_property(): get " << property_names->length()-1 << " properties for object " << (*property_names)[0] << std::endl;
 
@@ -5208,7 +5208,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_hist(const Tango::DevVarStri
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_object;
-	string      tmp_name;
+	std::string      tmp_name;
 
 	if (argin->length() != 2)
 	{
@@ -5302,7 +5302,7 @@ Tango::DevVarStringArray *DataBase::db_get_property_list(const Tango::DevVarStri
 	MYSQL_ROW row;
 	int n_rows;
 	const char *object, *wildcard;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 
 	if (object_wildcard->length() != 2)
 	{
@@ -5376,7 +5376,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_info(Tango::DevString argin)
 	MYSQL_ROW row;
 	int n_rows=0;
 	argout = new Tango::DevVarStringArray;
-	string tmp_name;
+	std::string tmp_name;
 
 	INFO_STREAM << "DataBase::db_get_server_info(): server " << server_name << std::endl;
 
@@ -5431,7 +5431,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_list(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  wildcard = argin;
 	TangoSys_MemStream	sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -5503,20 +5503,20 @@ Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString arg
 	Tango::DevString  wildcard = argin;
 	Tango::DevVarStringArray *server_list = db_get_server_list(wildcard);
 
-	vector<string>	server_names;
+	vector<std::string>	server_names;
 	for (unsigned int i = 0 ; i<server_list->length() ; i++)
 	{
 		//	Take only server name
-		string	str((*server_list)[i]);
-		string::size_type	idx;
-		if ((idx=str.find("/"))!= string::npos)
+		std::string	str((*server_list)[i]);
+		std::string::size_type	idx;
+		if ((idx=str.find("/"))!= std::string::npos)
 		{
 			str = str.substr(0, idx);
 			//	Search if already in vector
 			bool	found = false;
 			for(unsigned int j=0 ; j<server_names.size() && !found ; j++)
 			{
-				string	name(server_names[j]);
+				std::string	name(server_names[j]);
 				//	compare without case sensitive
 				found = (name.size() ==  str.size()  &&   //	ensure same size
 						equal (name.begin(), name.end(),  //	server name from vector
@@ -5534,7 +5534,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString arg
 	argout->length(server_names.size());
 	for (unsigned int i = 0 ; i<server_names.size() ; i++)
 	{
-		string	name(server_names[i]);
+		std::string	name(server_names[i]);
 		(*argout)[i] = CORBA::string_dup(name.c_str());
 	}
 
@@ -5580,7 +5580,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_device(Tango::DevString argin)
 	MYSQL_ROW row;
 	int n_rows=0;
 	int exported, pid;
-	string tmp_device;
+	std::string tmp_device;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -5713,7 +5713,7 @@ Tango::DevVarLongStringArray *DataBase::db_import_event(Tango::DevString argin)
 	MYSQL_ROW row;
 	int n_rows=0;
 	int exported, pid;
-	string tmp_event;
+	std::string tmp_event;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -6075,8 +6075,8 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
-	string tmp_alias;
-	string tmp_name, tmp_attribute, tmp_device;
+	std::string tmp_alias;
+	std::string tmp_name, tmp_attribute, tmp_device;
 
 
 	if (argin->length() < 2) {
@@ -6126,16 +6126,16 @@ void DataBase::db_put_attribute_alias(const Tango::DevVarStringArray *argin)
 					                	  (const char *)"DataBase::db_put_attribute_alias()");
 		}
 
-		string::size_type pos=0;
+		std::string::size_type pos=0;
 		int nsep=0;
 		do
 		{
 			if (pos != 0) pos++;
 			pos = tmp_name.find("/",pos);
-			if (pos != string::npos) nsep++;
+			if (pos != std::string::npos) nsep++;
 			WARN_STREAM << "DataBase::db_put_attribute_alias(): found " << nsep << " separators , remaining string " << tmp_name.substr(pos+1) << std::endl;
 		}
-		while (pos != string::npos);
+		while (pos != std::string::npos);
 		if (nsep != 3)
 		{
 		   WARN_STREAM << "DataBase::db_put_attribute_alias(): attribute name has bad syntax, must have 3 / in it" << std::endl;
@@ -6207,7 +6207,7 @@ void DataBase::db_put_class_attribute_property(const Tango::DevVarStringArray *a
 		   for (j=k+2; j<k+n_properties*2+2; j=j+2)
 		   {
 	    	  tmp_name = (*property_list)[j];
-        	  string tmp_escaped_string = escape_string((*property_list)[j+1]);
+        	  std::string tmp_escaped_string = escape_string((*property_list)[j+1]);
 
 // first delete the tuple (device,name,count) from the property table
 			  sql_query_stream.str("");
@@ -6309,7 +6309,7 @@ void DataBase::db_put_class_attribute_property2(const Tango::DevVarStringArray *
 				Tango::DevULong64 class_attribute_property_hist_id = get_id("class_attribute",al.get_con_nb());
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
-          				string tmp_escaped_string = escape_string((*argin)[l+1]);
+          				std::string tmp_escaped_string = escape_string((*argin)[l+1]);
 	      				tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
@@ -6402,7 +6402,7 @@ void DataBase::db_put_class_property(const Tango::DevVarStringArray *argin)
 		   	Tango::DevULong64 class_property_hist_id = get_id("class",al.get_con_nb());
 		   	for (j=k+2; j<k+n_rows+2; j++)
 		   	{
-        	  	string tmp_escaped_string = escape_string((*property_list)[j]);
+        	  	std::string tmp_escaped_string = escape_string((*property_list)[j]);
 	    	  	tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
@@ -6454,8 +6454,8 @@ void DataBase::db_put_device_alias(const Tango::DevVarStringArray *argin)
 	const Tango::DevVarStringArray  *device_alias = argin;
 	TangoSys_MemStream sql_query_stream;
 	MYSQL_RES *result;
-	string tmp_alias;
-	string tmp_device;
+	std::string tmp_alias;
+	std::string tmp_device;
 
 
 	if (device_alias->length() < 2) {
@@ -6560,7 +6560,7 @@ void DataBase::db_put_device_attribute_property(const Tango::DevVarStringArray *
 		   for (j=k+2; j<k+n_properties*2+2; j=j+2)
 		   {
 	    	  tmp_name = (*property_list)[j];
-        	  string tmp_escaped_string = escape_string((*property_list)[j+1]);
+        	  std::string tmp_escaped_string = escape_string((*property_list)[j+1]);
 
 // first delete the tuple (device,name,count) from the property table
 				sql_query_stream.str("");
@@ -6678,7 +6678,7 @@ void DataBase::db_put_device_attribute_property2(const Tango::DevVarStringArray 
 
                     for (l=j+1; l<j+n_rows+1; l++)
                     {
-                        string tmp_escaped_string = escape_string((*argin)[l+1]);
+                        std::string tmp_escaped_string = escape_string((*argin)[l+1]);
                         tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
@@ -6740,7 +6740,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 	char tmp_count_str[256];
 	int n_properties=0, n_rows=0;
 	const char *tmp_device;
-	string tmp_name;
+	std::string tmp_name;
 
 	TimeVal	before, after;
 	GetTime(before);
@@ -6773,7 +6773,7 @@ void DataBase::db_put_device_property(const Tango::DevVarStringArray *argin)
 
 		   for (j=k+2; j<k+n_rows+2; j++)
 		   {
-        	  string tmp_escaped_string = escape_string((*property_list)[j]);
+        	  std::string tmp_escaped_string = escape_string((*property_list)[j]);
 	    	  tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 			// then insert the new value for this tuple
@@ -6836,7 +6836,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 	TangoSys_MemStream	sql_query_stream;
 	int n_properties=0, n_rows=0;
 	const char *tmp_object;
-	string tmp_name;
+	std::string tmp_name;
 
 	tmp_object = (*property_list)[0];
 	sscanf((*property_list)[1],"%6d", &n_properties);
@@ -6864,7 +6864,7 @@ void DataBase::db_put_property(const Tango::DevVarStringArray *argin)
 			Tango::DevULong64 object_property_hist_id = get_id("object",al.get_con_nb());
 	    	for (int j=k+2 ; j<k+n_rows+2 ; j++)
 	    	{
-        	  string tmp_escaped_string = escape_string((*property_list)[j]);
+        	  std::string tmp_escaped_string = escape_string((*property_list)[j]);
 	    	  tmp_count++;
 
 			  // then insert the new value for this tuple
@@ -6913,7 +6913,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 	const Tango::DevVarStringArray  *server_info = argin;
 	TangoSys_MemStream sql_query_stream;
 	const char *tmp_host, *tmp_mode, *tmp_level;
-	string tmp_server;
+	std::string tmp_server;
 
 	if (server_info->length() < 4) {
    		WARN_STREAM << "DataBase::db_put_server_info(): insufficient info for server ";
@@ -6939,7 +6939,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 //	If it is an empty host name -> get previous host where running
 //
 
-	string previous_host("");
+	std::string previous_host("");
 	{
 		AutoLock al("LOCK TABLES device READ, server WRITE",this);
 
@@ -6952,9 +6952,9 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 				//	Get database server name
 				//--------------------------------------
 				Tango::Util *tg = Tango::Util::instance();
-				string	db_serv = tg->get_ds_name();
+				std::string	db_serv = tg->get_ds_name();
 				transform(db_serv.begin(), db_serv.end(), db_serv.begin(), ::tolower);
-				string	adm_dev = "dserver/";
+				std::string	adm_dev = "dserver/";
 				adm_dev += tmp_server;
 
 				char *tmp_ptr = db_get_device_host((Tango::DevString)adm_dev.c_str(),al.get_con_nb());
@@ -6983,7 +6983,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		vector<string>	hosts;
+		vector<std::string>	hosts;
 		if (previous_host=="")
 			hosts.push_back(tmp_host);
 		else
@@ -7047,7 +7047,7 @@ void DataBase::db_un_export_event(Tango::DevString argin)
 	//	Add your own code
 	Tango::DevString  event_name = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_event;
+	std::string tmp_event;
 
 	INFO_STREAM << "DataBase::un_export_event(): un-export " << event_name << " device " << std::endl;
 
@@ -7187,15 +7187,15 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 	TimeVal	before, after;
 	GetTime(before);
 
-	string	sql_query;
-	string svc((*argin)[0]);
-	string host((*argin)[1]);
+	std::string	sql_query;
+	std::string svc((*argin)[0]);
+	std::string host((*argin)[1]);
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
 	Tango::Util *tg = Tango::Util::instance();
-	string	&db_inst_name = tg->get_ds_inst_name();
-	string tmp_var_name("@param_out");
+	std::string	&db_inst_name = tg->get_ds_inst_name();
+	std::string tmp_var_name("@param_out");
 	tmp_var_name = tmp_var_name + db_inst_name;
 
 //
@@ -7277,7 +7277,7 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 
 	row = mysql_fetch_row(res);
 	unsigned long *length_ptr = mysql_fetch_lengths(res);
-	string str(row[0],length_ptr[0]);
+	std::string str(row[0],length_ptr[0]);
 #ifdef __SUNPRO_CC
 	int nb_field;
 	count(str.begin(),str.end(),'\0',nb_field);
@@ -7309,13 +7309,13 @@ Tango::DevVarStringArray *DataBase::db_get_data_for_server_cache(const Tango::De
 
 	argout->length(nb_field + 1);
 
-	string::size_type pos = 0;
-	string::size_type start = 0;
+	std::string::size_type pos = 0;
+	std::string::size_type start = 0;
 	int idx = 0;
-	string tmp_elt;
+	std::string tmp_elt;
 
 	pos = str.find('\0');
-	while (pos != string::npos)
+	while (pos != std::string::npos)
 	{
 		tmp_elt = str.substr(start,pos - start);
 		(*argout)[idx] = CORBA::string_dup(tmp_elt.c_str());
@@ -7351,7 +7351,7 @@ void DataBase::db_delete_all_device_attribute_property(const Tango::DevVarString
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *attribute;
-	string tmp_device;
+	std::string tmp_device;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -7452,21 +7452,21 @@ Tango::DevVarLongStringArray *DataBase::db_my_sql_select(Tango::DevString argin)
 	GetTime(before);
 
 	//	Check if SELECT key is alread inside command
-	string	cmd(argin);
-	string	tmp(argin);
+	std::string	cmd(argin);
+	std::string	tmp(argin);
 	transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-	string::size_type	idx = tmp.find("select");
-	if (idx == string::npos)
+	std::string::size_type	idx = tmp.find("select");
+	if (idx == std::string::npos)
 		cmd = "SELECT " + cmd;
 
 	// Check that there is no SQL injection
 
 	idx = tmp.find(';');
-	if ((idx != string::npos) && (tmp.size() > (idx + 1)))
+	if ((idx != std::string::npos) && (tmp.size() > (idx + 1)))
 	{
  	    TangoSys_OMemStream o;
 		o << "SQL command not valid: \'" << argin << "\'";
-		string msg = o.str();
+		std::string msg = o.str();
 		WARN_STREAM << msg << std::endl;
 		Tango::Except::throw_exception((const char *)DB_IncorrectArguments,
 	   				                   msg,
@@ -7560,7 +7560,7 @@ Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 	      if ((row = mysql_fetch_row(result)) != NULL)
 	      {
 	         DEBUG_STREAM << "DataBase::db_get_csdb_server_list(): ior[ "<< i << "] " << row[0] << std::endl;
-			 string h_p;
+			 std::string h_p;
 			 bool ret = host_port_from_ior(row[0],h_p);
 			 if (ret == true)
 	         	(*argout)[i] = CORBA::string_dup(h_p.c_str());
@@ -7570,7 +7570,7 @@ Tango::DevVarStringArray *DataBase::db_get_csdb_server_list()
 				delete argout;
  	    		TangoSys_OMemStream o;
 				o << "Wrong IOR in database for at least one of the database server(s)";
-				string msg = o.str();
+				std::string msg = o.str();
 				WARN_STREAM << msg << std::endl;
 				Tango::Except::throw_exception((const char *)"DB_WrongIORForDbServer",
 	   				                   msg,
@@ -7732,15 +7732,15 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 					                   "DataBase::db_rename_server()");
 	}
 
-	string old_name((*argin)[0]);
-	string new_name((*argin)[1]);
+	std::string old_name((*argin)[0]);
+	std::string new_name((*argin)[1]);
 
-	string::size_type pos_old,pos_new;
+	std::string::size_type pos_old,pos_new;
 
 	pos_old = old_name.find('/');
 	pos_new = new_name.find('/');
 
-	if ((pos_old == string::npos) || (pos_new == string::npos))
+	if ((pos_old == std::string::npos) || (pos_new == std::string::npos))
 	{
 		Tango::Except::throw_exception("Db_WrongArgument","Wrong syntax in command args (ds_exec_name/inst_name)",
 										"DataBase::db_rename_server()");
@@ -7750,7 +7750,7 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 // Check that the new name is not already used
 //
 
-	string new_adm_name("dserver/");
+	std::string new_adm_name("dserver/");
 	new_adm_name = new_adm_name + new_name;
 
 	TangoSys_MemStream sql_query_stream;
@@ -7777,12 +7777,12 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 //
 //	get  host where running
 //
-	string	previous_host("");
+	std::string	previous_host("");
 	if (fireToStarter==true)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		string	adm_dev("dserver/");
+		std::string	adm_dev("dserver/");
 		adm_dev += old_name;
 		try
 		{
@@ -7793,7 +7793,7 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 		}
 		catch (Tango::DevFailed &e)
 		{
-			string reason(e.errors[0].reason.in());
+			std::string reason(e.errors[0].reason.in());
 			if (reason == DB_DeviceNotDefined)
 			{
 				WARN_STREAM << "DataBase::db_delete_server(): server " << old_name << " not defined in DB" << std::endl;
@@ -7815,11 +7815,11 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 // 4 - Change admin device attribute property (if any)
 //
 
-	string old_adm_name("dserver/");
+	std::string old_adm_name("dserver/");
 	old_adm_name = old_adm_name + old_name;
 
-	string new_exec = new_name.substr(0,pos_new);
-	string new_inst = new_name.substr(pos_new + 1);
+	std::string new_exec = new_name.substr(0,pos_new);
+	std::string new_inst = new_name.substr(pos_new + 1);
 
 	{
 		AutoLock al("LOCK TABLES device WRITE, property_device WRITE, property_attribute_device WRITE",this);
@@ -7861,7 +7861,7 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		vector<string>	hosts;
+		vector<std::string>	hosts;
 		if (previous_host!="")
 		{
 			hosts.push_back(previous_host);
@@ -7944,7 +7944,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property(const Tango::DevV
 		int prop_number = 0;
 	   	if (n_rows > 0)
 	   	{
-			string name, old_name;
+			std::string name, old_name;
 			bool new_prop = true;
 			int prop_size_idx = 0;
 			int prop_size = 0;
@@ -8080,7 +8080,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 		if ((row = mysql_fetch_row(result)) != NULL)
 		{
 			std::stringstream tmp_str;
-			string nb_pipe_str = row[0];
+			std::string nb_pipe_str = row[0];
 		 	tmp_str << nb_pipe_str;
 			unsigned int nb_pipe = 0;
 			tmp_str >> nb_pipe;
@@ -8117,7 +8117,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 			int prop_number = 0;
 	   		if (n_rows > 0)
 	   		{
-				string name, old_name;
+				std::string name, old_name;
 				bool new_prop = true;
 				int prop_size_idx = 0;
 				int prop_size = 0;
@@ -8187,11 +8187,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 		n_rows = mysql_num_rows(result);
 		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): mysql_num_rows() " << n_rows << std::endl;
 
-		map<string,vector<PropDef> > db_data;
+		map<std::string,vector<PropDef> > db_data;
 
-		string pipe,prev_pipe;
-		string p_name,prev_p_name;
-		string value;
+		std::string pipe,prev_pipe;
+		std::string p_name,prev_p_name;
+		std::string value;
 		PropDef prop;
 		vector<PropDef> pipe_props;
 
@@ -8265,11 +8265,11 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 
 		for (unsigned int i=1; i<property_names->length(); i++)
 		{
-	   		string tmp_pipe((*property_names)[i]);
-			string tmp_pipe_lower(tmp_pipe);
+	   		std::string tmp_pipe((*property_names)[i]);
+			std::string tmp_pipe_lower(tmp_pipe);
 			transform(tmp_pipe_lower.begin(),tmp_pipe_lower.end(),tmp_pipe_lower.begin(),::tolower);
 
-			map<string,vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
+			map<std::string,vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
 
 //
 // Data for this pipe in map?
@@ -8338,7 +8338,7 @@ void DataBase::db_delete_class_pipe(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe;
-	string tmp_class;
+	std::string tmp_class;
 
 	if (argin->length() < 2) {
    		WARN_STREAM << "DataBase::db_delete_class_pipe(): insufficient number of arguments ";
@@ -8379,7 +8379,7 @@ void DataBase::db_delete_device_pipe(const Tango::DevVarStringArray *argin)
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe;
-	string tmp_device;
+	std::string tmp_device;
 
 	if (argin->length() < 2) {
    		WARN_STREAM << "DataBase::db_delete_device_pipe(): insufficient number of arguments ";
@@ -8407,7 +8407,7 @@ void DataBase::db_delete_device_pipe(const Tango::DevVarStringArray *argin)
 
 // replace database wildcards (% and _)
 
-	string tmp_wildcard = replace_wildcard(tmp_device.c_str());
+	std::string tmp_wildcard = replace_wildcard(tmp_device.c_str());
 
 // then delete device from the property_attribute_device table
 
@@ -8437,7 +8437,7 @@ void DataBase::db_delete_class_pipe_property(const Tango::DevVarStringArray *arg
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe, *property;
-	string tmp_class;
+	std::string tmp_class;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -8526,7 +8526,7 @@ void DataBase::db_delete_device_pipe_property(const Tango::DevVarStringArray *ar
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe, *property;
-	string tmp_device;
+	std::string tmp_device;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -8627,7 +8627,7 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_list(const Tango::DevVarSt
 	int n_rows=0;
 	argout = new Tango::DevVarStringArray;
 	const char *class_name, *wildcard;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 
 	class_name = (*class_wildcard)[0];
 	INFO_STREAM << "DataBase::db_get_class_pipe_list(): get pipes for class " << class_name << std::endl;
@@ -8693,7 +8693,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_list(const Tango::DevVarS
 	//	Add your own code
 	const Tango::DevVarStringArray  *device_wildcard = argin;
 	TangoSys_MemStream sql_query_stream;
-	string tmp_wildcard;
+	std::string tmp_wildcard;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -8760,7 +8760,7 @@ void DataBase::db_delete_all_device_pipe_property(const Tango::DevVarStringArray
 	//	Add your own code
 	TangoSys_MemStream sql_query_stream;
 	const char *pipe;
-	string tmp_device;
+	std::string tmp_device;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
@@ -8893,7 +8893,7 @@ void DataBase::db_put_class_pipe_property(const Tango::DevVarStringArray *argin)
 				Tango::DevULong64 class_pipe_property_hist_id = get_id("class_pipe",al.get_con_nb());
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
-          				string tmp_escaped_string = escape_string((*argin)[l+1]);
+          				std::string tmp_escaped_string = escape_string((*argin)[l+1]);
 	      				tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
@@ -8990,7 +8990,7 @@ void DataBase::db_put_device_pipe_property(const Tango::DevVarStringArray *argin
 
 	   			for (l=j+1; l<j+n_rows+1; l++)
 	   			{
-          			string tmp_escaped_string = escape_string((*argin)[l+1]);
+          			std::string tmp_escaped_string = escape_string((*argin)[l+1]);
 	      			tmp_count++; sprintf(tmp_count_str, "%d", tmp_count);
 
 // then insert the new value for this tuple
@@ -9053,8 +9053,8 @@ Tango::DevVarStringArray *DataBase::db_get_class_pipe_property_hist(const Tango:
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_class;
-	string      tmp_pipe;
-	string      tmp_name;
+	std::string      tmp_pipe;
+	std::string      tmp_name;
 
 	if (argin->length() != 3)
 	{
@@ -9155,8 +9155,8 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property_hist(const Tango
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	const char *tmp_device;
-	string      tmp_pipe;
-	string      tmp_name;
+	std::string      tmp_pipe;
+	std::string      tmp_name;
 
 	if (argin->length() != 3)
 	{
@@ -9246,7 +9246,7 @@ Tango::DevVarStringArray *DataBase::db_get_forwarded_attribute_list_for_device(T
 	DEBUG_STREAM << "DataBase::DbGetForwardedAttributeListForDevice()  - " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(DataBase::db_get_forwarded_attribute_list_for_device) ENABLED START -----*/
 
-	string device(argin);
+	std::string device(argin);
 
 	TangoSys_MemStream	sql_query_stream;
     sql_query_stream << "SELECT device,attribute,value  FROM property_attribute_device WHERE name = \"__root_att"
@@ -9303,7 +9303,7 @@ void DataBase::add_dynamic_commands()
 Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 {
 	TangoSys_MemStream sql_query_stream;
-	string tmp_argin;
+	std::string tmp_argin;
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	int n_rows;
@@ -9328,7 +9328,7 @@ Tango::DevString DataBase::db_get_device_host(Tango::DevString argin,int con_nb)
 		mysql_free_result(result);
  	    TangoSys_OMemStream o;
 		o << "No host found for device \'" << argin << "\'";
-		string msg = o.str();
+		std::string msg = o.str();
 		WARN_STREAM << msg << std::endl;
 		Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,
 	   				                   msg,
@@ -9362,7 +9362,7 @@ void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
 //
 
     std::stringstream sql_query_stream;
-    string tmp_escaped_string = escape_string((*argin)[6]);
+    std::string tmp_escaped_string = escape_string((*argin)[6]);
     sql_query_stream << "UPDATE property_attribute_device SET value=\"" << tmp_escaped_string
                      << "\" WHERE device=\"" << tmp_device << "\" AND attribute=\"" << tmp_attribute
                      << "\" AND name=\"__value\" AND count=1";
@@ -9370,7 +9370,7 @@ void DataBase::create_update_mem_att(const Tango::DevVarStringArray *argin)
 
     int con_nb = get_connection();
 
-    string sql_query = sql_query_stream.str();
+    std::string sql_query = sql_query_stream.str();
 	if (mysql_real_query(conn_pool[con_nb].db, sql_query.c_str(),sql_query.length()) != 0)
 	{
 		std::stringstream o;

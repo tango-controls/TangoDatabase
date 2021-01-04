@@ -43,28 +43,28 @@ namespace DataBase_ns
 {
 //=============================================================================
 //=============================================================================
-UpdStarterData::UpdStarterData(string domain)
+UpdStarterData::UpdStarterData(std::string domain)
 {
     starter_header = domain;
 	starter_header += STARTER_DEVNAME_FAMILY;
 }
 //=============================================================================
 //=============================================================================
-vector<string> UpdStarterData::get_starter_devname()
+vector<std::string> UpdStarterData::get_starter_devname()
 {
 	omni_mutex_lock sync(*this);
 	return starter_devnames;
 }
 //=============================================================================
 //=============================================================================
-string UpdStarterData::get_starter_header()
+std::string UpdStarterData::get_starter_header()
 {
 	omni_mutex_lock sync(*this);
 	return starter_header;
 }
 //=============================================================================
 //=============================================================================
-void UpdStarterData::send_starter_cmd(vector<string> hostnames)
+void UpdStarterData::send_starter_cmd(vector<std::string> hostnames)
 {
 	omni_mutex_lock sync(*this);
 
@@ -72,7 +72,7 @@ void UpdStarterData::send_starter_cmd(vector<string> hostnames)
 	starter_devnames.clear();
 	for (unsigned int i=0 ; i<hostnames.size() ; i++)
 	{
-		string	devname(starter_header);
+		std::string	devname(starter_header);
 		devname += hostnames[i];
 		starter_devnames.push_back(devname);
 	}
@@ -95,16 +95,16 @@ void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 	while(true)
 	{
 		//	Get the starter device name
-		vector<string>	devnames = shared->get_starter_devname();
-        string starter_header = shared->get_starter_header();
+		vector<std::string>	devnames = shared->get_starter_devname();
+        std::string starter_header = shared->get_starter_header();
 		for (unsigned int i=0 ; i<devnames.size() ; i++)
 		{
 			//	Verify if devname has been set
 			if (devnames[i].find(starter_header)==0)
 			{
 				//	Remove the Fully Qualify Domain Name of host for device name
-				string::size_type	pos = devnames[i].find('.');
-				if (pos != string::npos)
+				std::string::size_type	pos = devnames[i].find('.');
+				if (pos != std::string::npos)
 					 devnames[i] = devnames[i].substr(0, pos);
 				//cout << "Fire info to " << devnames[i] << std::endl;
 

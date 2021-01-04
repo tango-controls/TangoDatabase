@@ -94,7 +94,7 @@ DataBaseClass::DataBaseClass(std::string &s):Tango::DeviceClass(s)
 	write_class_property();
 
 	/*----- PROTECTED REGION ID(DataBaseClass::constructor) ENABLED START -----*/
-	string str_rcs(RcsId);
+	std::string str_rcs(RcsId);
 	/*----- PROTECTED REGION END -----*/	//	DataBaseClass::constructor
 
 	cout2 << "Leaving DataBaseClass constructor" << std::endl;

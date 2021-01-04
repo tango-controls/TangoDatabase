@@ -74,16 +74,16 @@ namespace DataBase_ns {
 // out :		void - nothing
 //
 //-----------------------------------------------------------------------------
-string DataBase::replace_wildcard(const char *wildcard_c_str)
+std::string DataBase::replace_wildcard(const char *wildcard_c_str)
 {
-	string wildcard(wildcard_c_str);
-	string::size_type index;
+	std::string wildcard(wildcard_c_str);
+	std::string::size_type index;
 
 	DEBUG_STREAM << "DataBase::replace_wildcard() wildcard in " << wildcard << std::endl;
 // escape %
 
 	index = 0;
-	while ((index = wildcard.find('%',index)) != string::npos)
+	while ((index = wildcard.find('%',index)) != std::string::npos)
 	{
 		wildcard.insert(index, 1, '\\');
 		index = index+2;
@@ -92,7 +92,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 // escape _
 
 	index = 0;
-	while ((index = wildcard.find('_',index)) != string::npos)
+	while ((index = wildcard.find('_',index)) != std::string::npos)
 	{
 		wildcard.insert(index, 1, '\\');
 		index = index+2;
@@ -102,7 +102,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 // escape "
 
 	index = 0;
-	while ((index = wildcard.find('"',index)) != string::npos)
+	while ((index = wildcard.find('"',index)) != std::string::npos)
 	{
 		wildcard.insert(index, 1, '\\');
 		index = index+2;
@@ -112,7 +112,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 // escape '
 
 	index = 0;
-	while ((index = wildcard.find('\'',index)) != string::npos)
+	while ((index = wildcard.find('\'',index)) != std::string::npos)
 	{
 		wildcard.insert(index, 1, '\\');
 		index = index+2;
@@ -120,7 +120,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 
 // replace wildcard * with %
 
-	while ((index = wildcard.find('*')) != string::npos)
+	while ((index = wildcard.find('*')) != std::string::npos)
 	{
 		wildcard.replace(index, 1, 1, '%');
 	}
@@ -141,19 +141,19 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 // out :		string - The result string .
 //
 //-----------------------------------------------------------------------------
-string DataBase::escape_string(const char *string_c_str)
+std::string DataBase::escape_string(const char *string_c_str)
 {
-	string escaped_string(string_c_str);
-	string::size_type index;
+	std::string escaped_string(string_c_str);
+	std::string::size_type index;
 
 	DEBUG_STREAM << "DataBase::escape_string() string in : " << escaped_string << std::endl;
 
 	//	escape bakckslash
 	index = 0;
-	while ((index = escaped_string.find('\\',index)) != string::npos)
+	while ((index = escaped_string.find('\\',index)) != std::string::npos)
 	{
 		//	Check if double backslash already treated by client
-		string	s = escaped_string.substr(index+1);
+		std::string	s = escaped_string.substr(index+1);
 
 			//	Check if another escape sequence treated by client
 		if (s.find('\"')==0 || s.find('\'')==0)
@@ -167,7 +167,7 @@ string DataBase::escape_string(const char *string_c_str)
 
 	//	escape "
 	index = 0;
-	while ((index = escaped_string.find('"',index)) != string::npos)
+	while ((index = escaped_string.find('"',index)) != std::string::npos)
 	{
 		if (index==0)	//	Cannot have '\' at -1 !
 		{
@@ -177,7 +177,7 @@ string DataBase::escape_string(const char *string_c_str)
 		else
 		{
 			//	Check if double quotes already treated by client
-			string	s = escaped_string.substr(index-1);
+			std::string	s = escaped_string.substr(index-1);
 			if (s.find('\\')==0)
 				index++;
 			else
@@ -191,7 +191,7 @@ string DataBase::escape_string(const char *string_c_str)
 
 	//	escape '
 	index = 0;
-	while ((index = escaped_string.find('\'',index)) != string::npos)
+	while ((index = escaped_string.find('\'',index)) != std::string::npos)
 	{
 		if (index==0)	//	Cannot have '\' at -1 !
 		{
@@ -201,7 +201,7 @@ string DataBase::escape_string(const char *string_c_str)
 		else
 		{
 			//	Check if simple quotes already treated by client
-			string	s = escaped_string.substr(index-1);
+			std::string	s = escaped_string.substr(index-1);
 			if (s.find('\\')==0)
 				index++;
 			else
@@ -218,7 +218,7 @@ string DataBase::escape_string(const char *string_c_str)
 
 //+----------------------------------------------------------------------------
 //
-// method : 		DataBase::device_name_to_dfm(string &device_name,
+// method : 		DataBase::device_name_to_dfm(std::string &device_name,
 //			          char **domain, char **family, char **member)
 //
 // description : 	utility function to return domain, family and member
@@ -231,9 +231,9 @@ string DataBase::escape_string(const char *string_c_str)
 // out :		bool - true or false
 //
 //-----------------------------------------------------------------------------
-bool DataBase::device_name_to_dfm(string &devname, char domain[], char family[], char member[])
+bool DataBase::device_name_to_dfm(std::string &devname, char domain[], char family[], char member[])
 {
-	string::size_type index, index2;
+	std::string::size_type index, index2;
 
 	DEBUG_STREAM << "DataBase::device_name_to_dfm() device name in " << devname << std::endl;
 
@@ -256,7 +256,7 @@ bool DataBase::device_name_to_dfm(string &devname, char domain[], char family[],
 
 //+----------------------------------------------------------------------------
 //
-// method : 		DataBase::check_device_name(string *device_name)
+// method : 		DataBase::check_device_name(std::string *device_name)
 //
 // description : 	utility function to check whether device name conforms
 //			to the TANGO naming convention of
@@ -268,17 +268,17 @@ bool DataBase::device_name_to_dfm(string &devname, char domain[], char family[],
 // out :		bool - true or false
 //
 //-----------------------------------------------------------------------------
-bool DataBase::check_device_name(string &device_name_str)
+bool DataBase::check_device_name(std::string &device_name_str)
 {
-	string devname(device_name_str);
-	string::size_type index, index2;
+	std::string devname(device_name_str);
+	std::string::size_type index, index2;
 
 	DEBUG_STREAM << "DataBase::check_device_name(): device_name in " << devname << std::endl;
 
 // check there are no special characters which could be interpreted
 // as wildcards or which are otherwise excluded
 
-	if (devname.find('*') != string::npos) return false;
+	if (devname.find('*') != std::string::npos) return false;
 
 // check protocol - "tango:" | "taco:"
 
@@ -299,7 +299,7 @@ bool DataBase::check_device_name(string &device_name_str)
 	if (devname.substr(0,2) == "//")
 	{
 		index = devname.find('/',(string::size_type)2);
-		if (index == 0 || index == string::npos)
+		if (index == 0 || index == std::string::npos)
 		{
 			return false;
 
@@ -312,7 +312,7 @@ bool DataBase::check_device_name(string &device_name_str)
 	index = devname.find('/');
 	index2 = devname.find('/',index+1);
 
-	if (index == 0 || index == string::npos || index2 == string::npos ||
+	if (index == 0 || index == std::string::npos || index2 == std::string::npos ||
 	    index2-index <= 0 || devname.length() - index2 <= 0)
 	{
 		return false;
@@ -445,7 +445,7 @@ Tango::DevULong64 DataBase::get_id(const char *name,int con_nb)
 
     sql_query.str("");
     sql_query << "UPDATE " << name << "_history_id SET id=LAST_INSERT_ID(id+1)";
-	string tmp_str = sql_query.str();
+	std::string tmp_str = sql_query.str();
 
 	if (mysql_real_query(conn_pool[con_nb].db, tmp_str.c_str(),tmp_str.length()) != 0)
 	{
@@ -489,7 +489,7 @@ Tango::DevULong64 DataBase::get_id(const char *name,int con_nb)
 // description : 	Execute a SQL query , ignore the result.
 //
 //-----------------------------------------------------------------------------
-void DataBase::simple_query(string sql_query,const char *method,int con_nb)
+void DataBase::simple_query(std::string sql_query,const char *method,int con_nb)
 {
 
 //
@@ -542,7 +542,7 @@ void DataBase::simple_query(string sql_query,const char *method,int con_nb)
 // description : 	Execute a SQL query and return the result.
 //
 //-----------------------------------------------------------------------------
-MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
+MYSQL_RES *DataBase::query(std::string sql_query,const char *method,int con_nb)
 {
 	MYSQL_RES *result;
 
@@ -835,16 +835,16 @@ void DataBase::create_connection_pool(const char *mysql_user,
 	}
 
 	const char *host;
-	string my_host;
-	string ho,port;
+	std::string my_host;
+	std::string ho,port;
 	unsigned int port_num = 0;
 
 	if (mysql_host != NULL)
 	{
 		my_host = mysql_host;
 		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << mysql_host << std::endl;
-		string::size_type pos = my_host.find(':');
-		if (pos != string::npos)
+		std::string::size_type pos = my_host.find(':');
+		if (pos != std::string::npos)
 		{
 			ho = my_host.substr(0,pos);
 			pos++;
@@ -944,7 +944,7 @@ void DataBase::create_connection_pool(const char *mysql_user,
  */
 //+------------------------------------------------------------------
 
-bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
+bool DataBase::host_port_from_ior(const char *iorstr,std::string &h_p)
 {
 	size_t s = (iorstr ? strlen(iorstr) : 0);
 
@@ -1032,8 +1032,8 @@ bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
 				ho = pBody.address.host.in();
 				bool host_is_name = false;
 
-				string::size_type pos = ho.find('.');
-				if (pos == string::npos)
+				std::string::size_type pos = ho.find('.');
+				if (pos == std::string::npos)
 					host_is_name = true;
 				else
 				{
@@ -1076,7 +1076,7 @@ bool DataBase::host_port_from_ior(const char *iorstr,string &h_p)
 				}
 				else
 				{
-					if (pos == string::npos)
+					if (pos == std::string::npos)
 					{
 						Tango::DeviceProxy::get_fqdn(ho);
 					}

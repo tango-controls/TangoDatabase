@@ -111,14 +111,14 @@ class DummyDev: public Tango::Connection
 public:
 	DummyDev():Tango::Connection(true) {};
 
-	virtual string get_corba_name(bool) {string str;return str;}
-	virtual string build_corba_name() {string str;return str;}
+	virtual std::string get_corba_name(bool) {std::string str;return str;}
+	virtual std::string build_corba_name() {std::string str;return str;}
 	virtual int get_lock_ctr() {return 0;}
 	virtual void set_lock_ctr(int) {};
 
-	virtual string dev_name() {string str;return str;}
+	virtual std::string dev_name() {std::string str;return str;}
 
-	int get_env_var(const char *cc,string &str_ref) {return Tango::Connection::get_env_var(cc,str_ref);}
+	int get_env_var(const char *cc,std::string &str_ref) {return Tango::Connection::get_env_var(cc,str_ref);}
 };
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::Additional Class Declarations
@@ -133,7 +133,7 @@ public:
 	/**
 	 *	current incarnation of database
 	 */
-	static string db_name;
+	static std::string db_name;
 
 	/**
 	 *	Will be set by property of Default object
@@ -181,13 +181,13 @@ public:
 
 	typedef struct prop_def
 	{
-		string			prop_name;
-		string 			prop_name_cd;
-		vector<string>	prop_val;
+		std::string			prop_name;
+		std::string 			prop_name_cd;
+		vector<std::string>	prop_val;
 	} PropDef;
 
 private:
-    string              mysql_db_name;
+    std::string              mysql_db_name;
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::Data Members
 
@@ -1494,11 +1494,11 @@ public:
 protected :
 	unsigned long	mysql_svr_version;
 
-	bool check_device_name(string &);
-	bool device_name_to_dfm(string &device_name, char domain[], char family[], char member[]);
-	string replace_wildcard(const char*);
+	bool check_device_name(std::string &);
+	bool device_name_to_dfm(std::string &device_name, char domain[], char family[], char member[]);
+	std::string replace_wildcard(const char*);
 	Tango::DevString db_get_device_host(Tango::DevString,int con_nb=-1);
-	string escape_string(const char *string_c_str);
+	std::string escape_string(const char *string_c_str);
 	void init_timing_stats();
 	Tango::DevULong64 get_id(const char *name,int con_nb=-1);
 	void check_history_tables();
@@ -1517,7 +1517,7 @@ protected :
 	char 			*stored_release_ptr;
 	char			stored_release[128];
 
-	string			ho;
+	std::string			ho;
 	char			ho_name[1024];
 
 	omni_mutex		timing_stats_mutex;
@@ -1526,7 +1526,7 @@ protected :
 
 	void create_connection_pool(const char *,const char *,const char *,const char *);
 	void base_connect(int);
-	bool host_port_from_ior(const char *,string &);
+	bool host_port_from_ior(const char *,std::string &);
     void create_update_mem_att(const Tango::DevVarStringArray *);
 
 	inline void update_timing_stats(TimeVal before, TimeVal after, std::string command)
@@ -1562,8 +1562,8 @@ protected :
 
 public:
 
-	void simple_query(string sql_query,const char *method,int con_nb=-1);
-	MYSQL_RES *query(string sql_query,const char *method,int con_nb=-1);
+	void simple_query(std::string sql_query,const char *method,int con_nb=-1);
+	MYSQL_RES *query(std::string sql_query,const char *method,int con_nb=-1);
 	static void set_conn_pool_size(int si) {conn_pool_size = si;}
 
 	int get_connection();
