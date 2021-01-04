@@ -106,21 +106,21 @@ void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 				string::size_type	pos = devnames[i].find('.');
 				if (pos != string::npos)
 					 devnames[i] = devnames[i].substr(0, pos);
-				//cout << "Fire info to " << devnames[i] << endl;
+				//cout << "Fire info to " << devnames[i] << std::endl;
 
 				Tango::DeviceProxy	*dev = NULL;
 				try
 				{
 					//	Build connection and send command
 					dev = new Tango::DeviceProxy(devnames[i]);
-					cout << devnames[i] << " imported" << endl;
+					cout << devnames[i] << " imported" << std::endl;
 					dev->command_inout("UpdateServersInfo");
-					cout << "dev->command_inout(UpdateServersInfo) sent to " << devnames[i] << endl;
+					cout << "dev->command_inout(UpdateServersInfo) sent to " << devnames[i] << std::endl;
 				}
 				catch(Tango::DevFailed &e)
 				{
 					//Tango::Except::print_exception(e);
-					cout << e.errors[0].desc << endl;
+					cout << e.errors[0].desc << std::endl;
 				}
 				delete dev;
 			}
@@ -130,7 +130,7 @@ void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 			omni_mutex_lock sync(*shared);
 			shared->wait();
 		}
-		cout2 << "Thread update_starter awaken !" << endl;
+		cout2 << "Thread update_starter awaken !" << std::endl;
 		
 	}
 	return NULL;

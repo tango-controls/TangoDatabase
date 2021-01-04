@@ -79,7 +79,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 	string wildcard(wildcard_c_str);
 	string::size_type index;
 
-	DEBUG_STREAM << "DataBase::replace_wildcard() wildcard in " << wildcard << endl;
+	DEBUG_STREAM << "DataBase::replace_wildcard() wildcard in " << wildcard << std::endl;
 // escape %
 
 	index = 0;
@@ -125,7 +125,7 @@ string DataBase::replace_wildcard(const char *wildcard_c_str)
 		wildcard.replace(index, 1, 1, '%');
 	}
 
-	DEBUG_STREAM << "DataBase::replace_wildcard() wildcard out " << wildcard << endl;
+	DEBUG_STREAM << "DataBase::replace_wildcard() wildcard out " << wildcard << std::endl;
 	return wildcard;
 }
 
@@ -146,7 +146,7 @@ string DataBase::escape_string(const char *string_c_str)
 	string escaped_string(string_c_str);
 	string::size_type index;
 
-	DEBUG_STREAM << "DataBase::escape_string() string in : " << escaped_string << endl;
+	DEBUG_STREAM << "DataBase::escape_string() string in : " << escaped_string << std::endl;
 
 	//	escape bakckslash
 	index = 0;
@@ -212,7 +212,7 @@ string DataBase::escape_string(const char *string_c_str)
 		}
 	}
 
-	DEBUG_STREAM << "DataBase::escaped_string() wildcard out : " << escaped_string << endl;
+	DEBUG_STREAM << "DataBase::escaped_string() wildcard out : " << escaped_string << std::endl;
 	return escaped_string;
 }
 
@@ -235,7 +235,7 @@ bool DataBase::device_name_to_dfm(string &devname, char domain[], char family[],
 {
 	string::size_type index, index2;
 
-	DEBUG_STREAM << "DataBase::device_name_to_dfm() device name in " << devname << endl;
+	DEBUG_STREAM << "DataBase::device_name_to_dfm() device name in " << devname << std::endl;
 
 	index = devname.find('/');
 	index2 = devname.find('/', index+1);
@@ -249,7 +249,7 @@ bool DataBase::device_name_to_dfm(string &devname, char domain[], char family[],
 	(devname.substr(index2+1)).copy(member,devname.length()-index2);
 	member[devname.length()-index2-1] = '\0';
 
-	DEBUG_STREAM << "DataBase::device_name_to_dfm() domain/family/member out " << domain << "/" << family << "/" << member << endl;
+	DEBUG_STREAM << "DataBase::device_name_to_dfm() domain/family/member out " << domain << "/" << family << "/" << member << std::endl;
 
 	return true;
 }
@@ -273,7 +273,7 @@ bool DataBase::check_device_name(string &device_name_str)
 	string devname(device_name_str);
 	string::size_type index, index2;
 
-	DEBUG_STREAM << "DataBase::check_device_name(): device_name in " << devname << endl;
+	DEBUG_STREAM << "DataBase::check_device_name(): device_name in " << devname << std::endl;
 
 // check there are no special characters which could be interpreted
 // as wildcards or which are otherwise excluded
@@ -320,7 +320,7 @@ bool DataBase::check_device_name(string &device_name_str)
 
 	device_name_str = devname;
 
-	DEBUG_STREAM << "DataBase::check_device_name(): device_name out " << device_name_str << endl;
+	DEBUG_STREAM << "DataBase::check_device_name(): device_name out " << device_name_str << std::endl;
 
 	return true;
 }
@@ -406,11 +406,11 @@ void DataBase::check_history_tables()
 	TangoSys_MemStream	sql_query_stream;
 	MYSQL_RES *result;
 
-	INFO_STREAM << "DataBase::check_history_tables(): entering" << endl;
+	INFO_STREAM << "DataBase::check_history_tables(): entering" << std::endl;
 
 	sql_query_stream.str("");
 	sql_query_stream << "SELECT count(*) FROM property_device_hist";
-	DEBUG_STREAM << "DataBase::check_history_tables(): sql_query " << sql_query_stream.str() << endl;
+	DEBUG_STREAM << "DataBase::check_history_tables(): sql_query " << sql_query_stream.str() << std::endl;
 	result = query(sql_query_stream.str(),"check_history_tables()");
 	mysql_free_result(result);
 }
@@ -451,11 +451,11 @@ Tango::DevULong64 DataBase::get_id(const char *name,int con_nb)
 	{
 		TangoSys_OMemStream o;
 
-		WARN_STREAM << "DataBase::get_id() failed to query TANGO database:" << endl;
-		WARN_STREAM << "  query = " << tmp_str << endl;
-		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
+		WARN_STREAM << "DataBase::get_id() failed to query TANGO database:" << std::endl;
+		WARN_STREAM << "  query = " << tmp_str << std::endl;
+		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << std::endl;
 
-		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")" << ends;
+		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")" << std::ends;
 
 		if (need_release == true)
 			release_connection(con_nb);
@@ -505,7 +505,7 @@ void DataBase::simple_query(string sql_query,const char *method,int con_nb)
 		need_release = true;
 	}
 
-	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << endl;
+	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << std::endl;
 
 //
 // Call MySQL
@@ -516,13 +516,13 @@ void DataBase::simple_query(string sql_query,const char *method,int con_nb)
 		TangoSys_OMemStream o;
 		TangoSys_OMemStream o2;
 
-		WARN_STREAM << "DataBase::" << method << " failed to query TANGO database:" << endl;
-		WARN_STREAM << "  query = " << sql_query << endl;
-		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
+		WARN_STREAM << "DataBase::" << method << " failed to query TANGO database:" << std::endl;
+		WARN_STREAM << "  query = " << sql_query << std::endl;
+		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << std::endl;
 
 		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
-		o << "\n.The query was: " << sql_query << ends;
-		o2 << "DataBase::" << method << ends;
+		o << "\n.The query was: " << sql_query << std::ends;
+		o2 << "DataBase::" << method << std::ends;
 
 		if (need_release == true)
 			release_connection(con_nb);
@@ -559,7 +559,7 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 		need_release = true;
 	}
 
-	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << endl;
+	DEBUG_STREAM << "Using MySQL connection with semaphore " << con_nb << std::endl;
 
 //
 // Call MySQL
@@ -570,13 +570,13 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 		TangoSys_OMemStream o;
 		TangoSys_OMemStream o2;
 
-		WARN_STREAM << "DataBase::" << method << " failed to query TANGO database:" << endl;
-		WARN_STREAM << "  query = " << sql_query << endl;
-		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
+		WARN_STREAM << "DataBase::" << method << " failed to query TANGO database:" << std::endl;
+		WARN_STREAM << "  query = " << sql_query << std::endl;
+		WARN_STREAM << " (SQL error=" << mysql_error(conn_pool[con_nb].db) << ")" << std::endl;
 
 		o << "Failed to query TANGO database (error=" << mysql_error(conn_pool[con_nb].db) << ")";
-		o << "\nThe query was: " << sql_query << ends;
-		o2 << "DataBase::" << method << ends;
+		o << "\nThe query was: " << sql_query << std::ends;
+		o2 << "DataBase::" << method << std::ends;
 
 		if (need_release == true)
 			release_connection(con_nb);
@@ -589,7 +589,7 @@ MYSQL_RES *DataBase::query(string sql_query,const char *method,int con_nb)
 		TangoSys_OMemStream o;
 		TangoSys_OMemStream o2;
 
-		WARN_STREAM << "DataBase:: " << method << " : mysql_store_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << endl;
+		WARN_STREAM << "DataBase:: " << method << " : mysql_store_result() failed  (error=" << mysql_error(conn_pool[con_nb].db) << ")" << std::endl;
 
 		o << "mysql_store_result() failed (error=" << mysql_error(conn_pool[con_nb].db) << ")";
 		o2 << "DataBase::" << method;
@@ -636,7 +636,7 @@ int DataBase::get_connection()
 					last_sem_wait = 0;
 			}
 			loop = sem_to_wait;
-			WARN_STREAM << "Waiting for one free MySQL connection on semaphore " << loop << endl;
+			WARN_STREAM << "Waiting for one free MySQL connection on semaphore " << loop << std::endl;
 			conn_pool[loop].the_sema.wait();
 			break;
 		}
@@ -696,7 +696,7 @@ void DataBase::purge_att_property(const char *table,const char *field,const char
   MYSQL_RES *result;
   MYSQL_ROW row2;
 
-  //cout << "purge_att_property(" << object << "," << attribute << "," << name << ")" << endl;
+  //cout << "purge_att_property(" << object << "," << attribute << "," << name << ")" << std::endl;
 
   sql_query.str("");
   sql_query << "SELECT DISTINCT id,date FROM " << table
@@ -733,7 +733,7 @@ void DataBase::purge_pipe_property(const char *table,const char *field,const cha
   MYSQL_RES *result;
   MYSQL_ROW row2;
 
-  //cout << "purge_pipe_property(" << object << "," << pipe << "," << name << ")" << endl;
+  //cout << "purge_pipe_property(" << object << "," << pipe << "," << name << ")" << std::endl;
 
   sql_query.str("");
   sql_query << "SELECT DISTINCT id,date FROM " << table
@@ -784,11 +784,11 @@ void DataBase::base_connect(int loop)
 		my_bool my_auto_reconnect=1;
 		if (mysql_options(conn_pool[loop].db,MYSQL_OPT_RECONNECT,&my_auto_reconnect) !=0)
 		{
-			ERROR_STREAM << "DataBase: error setting mysql auto reconnection: " << mysql_error(conn_pool[loop].db) << endl;
+			ERROR_STREAM << "DataBase: error setting mysql auto reconnection: " << mysql_error(conn_pool[loop].db) << std::endl;
 		}
 		else
 		{
-			WARN_STREAM << "DataBase: set mysql auto reconnect to true" << endl;
+			WARN_STREAM << "DataBase: set mysql auto reconnect to true" << std::endl;
 		}
 	}
 #endif
@@ -831,7 +831,7 @@ void DataBase::create_connection_pool(const char *mysql_user,
 	if (mysql_user != NULL && mysql_password != NULL)
 	{
 		WARN_STREAM << "DataBase::create_connection_pool(): mysql database user =  " << mysql_user
-	           	 << " , password = " << mysql_password << endl;
+	           	 << " , password = " << mysql_password << std::endl;
 	}
 
 	const char *host;
@@ -842,7 +842,7 @@ void DataBase::create_connection_pool(const char *mysql_user,
 	if (mysql_host != NULL)
 	{
 		my_host = mysql_host;
-		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << mysql_host << endl;
+		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << mysql_host << std::endl;
 		string::size_type pos = my_host.find(':');
 		if (pos != string::npos)
 		{
@@ -857,7 +857,7 @@ void DataBase::create_connection_pool(const char *mysql_user,
 		}
 		else
 			host = my_host.c_str();
-		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << host << ", port = " << port_num << endl;
+		WARN_STREAM << "DataBase::create_connection_pool(): mysql host = " << host << ", port = " << port_num << std::endl;
 	}
 	else
 		host = NULL;
@@ -877,7 +877,7 @@ void DataBase::create_connection_pool(const char *mysql_user,
 //
 
 
-		WARN_STREAM << "Going to connect to MySQL for conn. " << loop << endl;
+		WARN_STREAM << "Going to connect to MySQL for conn. " << loop << std::endl;
 		if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS | CLIENT_FOUND_ROWS))
 		{
 			if (loop == 0)
@@ -887,23 +887,23 @@ void DataBase::create_connection_pool(const char *mysql_user,
 				{
 					sleep(1);
 					int db_err = mysql_errno(conn_pool[loop].db);
-					WARN_STREAM << "Connection to MySQL failed with error " << db_err << endl;
+					WARN_STREAM << "Connection to MySQL failed with error " << db_err << std::endl;
 					if (db_err == CR_CONNECTION_ERROR || db_err == CR_CONN_HOST_ERROR)
 					{
 						mysql_close(conn_pool[loop].db);
 						conn_pool[loop].db = NULL;
 						base_connect(loop);
 					}
-					WARN_STREAM << "Going to retry to connect to MySQL for connection " << loop << endl;
+					WARN_STREAM << "Going to retry to connect to MySQL for connection " << loop << std::endl;
 					if (!mysql_real_connect(conn_pool[loop].db, host, mysql_user, mysql_password, database, port_num, NULL, CLIENT_MULTI_STATEMENTS | CLIENT_FOUND_ROWS))
 					{
-						WARN_STREAM << "Connection to MySQL (re-try) failed with error " << mysql_errno(conn_pool[loop].db) << endl;
+						WARN_STREAM << "Connection to MySQL (re-try) failed with error " << mysql_errno(conn_pool[loop].db) << std::endl;
 						retry--;
 						if (retry == 0)
 						{
-							WARN_STREAM << "Throw exception because no MySQL connection possible after 5 re-tries" << endl;
+							WARN_STREAM << "Throw exception because no MySQL connection possible after 5 re-tries" << std::endl;
 							TangoSys_MemStream out_stream;
-							out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
+							out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << std::ends;
 
 							Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
 												out_stream.str(),
@@ -912,16 +912,16 @@ void DataBase::create_connection_pool(const char *mysql_user,
 					}
 					else
 					{
-						WARN_STREAM << "MySQL connection succeed after retry" << endl;
+						WARN_STREAM << "MySQL connection succeed after retry" << std::endl;
 						retry = 0;
 					}
 				}
 			}
 			else
 			{
-				WARN_STREAM << "Failed to connect to MySQL for conn. " << loop << ". No re-try in this case" << endl;
+				WARN_STREAM << "Failed to connect to MySQL for conn. " << loop << ". No re-try in this case" << std::endl;
 				TangoSys_MemStream out_stream;
-				out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << ends;
+				out_stream << "Failed to connect to TANGO database (error = " << mysql_error(conn_pool[loop].db) << ")" << std::ends;
 
 				Tango::Except::throw_exception((const char *)"CANNOT_CONNECT_MYSQL",
 												out_stream.str(),

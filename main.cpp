@@ -64,7 +64,7 @@ int DataBase_ns::DataBase::conn_pool_size;
 int main(int argc,char *argv[])
 {
 
-	cout << "main(): arrived " << endl;
+	cout << "main(): arrived " << std::endl;
 
 	Tango::Util *tango_util;
 	Tango::Util::_UseDb = false; // suppress database use
@@ -87,12 +87,12 @@ int main(int argc,char *argv[])
 	}
 	if( found ) {
 	  if(i>=argc-1) {
-	    cout << "Invalid flimit parameter." << endl;
+	    cout << "Invalid flimit parameter." << std::endl;
 	    return -1;
 	  }
 	  int flimit = atoi(argv[i+1]);
 	  if(flimit==0) {
-	    cout << "Invalid flimit parameter." << endl;
+	    cout << "Invalid flimit parameter." << std::endl;
 	    return -1;
 	  }
 	  limit.rlim_cur = flimit;
@@ -101,11 +101,11 @@ int main(int argc,char *argv[])
 
 	// Apply the max open file limit
 	if( setrlimit(RLIMIT_NOFILE,&limit) != 0 ) {
-	  cout << "setrlimit(RLIMIT_NOFILE," << (int)limit.rlim_cur << ") failed." << endl;
+	  cout << "setrlimit(RLIMIT_NOFILE," << (int)limit.rlim_cur << ") failed." << std::endl;
 	  if(errno==EPERM) {
-	    cout << "You may need to increase maximum number of opened file system limit." << endl;
+	    cout << "You may need to increase maximum number of opened file system limit." << std::endl;
 	  } else {
-	    cout << "setrlimit() failed with error code : " << (int)errno << endl;
+	    cout << "setrlimit() failed with error code : " << (int)errno << std::endl;
 	  }
 	  return -1;
 	}
@@ -125,12 +125,12 @@ int main(int argc,char *argv[])
 	}
 	if( found_conn ) {
 	  if(j>=argc-1) {
-	    cout << "Invalid poolSize parameter." << endl;
+	    cout << "Invalid poolSize parameter." << std::endl;
 	    return -1;
 	  }
 	  conn_size = atoi(argv[j+1]);
 	  if(conn_size<=0) {
-	    cout << "Invalid poolSize parameter." << endl;
+	    cout << "Invalid poolSize parameter." << std::endl;
 	    return -1;
 	  }
 	}
@@ -142,14 +142,14 @@ int main(int argc,char *argv[])
 //
 // Initialise the device server
 //
-		cout1 << "main(): calling  Tango::Util::Init(argc,argv)" << endl;
+		cout1 << "main(): calling  Tango::Util::Init(argc,argv)" << std::endl;
 		tango_util = Tango::Util::init(argc,argv);
 
 // construct database name
 
 		DataBase_ns::DataBase::db_name = "sys/database/";
 		DataBase_ns::DataBase::db_name.append(argv[1]);
-		cout1 << "main(): create DataBase " << DataBase_ns::DataBase::db_name << endl;
+		cout1 << "main(): create DataBase " << DataBase_ns::DataBase::db_name << std::endl;
 
 //
 // Create and install interceptors
@@ -168,7 +168,7 @@ int main(int argc,char *argv[])
 // Create the device server singleton which will create everything
 //
 
-		cout1 << "main(): calling  tango_util->server_init()" << endl;
+		cout1 << "main(): calling  tango_util->server_init()" << std::endl;
 		tango_util->server_init();
 
 //
@@ -183,7 +183,7 @@ int main(int argc,char *argv[])
 //
 // export database as named servant
 //
-		cout << "main(): export DataBase as named servant (name=database)" << endl;
+		cout << "main(): export DataBase as named servant (name=database)" << std::endl;
 		export_parms->length(5);
 
 // export dserver object to TANGO database
@@ -214,19 +214,19 @@ int main(int argc,char *argv[])
 // Run the endless loop
 //
 
-		cout << "Ready to accept request" << endl;
+		cout << "Ready to accept request" << std::endl;
 		(tango_util->get_orb())->run();
 	}
 	catch (bad_alloc)
 	{
-		cout << "Can't allocate memory to store device object !!!" << endl;
-		cout << "Exiting" << endl;
+		cout << "Can't allocate memory to store device object !!!" << std::endl;
+		cout << "Exiting" << std::endl;
 	}
 	catch (CORBA::Exception &e)
 	{
-		cout << "Received a CORBA::Exception" << endl;
+		cout << "Received a CORBA::Exception" << std::endl;
 		Tango::Except::print_exception(e);
-		cout << "Exiting" << endl;
+		cout << "Exiting" << std::endl;
 	}
 
 	return(0);
