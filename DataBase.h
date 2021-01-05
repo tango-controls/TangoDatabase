@@ -166,7 +166,7 @@ public:
 		double maximum;
 	} TimingStatsStruct;
 
-	map<std::string,TimingStatsStruct*> timing_stats_map;
+	std::map<std::string,TimingStatsStruct*> timing_stats_map;
 
 	int timing_stats_size;
 	double *timing_stats_average;

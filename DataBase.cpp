@@ -3526,7 +3526,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 		n_rows = mysql_num_rows(result);
 		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << std::endl;
 
-		map<std::string,std::vector<PropDef> > db_data;
+		std::map<std::string,std::vector<PropDef> > db_data;
 
 		std::string att,prev_att;
 		std::string p_name,prev_p_name;
@@ -3608,7 +3608,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			std::string tmp_att_lower(tmp_attribute);
 			transform(tmp_att_lower.begin(),tmp_att_lower.end(),tmp_att_lower.begin(),::tolower);
 
-			map<std::string,std::vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
+			std::map<std::string,std::vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
 
 //
 // Data for this attribute in map?
@@ -8187,7 +8187,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 		n_rows = mysql_num_rows(result);
 		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): mysql_num_rows() " << n_rows << std::endl;
 
-		map<std::string,std::vector<PropDef> > db_data;
+		std::map<std::string,std::vector<PropDef> > db_data;
 
 		std::string pipe,prev_pipe;
 		std::string p_name,prev_p_name;
@@ -8269,7 +8269,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 			std::string tmp_pipe_lower(tmp_pipe);
 			transform(tmp_pipe_lower.begin(),tmp_pipe_lower.end(),tmp_pipe_lower.begin(),::tolower);
 
-			map<std::string,std::vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
+			std::map<std::string,std::vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
 
 //
 // Data for this pipe in map?
