@@ -1778,7 +1778,7 @@ void DataBase::db_delete_server(Tango::DevString argin)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		vector<std::string>	hosts;
+		std::vector<std::string>	hosts;
 		if (previous_host!="")
 		{
 			hosts.push_back(previous_host);
@@ -1959,7 +1959,7 @@ void DataBase::db_export_device(const Tango::DevVarStringArray *argin)
 	if (do_fire)
 	{
 		//	Update host's starter to update controlled servers list
-		vector<std::string>	hosts;
+		std::vector<std::string>	hosts;
 		hosts.push_back(tmp_host);
 		DEBUG_STREAM << "New Host is " << tmp_host << std::endl;
 
@@ -3526,13 +3526,13 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 		n_rows = mysql_num_rows(result);
 		DEBUG_STREAM << "DataBase::GetDeviceAttributeProperty2(): mysql_num_rows() " << n_rows << std::endl;
 
-		map<std::string,vector<PropDef> > db_data;
+		map<std::string,std::vector<PropDef> > db_data;
 
 		std::string att,prev_att;
 		std::string p_name,prev_p_name;
 		std::string value;
 		PropDef prop;
-		vector<PropDef> att_props;
+		std::vector<PropDef> att_props;
 
 //
 // Create a map with data coming from db
@@ -3608,7 +3608,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_attribute_property2(const Tang
 			std::string tmp_att_lower(tmp_attribute);
 			transform(tmp_att_lower.begin(),tmp_att_lower.end(),tmp_att_lower.begin(),::tolower);
 
-			map<std::string,vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
+			map<std::string,std::vector<PropDef> >::iterator pos = db_data.find(tmp_att_lower);
 
 //
 // Data for this attribute in map?
@@ -5002,7 +5002,7 @@ Tango::DevVarStringArray *DataBase::db_get_instance_name_list(Tango::DevString a
 	strcat(wildcard, "/*");
 	Tango::DevVarStringArray *server_list = db_get_server_list(wildcard);
 
-	vector<std::string>	instance_names;
+	std::vector<std::string>	instance_names;
 
 	for (unsigned  int i=0 ; i<server_list->length() ; i++)
 	{
@@ -5503,7 +5503,7 @@ Tango::DevVarStringArray *DataBase::db_get_server_name_list(Tango::DevString arg
 	Tango::DevString  wildcard = argin;
 	Tango::DevVarStringArray *server_list = db_get_server_list(wildcard);
 
-	vector<std::string>	server_names;
+	std::vector<std::string>	server_names;
 	for (unsigned int i = 0 ; i<server_list->length() ; i++)
 	{
 		//	Take only server name
@@ -6983,7 +6983,7 @@ void DataBase::db_put_server_info(const Tango::DevVarStringArray *argin)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		vector<std::string>	hosts;
+		std::vector<std::string>	hosts;
 		if (previous_host=="")
 			hosts.push_back(tmp_host);
 		else
@@ -7861,7 +7861,7 @@ void DataBase::db_rename_server(const Tango::DevVarStringArray *argin)
 	{
 		omni_mutex_lock oml(starter_mutex);
 
-		vector<std::string>	hosts;
+		std::vector<std::string>	hosts;
 		if (previous_host!="")
 		{
 			hosts.push_back(previous_host);
@@ -8187,13 +8187,13 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 		n_rows = mysql_num_rows(result);
 		DEBUG_STREAM << "DataBase::GetDevicePipeProperty(): mysql_num_rows() " << n_rows << std::endl;
 
-		map<std::string,vector<PropDef> > db_data;
+		map<std::string,std::vector<PropDef> > db_data;
 
 		std::string pipe,prev_pipe;
 		std::string p_name,prev_p_name;
 		std::string value;
 		PropDef prop;
-		vector<PropDef> pipe_props;
+		std::vector<PropDef> pipe_props;
 
 //
 // Create a map with data coming from db
@@ -8269,7 +8269,7 @@ Tango::DevVarStringArray *DataBase::db_get_device_pipe_property(const Tango::Dev
 			std::string tmp_pipe_lower(tmp_pipe);
 			transform(tmp_pipe_lower.begin(),tmp_pipe_lower.end(),tmp_pipe_lower.begin(),::tolower);
 
-			map<std::string,vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
+			map<std::string,std::vector<PropDef> >::iterator pos = db_data.find(tmp_pipe_lower);
 
 //
 // Data for this pipe in map?

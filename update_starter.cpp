@@ -50,7 +50,7 @@ UpdStarterData::UpdStarterData(std::string domain)
 }
 //=============================================================================
 //=============================================================================
-vector<std::string> UpdStarterData::get_starter_devname()
+std::vector<std::string> UpdStarterData::get_starter_devname()
 {
 	omni_mutex_lock sync(*this);
 	return starter_devnames;
@@ -64,7 +64,7 @@ std::string UpdStarterData::get_starter_header()
 }
 //=============================================================================
 //=============================================================================
-void UpdStarterData::send_starter_cmd(vector<std::string> hostnames)
+void UpdStarterData::send_starter_cmd(std::vector<std::string> hostnames)
 {
 	omni_mutex_lock sync(*this);
 
@@ -95,8 +95,8 @@ void *UpdateStarter::run_undetached(TANGO_UNUSED(void *ptr))
 	while(true)
 	{
 		//	Get the starter device name
-		vector<std::string>	devnames = shared->get_starter_devname();
-        std::string starter_header = shared->get_starter_header();
+		std::vector<std::string>	devnames = shared->get_starter_devname();
+		std::string starter_header = shared->get_starter_header();
 		for (unsigned int i=0 ; i<devnames.size() ; i++)
 		{
 			//	Verify if devname has been set

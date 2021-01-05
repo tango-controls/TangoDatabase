@@ -183,7 +183,7 @@ public:
 	{
 		std::string			prop_name;
 		std::string 			prop_name_cd;
-		vector<std::string>	prop_val;
+		std::vector<std::string>	prop_val;
 	} PropDef;
 
 private:
