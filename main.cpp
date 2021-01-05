@@ -217,7 +217,7 @@ int main(int argc,char *argv[])
 		cout << "Ready to accept request" << std::endl;
 		(tango_util->get_orb())->run();
 	}
-	catch (bad_alloc)
+	catch (std::bad_alloc)
 	{
 		cout << "Can't allocate memory to store device object !!!" << std::endl;
 		cout << "Exiting" << std::endl;
