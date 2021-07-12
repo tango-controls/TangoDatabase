@@ -48,9 +48,9 @@ static const char *RcsId = "$Id$";
 
 #include <unordered_set>
 
-extern pthread_key_t key;
-extern bool is_acl_enabled;
-extern std::unordered_set<std::string> ip_addresses_allowed;
+/* external variables defined in main.cpp */
+extern omni_thread::key_t key;
+extern std::unordered_set<std::string> addresses_allowed;
 
 /*----- PROTECTED REGION END -----*/	//	DataBase::DataBaseStateMachine.cpp
 
@@ -193,7 +193,7 @@ bool DataBase::is_DbAddDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbAddDevice command.
 	/*----- PROTECTED REGION ID(DataBase::DbAddDeviceStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbAddDeviceStateAllowed
 	return true;
@@ -210,7 +210,7 @@ bool DataBase::is_DbAddServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbAddServer command.
 	/*----- PROTECTED REGION ID(DataBase::DbAddServerStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbAddServerStateAllowed
 	return true;
@@ -227,7 +227,7 @@ bool DataBase::is_DbDeleteAttributeAlias_allowed(TANGO_UNUSED(const CORBA::Any &
 	//	Not any excluded states for DbDeleteAttributeAlias command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteAttributeAliasStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteAttributeAliasStateAllowed
 	return true;
@@ -244,7 +244,7 @@ bool DataBase::is_DbDeleteClassAttribute_allowed(TANGO_UNUSED(const CORBA::Any &
 	//	Not any excluded states for DbDeleteClassAttribute command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteClassAttributeStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteClassAttributeStateAllowed
 	return true;
@@ -276,7 +276,7 @@ bool DataBase::is_DbDeleteClassProperty_allowed(TANGO_UNUSED(const CORBA::Any &a
 	//	Not any excluded states for DbDeleteClassProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteClassPropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteClassPropertyStateAllowed
 	return true;
@@ -293,7 +293,7 @@ bool DataBase::is_DbDeleteDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbDeleteDevice command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteDeviceStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDeviceStateAllowed
 	return true;
@@ -310,7 +310,7 @@ bool DataBase::is_DbDeleteDeviceAlias_allowed(TANGO_UNUSED(const CORBA::Any &any
 	//	Not any excluded states for DbDeleteDeviceAlias command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteDeviceAliasStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDeviceAliasStateAllowed
 	return true;
@@ -357,7 +357,7 @@ bool DataBase::is_DbDeleteDeviceProperty_allowed(TANGO_UNUSED(const CORBA::Any &
 	//	Not any excluded states for DbDeleteDeviceProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteDevicePropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDevicePropertyStateAllowed
 	return true;
@@ -374,7 +374,7 @@ bool DataBase::is_DbDeleteProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbDeleteProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeletePropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeletePropertyStateAllowed
 	return true;
@@ -406,7 +406,7 @@ bool DataBase::is_DbDeleteServerInfo_allowed(TANGO_UNUSED(const CORBA::Any &any)
 	//	Not any excluded states for DbDeleteServerInfo command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteServerInfoStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteServerInfoStateAllowed
 	return true;
@@ -423,7 +423,7 @@ bool DataBase::is_DbExportDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbExportDevice command.
 	/*----- PROTECTED REGION ID(DataBase::DbExportDeviceStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbExportDeviceStateAllowed
 	return true;
@@ -440,7 +440,7 @@ bool DataBase::is_DbExportEvent_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbExportEvent command.
 	/*----- PROTECTED REGION ID(DataBase::DbExportEventStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbExportEventStateAllowed
 	return true;
@@ -1147,7 +1147,7 @@ bool DataBase::is_DbPutAttributeAlias_allowed(TANGO_UNUSED(const CORBA::Any &any
 	//	Not any excluded states for DbPutAttributeAlias command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutAttributeAliasStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutAttributeAliasStateAllowed
 	return true;
@@ -1164,7 +1164,7 @@ bool DataBase::is_DbPutClassAttributeProperty_allowed(TANGO_UNUSED(const CORBA::
 	//	Not any excluded states for DbPutClassAttributeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutClassAttributePropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutClassAttributePropertyStateAllowed
 	return true;
@@ -1181,7 +1181,7 @@ bool DataBase::is_DbPutClassAttributeProperty2_allowed(TANGO_UNUSED(const CORBA:
 	//	Not any excluded states for DbPutClassAttributeProperty2 command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutClassAttributeProperty2StateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutClassAttributeProperty2StateAllowed
 	return true;
@@ -1198,7 +1198,7 @@ bool DataBase::is_DbPutClassProperty_allowed(TANGO_UNUSED(const CORBA::Any &any)
 	//	Not any excluded states for DbPutClassProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutClassPropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutClassPropertyStateAllowed
 	return true;
@@ -1215,7 +1215,7 @@ bool DataBase::is_DbPutDeviceAlias_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbPutDeviceAlias command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutDeviceAliasStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutDeviceAliasStateAllowed
 	return true;
@@ -1232,7 +1232,7 @@ bool DataBase::is_DbPutDeviceAttributeProperty_allowed(TANGO_UNUSED(const CORBA:
 	//	Not any excluded states for DbPutDeviceAttributeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutDeviceAttributePropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutDeviceAttributePropertyStateAllowed
 	return true;
@@ -1249,7 +1249,7 @@ bool DataBase::is_DbPutDeviceAttributeProperty2_allowed(TANGO_UNUSED(const CORBA
 	//	Not any excluded states for DbPutDeviceAttributeProperty2 command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutDeviceAttributeProperty2StateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutDeviceAttributeProperty2StateAllowed
 	return true;
@@ -1266,7 +1266,7 @@ bool DataBase::is_DbPutDeviceProperty_allowed(TANGO_UNUSED(const CORBA::Any &any
 	//	Not any excluded states for DbPutDeviceProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutDevicePropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutDevicePropertyStateAllowed
 	return true;
@@ -1283,7 +1283,7 @@ bool DataBase::is_DbPutProperty_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbPutProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutPropertyStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutPropertyStateAllowed
 	return true;
@@ -1300,7 +1300,7 @@ bool DataBase::is_DbPutServerInfo_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbPutServerInfo command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutServerInfoStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutServerInfoStateAllowed
 	return true;
@@ -1317,7 +1317,7 @@ bool DataBase::is_DbUnExportDevice_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbUnExportDevice command.
 	/*----- PROTECTED REGION ID(DataBase::DbUnExportDeviceStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbUnExportDeviceStateAllowed
 	return true;
@@ -1334,7 +1334,7 @@ bool DataBase::is_DbUnExportEvent_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbUnExportEvent command.
 	/*----- PROTECTED REGION ID(DataBase::DbUnExportEventStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbUnExportEventStateAllowed
 	return true;
@@ -1351,7 +1351,7 @@ bool DataBase::is_DbUnExportServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbUnExportServer command.
 	/*----- PROTECTED REGION ID(DataBase::DbUnExportServerStateAllowed) ENABLED START -----*/
 
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbUnExportServerStateAllowed
 	return true;
@@ -1473,7 +1473,7 @@ bool DataBase::is_DbRenameServer_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbRenameServer command.
 	/*----- PROTECTED REGION ID(DataBase::DbRenameServerStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbRenameServerStateAllowed
 	return true;
@@ -1520,7 +1520,7 @@ bool DataBase::is_DbDeleteClassPipe_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	//	Not any excluded states for DbDeleteClassPipe command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteClassPipeStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteClassPipeStateAllowed
 	return true;
@@ -1537,7 +1537,7 @@ bool DataBase::is_DbDeleteDevicePipe_allowed(TANGO_UNUSED(const CORBA::Any &any)
 	//	Not any excluded states for DbDeleteDevicePipe command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteDevicePipeStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDevicePipeStateAllowed
 	return true;
@@ -1554,7 +1554,7 @@ bool DataBase::is_DbDeleteClassPipeProperty_allowed(TANGO_UNUSED(const CORBA::An
 	//	Not any excluded states for DbDeleteClassPipeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteClassPipePropertyStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteClassPipePropertyStateAllowed
 	return true;
@@ -1571,7 +1571,7 @@ bool DataBase::is_DbDeleteDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA::A
 	//	Not any excluded states for DbDeleteDevicePipeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteDevicePipePropertyStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteDevicePipePropertyStateAllowed
 	return true;
@@ -1618,7 +1618,7 @@ bool DataBase::is_DbDeleteAllDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA
 	//	Not any excluded states for DbDeleteAllDevicePipeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbDeleteAllDevicePipePropertyStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbDeleteAllDevicePipePropertyStateAllowed
 	return true;
@@ -1635,7 +1635,7 @@ bool DataBase::is_DbPutClassPipeProperty_allowed(TANGO_UNUSED(const CORBA::Any &
 	//	Not any excluded states for DbPutClassPipeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutClassPipePropertyStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutClassPipePropertyStateAllowed
 	return true;
@@ -1652,7 +1652,7 @@ bool DataBase::is_DbPutDevicePipeProperty_allowed(TANGO_UNUSED(const CORBA::Any 
 	//	Not any excluded states for DbPutDevicePipeProperty command.
 	/*----- PROTECTED REGION ID(DataBase::DbPutDevicePipePropertyStateAllowed) ENABLED START -----*/
 	
-	check_ip_client();
+	check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::DbPutDevicePipePropertyStateAllowed
 	return true;
@@ -1707,35 +1707,36 @@ bool DataBase::is_DbGetForwardedAttributeListForDevice_allowed(TANGO_UNUSED(cons
 /*----- PROTECTED REGION ID(DataBase::DataBaseStateAllowed.AdditionalMethods) ENABLED START -----*/
 
 //	Additional Methods
-void DataBase::check_ip_client()
+void DataBase::check_authorization()
 {
-	DEBUG_STREAM << "DataBase::check_ip_client()" << endl;
+	DEBUG_STREAM << "DataBase::check_authorization()" << std::endl;
 
-	if (is_acl_enabled) {
-	  char *ptr = (char*)pthread_getspecific(key);
-	  /* In case of the poller thread pointer ptr is NULL
-	   * so no need to check rules */
-	  if (ptr) {
-	    string addr(ptr);
-	    size_t end_pos = addr.rfind(":");
-	    if (addr.substr(0, 10) == "giop:unix:") {
+	if (! addresses_allowed.empty()) {
+	  Value_t *v = (Value_t*)omni_thread::self()->get_value(key);
+	  /* In case of the Tango poller thread the pointer v is NULL
+	   * so no need to check rules due the fact that it is must be always allowed */
+	  if (v) {
+	    std::string transport = v->addr.substr(0, MIN_TRANSPORT_STRING_LENGTH);
+	    if (transport == "giop:uni" /* giop:unix */) {
 	      /* UNIX domain sockets are always allowed */
-	    } else { /* giop:tcp: or giop:ssl: */
-	      if (addr[9] == '[') {
-	        /* OmniORB wraps IPv6 addresses with
-		 * square brackets */
-	        addr = addr.substr(17, end_pos-1-17);
-	      } else {
-	        addr = addr.substr(9, end_pos-9);
-	      }
+	    } else if (transport == "giop:tcp" || transport == "giop:ssl") {
+	      /* Remove port because we don't use it */
+	      std::string address = v->addr.substr(0, v->addr.rfind(':'));
 	      std::unordered_set<std::string>::const_iterator cit;
-	      cit = ip_addresses_allowed.find(addr);
-	      if (cit == ip_addresses_allowed.end()) {
+	      cit = addresses_allowed.find(address);
+	      if (cit == addresses_allowed.end()) {
 	        Tango::Except::throw_exception(
 	            Tango::API_CommandNotAllowed,
-	            "Unauthorized access by " + addr,
-	            "DataBase::check_ip_client()");
+	            "Unauthorized access by " + v->addr,
+	            "DataBase::check_authorization()");
 	      }
+	    } else {
+	      /* giop:htt, giop:fd: or a future yet no-existing transport layer */
+	      Tango::Except::throw_exception(
+	          Tango::API_CommandNotAllowed,
+	          "Check authorization for transport layer in address " + v->addr
+		    + " is not supported yet",
+	          "DataBase::check_authorization()");
 	    }
 	  }
 	}

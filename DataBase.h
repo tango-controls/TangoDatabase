@@ -85,8 +85,13 @@ static LARGE_INTEGER	cpu_freq;
 
 #endif	/*	WIN32		*/
 
+/* Struct to keep in the thread local store the client's address */
+struct Value_t : public omni_thread::value_t {
+	Value_t(const char *s) : addr(s) {}
+	std::string addr;
+};
 
-
+#define MIN_TRANSPORT_STRING_LENGTH 8 /* giop:fd: */
 
 /*----- PROTECTED REGION END -----*/	//	DataBase.h
 
@@ -1564,7 +1569,7 @@ public:
 	void release_connection(int con_nb) {conn_pool[con_nb].the_sema.post();}
 
 private:
-	void check_ip_client();
+	void check_authorization();
 
 	/*----- PROTECTED REGION END -----*/	//	DataBase::Additional Method prototypes
 };

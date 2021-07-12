@@ -69,89 +69,93 @@ static const char *RcsId = "$Id$";
 
 #include <unordered_set>
 
-pthread_key_t key;
-bool is_acl_enabled;
-std::unordered_set<std::string> ip_addresses_allowed;
+omni_thread::key_t key;
+std::unordered_set<std::string> addresses_allowed;
 
 CORBA::Boolean retrieve_client_address(omni::omniInterceptors::serverReceiveRequest_T::info_T& info)
 {
-	void *tls_data = pthread_getspecific(key);
-	free(tls_data);
-	const char *addr_data = info.giop_s.strand().connection->peeraddress();
-	tls_data = malloc(strlen(addr_data) + 1);
-	strcpy((char*)tls_data, addr_data);
-	pthread_setspecific(key, tls_data);
+	// The address returned by peeraddress() will be of the form "giop:tcp:<ip>:<port>"
+	// or "giop:ssl:<ip>:<port>" where <ip> seems to be in the inet_ntop format:
+	// omniORB/orbcore/tcp/tcpConnection.cc +228 and omniORB/orbcore/tcpSocket.cc +1071
+	Value_t *v = new Value_t(info.giop_s.strand().connection->peeraddress());
+	omni_thread::self()->set_value(key, v);
 	return true;
 }
 
-void delete_tsl(void *data)
+bool convert_to_ntop_format(std::string &address)
 {
-	free(data);
-}
+	int af;
+	char str[INET6_ADDRSTRLEN];
+	char buf[sizeof(struct in6_addr)];
 
-bool validate_address(std::string &address)
-{
-	int domain;
-	if (address[0] == '[') {
-	  domain = AF_INET6;
-	  address = address.substr(1, address.size()-1);
+	/* Convert to binary form */
+	if (inet_pton(AF_INET, address.c_str(), buf)) {
+	  af = AF_INET;
 	} else {
-	  domain = AF_INET;
-	}
-
-	unsigned char buf[sizeof(struct in6_addr)];
-	if (inet_pton(domain, address.c_str(), buf) < 1) {
-	  cout << "Invalid format: " << address << endl;
-	} else {
-	  char str[INET6_ADDRSTRLEN];
-	  if (! inet_ntop(domain, buf, str, INET6_ADDRSTRLEN)) {
-	    cout << "Invalid format: " << address << endl;
-	  } else {
-	    address = string(str);
-	    return true;
+	  if (inet_pton(AF_INET6, address.c_str(), buf))
+	    af = AF_INET6;
+	  else {
+	    std::cerr << "Address " << address
+	      << " is ignored due invalid format" << std::endl;
+	    return false;
 	  }
 	}
-	return false;
+
+	/* Convert to text form */
+	inet_ntop(af, buf, str, sizeof(buf));
+	address = std::string(str);
+	return true;
 }
 
-void load_ip_rules(ifstream &acl_file)
+/* The format of the ACL file is:
+   giop:tcp:172.19.20.401
+   # This is a comment
+   giop:tcp:172.19.31.* # This use a wildcard
+*/
+
+void load_authorization_rules(std::ifstream &acl_file)
 {
 	std::string line;
 	while (std::getline(acl_file, line))
 	{
-	  line.erase(0, line.find_first_not_of(" \t\n\r\f\v"));
-	  /* Ignore comments which have to start with # */
-	  if (line[0] != '#') {
-	    istringstream str(line);
-	    std::string octet[4];
-	    for (int i=0; i<4; ++i) {
-	      if (i != 3) {
-		/* Extract octet by octet */
-	        std::getline(str, octet[i], '.');
+	  line.erase(0, line.find_first_not_of(" "));
+	  size_t pos = line.find_first_of("#");
+	  if (pos != string::npos)
+	    line.erase(pos, string::npos);
+
+	  /* Ignore comments which have to start with # and empty lines */
+	  if (line[0] != '#' && line.size()) {
+	    std::string transport = line.substr(0, MIN_TRANSPORT_STRING_LENGTH);
+	    if (transport == "giop:uni" /* giop:unix */) {
+	      /* UNIX domain sockets are always allowed by default */
+	    } else if (transport == "giop:tcp" || transport == "giop:ssl") {
+	      std::string prefix = line.substr(0, 9);
+	      std::string address = line.substr(9);
+	      char octet[4][4];
+	      /* Try to extract octet by octet in the case of IPv4 address */
+	      if (sscanf(address.c_str(), "%[0-9].%[0-9].%[0-9].%[0-9*]",
+				      octet[0], octet[1], octet[2], octet[3]) != 4) {
+	        // It should be an IPv6 pass it as is (without expand anything)
+	        if (convert_to_ntop_format(address))
+	          addresses_allowed.insert(prefix + address);
 	      } else {
-	        string ip_address;
-	        std::getline(str, octet[i]);
-		/* Avoid to include comments in the last octet */
-		if (int len = octet[i].find_first_of(" #\t\n\r\f\v") != string::npos) {
-			octet[i] = octet[i].substr(0, len + 1);
-		}
 	        if (octet[3][0] == '*') {
-		  /* Expand wildcard */
+	          /* Expand wildcard to 1..254 */
+		  char buf[4];
 	          for (int i=1; i<255; ++i) {
-		    char buf[4];
 		    sprintf(buf,"%d",i);
-	            ip_address = octet[0] + "." + octet[1] + "."
-			    + octet[2] + "." + buf;
-		    if (validate_address(ip_address))
-	              ip_addresses_allowed.insert(ip_address);
+	            address = std::string(octet[0]) + "." + octet[1] + "." + octet[2] + "." + buf;
+	            if (convert_to_ntop_format(address))
+	              addresses_allowed.insert(prefix + address);
 	          }
 	        } else {
-	          ip_address = octet[0] + "." + octet[1] + "."
-			    + octet[2] + "." + octet[3];
-		  if (validate_address(ip_address))
-		    ip_addresses_allowed.insert(ip_address);
+	          if (convert_to_ntop_format(address))
+	            addresses_allowed.insert(prefix + address);
 	        }
 	      }
+	    } else {
+	      /* giop:htt, giop:fd: or a future yet no-existing transport layer
+	       * are not supported yet so blocked by default */
 	    }
 	  }
 	}
@@ -185,17 +189,16 @@ int main(int argc,char *argv[])
 	}
 	if( found_acl ) {
 	  if(k>=argc-1) {
-	    cout << "Invalid aclFile parameter." << endl;
+	    std::cout << "Invalid aclFile parameter." << std::endl;
 	    return -1;
 	  }
-	  ifstream infile;
+	  std::ifstream infile;
 	  infile.open(argv[k+1]);
 	  if( infile.is_open() ) {
-	    is_acl_enabled = true;
-	    load_ip_rules(infile);
+	    load_authorization_rules(infile);
 	    infile.close();
 	  } else {
-	    cout << "File " << argv[k+1] << " not found." << endl;
+	    std::cout << "File " << argv[k+1] << " not found." << std::endl;
 	    return -1;
 	  }
 	}
@@ -283,11 +286,8 @@ int main(int argc,char *argv[])
 //
 // Add an OmniORB interceptor
 //
-		if (is_acl_enabled) {
-		  if (pthread_key_create(&key, &delete_tsl) ) {
-		    cerr << "cannot create key for thread specific data" << endl;
-		    exit(1);
-		  }
+		if (! addresses_allowed.empty()) {
+		  key = omni_thread::allocate_key();
 		  omniORB::getInterceptors()->serverReceiveRequest.add(&retrieve_client_address);
 		}
 //
